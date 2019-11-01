@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,86 +11,481 @@
     <link rel="stylesheet" href="__STATIC__/index/css/intlTelInput.min.css">
     <script src="__STATIC__/index/js/intlTelInput.min.js"></script>
     <style>
-        .inner-wrap{width: 1000px; margin: 0 auto;}
-        .head{margin: 25px 0;}
-        .head h2{display: inline-block; font-size: 16px; color: #333; font-weight: normal; vertical-align: super;}
-        .head .right{float: right;}
-        .head .right .dash{color: #e8e8e8;}
-        .head .right .logout{font-size: 12px; color: #38f;}
-        .select{background-color: #f9f8f7; padding-bottom: 5px;}
-        .select .infobar{padding: 10px 10px 0; margin-bottom: 10px;}
-        .select .infobar img{margin-right: 5px; vertical-align: middle;}
-        .select .infobar span{font-size: 14px; margin-right: 5px; vertical-align: middle;}
-        .select .infobar span.change-phone{color: #38f; cursor: pointer;}
-        .select .infobar .add-shop{float: right; margin-top: 4px; cursor: pointer; background-color: #38f; color: #fff; border: 0; padding: 7px 10px; border-radius: 3px; font-size: 13px;}
-        .select .infobar .add-shop:hover{background-color: #39e;}
-        .select .shop-innerbox{min-height: 460px; margin: 0 5px; padding: 20px 30px; background-color: #fff;}
-        .select .shop-innerbox ul{display: flex; justify-content: space-between; flex-wrap: wrap;}
-        .select .shop-innerbox li.holder{height: 0; margin: 0; padding: 0; width: 280px;}
-        .select .shop-innerbox li.add-shop-li{width: 280px; height: 120px; box-sizing: border-box; border: 1px dashed #a8a8a8; border-radius: 10px; text-align: center; line-height: 120px; cursor: pointer;}
-        .select .shop-innerbox .add-shop-li .cross{font-size: 25px; color: #999; font-style: normal;}
-        .select .shop-innerbox .add-shop-li span{font-size: 20px; color: #999;}
-        .select .shop-innerbox li.shop-item{display: flex; flex-direction: column; width: 280px; height: 120px; box-sizing: border-box; border: 1px solid #a8a8a8; margin-bottom: 20px; padding: 10px 15px;}
-        .select .shop-innerbox li.audit-status{border-top: 5px solid #c9c9c9;}
-        .select .shop-innerbox li.universal-shop{border-top: 5px solid #e9b665;}
-        .select .shop-innerbox li.industry-shop{border-top: 5px solid #821006;}
-        .select .shop-innerbox li.progress-shop{border-top: 5px solid #ff2c2e;}
-        .select .shop-innerbox li.overdue-shop{border-top: 5px solid #aeaeae;}
-        .shop-innerbox .shop-item .shop-info{position: relative; margin-bottom: 5px;}
+        .inner-wrap {
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .head {
+            margin: 25px 0;
+        }
+
+        .head h2 {
+            display: inline-block;
+            font-size: 16px;
+            color: #333;
+            font-weight: normal;
+            vertical-align: super;
+        }
+
+        .head .right {
+            float: right;
+        }
+
+        .head .right .dash {
+            color: #e8e8e8;
+        }
+
+        .head .right .logout {
+            font-size: 12px;
+            color: #38f;
+        }
+
+        .select {
+            background-color: #f9f8f7;
+            padding-bottom: 5px;
+        }
+
+        .select .infobar {
+            padding: 10px 10px 0;
+            margin-bottom: 10px;
+        }
+
+        .select .infobar img {
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .select .infobar span {
+            font-size: 14px;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
+        .select .infobar span.change-phone {
+            color: #38f;
+            cursor: pointer;
+        }
+
+        .select .infobar .add-shop {
+            float: right;
+            margin-top: 4px;
+            cursor: pointer;
+            background-color: #38f;
+            color: #fff;
+            border: 0;
+            padding: 7px 10px;
+            border-radius: 3px;
+            font-size: 13px;
+        }
+
+        .select .infobar .add-shop:hover {
+            background-color: #39e;
+        }
+
+        .select .shop-innerbox {
+            min-height: 460px;
+            margin: 0 5px;
+            padding: 20px 30px;
+            background-color: #fff;
+        }
+
+        .select .shop-innerbox ul {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .select .shop-innerbox li.holder {
+            height: 0;
+            margin: 0;
+            padding: 0;
+            width: 280px;
+        }
+
+        .select .shop-innerbox li.add-shop-li {
+            width: 280px;
+            height: 120px;
+            box-sizing: border-box;
+            border: 1px dashed #a8a8a8;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 120px;
+            cursor: pointer;
+        }
+
+        .select .shop-innerbox .add-shop-li .cross {
+            font-size: 25px;
+            color: #999;
+            font-style: normal;
+        }
+
+        .select .shop-innerbox .add-shop-li span {
+            font-size: 20px;
+            color: #999;
+        }
+
+        .select .shop-innerbox li.shop-item {
+            display: flex;
+            flex-direction: column;
+            width: 280px;
+            height: 120px;
+            box-sizing: border-box;
+            border: 1px solid #a8a8a8;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+        }
+
+        .select .shop-innerbox li.audit-status {
+            border-top: 5px solid #c9c9c9;
+        }
+
+        .select .shop-innerbox li.universal-shop {
+            border-top: 5px solid #e9b665;
+        }
+
+        .select .shop-innerbox li.industry-shop {
+            border-top: 5px solid #821006;
+        }
+
+        .select .shop-innerbox li.progress-shop {
+            border-top: 5px solid #ff2c2e;
+        }
+
+        .select .shop-innerbox li.overdue-shop {
+            border-top: 5px solid #aeaeae;
+        }
+
+        .shop-innerbox .shop-item .shop-info {
+            position: relative;
+            margin-bottom: 5px;
+        }
+
         .shop-innerbox .shop-item .shop-name,
-        .shop-innerbox .shop-item .shop-number{color: #0bf; width: 120px; font-size: 12px; height: 18px;}
-        .shop-innerbox .shop-item .shop-version{position: absolute; top: 6px; right: 0; color: #fff; background-color: #f00; padding: 2px 0; cursor: pointer; width: 80px; text-align: center;}
-        .shop-innerbox .shop-item .shop-introduce{font-size: 12px; color: #949494; flex: 1;}
-        .shop-innerbox .shop-item .remaining-time{float: left; line-height: 24px; color: #949494;}
-        .shop-innerbox .shop-item .into-shop{float: right; background-color: transparent; border: 1px solid #ccc; cursor: pointer; padding: 0 10px; color: #949494; margin-top: 2px;}
-        .shop-innerbox .overdue-shop .renew{float: right; background-color: transparent; cursor: pointer; padding: 0 10px; color: #f00; margin-top: 2px; border: 0;}
-        .shop-innerbox .universal-shop .shop-version{background: linear-gradient(to right, #e4c28b, #e9b665); border-radius: 10px;}
-        .shop-innerbox .industry-shop .shop-version{background: linear-gradient(to right, #bb6a62, #821006); border-radius: 10px;}
-        .shop-innerbox .progress-shop .shop-version{background: linear-gradient(to right, #da8485, #ff2c2e); border-radius: 10px;}
-        .shop-innerbox .overdue-shop .shop-version{background: linear-gradient(to right, #c8c8c8, #949494); border-radius: 10px;}
-        .shop-innerbox .audit-status .status-txt{font-size: 16px; line-height: 2em; text-align: center; padding: 0 20px;}
-        .shop-innerbox .auditing .status-txt{margin-top: 20px;}
-        .shop-innerbox .audit-status .giveup{color: #f00; cursor: pointer;}
+        .shop-innerbox .shop-item .shop-number {
+            color: #0bf;
+            width: 120px;
+            font-size: 12px;
+            height: 18px;
+        }
+
+        .shop-innerbox .shop-item .shop-version {
+            position: absolute;
+            top: 6px;
+            right: 0;
+            color: #fff;
+            background-color: #f00;
+            padding: 2px 0;
+            cursor: pointer;
+            width: 80px;
+            text-align: center;
+        }
+
+        .shop-innerbox .shop-item .shop-introduce {
+            font-size: 12px;
+            color: #949494;
+            flex: 1;
+        }
+
+        .shop-innerbox .shop-item .remaining-time {
+            float: left;
+            line-height: 24px;
+            color: #949494;
+        }
+
+        .shop-innerbox .shop-item .into-shop {
+            float: right;
+            background-color: transparent;
+            border: 1px solid #ccc;
+            cursor: pointer;
+            padding: 0 10px;
+            color: #949494;
+            margin-top: 2px;
+        }
+
+        .shop-innerbox .overdue-shop .renew {
+            float: right;
+            background-color: transparent;
+            cursor: pointer;
+            padding: 0 10px;
+            color: #f00;
+            margin-top: 2px;
+            border: 0;
+        }
+
+        .shop-innerbox .universal-shop .shop-version {
+            background: linear-gradient(to right, #e4c28b, #e9b665);
+            border-radius: 10px;
+        }
+
+        .shop-innerbox .industry-shop .shop-version {
+            background: linear-gradient(to right, #bb6a62, #821006);
+            border-radius: 10px;
+        }
+
+        .shop-innerbox .progress-shop .shop-version {
+            background: linear-gradient(to right, #da8485, #ff2c2e);
+            border-radius: 10px;
+        }
+
+        .shop-innerbox .overdue-shop .shop-version {
+            background: linear-gradient(to right, #c8c8c8, #949494);
+            border-radius: 10px;
+        }
+
+        .shop-innerbox .audit-status .status-txt {
+            font-size: 16px;
+            line-height: 2em;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .shop-innerbox .auditing .status-txt {
+            margin-top: 20px;
+        }
+
+        .shop-innerbox .audit-status .giveup {
+            color: #f00;
+            cursor: pointer;
+        }
+
         .shop-innerbox .audit-status .continue,
-        .shop-innerbox .audit-status .cVersion{color: #00BBFF; cursor: pointer;}
-        .copyright{text-align: center; margin-top: 50px;color: #515151;}
-        .copyright a{color: #515151;}
+        .shop-innerbox .audit-status .cVersion {
+            color: #00BBFF;
+            cursor: pointer;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 50px;
+            color: #515151;
+        }
+
+        .copyright a {
+            color: #515151;
+        }
+
         /* 修改手机号弹窗 */
-        .pop-changephone{width: 680px; height: 550px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; border: 1px solid #a8a8a8; box-sizing: border-box;}
-        .pop-headbar{height: 40px; background-color: #eef7ea; border-bottom: 1px solid #d7d7d7; padding: 0 20px;}
-        .pop-headbar .pop-headtitle{ font-size: 14px; color: #660; line-height: 40px;}
-        .pop-headbar .pop-close{font-size: 20px; color: #f00; float: right; line-height: normal; margin-top: 7px; width: 20px; text-align: center;}
-        .pop-changephone .input-container{margin-top: 40px;}
-        .pop-changephone .input-container .input-item{display: flex; align-items: center; height: 50px;}
-        .pop-changephone .input-container .input-title{width: 210px; text-align: right; margin-right: 30px; font-size: 13px; color: #333;}
-        .pop-changephone .input-container .nowphone-span{color: #c90000; font-size: 18px;}
-        .pop-changephone .input-container .changephone-button{display: block; margin: 20px auto 0; width: 200px; height: 35px; background-color: #38f; color: #fff; border-radius: 5px; border: 0; cursor: pointer;}
-        .pop-changephone .input-item input{width: 218px; height: 45px; border: 1px solid rgb(204, 204, 204); border-radius: 3px; padding-left: 10px; box-sizing: border-box; font-size: 14px;}
-        .pop-changephone .input-item input:focus{border-color: #38f;}
-        .pop-changephone .input-item button{width: 125px; height: 45px; border: 1px solid rgb(204, 204, 204); border-radius: 3px; background-color: #fff; color: #333; cursor: pointer;}
-        .pop-changephone .input-item button:hover{border-color: #38f; color: #38f;}
-        .cerify-code-panel{display: flex; flex-direction: row-reverse;}
+        .pop-changephone {
+            width: 680px;
+            height: 550px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #a8a8a8;
+            box-sizing: border-box;
+        }
+
+        .pop-headbar {
+            height: 40px;
+            background-color: #eef7ea;
+            border-bottom: 1px solid #d7d7d7;
+            padding: 0 20px;
+        }
+
+        .pop-headbar .pop-headtitle {
+            font-size: 14px;
+            color: #660;
+            line-height: 40px;
+        }
+
+        .pop-headbar .pop-close {
+            font-size: 20px;
+            color: #f00;
+            float: right;
+            line-height: normal;
+            margin-top: 7px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .pop-changephone .input-container {
+            margin-top: 40px;
+        }
+
+        .pop-changephone .input-container .input-item {
+            display: flex;
+            align-items: center;
+            height: 50px;
+        }
+
+        .pop-changephone .input-container .input-title {
+            width: 210px;
+            text-align: right;
+            margin-right: 30px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .pop-changephone .input-container .nowphone-span {
+            color: #c90000;
+            font-size: 18px;
+        }
+
+        .pop-changephone .input-container .changephone-button {
+            display: block;
+            margin: 20px auto 0;
+            width: 200px;
+            height: 35px;
+            background-color: #38f;
+            color: #fff;
+            border-radius: 5px;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .pop-changephone .input-item input {
+            width: 218px;
+            height: 45px;
+            border: 1px solid rgb(204, 204, 204);
+            border-radius: 3px;
+            padding-left: 10px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+
+        .pop-changephone .input-item input:focus {
+            border-color: #38f;
+        }
+
+        .pop-changephone .input-item button {
+            width: 125px;
+            height: 45px;
+            border: 1px solid rgb(204, 204, 204);
+            border-radius: 3px;
+            background-color: #fff;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .pop-changephone .input-item button:hover {
+            border-color: #38f;
+            color: #38f;
+        }
+
+        .cerify-code-panel {
+            display: flex;
+            flex-direction: row-reverse;
+        }
+
         /* 创建店铺弹窗 */
-        .pop-addshop{width: 720px; padding-bottom: 30px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; border: 1px solid #a8a8a8; box-sizing: border-box;}
-        .pop-addshop .content-wrap{max-height: 600px; overflow-y: auto;}
-        .pop-addshop .content-item{display: flex; align-items: center; margin-top: 28px;}
-        .pop-addshop .content-item .content-title{width: 130px; text-align: right; margin-right: 30px; font-size: 13px; color: #333;}
-        .pop-addshop .content-item input[type=text]{width: 200px; height: 30px; border: 1px solid rgb(204, 204, 204); border-radius: 3px; box-sizing: border-box; padding-left: 10px; font-size: 14px;}
-        .pop-addshop .content-item input:focus{border-color: #38f;}
-        .pop-addshop .address-item, 
+        .pop-addshop {
+            width: 720px;
+            padding-bottom: 30px;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 1px solid #a8a8a8;
+            box-sizing: border-box;
+        }
+
+        .pop-addshop .content-wrap {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .pop-addshop .content-item {
+            display: flex;
+            align-items: center;
+            margin-top: 28px;
+        }
+
+        .pop-addshop .content-item .content-title {
+            width: 130px;
+            text-align: right;
+            margin-right: 30px;
+            font-size: 13px;
+            color: #333;
+        }
+
+        .pop-addshop .content-item input[type=text] {
+            width: 200px;
+            height: 30px;
+            border: 1px solid rgb(204, 204, 204);
+            border-radius: 3px;
+            box-sizing: border-box;
+            padding-left: 10px;
+            font-size: 14px;
+        }
+
+        .pop-addshop .content-item input:focus {
+            border-color: #38f;
+        }
+
+        .pop-addshop .address-item,
         .pop-addshop .id-item,
-        .pop-addshop .introduce-item{align-items: end;}
-        .pop-addshop .id-item .id-box{display: flex;}
-        .pop-addshop .id-item .positive, .pop-addshop .id-item .back{position: relative; margin-right: 70px;}
-        .pop-addshop .id-item input[type=file]{position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; z-index: 2;}
-        .pop-addshop .id-item .id-tips{text-align: center; font-size: 13px; color: #a1a1a1;}
-        .pop-addshop .introduce-item textarea{width: 500px; height: 80px; resize: none; padding: 5px; box-sizing: border-box; border: 1px solid #ccc;}
-        .pop-addshop .introduce-item textarea:focus{border-color: #38f;}
-        .pop-addshop .addshop-button{display: block; margin: 20px auto 0; width: 200px; height: 35px; background-color: #38f; color: #fff; border-radius: 5px; border: 0; cursor: pointer;}
-        .pop-addshop .address-item select{width: 150px; height: 30px; border: 1px solid rgb(204, 204, 204); margin-bottom: 5px;}
-        .pop-addshop .address-item input{width: 458px !important;}
+        .pop-addshop .introduce-item {
+            align-items: end;
+        }
+
+        .pop-addshop .id-item .id-box {
+            display: flex;
+        }
+
+        .pop-addshop .id-item .positive,
+        .pop-addshop .id-item .back {
+            position: relative;
+            margin-right: 70px;
+        }
+
+        .pop-addshop .id-item input[type=file] {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 2;
+        }
+
+        .pop-addshop .id-item .id-tips {
+            text-align: center;
+            font-size: 13px;
+            color: #a1a1a1;
+        }
+
+        .pop-addshop .introduce-item textarea {
+            width: 500px;
+            height: 80px;
+            resize: none;
+            padding: 5px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        .pop-addshop .introduce-item textarea:focus {
+            border-color: #38f;
+        }
+
+        .pop-addshop .addshop-button {
+            display: block;
+            margin: 20px auto 0;
+            width: 200px;
+            height: 35px;
+            background-color: #38f;
+            color: #fff;
+            border-radius: 5px;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .pop-addshop .address-item select {
+            width: 150px;
+            height: 30px;
+            border: 1px solid rgb(204, 204, 204);
+            margin-bottom: 5px;
+        }
+
+        .pop-addshop .address-item input {
+            width: 458px !important;
+        }
     </style>
 </head>
+
 <body>
     <div id="app">
         <div class="warpper">
@@ -98,7 +494,7 @@
                     <a href="./">
                         <!-- <img src="__STATIC__/index/img/logo3.png" width="100" height="23"> -->
                         <img src="__STATIC__/index/img/logo1.png" height="70">
-                    <!--<p style="font-size:35px;font-weight:bolder;margin-left:7px;">智慧茶仓</p>-->
+                        <!--<p style="font-size:35px;font-weight:bolder;margin-left:7px;">智慧茶仓</p>-->
                     </a>
                     <span class="sep"></span>
                     <h2>选择店铺</h2>
@@ -121,7 +517,10 @@
                         <span class="infobar-phone">{$phone_num}</span>
                         {/if}
                         <span class="change-phone">修改店铺绑定手机号</span>
-                        <span style="color: red;font-weight: bold;font-size: 10px">温馨提示：由于使用最新技术，如部分用户后台IE浏览器显示异常，建议使用<a style="color: blue;" href="https://www.google.cn/chrome/">谷歌浏览器</a>、<a style="color: #66ce42;" href="http://mse.360.cn/">360浏览器</a>、<a style="color:orange" href="https://mb.qq.com/">QQ浏览器</a>等</span>
+                        <span style="color: red;font-weight: bold;font-size: 10px">温馨提示：由于使用最新技术，如部分用户后台IE浏览器显示异常，建议使用<a
+                                style="color: blue;" href="https://www.google.cn/chrome/">谷歌浏览器</a>、<a
+                                style="color: #66ce42;" href="http://mse.360.cn/">360浏览器</a>、<a style="color:orange"
+                                href="https://mb.qq.com/">QQ浏览器</a>等</span>
                         <button class="add-shop">创建店铺</button>
                     </div>
                     <div class="shop-box">
@@ -270,7 +669,7 @@
         <!-- 创建店铺弹窗 -->
         <div class="pop pop-addshop" style="display: none;">
             <div class="pop-headbar clearfix">
-                
+
                 <span class="pop-headtitle">创建店铺</span>
                 <a href="javascript:;" class="pop-close">×</a>
             </div>
@@ -278,8 +677,10 @@
                 <div class="content-item">
                     <label class="content-title">我是：</label>
                     <div>
-                        <input type="radio" onchange="myEvent.changeNatureItem(this.id);" name="nature" id="personal" checked><label for="personal">个人</label>
-                        <input type="radio" onchange="myEvent.changeNatureItem(this.id);" name="nature" id="company"><label for="company">公司</label>
+                        <input type="radio" onchange="myEvent.changeNatureItem(this.id);" name="nature" id="personal"
+                            checked><label for="personal">个人</label>
+                        <input type="radio" onchange="myEvent.changeNatureItem(this.id);" name="nature"
+                            id="company"><label for="company">公司</label>
                     </div>
                 </div>
                 <!-- 个人 -->
@@ -316,7 +717,8 @@
                                 <select id="city" data-city="---- 选择市 ----"></select>
                                 <select id="district" data-district="---- 选择区 ----"></select>
                             </div>
-                            <input type="text" id="p-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
+                            <input type="text" id="p-dt-add" placeholder="请填写详细地址"
+                                onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item id-item">
@@ -373,7 +775,8 @@
                                 <select id="city2" data-city="---- 选择市 ----"></select>
                                 <select id="district2" data-district="---- 选择区 ----"></select>
                             </div>
-                            <input type="text" id="c-dt-add" placeholder="请填写详细地址" onblur="myEvent.onBlurGetInfo(this.value, 3)">
+                            <input type="text" id="c-dt-add" placeholder="请填写详细地址"
+                                onblur="myEvent.onBlurGetInfo(this.value, 3)">
                         </div>
                     </div>
                     <div class="content-item">
@@ -429,15 +832,15 @@
     <script src="__STATIC__/index/js/common.js"></script>
     <script>
         // 判断是否登录
-        if(myEvent.getCookie('artificial')){
-            if(!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))){
+        if (myEvent.getCookie('artificial')) {
+            if (!myEvent.getCookie(btoa('phone')) && !myEvent.getCookie(btoa('password'))) {
                 location.pathname.indexOf('sign_in') == -1 ? location.href = 'sign_in' : '';
             }
         }
     </script>
     <script>
         // 国际电话区号
-        (function(){
+        (function () {
             var newphone = document.querySelector('#newphone');
             // http://www.jq22.com/jquery-info12917
             var iti = window.intlTelInput(newphone, {
@@ -447,37 +850,37 @@
         }());
 
         // 验证码  https://veui.net/
-        (function($el, btnId){
+        (function ($el, btnId) {
             $($el).codeVerify({
-                type : 1,
+                type: 1,
                 // figure : 10,	//位数，仅在type=2时生效
                 // arith : 0,	//算法，支持加减乘，不填为随机，仅在type=2时生效
-                width : '130px',
-                height : '45px',
-                fontSize : '16px',
+                width: '130px',
+                height: '45px',
+                fontSize: '16px',
                 codeLength: 4,
-                btnId : btnId,
-                ready : function() {},
-                success : function(e) {
+                btnId: btnId,
+                ready: function () { },
+                success: function (e) {
                     // alert('验证匹配！');
                     changePhone();
                 },
-                error : function() {
+                error: function () {
                     alert('验证码不匹配！');
                 }
             });
         }('#mpanel', 'changephone-button'));
 
         // 修改手机号
-        function changePhone(){
+        function changePhone() {
             var oldPhoneCode = $('#oldPhoneCode').val(),
                 newphone = $('#newphone').val(),
                 newPhoneCode = $('#newPhoneCode').val(),
                 newPhonePwd = $('#newPhonePwd').val(),
                 newPhonePwd2 = $('#newPhonePwd2').val();
-            if(oldPhoneCode && newphone && newPhoneCode && newPhonePwd && newPhonePwd2){
-                if(newPhonePwd === newPhonePwd2){
-                    (function(){
+            if (oldPhoneCode && newphone && newPhoneCode && newPhonePwd && newPhonePwd2) {
+                if (newPhonePwd === newPhonePwd2) {
+                    (function () {
                         $.ajax({
                             url: 'new_phone_update',
                             type: 'POST',
@@ -489,29 +892,29 @@
                                 password: newPhonePwd,
                                 confirm_password: newPhonePwd2
                             },
-                            success: function(res){
+                            success: function (res) {
                                 console.log('修改手机成功');
-                                if(res.status == 1){
+                                if (res.status == 1) {
                                     layer.msg('修改成功！');
-                                    setTimeout(function(){location.reload()}, 1000);
-                                }else{
+                                    setTimeout(function () { location.reload() }, 1000);
+                                } else {
                                     layer.msg(res.info);
                                 }
                             },
-                            error: function(){console.log('修改手机失败')}
+                            error: function () { console.log('修改手机失败') }
                         })
                     }())
-                }else{
+                } else {
                     layer.msg('前后密码不一致！');
                 }
-            }else{
+            } else {
                 layer.msg('请填写信息！');
             }
         }
-        
+
         // 关闭弹窗
-        (function(){
-            $('.pop-close').click(function(){
+        (function () {
+            $('.pop-close').click(function () {
                 $('.mask').hide();
                 $(this).parents('.pop').hide();
                 location.reload();
@@ -519,25 +922,25 @@
         }());
 
         // 创建店铺
-        (function(){
+        (function () {
             var key = true;
-            $('.addshop-button').click(function(){
-                if(key){
+            $('.addshop-button').click(function () {
+                if (key) {
                     var addrArr = [],
                         select,
                         id = this.id;
                     key = false;
-                    if(myEvent.data.natureTag == 1){
+                    if (myEvent.data.natureTag == 1) {
                         select = document.querySelectorAll('#p-dist select');
-                    }else{
+                    } else {
                         select = document.querySelectorAll('#c-dist select');
                     }
-                    select.forEach(function(v, i){
+                    select.forEach(function (v, i) {
                         addrArr.push(v.value);
                     })
                     myEvent.data.addressStr = addrArr.join(',');
                     $.ajax({
-                        url: myEvent.data.isEdit?'store_edit':'store_add',
+                        url: myEvent.data.isEdit ? 'store_edit' : 'store_add',
                         type: 'POST',
                         dataType: 'JSON',
                         data: {
@@ -555,20 +958,20 @@
                             store_name: myEvent.data.storeName
                             // email: myEvent.data.email
                         },
-                        success: function(res){
-                            console.log('添加店铺成功',res);
-                            if(res.status == 1){
+                        success: function (res) {
+                            console.log('添加店铺成功', res);
+                            if (res.status == 1) {
                                 layer.msg(res.info);
-                                setTimeout(function(){
+                                setTimeout(function () {
                                     location.reload();
                                     key = true;
                                 }, 1000);
-                            }else{
+                            } else {
                                 layer.msg(res.info);
                                 key = true;
                             }
                         },
-                        error: function(res){
+                        error: function (res) {
                             console.log('添加店铺失败', res);
                             key = true;
                         }
@@ -578,95 +981,95 @@
         }());
 
         // 获取所有店铺信息
-        (function() {
+        (function () {
             return $.ajax({
                 url: 'store_all_data',
                 type: 'POST',
                 dataType: 'JSON',
                 contentType: 'application/x-www-form-urlencoded',
             })
-        }()).then(function(res){
-            console.log('所有店铺', res); 
-            if(res.status == 1){
+        }()).then(function (res) {
+            console.log('所有店铺', res);
+            if (res.status == 1) {
                 var dataArr = res.data;
                 var domStr = '';
-                dataArr.forEach(function(v, i){
-                    if(v.status == -1){
+                dataArr.forEach(function (v, i) {
+                    if (v.status == -1) {
                         domStr += '<li class="shop-item audit-status rejected">\
                                         <div class="status-txt">您的店铺资料不完整，请重新申请</div>\
                                         <div class="clearfix">\
-                                            <span class="fl giveup" data-id="'+v.id+'">放弃</span>\
-                                            <span class="fr continue" data-id="'+v.id+'">继续编辑>></span>\
+                                            <span class="fl giveup" data-id="'+ v.id + '">放弃</span>\
+                                            <span class="fr continue" data-id="'+ v.id + '">继续编辑>></span>\
                                         </div>\
                                     </li>';
-                    }else if(v.status == 1){
-                        if(v.goods_name){
-                            if(v.time > 0){
-                                if(v.version == 1){
+                    } else if (v.status == 1) {
+                        if (v.goods_name) {
+                            if (v.time > 0) {
+                                if (v.version == 1) {
                                     domStr += '<li class="shop-item universal-shop">\
                                                     <div class="shop-info">\
-                                                        <div class="shop-name txt-hid-one">'+(v.store_name?v.store_name:'')+'</div>\
-                                                        <div class="shop-number txt-hid-one">'+(v.store_number?v.store_number:'')+'</div>\
-                                                        <div class="shop-version">'+v.goods_name+'</div>\
+                                                        <div class="shop-name txt-hid-one">'+ (v.store_name ? v.store_name : '') + '</div>\
+                                                        <div class="shop-number txt-hid-one">'+ (v.store_number ? v.store_number : '') + '</div>\
+                                                        <div class="shop-version">'+ v.goods_name + '</div>\
                                                     </div>\
-                                                    <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
+                                                    <div class="shop-introduce txt-hid-two">'+ v.store_introduction + '</div>\
                                                     <div class="bottom clearfix">\
-                                                        <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
-                                                        <button class="into-shop" data-id="'+v.id+'">进入</button>\
+                                                        <div class="remaining-time">剩余时间：<span>'+ v.time + '天</span></div>\
+                                                        <button class="into-shop" data-id="'+ v.id + '">进入</button>\
                                                     </div>\
                                                 </li>'
-                                }else if(v.version == 2){
+                                } else if (v.version == 2) {
                                     domStr += '<li class="shop-item industry-shop">\
                                                     <div class="shop-info">\
-                                                        <div class="shop-name txt-hid-one">'+(v.store_name?v.store_name:'')+'</div>\
-                                                        <div class="shop-number txt-hid-one">'+(v.store_number?v.store_number:'')+'</div>\
-                                                        <div class="shop-version">'+v.goods_name+'</div>\
+                                                        <div class="shop-name txt-hid-one">'+ (v.store_name ? v.store_name : '') + '</div>\
+                                                        <div class="shop-number txt-hid-one">'+ (v.store_number ? v.store_number : '') + '</div>\
+                                                        <div class="shop-version">'+ v.goods_name + '</div>\
                                                     </div>\
-                                                    <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
+                                                    <div class="shop-introduce txt-hid-two">'+ v.store_introduction + '</div>\
                                                     <div class="bottom clearfix">\
-                                                        <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
-                                                        <button class="into-shop" data-id="'+v.id+'">进入</button>\
+                                                        <div class="remaining-time">剩余时间：<span>'+ v.time + '天</span></div>\
+                                                        <button class="into-shop" data-id="'+ v.id + '">进入</button>\
                                                     </div>\
                                                 </li>'
-                                }else if(v.version == 3){
+                                } else if (v.version == 3) {
                                     domStr += '<li class="shop-item progress-shop">\
                                                     <div class="shop-info">\
-                                                        <div class="shop-name txt-hid-one">'+(v.store_name?v.store_name:'')+'</div>\
-                                                        <div class="shop-number txt-hid-one">'+(v.store_number?v.store_number:'')+'</div>\
-                                                        <div class="shop-version">'+v.goods_name+'</div>\
+                                                        <div class="shop-name txt-hid-one">'+ (v.store_name ? v.store_name : '') + '</div>\
+                                                        <div class="shop-number txt-hid-one">'+ (v.store_number ? v.store_number : '') + '</div>\
+                                                        <div class="shop-version">'+ v.goods_name + '</div>\
                                                     </div>\
-                                                    <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
+                                                    <div class="shop-introduce txt-hid-two">'+ v.store_introduction + '</div>\
                                                     <div class="bottom clearfix">\
-                                                        <div class="remaining-time">剩余时间：<span>'+v.time+'天</span></div>\
-                                                        <button class="into-shop" data-id="'+v.id+'">进入</button>\
+                                                        <div class="remaining-time">剩余时间：<span>'+ v.time + '天</span></div>\
+                                                        <button class="into-shop" data-id="'+ v.id + '">进入</button>\
                                                     </div>\
                                                 </li>'
                                 }
 
-                            }else{
+                            } else {
                                 domStr += '<li class="shop-item overdue-shop">\
                                                 <div class="shop-info">\
-                                                    <div class="shop-name txt-hid-one">'+(v.store_name?v.store_name:'')+'</div>\
-                                                    <div class="shop-number txt-hid-one">'+(v.store_number?v.store_number:'')+'</div>\
-                                                    <div class="shop-version">'+v.goods_name+'</div>\
+                                                    <div class="shop-name txt-hid-one">'+ (v.store_name ? v.store_name : '') + '</div>\
+                                                    <div class="shop-number txt-hid-one">'+ (v.store_number ? v.store_number : '') + '</div>\
+                                                    <div class="shop-version">'+ v.goods_name + '</div>\
                                                 </div>\
-                                                <div class="shop-introduce txt-hid-two">'+v.store_introduction+'</div>\
+                                                <div class="shop-introduce txt-hid-two">'+ v.store_introduction + '</div>\
                                                 <div class="bottom clearfix">\
                                                     <div class="remaining-time">店铺到期</span></div>\
-                                                    <button class="renew" data-id="'+v.id+'">续费或升级订购>></button>\
+                                                    <button class="renew" data-id="'+ v.id + '">续费或升级订购>></button>\
                                                 </div>\
                                             </li>'
                             }
-                        }else{
+                        } else {
                             domStr += '<li class="shop-item audit-status passed">\
                                             <div class="status-txt">您的店铺申请已通过，请选择店铺版本</div>\
                                             <div class="clearfix">\
-                                                <span class="fl giveup" data-id="'+v.id+'">放弃</span>\
-                                                <span class="fr cVersion" data-id="'+v.id+'">选择店铺版本>></span>\
+                                                <span class="fl giveup" data-id="'+ v.id + '">放弃</span>\
+                                                <span class="fr cVersion" data-id="'+ v.id + '">选择店铺版本>></span>\
                                             </div>\
                                         </li>';
                         }
-                    }else if(v.status == 2){
+                    } else if (v.status == 2) {
                         domStr += '<li class="shop-item audit-status auditing">\
                                         <div class="status-txt">您的店铺申请资料已提交请耐心等待审核……</div>\
                                     </li>';
@@ -674,32 +1077,32 @@
                 })
                 $('.add-shop-li').after(domStr);
                 // 放弃
-                $('.giveup').click(function(){
-                    if(confirm('是否放弃？')){
+                $('.giveup').click(function () {
+                    if (confirm('是否放弃？')) {
                         var id = $(this).data('id');
                         deleteShop(id);
                     }
                 })
                 // 选择版本
-                $('.cVersion').click(function(){
+                $('.cVersion').click(function () {
                     var id = $(this).data('id');
                     myEvent.setCookie('cvt', 1, 1);
                     selectVeri(id);
                 })
                 // 店铺进入后台
-                $('.into-shop').click(function(){
+                $('.into-shop').click(function () {
                     var id = $(this).data('id');
                     console.log(id)
                     selectVeri(id);
                 })
                 // 继续编辑
-                $('.continue').click(function(){
+                $('.continue').click(function () {
                     var id = $(this).data('id');
                     $('.addshop-button').attr('id', id);
                     modifyShop(id);
                 })
                 // 续费或升级订购
-                $('.renew').click(function(){
+                $('.renew').click(function () {
                     var id = $(this).data('id');
                     selectVeri(id);
                 })
@@ -707,8 +1110,8 @@
         });
 
         // 继续编辑
-        function modifyShop(id){
-            (function(){
+        function modifyShop(id) {
+            (function () {
                 return $.ajax({
                     url: 'store_return',
                     type: 'POST',
@@ -717,9 +1120,9 @@
                         id: id
                     }
                 })
-            }()).then(function(res){
+            }()).then(function (res) {
                 console.log(res);
-                if(res.status == 1){
+                if (res.status == 1) {
                     $('.add-shop-li').click();
                     myEvent.data.isEdit = true;
                     myEvent.data.natureTag = res.data.is_business;
@@ -728,22 +1131,22 @@
                     myEvent.data.addressStr = res.data.address_data;
                     myEvent.data.addressStr2 = res.data.address_real_data;
                     myEvent.data.storeDesc = res.data.store_introduction;
-                    if(res.data.is_business == 1){
+                    if (res.data.is_business == 1) {
                         myEvent.changeNatureItem('personal');
                         $('#personal').prop('checked', true);
                         $('#p-name').val(res.data.contact_name);
                         $('#p-id').val(res.data.id_card);
                         // 三级联动
-                        $('#p-dist').distpicker('destroy').distpicker({autoSelect: false});
+                        $('#p-dist').distpicker('destroy').distpicker({ autoSelect: false });
                         $('#province').val(res.data.address_data.split(',')[0]).trigger('change');
                         $('#city').val(res.data.address_data.split(',')[1]).trigger('change');
                         $('#district').val(res.data.address_data.split(',')[2]).trigger('change');
 
                         $('#p-dt-add').val(res.data.address_real_data);
-                        $('#p-imgf').attr('src', '__UPLOADS__/'+res.data.card_positive);
-                        $('#p-imgb').attr('src', '__UPLOADS__/'+res.data.card_side);
+                        $('#p-imgf').attr('src', '__UPLOADS__/' + res.data.card_positive);
+                        $('#p-imgb').attr('src', '__UPLOADS__/' + res.data.card_side);
                         $('#p-intr').val(res.data.store_introduction);
-                    }else{
+                    } else {
                         myEvent.changeNatureItem('company');
                         $('#company').prop('checked', true);
                         myEvent.data.compName = res.data.business_name;
@@ -751,7 +1154,7 @@
                         $('#c-name').val(res.data.contact_name);
                         $('#c-id').val(res.data.id_card);
                         // 三级联动
-                        $('#c-dist').distpicker('destroy').distpicker({autoSelect: false});
+                        $('#c-dist').distpicker('destroy').distpicker({ autoSelect: false });
                         $('#province2').val(res.data.address_data.split(',')[0]).trigger('change');
                         $('#city2').val(res.data.address_data.split(',')[1]).trigger('change');
                         $('#district2').val(res.data.address_data.split(',')[2]).trigger('change');
@@ -759,8 +1162,8 @@
                         $('#c-dt-add').val(res.data.address_real_data);
                         $('#c-cpname').val(res.data.business_name);
                         $('#c-cpnum').val(res.data.licence_no);
-                        $('#c-imgf').attr('src', '__UPLOADS__/'+res.data.card_positive);
-                        $('#c-imgb').attr('src', '__UPLOADS__/'+res.data.card_side);
+                        $('#c-imgf').attr('src', '__UPLOADS__/' + res.data.card_positive);
+                        $('#c-imgb').attr('src', '__UPLOADS__/' + res.data.card_side);
                         $('#c-intr').val(res.data.store_introduction);
                     }
                 }
@@ -768,7 +1171,7 @@
         }
 
         // 选择店铺版本
-        function selectVeri(id){
+        function selectVeri(id) {
             $.ajax({
                 url: 'store_goto_admin',
                 type: 'POST',
@@ -776,16 +1179,16 @@
                 data: {
                     id: id
                 },
-                success: function(res){
-                    if(res.status == 1){
+                success: function (res) {
+                    if (res.status == 1) {
                         location.href = 'admin';
                     }
                 },
-                error: function(res){console.log(res.status, res.statusText);}
+                error: function (res) { console.log(res.status, res.statusText); }
             })
         }
         // 放弃店铺
-        function deleteShop(id){
+        function deleteShop(id) {
             $.ajax({
                 url: 'store_give_up',
                 type: 'POST',
@@ -793,19 +1196,19 @@
                 data: {
                     id: id
                 },
-                success: function(res){
-                    if(res.status == 1){
+                success: function (res) {
+                    if (res.status == 1) {
                         layer.msg(res.info);
-                        setTimeout(function(){
+                        setTimeout(function () {
                             location.reload();
                         }, 1000)
                     }
                 },
-                error: function(res){console.log(res.status, res.statusText);}
+                error: function (res) { console.log(res.status, res.statusText); }
             })
         }
 
-        (function(myEvent){
+        (function (myEvent) {
             myEvent.data = {
                 isEdit: false,
                 natureTag: 1,
@@ -822,68 +1225,71 @@
                 // email: '',
             };
             // 手机打星号
-            myEvent.hidePhone = function(num){
+            myEvent.hidePhone = function (num) {
                 var reg = /(\d{3})\d{4}(\d{4})/;
                 return num.replace(reg, '$1****$2');
             }
             // 发送验证码
-            myEvent.sendPhoneCode = function(phone, _this, url){
+            myEvent.sendPhoneCode = function (phone, _this, url) {
                 var phoneReg = /^1[345789]\d{9}$/;
-                if(phone !== '' && phoneReg.test(phone)){
+                if (phone !== '' && phoneReg.test(phone)) {
                     getIdentifyingCode(_this, url, phone);
-                }else{
+                } else {
                     layer.msg('电话号码格式不正确！');
                 }
             }
             // 切换个人 公司
-            myEvent.changeNatureItem = function(id){
-                if(id == 'personal'){
+            myEvent.changeNatureItem = function (id) {
+                if (id == 'personal') {
                     $('.personal-item').show();
                     $('.company-item').hide();
                     myEvent.data.natureTag = 1;
-                }else{
+                } else {
                     $('.personal-item').hide();
                     $('.company-item').show();
                     myEvent.data.natureTag = 2;
                 }
             }
             // 上传图片
-            myEvent.imgUpload = function(e, _this){
+            myEvent.imgUpload = function (e, _this) {
                 var file = e.target.files[0],
-                    reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = function(e){
-                    $(_this).siblings('img').attr('src', e.target.result);
-                    if(_this.id == 'p-f' || _this.id == 'c-f'){
-                        myEvent.data.pf = file;
-                    }else{
-                        myEvent.data.pb = file;
+                    formData = new FormData();
+                formData.append('image', file);
+                myAjax('https://www.zhihuichacang.com/rec/upload', formData, function (data) {
+                    layer.msg(data.msg);
+                    if (data.code === 1) {
+                        if (_this.id == 'p-f' || _this.id == 'c-f') {
+                            myEvent.data.pf = data.data;
+                        } else {
+                            myEvent.data.pb = data.data;
+                        }
+                        $(_this).siblings().prop('src', data.data);
                     }
-                }
+                })
             }
             // 获取名字
-            myEvent.onBlurGetInfo = function(val, tag){
-                if(val){
-                    switch(tag){
+            myEvent.onBlurGetInfo = function (val, tag) {
+                if (val) {
+                    switch (tag) {
                         case 0:
                             myEvent.data.storeName = val;
                             break;
-                        case 1: 
+                        case 1:
                             myEvent.data.userName = val;
                             break;
-                        case 2: 
+                        case 2:
                             myEvent.data.idCardNum = val;
                             break;
-                        case 3: 
+                        case 3:
                             myEvent.data.addressStr2 = val;
                             break;
-                        case 4: 
+                        case 4:
                             myEvent.data.storeDesc = val;
                             break;
-                        case 5: 
+                        case 5:
                             myEvent.data.compName = val;
                             break;
-                        case 6: 
+                        case 6:
                             myEvent.data.licenceNum = val;
                             break;
                         // case 7: 
@@ -895,36 +1301,50 @@
             window.myEvent = myEvent;
         }(window.myEvent || {}));
 
-        (function(){
-            $('#p-f').add('#p-b').add('#c-f').add('#c-b').on('change', function(e){
-                if(this.id == 'p-f' || this.id == 'c-f'){
+        (function () {
+            $('#p-f').add('#p-b').add('#c-f').add('#c-b').on('change', function (e) {
+                if (this.id == 'p-f' || this.id == 'c-f') {
                     myEvent.imgUpload(e, this);
-                }else{
+                } else {
                     myEvent.imgUpload(e, this);
                 }
             })
 
         }())
-        
+
+        function myAjax(url, params, callback) {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                cache: false, //上传文件不需要缓存
+                data: params,
+                processData: false, // 告诉jQuery不要去处理发送的数据
+                contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                success: function (data) {
+                    callback(data);
+                }
+            })
+        }
+
         // 隐藏手机号
         $('.nowphone-span').text(myEvent.hidePhone($('.nowphone-span').text()));
         // 旧手机发送验证码
-        $('.nowphone-sendcode').click(function(){
+        $('.nowphone-sendcode').click(function () {
             var $phone = $('.infobar-phone').text();
             myEvent.sendPhoneCode($phone, this, 'sendMobileCodeByPhone');
         })
         // 新手机发送验证码
-        $('.newphone-sendcode').click(function(){
+        $('.newphone-sendcode').click(function () {
             var $phone = $('#newphone').val();
             myEvent.sendPhoneCode($phone, this, 'PcsendMobileCode');
         })
 
-        $('.change-phone').click(function(){
+        $('.change-phone').click(function () {
             $('.mask').show();
             $('.pop-changephone').show();
         })
 
-        $('.add-shop').add('.add-shop-li').click(function(){
+        $('.add-shop').add('.add-shop-li').click(function () {
             myEvent.data.isEdit = false;
             $('.mask').show();
             $('.pop-addshop').show();
@@ -934,4 +1354,5 @@
 
 
 </body>
+
 </html>

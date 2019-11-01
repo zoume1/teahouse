@@ -24,7 +24,6 @@ class  Property extends  Controller{
     public function property_day(){
         $search = input();
         $data = Serial::index($search);  
-        halt($data);
         return view("property_day",['data' => $data]);
     }
 
@@ -37,6 +36,9 @@ class  Property extends  Controller{
      */
     public function property_month(){
         $store_id = Session :: get("store_id");
+        $query = 'Select FROM_UNIXTIME(tb_serial.create_time,"%Y-%m") as time ,SUM(money) as money ,SUM(talk_money) as talk_money
+        FROM  tb_serial
+        Group by FROM_UNIXTIME(tb_serial.create_time,"%Y-%m")';
         return view("property_month");
     }
 
