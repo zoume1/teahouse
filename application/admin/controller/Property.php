@@ -9,6 +9,7 @@ namespace  app\admin\controller;
 use think\Controller;
 use think\Db;
 use app\index\model\Serial;
+use think\Session;
 use think\paginator\driver\Bootstrap;
 
 class  Property extends  Controller{
@@ -22,7 +23,8 @@ class  Property extends  Controller{
      */
     public function property_day(){
         $search = input();
-        $data = Serial::index($search);    
+        $data = Serial::index($search);  
+        halt($data);
         return view("property_day",['data' => $data]);
     }
 
@@ -34,6 +36,7 @@ class  Property extends  Controller{
      * @return \think\response\View
      */
     public function property_month(){
+        $store_id = Session :: get("store_id");
         return view("property_month");
     }
 
