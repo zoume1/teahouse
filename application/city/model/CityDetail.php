@@ -255,6 +255,7 @@ class CityDetail extends Model
                 break;
             default:
                 $rest = $data;
+                break;
         }
 
         return $rest;
