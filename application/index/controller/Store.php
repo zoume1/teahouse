@@ -58,8 +58,10 @@ class  Store extends  Controller{
             if(empty($card_side_file)){
                 return ajax_error("请上传身份证反面图");
             }
-            $card_positive_images = base64_upload_flie($card_positive);//身份证正面
-            $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
+            $image_one = 'card_positive';
+            $image_two = 'card_side_file';
+            // $card_positive_images = base64_upload_flie($card_positive);//身份证正面
+            // $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
              //测试七牛上传图片
              $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
             $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
@@ -67,11 +69,11 @@ class  Store extends  Controller{
             $domain='teahouse.siring.cn';
             $qiniu=new Qiniu();
            //获取店铺七牛云的配置项
-           $rr=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_side_file);
+           $rr=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_one);
            if($rr){
                 $card_side_file= $rr[0];
            }
-           $rr2=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_positive_images);
+           $rr2=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$image_two);
            if($rr2){
                 $card_positive_images= $rr2[0];
            }
