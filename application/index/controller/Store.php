@@ -50,16 +50,16 @@ class  Store extends  Controller{
                     return ajax_error("请填写企业信息");
                 }
             }
-            $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
+            // $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
             if(empty($card_positive)){
                 return ajax_error("请上传身份证正面图");
             }
-            $card_side_file = $request->only(["card_side"])["card_side"];//身份证反面
+            // $card_side_file = $request->only(["card_side"])["card_side"];//身份证反面
             if(empty($card_side_file)){
                 return ajax_error("请上传身份证反面图");
             }
             $image_one = 'card_positive';
-            $image_two = 'card_side_file';
+            $image_two = 'card_side';
             // $card_positive_images = base64_upload_flie($card_positive);//身份证正面
             // $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
              //测试七牛上传图片
