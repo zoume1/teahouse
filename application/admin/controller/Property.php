@@ -8,6 +8,7 @@ namespace  app\admin\controller;
 
 use think\Controller;
 use think\Db;
+use app\index\model\Serial;
 use think\paginator\driver\Bootstrap;
 
 class  Property extends  Controller{
@@ -20,7 +21,9 @@ class  Property extends  Controller{
      * @return \think\response\View
      */
     public function property_day(){
-        return view("property_day");
+        $search = input();
+        $data = Serial::index($search);    
+        return view("property_day",['data' => $data]);
     }
 
     /**
