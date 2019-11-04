@@ -17,26 +17,27 @@
         padding-left: 50px;
         background: #FDFDFE;
     }
+
     .on {
-		color: #21A5FA !important;
-		border-bottom: solid 3px #21A5FA;
-	}
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
 
-	.distribution_list {
-		margin-bottom: 10px;
-		border-bottom: solid 1px #D7D7D7;
-	}
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
 
-	.distribution_list ul {
-		display: flex;
-		align-items: center;
-	}
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
 
-	.distribution_list a {
-		font-size: 14px;
-		padding: 9px;
-		color: #5E5E5E;
-	}
+    .distribution_list a {
+        font-size: 14px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
 
     .static_btus {
         border-radius: 5px;
@@ -62,7 +63,7 @@
     {block name="content"}
 
     <div class="childrenBody">
-            {include file="template/_top" /}
+        {include file="template/_top" /}
         <blockquote class="layui-elem-quote news_search">
             <form class="layui-form" action="{:url('admin/GoodsType/search')}">
                 <div class="seach">
@@ -86,8 +87,8 @@
                     <div class="seach_list">
                         <div class="seach_laber">用户账号</div>
                         <div class="seach_input">
-                            <input type="text" name="search_a" lay-verify="title" autocomplete="off"
-                                placeholder="请输入账号" class="layui-input">
+                            <input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="请输入账号"
+                                class="layui-input">
                         </div>
                     </div>
                     <div class="seach_list">
@@ -256,8 +257,22 @@
                 form.render('checkbox');
             })
 
-            $('.static_btus').click(function() {
-                
+            $('.static_btus').click(function () {
+                layer.open({
+                    type: 1,
+                    title: false, //不显示标题栏
+                    closeBtn: true,
+                    area: '300px;',
+                    shade: 0.8,
+                    id: 'LAY_layuipro', //设定一个id，防止重复弹出
+                    btn: ['确定', '返回'],
+                    btnAlign: 'c',
+                    moveType: 1, //拖拽模式，0或者1
+                    content: '<div style="text-align:center;font-size:24px;margin:10px;">代付款</div><div style="text-align:center;margin-10px;font-size:18px">确定该笔款项已支付了吗？</div>',
+                    success: function (layero) {
+                        
+                    }
+                });
             })
         })
     </script>
