@@ -22,19 +22,19 @@ Class With extends Controller{
 
         $rules = [
             'type' => 'require',
+            'invoice_type' => 'require',
             'user_id' => 'require',
             'money'=>'require',
-            'account_name'=>'require',
-            'opening_bank'=>'require',
-            'card_num'=>'require',
+            'express_name'=>'require',
+            'odd_num'=>'require',
         ];
         $message = [
             'type.require' => '提现类型不能为空：1为店铺，2为合伙人',
+            'invoice_type.require' => '提现类型不能为空：1纸制发票，2电子发票',
             'user_id.require' => '用户id不能为空',
             'money.require'=>'金额不能为空',
-            'account_name.require' => '开户名不能为空',
-            'opening_bank.require'=>'开户行不能为空',
-            'card_num.require'=>'卡号不能为空',
+            'express_name.require' => '快递名不能为空',
+            'odd_num.require'=>'快递号不能为空',
         ];
         //验证
         $validate = new Validate($rules,$message);
