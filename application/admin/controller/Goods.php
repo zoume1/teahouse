@@ -31,7 +31,6 @@ use app\admin\controller\Qiniu;
 class Goods extends Controller
 {
 
-
     /**
      * [商品列表显示]
      * GY
@@ -47,10 +46,7 @@ class Goods extends Controller
         //     'order_amount'=>[200,100,100],
         //     'goods_money'=>400,
         //     'status'=>2,
-            
         // ];
-
-
         // halt(Order::createOrder($data));
         // $order_type = Db::name("order")->where("parts_order_number",$data["parts_order_number"])->find();
         // $order = GoodsOrder::getOrderInforMation($order_type);
@@ -64,8 +60,6 @@ class Goods extends Controller
         // $inviter_id = 0;
         
         // RefereeModel::createRelation($member_id, $inviter_id,$store_id);
-
-
         $store_id = Session::get('store_id');
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
         $goods_list = getSelectListes("wares");
@@ -99,11 +93,7 @@ class Goods extends Controller
         $goods->appends($_GET);
         $this->assign('listpage', $goods->render());
         return view("goods_index", ["goods" => $goods,"goods_list" => $goods_list]);
-
-
     }
-
-
 
     /**
      * [商品列表添加组]

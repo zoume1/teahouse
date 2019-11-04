@@ -1786,7 +1786,6 @@ class Crowdfinancing extends Controller
                 $special_id = $information["special_id"];          // 规格id
                 $order_amount = $information["order_amount"];      // 商品总金额
 
-
             if($res){
                 $one = db("crowd_special")->where("id",$special_id)->setInc("collecting");
                 $twe = db("crowd_special")->where("id",$special_id)->setInc("collecting_money",$order_amount);

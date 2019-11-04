@@ -654,7 +654,6 @@
                         }
                     }
                     this.myAjax(url, param, function(data){
-                        console.log(111, data)
                         // 付款二维码生成成功， 监听支付
                         if(data.body.status == 1){
                             $('body').append(data.body.data.url);
@@ -758,7 +757,6 @@
                     var param = {id: this.getCookie('TCid')};
                     var _this = this;
                     this.myAjax('order_package_buy', param, function(data){
-                        console.log(data)
                         if(data.body.status == 1){
                             _this.orderInfo = data.body.data;
                             // 判断用户是否填写过邀请码
@@ -892,8 +890,14 @@
                 },
                 // 显示邀请码输入框
                 useDiscount: function(){
-                    if(this.inputCodeYet) return;
                     this.showInviteCode = !this.showInviteCode;
+                    this.inputCodeYet = !this.inputCodeYet;
+                    this.correctCode = !this.correctCode;
+                    if(!this.inputCodeYet) {
+                        this.discountPrice = 0;
+                    }else{
+                        this.textInviteCode();
+                    }
                 },
                 // 同意协议
                 agreement: function(){
@@ -1018,7 +1022,7 @@
                     if (typeof code === 'string'){
                         if (code.trim().length !== 0){
                             this.debounce(this.textInviteCode, 500);
-                        }else {}
+                        }
                     }
                 }
             },

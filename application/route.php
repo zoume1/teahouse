@@ -879,6 +879,8 @@ Route::group("admin",[
 
     /*物联*/
     "anti_fake" =>"admin/Material/anti_fake",                                                       //防伪溯源
+    "anti_fake_dts" =>"admin/Material/anti_fake_dts",                                               //防伪溯源---同步数据
+    "anti_fake_judge" =>"admin/Material/anti_fake_judge",                                           //防伪溯源---判断是否需要同步数据
     "fake_chip" =>"admin/Material/fake_chip",                                                       //防伪溯源芯片
     "chip_details" =>"admin/Material/chip_details",                                                 //芯片详情
     "video_token" =>"admin/Material/video_token",       //token值
@@ -1170,7 +1172,11 @@ Route::group("admin",[
    "city_market_feedback_update"=>"admin/City/city_market_feedback_update",  //城市市场回复更新
    "city_market_feedback_delete"=>"admin/City/city_market_feedback_delete",  //城市市场回复删除
 
-
+   /*总控资金管理 */
+   "adminBankRollIndex" => "admin/Bankroll/adminBankRollIndex", //总控资金管理-提现审核
+   "rewardsIndex" => "admin/Bankroll/rewardsIndex" ,            //总控资金管理-资金奖惩
+   "rewards_index_add" => "admin/Bankroll/rewards_index_add" ,    //总控资金管理-资金奖惩添加
+   "rewards_index_edit" => "admin/Bankroll/rewards_index_edit" ,  //总控资金管理-资金奖惩编辑
 ]);
 
 /**

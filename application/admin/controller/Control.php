@@ -677,6 +677,7 @@ class  Control extends  Controller{
         $start_time2=strtotime(date("Y-m-d "));
         $end_time2=strtotime(date("Y-m-d H:i:s"));
         $time['create_time']=array('between',array($start_time2,$end_time2));
+        $times['create_time']=array('between',array($start_time2,$end_time2));
         $time['store_use']='0';
         $data['w_member_num']=db('store')->where($time)->count();     //今日注册店铺数量   
 
@@ -724,7 +725,8 @@ class  Control extends  Controller{
         $data['adder_order_number_dai']=db('adder_order')->where($where10)->count();   //待发货订单
         //售后待处理订单---增值订单
         $where2['status']=1;
-        $data['shou_order_number']=db('adder_after_sale')->where($where2)->count();  
+        $data['shou_order_number']=db('adder_after_sale')->where($where2)->count();
+        $data['city_store_count'] = db('city_copartner')->where($times)->where('status','=',1)->count();
         
         return view("control_store_index",['data'=>$data]);
     }
