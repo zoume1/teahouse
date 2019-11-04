@@ -51,30 +51,9 @@ class  Store extends  Controller{
                 }
             }
             $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
-            if(empty($card_positive)){
-                return ajax_error("请上传身份证正面图");
-            }
             $card_side_file = $request->only(["card_side"])["card_side"];//身份证反面
-            if(empty($card_side_file)){
-                return ajax_error("请上传身份证反面图");
-            }
-            $card_positive_images = base64_upload_flie($card_positive);//身份证正面
-            $card_side_file =base64_upload_flie($card_side_file) ; //身份证反面
-             //测试七牛上传图片
-             $accesskey = 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ';
-            $secrectkey = 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB';
-             $bucket = 'goods';
-            $domain='teahouse.siring.cn';
-            $qiniu=new Qiniu();
-           //获取店铺七牛云的配置项
-           $rr=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_side_file);
-           if($rr){
-                $card_side_file= $rr[0];
-           }
-           $rr2=$qiniu->uploadimg2('Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ','P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB','goods','teahouse.siring.cn',$card_positive_images);
-           if($rr2){
-                $card_positive_images= $rr2[0];
-           }
+ 
+
             $phone_number = db("pc_user")->where("id",$user_id)->find();//获取手机号
             $data = [
                 "is_business"=>$is_business,
@@ -82,7 +61,7 @@ class  Store extends  Controller{
                 "contact_name"=>$contact_name,
                 "address_data"=>$address_data,
                 "address_real_data"=>$address_real_data,
-                "card_positive"=>$card_positive_images,
+                "card_positive"=>$card_positive,
                 "card_side"=>$card_side_file,
                 "store_introduction"=>$store_introduction,
                 "business_name"=>$business_name,
