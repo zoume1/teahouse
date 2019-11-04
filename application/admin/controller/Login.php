@@ -101,7 +101,7 @@ class Login extends Controller{
         if(!empty($store_id)){
             $this->redirect("index/index/my_shop");
         }else{
-            $this->redirect("admin/Login/index");
+            $this->redirect("index/index/sign_in");
         }
 
     }

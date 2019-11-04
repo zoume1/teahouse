@@ -429,6 +429,10 @@ Route::group("",[
 
     /***资金明细 */
     "serial_index"=>"index/Serial/serial_index",        //分销明细显示
+    
+    
+    /**物联 */
+    "get_anti_fake_info"=>"index/Material/get_anti_fake_info",        //分销明细显示
      
 
 ]);
