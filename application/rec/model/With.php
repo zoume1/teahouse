@@ -27,11 +27,11 @@ class With extends Model
     {
         return $this->save([
             'type' => $param['type'],
+            'invoice_type' => $param['invoice_type'],
             'user_id' => $param['user_id'],
             'money' => $param['money'],
-            'account_name' =>$param['account_name'],
-            'opening_bank' => $param['opening_bank'],
-            'card_num' =>$param['card_num'],
+            'express_name' =>$param['express_name'],
+            'odd_num' =>$param['odd_num'],
             'create_time' =>time()
 
         ]);
