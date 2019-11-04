@@ -30,6 +30,24 @@ class Bankroll extends Controller
     public function rewardsIndex(){
         return view("rewards_index");
     }
+
+
+        /**
+     * [总控资金管理-资金奖惩添加]
+     * 郭杨
+     */    
+    public function rewards_index_add(){
+        return view("rewards_index_add");
+    }
+
+
+        /**
+     * [总控资金管理-资金奖惩编辑]
+     * 郭杨
+     */    
+    public function rewards_index_edit(){
+        return view("rewards_index_edit");
+    }
         
 
 }
