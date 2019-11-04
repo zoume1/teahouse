@@ -471,10 +471,10 @@ class  Material extends  Controller{
             if($count==$res2->num_rows)
             {
                 //无需更新数据，已同步
-                return $this->ajax_success('数据已同步');
+                return ajax_success('数据已同步');
             }else{
                 //同步数据
-                return $this->ajax_error('需同步数据');
+                return ajax_error('需同步数据');
             }
             //1.获取商品列表，导入自己的数据库
             // $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = 47 limit 1 ';
