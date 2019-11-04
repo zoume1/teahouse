@@ -89,7 +89,7 @@ class User extends Controller{
         }
 
         if (Session::get('mobileCode') != $param['code']) {
-            return json(['code'=>1,'msg'=>$param['code']."验证码不正确"]);
+            return json(['code'=>0,'msg'=>$param['code']."验证码不正确"]);
         }
         //判断邀请码
         if(empty($param['invitation'])){
