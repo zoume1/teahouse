@@ -451,50 +451,71 @@ class  Material extends  Controller{
     }
 
     /**
-     **************GY*******************
+     **************lilu*******************
      * @param Request $request
-     * Notes:防伪溯源
+     * Notes:防伪溯源---判断是否需要同步数据
      **************************************
      * @return \think\response\View
      */
-    public function anti_fake(){
+    public function anti_fake_judge(){
         $store_id=Session::get('store_id');
         // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
         $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
         if($con)
         {
+            //1.统计子标表里的总数
+            $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript  ';
+            $res2= mysqli_query($con,$sql2);
+            //2.统计茶仓里子标的总数
+            $count=db('anti_parent_code')->where('store_id',$store_id)->count();
+            if($count==$res2->num_rows)
+            {
+                //无需更新数据，已同步
+                return $this->ajax_success('数据已同步');
+            }else{
+                //同步数据
+                return $this->ajax_error('需同步数据');
+            }
             //1.获取商品列表，导入自己的数据库
-            $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity ';
-            $res= mysqli_query($con,$sql);
-            $rr=$res->fetch_all(MYSQLI_ASSOC);
-            foreach($rr as $k =>$v){
-                $v['create_time']=time();
-                $v['store_id']=$store_id;
-                $v['produceUid']='50';
-                db('anti_goods')->insert($v);
-            }
-            //2.获取目标列表，导入自己的数据库
-            $sql2='SELECT v_trace_master.* FROM  v_trace_master ';
-            $res2= mysqli_query($con,$sql2);
-            $rr2=$res2->fetch_all(MYSQLI_ASSOC);
-            foreach($rr2 as $k2 =>$v2){
-                $v2['create_time']=time();
-                $v2['store_id']=$store_id;
-                $v2['produceUid']='50';
-                db('anti_parent_code')->insert($v2);
-            }
-            $sql2='SELECT v_trace_master.* FROM  v_trace_master ';
-            $res2= mysqli_query($con,$sql2);
-            $rr2=$res2->fetch_all(MYSQLI_ASSOC);
-            foreach($rr2 as $k2 =>$v2){
-                $v2['create_time']=time();
-                $v2['store_id']=$store_id;
-                $v2['produceUid']='50';
-                db('anti_parent_code')->insert($v2);
-            }
-            halt($rr);
+            // $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = 47 limit 1 ';
+            // $res= mysqli_query($con,$sql);
+            // $rr=$res->fetch_all(MYSQLI_ASSOC);
+            // halt($res);
+            // foreach($rr as $k =>$v){
+            //     $v['create_time']=time();
+            //     $v['store_id']=$store_id;
+            //     $v['produceUid']='50';
+            //     db('anti_goods')->insert($v);
+            // }
+            // //2.获取目标列表，导入自己的数据库
+            // $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript  ';
+            // $res2= mysqli_query($con,$sql2);
+            // $rr2=$res2->fetch_all(MYSQLI_ASSOC);
+            // foreach($rr2 as $k2 =>$v2){
+            //     $v2['create_time']=time();
+            //     $v2['store_id']=$store_id;
+            //     $v2['produceUid']='50';
+            //     db('anti_parent_code')->insert($v2);
+            // }
+            // halt($rr);
         }
-       
+    }
+
+    /**
+     * lilu
+     * 防伪溯源同步数据
+     */
+    public function anti_fake_dts()
+    {
+        $store_id=Session::get('store_id');
+        // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
+        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
+        if($con)
+        {
+            $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
+
+        }
+
     }
 
     /**
@@ -504,8 +525,11 @@ class  Material extends  Controller{
      **************************************
      * @return \think\response\View
      */
-    public function anti_fake2(){
-      
+    public function anti_fake()
+    {   
+        //获取商品的list
+        $store_id=Session::get('store_id');
+        $rr=db('anti_goods')->where('store_id',$store_id)->select();
         return view("anti_fake",['data'=>$rr]);
     }
     /**
