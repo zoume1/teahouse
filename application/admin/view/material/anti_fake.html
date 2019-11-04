@@ -202,8 +202,8 @@
                 type:"POST",
                 data:"",
                 success: (res) => {
-                    console.log(res)
-                    if(res.code == "1") {
+                    var res = JSON.parse(res);
+                    if(res.status == "1") {
                         console.log(res)
                     } else {
                         layer.msg('数据正在同步，请稍等', {
@@ -215,6 +215,7 @@
                             data:"",
                             success: (res) => {
                                 console.log(res)
+                                window.location.reload();
                             },
                             error: (e) => {
                                 console.log(e)
