@@ -12,7 +12,7 @@
     /* .form-input>input {width: 30%;} */
     .city{margin: auto 0;}
     .city_s{color: rgb(148, 148, 148);}
-    .city>img {width: 250px; height: 150px; margin-right: 30px;}
+    .city>img {width: 250px; margin-right: 30px;}
     .m_t{margin-top: 50px;}
 </style>
 
@@ -72,8 +72,9 @@
         <div class="form-item">
             <label class="form-label" style="width:10%;">我的优势</label>
             <div class="form-input">
-               <textarea  placeholder="请输入内容" required lay-verify="required"
-					class="layui-textarea">{$user_data.advantage}</textarea>
+                    <span class="city_s">{$user_data.advantage}</span>
+               <!-- <textarea  placeholder="请输入内容" required lay-verify="required"
+					class="layui-textarea">{$user_data.advantage}</textarea> -->
             </div>
         </div>
         <div class="form-item m_t">

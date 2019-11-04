@@ -19,6 +19,7 @@ use app\admin\model\AdderOrder as add;
 use app\admin\model\Store as Store;
 use app\admin\controller\Qiniu;
 use app\city\model\StoreCommission;
+use app\index\model\Serial;
 
 class  General extends  Base {
    
@@ -2381,8 +2382,10 @@ class  General extends  Base {
      **************************************
      */
     public function capital_management(){
+        $search = input();
         $store_wallet = $this->store_wallet($this->store_ids);
-        return view("capital_management",["store_wallet"=>$store_wallet]);
+        $data = Serial::index($search);
+        return view("capital_management",["store_wallet"=>$store_wallet,'data'=>$data]);
 
     }
 
@@ -2393,7 +2396,13 @@ class  General extends  Base {
      **************************************
      * @return \think\response\View
      */
-    public function capital_management_details(){
+    public function capital_management_details($id){
+        $data = Serial::detail($id);
+        switch($data['status'])
+        {
+            case 1:
+
+        }
         return view("capital_management_details");
     }
 
@@ -3119,7 +3128,7 @@ class  General extends  Base {
 
 
         /**
-     **************GY*******************
+     **************lihuosheng*******************
      * @param Request $request
      * Notes:线下提现记录搜索
      **************************************
@@ -3492,6 +3501,9 @@ class  General extends  Base {
             }
         }
     }
+
+
+
    
 
 
