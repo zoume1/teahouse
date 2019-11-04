@@ -94,11 +94,16 @@ class Login extends Controller{
      **************************************
      */
     public function logout(){
-             
+        $store_id =Session::get("store_id");
         Session::delete("user_id");
         Session::delete("user_info");
         Session::delete("store_id");
-        $this->redirect("index/index/my_shop");
+        if(!empty($store_id)){
+            $this->redirect("index/index/my_shop");
+        }else{
+            $this->redirect("index/index/sign_in");
+        }
+
     }
 
 
