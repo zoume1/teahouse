@@ -1172,7 +1172,9 @@ Route::group("admin",[
    "city_market_feedback_update"=>"admin/City/city_market_feedback_update",  //城市市场回复更新
    "city_market_feedback_delete"=>"admin/City/city_market_feedback_delete",  //城市市场回复删除
 
-
+   /*总控资金管理 */
+   "adminBankRollIndex" => "admin/Bankroll/adminBankRollIndex", //总控资金管理-提现审核
+   "rewardsIndex" => "admin/Bankroll/rewardsIndex" ,            //总控资金管理-资金奖惩
 ]);
 
 /**
