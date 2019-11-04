@@ -198,7 +198,19 @@
         layui.use(['laydate', 'form'], function(){
             var laydate = layui.laydate,
                 form = layui.form;
-            laydate.render({elem: '#searchDate'})
+            laydate.render({elem: '#searchDate'});
+
+            $.ajax({
+                url:"admin/Material/anti_fake_judge",
+                type:"POST",
+                data:"",
+                success: (res) => {
+                    console.log(res)
+                },
+                error: (e) => {
+
+                }
+            })
             form.render();
         })
     </script>
