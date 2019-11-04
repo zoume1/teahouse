@@ -451,7 +451,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************GY*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:防伪溯源
      **************************************
@@ -464,7 +464,7 @@ class  Material extends  Controller{
         if($con)
         {
             //1.获取商品列表，导入自己的数据库
-            $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity ';
+            $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = 47 limit 1 ';
             $res= mysqli_query($con,$sql);
             $rr=$res->fetch_all(MYSQLI_ASSOC);
             foreach($rr as $k =>$v){
