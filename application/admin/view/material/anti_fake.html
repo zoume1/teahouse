@@ -198,7 +198,37 @@
         layui.use(['laydate', 'form'], function(){
             var laydate = layui.laydate,
                 form = layui.form;
-            laydate.render({elem: '#searchDate'})
+            laydate.render({elem: '#searchDate'});
+
+            $.ajax({
+                url:"anti_fake_judge",
+                type:"POST",
+                data:"",
+                success: (res) => {
+                    console.log(res)
+                    if(res.code == "1") {
+                        console.log(res)
+                    } else {
+                        layer.msg('数据正在同步，请稍等', {
+                            time: 20000, //20s后自动关闭
+                        });
+                        $.ajax({
+                            url:"anti_fake_dts",
+                            type:"POST",
+                            data:"",
+                            success: (res) => {
+                                console.log(res)
+                            },
+                            error: (e) => {
+                                console.log(e)
+                            }
+                        })
+                    }
+                },
+                error: (e) => {
+                    console.log(e)
+                }
+            })
             form.render();
         })
     </script>
