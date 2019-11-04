@@ -41,12 +41,26 @@ Class With extends Controller{
         if(!$validate->check($param)){
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
-
+        //用户信息
+        $user = new \app\rec\model\User();
+        $user_all = $user->user_index($param['user_id']);
+        $phone = $user_all['phone_number'];
+        //返佣金额
+        $city = new \app\rec\model\CityDetail();
+        $city_all = $city->dist_commission($phone);
+        //判断
+        if($param['money']  > $city_all){
+             returnJson(0,'提现金额不能大于佣金余额');
+        }
+        $param['balance'] = $city_all - $param['money'];
         $with = new \app\rec\model\With();
 
         $data = $with->add($param);
-
-        $data ? returnJson(1,'申请成功') : returnJson(0,'申请失败');
+        if($data){
+             //减去 返佣余额
+             $data ? returnJson(1,'申请成功') : returnJson(0,'申请失败');
+        }
+       
     }
 
     /**
