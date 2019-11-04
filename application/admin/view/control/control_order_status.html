@@ -146,6 +146,7 @@
     .form-label {
         width: 10%;
     }
+    .tanimg {height: 800px;}
 </style>
 
 {/block}
@@ -153,8 +154,8 @@
 <body>
 {block name="content"}
 <div class="tanchuang noshow">
-    <div style="width: 395px;height: 527px;margin: 10% auto;">
-        <img src="" class="tanimg"/>
+    <div style="width: 800px;height: auto;margin: 2% auto;">
+        <img src="__STATIC__/admin/common/img/a7.png" class="tanimg" width="100%" />
     </div>
 
 </div>
@@ -225,14 +226,14 @@
         </label>
         <div class="imgcontent">
 				<span class="img">
-						<img src="{$value.card_positive}" width="100%">
+						<img src="{$value.card_positive}" width="100%" onclick="imgShow(this)">
 						<i class="remove-img"  value="{$value.card_positive}" data-id="{$value.id}" data-value="2"><img
                                 src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
         </div>
         <div class="imgcontent">
 				<span class="img">
-						<img src="{$value.card_side}" width="100%">
+						<img src="{$value.card_side}" width="100%" onclick="imgShow(this)">
 						<i class="remove-img"  value="{$value.card_side}" data-id="{$value.id}" data-value="2"><img
                                 src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
@@ -479,17 +480,20 @@
 {block name="bottom"}
 
 <script type="text/javascript">
-    var ue = UE.getEditor('editor');
     layui.config({
         base: "js/"
     }).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
         var form = layui.form(),
             $ = layui.jquery;
         form.render();
-
-
-
     });
+    function imgShow(e) {
+        $(".tanimg").attr("src", e.currentSrc);
+        $(".tanchuang").show();
+    }
+    $(".tanchuang").click(function() {
+        $(this).hide();
+    })
 </script>
 
 {/block}

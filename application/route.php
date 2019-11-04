@@ -1179,6 +1179,8 @@ Route::group("admin",[
    /*总控资金管理 */
    "adminBankRollIndex" => "admin/Bankroll/adminBankRollIndex", //总控资金管理-提现审核
    "rewardsIndex" => "admin/Bankroll/rewardsIndex" ,            //总控资金管理-资金奖惩
+   "rewards_index_add" => "admin/Bankroll/rewards_index_add" ,    //总控资金管理-资金奖惩添加
+   "rewards_index_edit" => "admin/Bankroll/rewards_index_edit" ,  //总控资金管理-资金奖惩编辑
 ]);
 
 /**
