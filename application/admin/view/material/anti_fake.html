@@ -109,9 +109,9 @@
                             <th>
                                 <div class="table-cell-div">加工日期</div>
                             </th>
-                            <th>
+                            <!-- <th>
                                 <div class="table-cell-div">原产地</div>
-                            </th>
+                            </th> -->
                             <th>
                                 <div class="table-cell-div">操作</div>
                             </th>
@@ -147,7 +147,10 @@
                                 <div class="table-cell-div">{$vo.pick_size}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div">{$vo.stock_date}</div>
+                                <div class="table-cell-div">{$vo.goods_repertory}</div>
+                            </td>
+                            <td>
+                                <div class="table-cell-div green_zi">{$vo.stock_date}</div>
                             </td>
                             <td>
                                 <div class="table-cell-div green_zi">{$vo.frement_date}</div>
@@ -156,12 +159,9 @@
                                 <div class="table-cell-div green_zi">{$vo.date}</div>
                             </td>
                             <td>
-                                <div class="table-cell-div green_zi">{$vo.produce}</div>
-                            </td>
-                            <td>
                                 <div style="display:flex;justify-content: center;">
                                     <div class="table-cell-div details">
-                                        <a href="{:url('admin/Material/fake_chip')}" style="color: rgb(10,135,255);">芯片详情</a>
+                                        <a href="{:url('admin/Material/fake_chip',['id'=>$vo.id])}" style="color: rgb(10,135,255);">芯片详情</a>
                                     </div>
                                     <!-- <div class="complete">已生成商品</div> -->
                                     <div class="unfinished">未生成商品</div>
