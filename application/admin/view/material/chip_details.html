@@ -85,18 +85,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {foreach name="data" id="vo"}
                         <tr>
-                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
+                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
                             </td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td class="green_zi">5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>8</td>
-                            <td>9</td>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.goods_name}</td>
+                            <td>{$vo.parent_code}</td>
+                            <td class="green_zi">{$vo.child_code}</td>
+                            <td>未售</td>
+                            <td>{$vo.qr_num}</td>
+                            <td>{$vo.nfc_num}</td>
+                            <td>空</td>
                         </tr>
+                        {/foreach}
                     </tbody>
                 </table>
             </div>

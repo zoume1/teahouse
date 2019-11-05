@@ -30,6 +30,7 @@ class With extends Model
             'invoice_type' => $param['invoice_type'],
             'user_id' => $param['user_id'],
             'money' => $param['money'],
+            'balance' => $param['balance'],
             'express_name' =>$param['express_name'],
             'odd_num' =>$param['odd_num'],
             'create_time' =>time()
