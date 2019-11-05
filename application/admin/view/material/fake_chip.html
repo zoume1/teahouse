@@ -69,27 +69,29 @@
                             <th>
                                 <div class="table-cell-div">子标编号</div>
                             </th>
-                            <th>
+                            <!-- <th>
                                 <div class="table-cell-div">入库数量</div>
-                            </th>
+                            </th> -->
                             <th>
                                 <div class="table-cell-div">操作</div>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
+                        {foreach name="data" id="vo"}
                         <tr>
-                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="">
+                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
                             </td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
+                            <td>{$vo.id}</td>
+                            <td>{$vo.goods_name}</td>
+                            <td>{$vo.parent_code}</td>
+                            <td>{$vo.child_code}</td>
+                            <!-- <td>6</td> -->
                             <td>
-                                <a href="{:url('admin/Material/chip_details')}" style="color: rgb(10,135,255);">详情</a>
+                                <a href="{:url('admin/Material/chip_details',['parent_code'=>$vo.parent_code])}" style="color: rgb(10,135,255);">详情</a>
                             </td>
                         </tr>
+                        {/foreach}
                     </tbody>
                 </table>
             </div>
