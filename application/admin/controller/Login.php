@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Administrator
@@ -6,6 +7,7 @@
  * 订单
  * Time: 15:20
  */
+
 namespace app\admin\controller;
 
 use think\Controller;
@@ -13,7 +15,8 @@ use think\Request;
 use think\Session;
 use think\captcha\Captcha;
 
-class Login extends Controller{
+class Login extends Controller
+{
 
     /**
      **************李火生*******************
@@ -22,7 +25,8 @@ class Login extends Controller{
      **************************************
      * @return \think\response\View
      */
-    public function index(){
+    public function index()
+    {
         return view("login");
     }
 
@@ -34,13 +38,14 @@ class Login extends Controller{
      **************************************
      * @return \think\Response
      */
-    public function captchas(){
+    public function captchas()
+    {
         $captcha = new Captcha([
-            'imageW'=>100,
-            'imageH'=>48,
-            'fontSize'=>18,
-            'useNoise'=>false,
-            'length'=>3,
+            'imageW' => 100,
+            'imageH' => 48,
+            'fontSize' => 18,
+            'useNoise' => false,
+            'length' => 3,
         ]);
         ob_clean();
         return $captcha->entry();
@@ -54,34 +59,34 @@ class Login extends Controller{
      **************************************
      * @param Request $request
      */
-    public function login(Request $request){
-        if(!captcha_check($request->only("yzm")["yzm"])){
+    public function login(Request $request)
+    {
+        if (!captcha_check($request->only("yzm")["yzm"])) {
             //验证失败
-            $this->error("验证码有误","admin/Login/index");
+            $this->error("验证码有误", "admin/Login/index");
             exit();
         };
-        if ($request->isPost()){
+        if ($request->isPost()) {
             $username = $request->only("account")["account"];
             $passwd = $request->only("passwd")["passwd"];
             $userInfo = db("admin")
-                ->where("account",$username)
-                ->where("status","<>",1)
+                ->where("account", $username)
+                ->where("status", "<>", 1)
                 ->select();
-            if($username !="admin"){
-                $this->success("商户请在前台登录","index/index/sign_in");
+            if ($username != "admin") {
+                $this->success("商户请在前台登录", "index/index/sign_in");
             }
             if (!$userInfo) {
-                $this->success("账户名不正确或管理员以被停用","admin/Login/index");
+                $this->success("账户名不正确或管理员以被停用", "admin/Login/index");
             }
-            if (password_verify($passwd , $userInfo[0]["passwd"])) {
+            if (password_verify($passwd, $userInfo[0]["passwd"])) {
                 Session("user_id", $userInfo[0]["id"]);
                 unset($userInfo->user_passwd);
                 Session("user_info", $userInfo);
-               // $this->redirect(url("admin/index/index"));
-                $this->success("登录成功","admin/Index/index");
-            }else{
-                $this->success("账户密码不正确","admin/Login/index");
-
+                // $this->redirect(url("admin/index/index"));
+                $this->success("登录成功", "admin/Index/index");
+            } else {
+                $this->success("账户密码不正确", "admin/Login/index");
             }
         }
     }
@@ -93,22 +98,21 @@ class Login extends Controller{
      * Notes:[退出]
      **************************************
      */
-    public function logout(){
-        $store_id =Session::get("store_id");
+    public function logout()
+    {
+        $store_id = Session::get("store_id");
         Session::delete("user_id");
         Session::delete("user_info");
         Session::delete("store_id");
-        if(!empty($store_id)){
+
+        $restul = db('admin')->where('store_id', $store_id)->where('admin_status', 1)->find();
+
+        if (!empty($store_id) && $restul) {
+            $this->redirect("index/index/sign_in");
+        } elseif (!empty($store_id) && !$restul) {
             $this->redirect("index/index/my_shop");
-        }else{
+        } elseif (empty($store_id)) {
             $this->redirect("index/index/sign_in");
         }
-
     }
-
-
-
-
-
-
 }
