@@ -524,6 +524,7 @@ class  Material extends  Controller{
                 $v['create_time']=time();
                 $v['store_id']=$store_id;
                 $v['produceUid']='50';
+                $v['goods_number']=get_random();
                 db('anti_goods')->insert($v); 
             }
             //2.获取母标，子标记录列表
@@ -693,34 +694,36 @@ class  Material extends  Controller{
     }
     /**
      * lilu
-     * 物联--防伪溯源--芯片
+     * 物联--防伪溯源--芯片详情
      */
     public function fake_chip()
     {
         $input=input();
+        $store_id=Session::get('store_id');
         if(!empty($input)){
-            //检索
-
+            //检索--获取id下的母标的列表
+            $rr=db('anti_parent_code')->where(['store_id'=>$store_id,'pid'=>$input['id']])->group('parent_code')->select();
+            return view("fake_chip",['data'=>$rr]);
         }else{
-            // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
-            $sql='SELECT id,goods_name,parent_code,child_code FROM  v_test ';
+            $this->error('获取参数失败');
         }
-        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
-        if($con)
-        {
-            $sql2='alter table v_test add  column is_produce int(4)  default 0';
-            mysqli_query($con,$sql2);    //新增默认字段
-            $res= mysqli_query($con,$sql);
-            $rr=$res->fetch_all(MYSQLI_ASSOC);
-        }
-        return view("fake_chip",['data'=>$rr]);
     }
     /**
      * lilu
      * 物联--防伪溯源--芯片详情
      */
-    public function chip_details(){
-
-        return view('chip_details');
+    public function chip_details()
+    {
+        $input=input();
+        $store_id=Session::get('store_id');
+        if(!empty($input)){
+            //检索--获取id下的母标的列表
+            $rr=db('anti_parent_code')->where(['store_id'=>$store_id,'parent_code'=>$input['parent_code']])->select();
+            return view("chip_details",['data'=>$rr]);
+        }else{
+            $this->error('获取参数失败');
+        }
     }
+
+    
  }
