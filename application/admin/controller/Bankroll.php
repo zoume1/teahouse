@@ -6,6 +6,7 @@ use think\Session;
 use think\Validate;
 use think\Request;
 use think\Db;
+use app\rec\model\With;
 
 
 /**
@@ -20,8 +21,9 @@ class Bankroll extends Controller
      * 郭杨
      */    
     public function adminBankRollIndex(){
-        $seach = input();
-        return view("bankroll_index");
+        $search = input();
+        $data = With::management_index($search);
+        return view("bankroll_index",['data'=>$data]);
     }
 
     /**
