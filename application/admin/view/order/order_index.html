@@ -607,6 +607,7 @@
 						</td>
 						<td class="orderNumber">{$vo.parts_order_number}</td>
 						<td class="three">
+							{if isset($vo.detail)}
 							{volist name="vo['detail']" id="vo2"}
 							{if !empty($vo2["goods_image"])}
 							<div><img src="{$vo2.goods_image}" /></div>
@@ -614,22 +615,28 @@
 							<div>无</div>
 							{/if}
 							{/volist}
+							{else}
+							<div><img src="{$vo.goods_image}" /></div>
+							{/if}
 						</td>
 						<td class="four">
+							{if isset($vo.detail)}
 							{volist name="vo['detail']" id="vo2"}
 							<div>{$vo2.parts_goods_name}</div>
 							{/volist}
+							{else}
+							<div>{$vo.parts_goods_name}</div>
+							{/if}
 						</td>
 						<td class="five">
+							{if isset($vo.detail)}
 							{volist name="vo['detail']" id="vo2"}
 							<div style="height: 50px; line-height: 50px;">{$vo2.order_quantity}</div>
 							{/volist}
+							{else}
+							<div style="height: 50px; line-height: 50px;">{$vo.order_quantity}</div>
+							{/if}
 						</td>
-
-						<!-- <td>
-								<div class="overflow">{$vo2.parts_goods_name}</div>
-							</td>
-							<td>{$vo2.order_quantity}</td> -->
 						<td>{$vo.user_account_name}</td>
 						<td>{$vo.user_phone_number}</td>
 						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
