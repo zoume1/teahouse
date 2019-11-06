@@ -104,7 +104,7 @@ class Crowdfinancing extends Controller
             $receipt_status = $request->only("receipt_status")["receipt_status"];//是否开发票
             $receipt_id = $request->only("receipt_id")["receipt_id"];//发票id
             $receipt_price = $request->only("receipt_price")["receipt_price"];//发票金额
-            $storage = $request->only("storage")["storage"];//发票金额
+            $storage = $request->only("storage")["storage"];//存茶金额
             // $type = $request->only("type")["type"];//众筹类型   1  全额支持   2  打赏
             
             if(empty($user_id)){

@@ -242,9 +242,9 @@ class Index extends Controller
             }
             //售后申请
             //判断session是否存在（待发货）
-            $where['status']=1;
-            $where['store_id']=$store_id;
-            $number2=db('after_sale')->where($where)->count();
+            $where2['status']=1;
+            $where2['store_id']=$store_id;
+            $number2=db('after_sale')->where($where2)->count();
             if(empty(Session::get('shouhou'.$store_id))){
                  Session::set('shouhou'.$store_id,$number2);
                  $pp2=0;
@@ -258,6 +258,24 @@ class Index extends Controller
                     $pp2=0;
                 }
             }
+            //众筹
+            $where3['status']=2;
+            $where3['store_id']=$store_id;
+            $number3=db('crowd_order')->where($where3)->count();
+            if(empty(Session::get('zhongchou'.$store_id))){
+                 Session::set('zhongchou'.$store_id,$number3);
+                 $pp3=0;
+            }else{
+                if($number3 > Session::get('zhongchou'.$store_id)){
+                    Session::set('zhongchou'.$store_id,$number3);
+                    $pp3=1;
+                    return ajax_success('获取成功',$pp3);
+                    die;
+                }else{
+                    $pp3=0;
+                }
+            }
+
         }
         return ajax_success('获取失败',0);
 
