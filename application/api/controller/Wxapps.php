@@ -338,13 +338,13 @@ class  Wxapps extends  Controller{
                                         // $count = Db::table("ims_sudu8_page_order")->where("uniacid", $uniacid)->where("pid", $vv['id'])->where("flag", "neq", 1)->field("id")->count();
                                        //判断商品库存
                                        $info=db('goods')->where('id',$vv['goods_id'])->find();
-                                       if($info['goods_repertory']=='0'){
-                                           //商品下架
-                                            $pp['label']=0;
-                                            $re=db('goods')->where('id',$info['id'])->update($pp);
-                                            unset($list[$kk]);
-                                            continue;
-                                       }
+                                    //    if($info['goods_repertory']=='0'){
+                                    //        //商品下架
+                                    //         $pp['label']=0;
+                                    //         $re=db('goods')->where('id',$info['id'])->update($pp);
+                                    //         unset($list[$kk]);
+                                    //         continue;
+                                    //    }
                                         $list2[$kk]['title']=$vv['goods_name'];     //title
                                         $list2[$kk]['linkurl'] = "/pages/goods_detail/goods_detail?title=" . $vv['goods_id'];
                                         $list2[$kk]['linktype'] = "page";
@@ -727,14 +727,14 @@ class  Wxapps extends  Controller{
                                 //     $list[$kks]["goods_sign"] = $ar;
                                 // }
                                 foreach ($list as $kks => $vvs) {
-                                    if($vvs['goods_repertory']=='0'){
-                                        //商品下架
-                                        $pp['label']=0;
-                                        $re=db('goods')->where('id',$vvs['id'])->update($pp);
-                                        unset($list[$kks]);
-                                        continue;
+                                    // if($vvs['goods_repertory']=='0'){
+                                    //     //商品下架
+                                    //     $pp['label']=0;
+                                    //     $re=db('goods')->where('id',$vvs['id'])->update($pp);
+                                    //     unset($list[$kks]);
+                                    //     continue;
 
-                                    }
+                                    // }
                                     //获取上品的图片
                                     $se = explode(",", $vvs["goods_show_images"]);
                                     if (!empty($list[$kks]["scope"])) {
