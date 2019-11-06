@@ -57,6 +57,7 @@ Class With extends Controller{
                      returnJson(0,'提现金额不能大于佣金余额');
                 }
                 $param['balance'] = $city_all - $param['money'];
+                $param['phone_number'] = $phone; //添加手机账号信息
                 $with = new \app\rec\model\With();
 
                 $data = $with->add($param);
@@ -77,6 +78,7 @@ Class With extends Controller{
                      returnJson(0,'提现金额不能大于佣金余额');
                 }
                 $param['balance'] = $city['member_wallet'] - $param['money'];
+                $param['phone_number'] = $city['phone_number'];//添加手机账号信息
                 $with = new \app\rec\model\With();
 
                 $data = $with->add($param);
