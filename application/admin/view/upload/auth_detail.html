@@ -46,6 +46,8 @@
         .flow-btns button.relieve{background-color: #ff0000;}
         .flow-btns img{vertical-align: middle;}
         .flow-btns .dott{display: inline-block; width: 50px; border-top: 2px dashed #428bca; vertical-align: middle;}
+        .hint{border: 1px dashed rgb(174,174,174);width: 60%;margin: 10px auto;}
+        .hint p{color: rgb(174,174,174);font-size: 15px;}
     </style>
 </head>
 <body>
@@ -155,6 +157,15 @@
         </span>
         {/if}
         <!-- <span style="margin-left:52px;font-size: 12px;">未提交 <span class="check_publish" style="color: blue">查看发布详情</span> </span> -->
+    </div>
+    <div class="hint">
+        <p>操作指引：</p>
+        <p>1、在您一键上传店铺代码之前，请先在“小程序设置”板块里配置好各项参数；配置好参数后，您还需要在“小程序装修“板块将您的店铺装修完成。</p>
+        <p>2、店铺装修完成后，就可点击”一键上传店铺代码“，最迟等待2*24小时后，就可点击”获取体验二维码“ 查看小程序的各项详情；因为没有在成为正式版之前，除管理员微信号外，
+            其他人都没有权利查阅小程序，此时您还可以在”添加体验号“中填写其他人的微信号，设为体验者，方便其他人查阅您的小程序。</p>
+        <p>3、查阅小程序满意之后，就可以点击“提交审核”，只有腾讯审核通过的代码才能视为合规，此过程需要耐心等待不超过2*24小时。</p>
+        <p>4、提交审核后的腾讯审核期间，您可以多次“查看提交详情”，一旦查阅到腾讯小程序审核通过，您就可以最后点击“发布正式版小程序”，千万不要忘记这个步骤哟，因为只有管理员准许发布的小程序，
+            才能发布到应用市场中，大功告成，此时其他任何人都可查阅到您的店铺小程序了！</p>
     </div>
     <input type="hidden"  name="url" value="{$pp}" >
     <input type="hidden"  name="is_chuan" value="{$is_chuan}" >
