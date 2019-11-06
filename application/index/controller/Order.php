@@ -628,6 +628,7 @@ class  Order extends  Controller
                         $datas["user_account_name"] = $user_information["member_name"];//用户名
                         $datas["user_phone_number"] = $user_information["member_phone_num"];//用户名手机号
                         $datas["harvester"] = $harvester;
+                        $datas["shop_satatus"] = 2;
                         $datas["harvest_phone_num"] = $harvester_phone_num;
                         $datas["harvester_address"] = $harvest_address;
                         $datas["order_create_time"] = $create_time;
@@ -652,6 +653,7 @@ class  Order extends  Controller
                         $datas["freight"] = $freight ;                                        
                         $datas["storage"] = $storage ; 
                         $datas["is_limit"] = $limit;
+                        $datas["shop_status"] = 2;
 
                         $res = Db::name('order')->insertGetId($datas);
                         if($res){
@@ -720,6 +722,7 @@ class  Order extends  Controller
 
                         $rest_id = db('order')->insertGetId($datase);
                         unset($datase['is_limit']);
+                        unset($datase['shop_status']);
                         $datas = $datase;
                         $datas["store_house_id"] = $store_house_id;
                         $datas["store_name"] = $store_name;
@@ -759,15 +762,15 @@ class  Order extends  Controller
                 //判断是否生成分销订单
                 $goods_bool = Goods::getDistributionStatus($commodity_id);
                 if($goods_bool){
-                    $count_money = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_moneyes);
+                    $count_moneys = Goods::getDistributionPrice($commodity_id,$goods_bool,$all_moneyes);
                     $count_datas = [
                         'member_id'=>$user_id,
                         'id'=>$res,
                         'parts_order_number'=>$order_datas['parts_order_number'],
                         'goods_id'=>$goods_bool,
                         'store_id'=>$store_id,
-                        'order_amount'=>$count_money,
-                        'goods_money'=>array_sum($count_money),//总金额
+                        'order_amount'=>$count_moneys,
+                        'goods_money'=>array_sum((array)$count_moneys),//总金额
                         'status'=>0,                      
                     ];                                               
                     OrderModel::createOrder($count_datas);
@@ -804,7 +807,7 @@ class  Order extends  Controller
                         'goods_id'=>$goods_bool,
                         'store_id'=>$store_id,
                         'order_amount'=>$count_money,
-                        'goods_money'=>array_sum($count_money),//总金额
+                        'goods_money'=> array_sum((array)$count_money),//总金额
                         'status'=>0,
                         
                     ];                                               
