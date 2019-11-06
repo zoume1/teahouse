@@ -192,7 +192,7 @@ class Bill extends Controller{
      **************李火生*******************
      * @param Request $request
      * Notes:我的消费搜索
-     **************************************
+     *param       member_id     title
      */
     public function consume_search(Request $request){
         if($request->isPost()){
@@ -213,21 +213,18 @@ class Bill extends Controller{
                 return ajax_error("暂无消费记录",["status"=>0]);
             }
         }
-        return view("my_consume");
     }
+    
+
     public function get_ACCESS_TOKEN() //获取token
-    {
+        {
+        $appid  = 'wx7a8782e472a6c34a';
+        $secret = 'ae3dce2528dc43edd49e571cb95b9c25';
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appid.'&secret='.$secret;
+        $res = $this->curl_post($url);
+        return  $res["access_token"];
+        }
 
-    $appid  = 'wx7a8782e472a6c34a';
-    $secret = 'ae3dce2528dc43edd49e571cb95b9c25';
-    $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.$appid.'&secret='.$secret;
-   
-    $res = $this->curl_post($url);
-   
-    return  $res["access_token"];
-
-
-    }
 public function buildQrcode()    //生成带参数二维码
 {  
 	// $str = $_POST['str'];
@@ -241,6 +238,7 @@ public function buildQrcode()    //生成带参数二维码
     $ticket= $obj->ticket;
     return json_encode(['src'=>"?ticket=$ticket",'scene_str'=>$str]);
 }
+
 public function kf_login()    //扫码客服
 {
 	//$GLOBALS["HTTP_RAW_POST_DATA"];  //这个用不了了；换成下面那个
