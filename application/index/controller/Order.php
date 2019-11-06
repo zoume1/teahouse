@@ -218,7 +218,7 @@ class  Order extends  Controller
                     $datas["goods_money"]=$goods_data['goods_new_money']* $member_consumption_discount["member_consumption_discount"];//商品价钱
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
-                    $datas['account_cost'] = $goods_data['goods_cost']; //成本价 
+                    $account_cost = $goods_data['goods_cost']; //成本价 
 
                     //判断商品的库存的是否够用
                     if($goods_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
@@ -233,7 +233,7 @@ class  Order extends  Controller
                     $datas['goods_image'] = $special_data['images'];   //图片
                     $datas["goods_money"]= $special_data['price'] * $member_consumption_discount["member_consumption_discount"];//商品价钱
                     $datas['goods_standard'] = $special_data["name"]; //商品规格  
-                    $datas['account_cost'] = $special_data["cost"]; //成本价 
+                    $account_cost = $special_data["cost"]; //成本价 
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
                     //判断商品的库存的是否够用
@@ -291,7 +291,7 @@ class  Order extends  Controller
                         $datas["harvester_address"] = $harvest_address;
                         $datas["order_create_time"] = $create_time;
                         $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $datas["accounting"] = $datas['account_cost']*$numbers[$keys];//成本
+                        $datas["accounting"] = $account_cost*$numbers[$keys];//成本
                         $all_moneys[] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         // $datas["order_real_pay"] = 0.01;//订单实际支付的金额(即优惠券抵扣之后的价钱）
@@ -385,7 +385,7 @@ class  Order extends  Controller
                         $datase["harvester_address"] = $store_name;    //暂时先这样  
                         $datase["order_create_time"] = $create_time;
                         $datase["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $datase["accounting"] = $datas['account_cost']*$numbers[$keys];//成本价
+                        $datase["accounting"] = $account_cost*$numbers[$keys];//成本价
                         $all_moneys[] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datase["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datase["status"] = 1;
@@ -560,7 +560,7 @@ class  Order extends  Controller
                     $datas['goods_standard'] = 0; //商品规格
                     $data['unit'] = explode(",",$goods_data['unit']);
                     $data['num'] = explode(",",$goods_data['num']);
-                    $datas['account_cost'] = $goods_data['goods_cost']; //成本价 
+                    $account_cost = $goods_data['goods_cost']; //成本价 
 
                     //判断商品的库存的是否够用
                     if($goods_data['goods_repertory']< $numbers[$keys]){     //购买数量大于库存
@@ -576,7 +576,7 @@ class  Order extends  Controller
                     $datas['goods_standard'] = $special_data["name"]; //商品规格
                     $data['unit'] = explode(",",$special_data['unit']);
                     $data['num'] = explode(",",$special_data['num']);
-                    $datas['account_cost'] = $special_data["cost"]; //成本价 
+                    $account_cost = $special_data["cost"]; //成本价 
 
                      //判断商品的库存的是否够用
                      if($special_data['stock']< $numbers[$keys]){     //购买数量大于库存
@@ -632,7 +632,7 @@ class  Order extends  Controller
                         $datas["harvester_address"] = $harvest_address;
                         $datas["order_create_time"] = $create_time;
                         $datas["order_amount"] = $datas["goods_money"]*$numbers[$keys];//订单金额
-                        $datas["accounting"] = $datas['account_cost']*$numbers[$keys];//成本
+                        $datas["accounting"] = $account_cost*$numbers[$keys];//成本
                         $all_moneyes[] = $datas["goods_money"]*$numbers[$keys];//订单金额
                         $datas["order_real_pay"] = $all_money;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                         $datas["status"] = 1;
