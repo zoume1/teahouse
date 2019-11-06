@@ -11,10 +11,10 @@
     <style>
         body{position: relative;background: #fff;}
         .partner-info-container{width: 1350px; margin: 0 auto;}
-        .city-title{display: flex;justify-content: space-between;padding: 10px 0;}
+        .city-title{display: flex;justify-content: space-between;padding: 10px 0;line-height: 40px;}
         .title-l{font-weight: 700;font-size: 16px;}
         .city-apply{line-height: 23px;margin-right: 15px;}
-        .city-login{color: #fff;background-color:rgb(152,145,52);padding:0 10px;line-height: 23px;border-radius: 3px;}
+        .city-logout{color: #fff;background-color:rgb(152,145,52);padding:0 10px;line-height: 23px;border-radius: 3px;}
         .parta ul {display: flex;}
 	    .parta ul li {padding: 30px;position: relative;margin: 11px;text-align: center;flex: 1;border: solid 1px #E4E4E4;}
         /* img {width: 100%;} */
@@ -59,14 +59,14 @@
                     <img src="__STATIC__/index/img/logo1.png" height="70">
                     <!--<p style="font-size:35px;font-weight:bolder;margin-left:7px;">智慧茶仓</p>-->
                 </div>
-                <div class="header-section nav">
+                <!-- <div class="header-section nav">
                     <ul class="nav-ul clearfix">
                         <li class="nav-li"><a href="javascript:;" class="nav-a">首页</a></li>
                         <li class="nav-li"><a href="javascript:;" class="nav-a">智慧茶仓</a></li>
                         <li class="nav-li"><a href="javascript:;" class="nav-a nav-on">城市合伙人</a></li>
                         <li class="nav-li"><a href="javascript:;" class="nav-a">关于我们</a></li>
                     </ul>
-                </div>
+                </div> -->
                 {if !empty($phone_num)}
                 <div class="header-section loaded-common">
                     <div class="loaded-inner">
@@ -82,10 +82,10 @@
                     </div>
                 </div>
                 {else}
-                <div class="header-section login">
+                <!-- <div class="header-section login">
                     <a href="javascript:;" class="sign-in">登录</a>
                     <a href="javascript:;" class="register">注册</a>
-                </div>
+                </div> -->
                 {/if}
             </div>
         </div>
@@ -97,7 +97,7 @@
                     <div style="flex:1;"></div>
                     <!-- <div class="city-apply">申请城市合伙人</div>
                     <div class="city-login">合伙人后台登录</div> -->
-                    <div class="city-login"><a href="city_out_log" style="color: red;">合伙人退出登录</a></div>
+                    <div class="city-logout "><a href="city_out_log" style="color: #fff;line-height: 40px;font-size: 18px;">退出登录</a></div>
 
                 </div>
                 <!-- <div class="partner-info-banner">
