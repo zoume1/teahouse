@@ -20,6 +20,7 @@ class Bankroll extends Controller
      * 郭杨
      */    
     public function adminBankRollIndex(){
+        $seach = input();
         return view("bankroll_index");
     }
 

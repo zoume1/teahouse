@@ -9,7 +9,7 @@ namespace app\rec\controller;
 use think\Request;
 use think\Validate;
 use think\Controller;
-
+use app\city\model\CityCopartner;
 Class With extends Controller{
     /**
      * 微信公众号提现申请
@@ -19,7 +19,7 @@ Class With extends Controller{
     {
         $request = Request::instance();
         $param = $request->param();
-
+            // print_r($param);die;
         $rules = [
             'type' => 'require',
             'invoice_type' => 'require',
@@ -41,25 +41,56 @@ Class With extends Controller{
         if(!$validate->check($param)){
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
-        //用户信息
-        $user = new \app\rec\model\User();
-        $user_all = $user->user_index($param['user_id']);
-        $phone = $user_all['phone_number'];
-        //返佣金额
-        $city = new \app\rec\model\CityDetail();
-        $city_all = $city->dist_commission($phone);
-        //判断
-        if($param['money']  > $city_all){
-             returnJson(0,'提现金额不能大于佣金余额');
-        }
-        $param['balance'] = $city_all - $param['money'];
-        $with = new \app\rec\model\With();
+        $type = $param['type'];
 
-        $data = $with->add($param);
-        if($data){
-             //减去 返佣余额
-             $data ? returnJson(1,'申请成功') : returnJson(0,'申请失败');
-        }
+        switch ($type) {
+            case 1:
+                //用户信息
+                $user = new \app\rec\model\User();
+                $user_all = $user->user_index($param['user_id']);
+                $phone = $user_all['phone_number'];
+                //返佣金额
+                $city = new \app\rec\model\CityDetail();
+                $city_all = $city->dist_commission($phone);
+                //判断
+                if($param['money']  > $city_all){
+                     returnJson(0,'提现金额不能大于佣金余额');
+                }
+                $param['balance'] = $city_all - $param['money'];
+                $param['phone_number'] = $phone; //添加手机账号信息
+                $with = new \app\rec\model\With();
+
+                $data = $with->add($param);
+                if($data){
+                     //减去 返佣余额
+                    
+                     $data ? returnJson(1,'申请成功') : returnJson(0,'申请失败');
+                }
+                break;
+            
+            default:
+
+                //返佣金额
+                $city = CityCopartner::where('user_id',$param['user_id'])->field('user_id,member_wallet')->find()->toArray();
+            
+                //判断
+                if($param['money']  > $city['member_wallet']){
+                     returnJson(0,'提现金额不能大于佣金余额');
+                }
+                $param['balance'] = $city['member_wallet'] - $param['money'];
+                $param['phone_number'] = $city['phone_number'];//添加手机账号信息
+                $with = new \app\rec\model\With();
+
+                $data = $with->add($param);
+                if($data){
+                     //减去 返佣余额
+                     CityCopartner::where('user_id',$param['user_id'])->where('user_id',$param['user_id'])
+                     ->update(['member_wallet'=> $param['balance']]);
+
+                     $data ? returnJson(1,'申请成功') : returnJson(0,'申请失败');
+                }
+                break;
+        }       
        
     }
 
