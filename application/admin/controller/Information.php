@@ -129,7 +129,11 @@ class Information extends Controller{
         $where2['status']=array('between',array(2,8));
         $where2['store_id']=$store_id;
         $order_num2=db('order')->where($where2)->order('order_create_time asc')->group('order_create_time')->count();
-        $pre=round($order_num/$order_num2*100,2);
+        if($order_num2==0){
+            $pre=0;
+        }else{
+            $pre=round($order_num/$order_num2*100,2);
+        }
         if($order_list)
         {
             $arr=[];
@@ -183,7 +187,11 @@ class Information extends Controller{
         $where2['order_create_time']=array('between',array($last['first'],$last['end']));
         $where2['status']=array('between',array(2,8));
         $order_num2=db('order')->where($where2)->sum('order_real_pay');    //上月的订单总金额
-        $pre=round($order_num/$order_num2*100,2);
+        if($order_num2==0){
+            $pre=0;
+        }else{
+            $pre=round($order_num/$order_num2*100,2);
+        }
         if($order_list)
         {
             $arr=[];
