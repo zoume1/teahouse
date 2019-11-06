@@ -688,6 +688,7 @@ class  Control extends  Controller{
         //近七天增值消费销售总额
         $start_time3=strtotime(date("Y-m-d"))-24*3600*6;
         $end_time3=strtotime(date("Y-m-d H:i:s"));
+        $where_status['create_time']=array('between',array($start_time3,$end_time3));
         $where3['order_create_time']=array('between',array($start_time3,$end_time3));
         $where3['status']=array('between',array(2,8));
         $data['order_money3']=db('adder_order')->where($where3)->sum('order_amount');   //七日总销售额     2-8
@@ -727,6 +728,9 @@ class  Control extends  Controller{
         $where2['status']=1;
         $data['shou_order_number']=db('adder_after_sale')->where($where2)->count();
         $data['city_store_count'] = db('city_copartner')->where($times)->where('status','=',1)->count();
+        $data['city_store_number'] = db('city_copartner')->where('status','=',1)->where('judge_status','=',1)->count();
+        $data['city_order_price'] = db('city_order')->where('judge_status','=',1)->where($where_status)->sum('order_price');
+        $data['city_order_prices'] = db('city_order')->where('judge_status','=',1)->sum('order_price');
         
         return view("control_store_index",['data'=>$data]);
     }

@@ -734,6 +734,8 @@ Route::group("admin",[
     "distribution_member_update"=>"admin/Member/member_update",        //分销成员页面更新
     "distribution_member_save"=>"admin/Member/member_save",            //分销成员保存入库
     "distribution_member_status"=>"admin/Member/member_status",        //分销成员状态更改
+    "distribution_member_index_search"=>"admin/Member/member_index_search",          //分销成员页面
+
     /*TODO：分销结束*/
 
 
