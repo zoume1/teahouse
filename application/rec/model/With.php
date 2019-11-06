@@ -58,4 +58,55 @@ class With extends Model
         return self::where(['user_id'=>$uid,'status'=>2])-> sum ('money')  ? self::where(['user_id'=>$uid,'status'=>2])-> sum ('money') : 0;
     }
 
+    /**gy
+     *  admin后台显示资金提现
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function management_index($search)
+    {
+        $model = new static;
+        !empty($search) && $model->setWhere($search);
+        $rest = $model->order(['create_time' => 'desc'])
+        ->paginate(20, false, [
+            'query' => \request()->request()
+        ]);
+        return $rest;
+        
+    }
+
+    
+    /**
+     * 设置检索查询条件
+     * @param $query
+     */
+    private function setWhere($query)
+    {
+        if (isset($query['name']) && !empty($query['name'])) {
+            $this->where('phone_number', 'like', '%' . trim($query['name']) . '%');
+        }
+        if (isset($query['status']) && !empty($query['status'])) {
+            $this->where('status', '=', $query['status']);
+        }
+        if (isset($query['start_time']) && !empty($query['start_time'])) {
+            $start_time = strtotime($query['start_time']);
+            $time_condition  = "create_time > {$start_time} ";
+            $this->where($time_condition);
+        }
+        if (isset($query['end_time']) && !empty($query['end_time'])) {
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time < {$end_time} ";
+            $this->where($time_condition);
+        }
+        if(isset($query['end_time']) && !empty($query['end_time']) && isset($query['start_time']) && !empty($query['start_time'])){
+            $start_time = strtotime($query['start_time']);
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time > {$start_time} and create_time< {$end_time} ";
+            $this->where($time_condition);
+        }
+    }
+
 }

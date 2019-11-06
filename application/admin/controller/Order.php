@@ -70,6 +70,7 @@ class  Order extends  Controller{
                 $data2[$k]['detail']=$order;
                 $data2[$k]['num']=$num;
             }
+            halt($data);
             $all_idents = $data2;//这里是需要分页的数据
             $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
             $listRow = 15;//每页20行记录
