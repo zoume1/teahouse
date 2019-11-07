@@ -108,7 +108,6 @@ Route::group("",[
      "analyse_meal_notify_alipay"=>"index/AdminWx/analyse_meal_notify_alipay",//增值服务订单支付宝扫码支付回调
      "city_meal_notify"=>"index/AdminWx/city_meal_notify",//城市合伙人订单微信支付回调
      "city_meal_notify_alipay"=>"index/AdminWx/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
-     "make_user_code"=>"index/AdminWx/make_user_code",//生成店铺分享二维码
 
 
     /*TODO:end*/
@@ -515,6 +514,7 @@ Route::group("admin",[
      "user_grade_start_image_del"=>"admin/User/grade_start_image_del",  //会员等级图片删除
     "user_grade_status"=>"admin/User/grade_status",  //会员等级状态修改
     "piv_handle"=>"admin/User/piv_handle",  //会员等级--图片预处理
+    "make_user_code"=>"admin/User/make_user_code",  //二维码
     /*TODO:会员管理结束*/
 
     /*TODO：会员储值开始*/
