@@ -60,7 +60,7 @@ class Bankroll extends Controller
         if($request->isPost()){
             $data =  Request::instance()->param();
             $restul = With::management_update($data);
-            if($request){
+            if($restul){
                 return jsonSuccess('操作成功');
             } else {
                 return jsonError('操作重复，该笔订单已支付');
