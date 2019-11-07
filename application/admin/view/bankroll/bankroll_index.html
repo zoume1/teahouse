@@ -130,7 +130,8 @@
                 <tbody class="news_content">
                     {if !empty($data)}{volist name="data" id="value"}
                     <tr>
-                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose"
+                                data-id="{$value.id}"></td>
                         <td>{$value.phone_number}</td>
                         <td>{if $value.type == 1}商户{else} 城市合伙人{/if}</td>
                         <td>{$value.money}</td>
@@ -139,7 +140,7 @@
                         <td>{$value.express_name}</td>
                         <td>
                             {if $value.status == 1}
-                            <div class=" layui-btn static_btus color-1">待付款</div>
+                            <div class=" layui-btn static_btus color-1" data-id="{$value.id}">待付款</div>
                             {else}
                             <div class=" layui-btn static_btus color-2">已付款</div>
                             {/if}
@@ -262,7 +263,8 @@
                 form.render('checkbox');
             })
 
-            $('.static_btus').click(function () {
+            $('.color-1').click(function () {
+                let id = $(this).data("id");
                 layer.open({
                     type: 1,
                     title: false, //不显示标题栏
@@ -273,9 +275,30 @@
                     btn: ['确定', '返回'],
                     btnAlign: 'c',
                     moveType: 1, //拖拽模式，0或者1
-                    content: '<div style="text-align:center;font-size:24px;margin:10px;">代付款</div><div style="text-align:center;margin-10px;font-size:18px">确定该笔款项已支付了吗？</div>',
-                    success: function (layero) {
-                        
+                    content: '<div style="text-align:center;font-size:24px;margin:10px;">待付款</div><div style="text-align:center;margin-10px;font-size:18px">确定该笔款项已支付了吗？</div>',
+                    yes: function (layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: "adminBankRollExamine",
+                            data: {
+                                "id": id,
+                                "status": 2
+                            },
+                            success: function (res) {
+                                layer.closeAll();
+                                layer.msg(res.msg, {
+                                    time: 1000, //20s后自动关闭
+                                });
+                                if(res.code == 1) {
+                                    setTimeout(function() {
+                                        window.location.reload();
+                                    },1000)
+                                }
+                            },
+                            error: function (e) {
+                                console.log(e)
+                            }
+                        });
                     }
                 });
             })
