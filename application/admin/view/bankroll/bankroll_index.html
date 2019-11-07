@@ -130,7 +130,7 @@
                 <tbody class="news_content">
                     {if !empty($data)}{volist name="data" id="value"}
                     <tr>
-                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id=""></td>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td>{$value.phone_number}</td>
                         <td>{if $value.type == 1}商户{else} 城市合伙人{/if}</td>
                         <td>{$value.money}</td>
@@ -138,8 +138,11 @@
                         <td>{if $value.invoice_type == 1}纸质{else}电子{/if}</td>
                         <td>{$value.express_name}</td>
                         <td>
-                            <div class=" layui-btn static_btus color-1">代付款</div>
+                            {if $value.status == 1}
+                            <div class=" layui-btn static_btus color-1">待付款</div>
+                            {else}
                             <div class=" layui-btn static_btus color-2">已付款</div>
+                            {/if}
                         </td>
                     </tr>
                     {/volist}{/if}
