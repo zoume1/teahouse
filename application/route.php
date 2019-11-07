@@ -108,6 +108,7 @@ Route::group("",[
      "analyse_meal_notify_alipay"=>"index/AdminWx/analyse_meal_notify_alipay",//增值服务订单支付宝扫码支付回调
      "city_meal_notify"=>"index/AdminWx/city_meal_notify",//城市合伙人订单微信支付回调
      "city_meal_notify_alipay"=>"index/AdminWx/city_meal_notify_alipay",//城市合伙人订单支付宝支付回调
+     "make_user_code"=>"index/AdminWx/make_user_code",//生成店铺分享二维码
 
 
     /*TODO:end*/

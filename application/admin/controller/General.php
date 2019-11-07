@@ -20,6 +20,7 @@ use app\admin\model\Store as Store;
 use app\admin\controller\Qiniu;
 use app\city\model\StoreCommission;
 use app\index\model\Serial;
+use app\index\controller\AdminWx;
 
 class  General extends  Base {
    
