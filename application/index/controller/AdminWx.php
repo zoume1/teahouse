@@ -14,7 +14,6 @@ use think\Db;
 use app\city\model\CityOrder as Order;
 use app\city\model\CityCopartner as User;
 use app\city\model\CityDetail;
-use app\admin\model\Store;
 
 
 
@@ -715,18 +714,15 @@ class  AdminWx extends Controller{
     }
 
     /**
-     * 城市合伙人订单支付宝支付回调
+     * 二维码
      * @return array|mixed
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public function make_user_code($url = 'http://www.baidu.com', $size = '6', $errorlevel = '3')
+    public function make_user_code($url = 'http://www.baidu.com', $size = '6', $errorlevel = '3',$shore_code='')
     {
         include('../extend/WxpayAll/example/phpqrcode/phpqrcode.php');
-        $store_id = Session::get('store_id');
-        // $store = Store::detail(['id'=>$store_id]);
-        // $share_code = $store['share_code'];
         $shore_code = 'RTYUIO';
         $url = 'https://www.zhihuichacang.com/app/wechat/user/register.html?yqm='.$shore_code;
         $qrcode = new \QRcode();
