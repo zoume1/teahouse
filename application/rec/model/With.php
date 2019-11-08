@@ -109,4 +109,21 @@ class With extends Model
         }
     }
 
+    /**gy
+     *  提现审核编辑
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function management_update($data)
+    {
+
+        $model = new static;
+        $rest = $model -> allowField(true)->save($data,['id'=>$data['id']]);
+        return $rest ? $rest : false;
+        
+    }
+
 }

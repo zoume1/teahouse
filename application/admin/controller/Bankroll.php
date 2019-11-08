@@ -52,5 +52,22 @@ class Bankroll extends Controller
         return view("rewards_index_edit");
     }
         
+    /**
+     * [总控资金管理-审核操作]
+     * 郭杨
+     */    
+    public function adminBankRollExamine(Request $request){
+        if($request->isPost()){
+            $data =  Request::instance()->param();
+            $restul = With::management_update($data);
+            if($restul){
+                return jsonSuccess('操作成功');
+            } else {
+                return jsonError('操作重复，该笔订单已支付');
+            }
+        
+        }
+
+    }
 
 }

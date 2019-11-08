@@ -9,6 +9,7 @@ namespace app\index\controller;
 use app\rec\controller\Invoice;
 use think\Controller;
 use think\Request;
+use think\Session;
 use think\Db;
 use app\city\model\CityOrder as Order;
 use app\city\model\CityCopartner as User;
@@ -711,6 +712,7 @@ class  AdminWx extends Controller{
             }
         }
     }
+
 
 
 
