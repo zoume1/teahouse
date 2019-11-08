@@ -101,6 +101,17 @@
             code.select();
             document.execCommand('Copy');
             layer.msg('复制成功！');
+        });
+        $.ajax({
+            url: "make_user_code",
+            type: "POST",
+            data: '',
+            success: (res) => {
+                console.log(res);
+            },
+            error: (e) => {
+                console.error(e);
+            } 
         })
     })
     
