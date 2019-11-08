@@ -100,7 +100,13 @@ class Index extends Controller
     }
     // 注册
     public function sign_up(){
+        $shar_code = input('share_code');
+        if(!empty($shar_code))
+        {
+            return view("signup",['share_code'=>$shar_code]);
+        }
         return view("signup");
+
     }
     // 登录
     public function sign_in(){
