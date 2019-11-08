@@ -514,6 +514,7 @@ Route::group("admin",[
      "user_grade_start_image_del"=>"admin/User/grade_start_image_del",  //会员等级图片删除
     "user_grade_status"=>"admin/User/grade_status",  //会员等级状态修改
     "piv_handle"=>"admin/User/piv_handle",  //会员等级--图片预处理
+    "make_user_code"=>"admin/User/make_user_code",  //二维码
     /*TODO:会员管理结束*/
 
     /*TODO：会员储值开始*/
@@ -1180,10 +1181,11 @@ Route::group("admin",[
    "city_market_feedback_delete"=>"admin/City/city_market_feedback_delete",  //城市市场回复删除
 
    /*总控资金管理 */
-   "adminBankRollIndex" => "admin/Bankroll/adminBankRollIndex", //总控资金管理-提现审核
-   "rewardsIndex" => "admin/Bankroll/rewardsIndex" ,            //总控资金管理-资金奖惩
-   "rewards_index_add" => "admin/Bankroll/rewards_index_add" ,    //总控资金管理-资金奖惩添加
-   "rewards_index_edit" => "admin/Bankroll/rewards_index_edit" ,  //总控资金管理-资金奖惩编辑
+   "adminBankRollIndex" => "admin/Bankroll/adminBankRollIndex",         //总控资金管理-提现审核
+   "rewardsIndex" => "admin/Bankroll/rewardsIndex" ,                    //总控资金管理-资金奖惩
+   "rewards_index_add" => "admin/Bankroll/rewards_index_add" ,          //总控资金管理-资金奖惩添加
+   "rewards_index_edit" => "admin/Bankroll/rewards_index_edit" ,        //总控资金管理-资金奖惩编辑
+   "adminBankRollExamine" => "admin/Bankroll/adminBankRollExamine" ,    //总控资金管理-资金奖惩确认支付
 ]);
 
 /**

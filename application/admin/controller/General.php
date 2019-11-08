@@ -20,6 +20,8 @@ use app\admin\model\Store as Store;
 use app\admin\controller\Qiniu;
 use app\city\model\StoreCommission;
 use app\index\model\Serial;
+use app\index\controller\AdminWx;
+
 
 class  General extends  Base {
    
@@ -2490,6 +2492,11 @@ class  General extends  Base {
      **************************************
      */
     public function now_agency_invitation(){
+        $store_id = Session::get('store_id');
+        $store_id = Session::get('store_id');
+        $store = Store::detail(['id'=>$store_id]);
+        $share_code = $store['share_code'];
+        $share_url = 'https://www.zhihuichacang.com/sign_in?share='.$store_id;
         return view("now_agency_invitation");
     }
 

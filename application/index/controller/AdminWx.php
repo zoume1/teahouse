@@ -9,6 +9,7 @@ namespace app\index\controller;
 use app\rec\controller\Invoice;
 use think\Controller;
 use think\Request;
+use think\Session;
 use think\Db;
 use app\city\model\CityOrder as Order;
 use app\city\model\CityCopartner as User;
@@ -712,6 +713,25 @@ class  AdminWx extends Controller{
         }
     }
 
+    /**
+     * 二维码
+     * @return array|mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function make_user_code($url = 'http://www.baidu.com', $size = '6', $errorlevel = '3',$shore_code='')
+    {
+        include('../extend/WxpayAll/example/phpqrcode/phpqrcode.php');
+        $shore_code = 'RTYUIO';
+        $url = 'https://www.zhihuichacang.com/app/wechat/user/register.html?yqm='.$shore_code;
+        $qrcode = new \QRcode();
+        ob_end_clean();
+        $errorCorrectionLevel = intval($errorlevel);//容错级别
+        $matrixPointSize = intval($size);//生成图片大小
+        return $qrcode->png($url, false, $errorCorrectionLevel, $matrixPointSize, 2);
+        exit();
+    }
 
 
 }
