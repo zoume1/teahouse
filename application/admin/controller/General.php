@@ -20,7 +20,7 @@ use app\admin\model\Store as Store;
 use app\admin\controller\Qiniu;
 use app\city\model\StoreCommission;
 use app\index\model\Serial;
-use app\index\controller\AdminWx;
+use app\rec\controller\Share;
 
 
 class  General extends  Base {
@@ -2493,11 +2493,18 @@ class  General extends  Base {
      */
     public function now_agency_invitation(){
         $store_id = Session::get('store_id');
-        $store_id = Session::get('store_id');
         $store = Store::detail(['id'=>$store_id]);
         $share_code = $store['share_code'];
-        $share_url = 'https://www.zhihuichacang.com/sign_in?share='.$store_id;
-        return view("now_agency_invitation");
+        $share_url = 'https://www.zhihuichacang.com/app/wechat/user/register.html';
+        $pc_url = 'https://www.zhihuichacang.com/sign_up?share_code='.$share_code;
+        $code = (new Share)->code($share_url,$share_code);
+
+        $data = array(
+            'code' => $code,
+            'pc_url'=> $pc_url,
+            'share_code' => $share_code
+        );
+        return view("now_agency_invitation",['data'=>$data]);
     }
 
     /**

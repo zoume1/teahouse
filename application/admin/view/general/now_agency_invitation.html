@@ -54,7 +54,7 @@
             </p>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <input type="text" id="url-input" readonly class="layui-input" value="111">
+                    <input type="text" id="url-input" readonly class="layui-input" value="{$data.pc_url}">
                     <button class="layui-btn layui-btn-danger copy">复制</button>
                 </div>
             </div>
@@ -63,7 +63,7 @@
                 <span>或者分享链接二维码</span>
             </p>
             <div>
-                <img src="https://qr.api.cli.im/qr?data=%25E8%25BF%2599%25E6%2598%25AF%25E4%25B8%2580%25E4%25B8%25AA%25E4%25BA%258C%25E7%25BB%25B4%25E7%25A0%2581&level=H&transparent=false&bgcolor=%23FFFFFF&forecolor=&blockpixel=12&marginblock=2&logourl=%2F%2Fstatic.clewm.net%2Fcli%2Fimages%2Fbeautify%2Flogo%2Ficon12.png%3Fv%3D20170417&size=400&text=&logoshape=no&fontsize=30&fontfamily=msyh.ttf&fontcolor=%23000000&incolor=&outcolor=&qrcode_eyes=&background=&wper=0&hper=0&tper=0&lper=0&eye_use_fore=1&qrpad=10&kid=bizcliim&time=1555137185&key=9b1823eeaa643c712e823262ff74fdda" width="200" height="200">
+                <img src="{$data.code}" width="200" height="200">
             </div>
         </div>
         <div class="way2">
@@ -73,7 +73,7 @@
             </p>
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <input type="text" id="yqm-input" readonly class="layui-input" value="222">
+                    <input type="text" id="yqm-input" readonly class="layui-input" value="{$data.share_code}">
                     <button class="layui-btn layui-btn-danger copy">复制</button>
                 </div>
             </div>
