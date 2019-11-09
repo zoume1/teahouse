@@ -14,6 +14,7 @@ use think\Db;
 use app\city\model\CityOrder as Order;
 use app\city\model\CityCopartner as User;
 use app\city\model\CityDetail;
+use app\index\model\Serial;
 
 
 
@@ -58,6 +59,16 @@ class  AdminWx extends Controller{
 
                 //生成分销代理订单
                 CityDetail::store_order_commission($enter_all_data,$store_data_rest);
+
+                $serial_data = array(
+                    'serial_number' => $val["out_trade_no"],
+                    'money' => $enter_all_data['amount_money'],
+                    'create_time' => time(),
+                    'type' => 2,
+                    'status' => '增值订单',
+
+                    );
+                Serial::serial_add($serial_data);
 
                 db('store')->where('id',$enter_all_data['store_id'])->update(['store_use'=>1]);                   
                 if($is_set_order){
@@ -298,7 +309,14 @@ class  AdminWx extends Controller{
 
                 //生成分销代理订单
                 CityDetail::store_order_commission($enter_all_data,$store_data_rest);
-
+                $serial_data = array(
+                    'serial_number' => $out_trade_no,
+                    'money' => $enter_all_data['amount_money'],
+                    'create_time' => time(),
+                    'type' => 2,
+                    'status' => '增值订单',
+                    );
+                Serial::serial_add($serial_data);
 
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
@@ -547,6 +565,16 @@ class  AdminWx extends Controller{
                 $bool = Db::name("adder_order")->where("parts_order_number",$val['out_trade_no'])->update($rest);
 
                 if($bool){
+                    $serial_data = array(
+                        'serial_number' => '流水号',
+                        'money' => $data['order_real_pay'],
+                        'create_time' => time(),
+                        'type' => '1 => 收入 2=》 支出',
+                        'status' => '充值、提现、退款、普通订单、众筹订单、打赏订单、活动订单、增值订单、套餐订单',
+                        'prime' => '成本价'
+                        );
+                        Serial::serial_add($serial_data);
+
                     if($data['special_id'] > 0) {
                         $one = Db::name("analyse_goods")->where("id",$data['goods_id'])->setInc('goods_volume',$data['order_quantity']);
                         $two = Db::name("analyse_special")->where("id",$data['special_id'])->setInc('sales',$data['order_quantity']);
@@ -604,6 +632,15 @@ class  AdminWx extends Controller{
                 $bool = Db::name("adder_order")->where("parts_order_number",$out_trade_no)->update($rest);
                 
                 if($bool){
+
+                    $serial_data = array(
+                        'serial_number' => $out_trade_no,
+                        'money' => $data['order_real_pay'],
+                        'create_time' => time(),
+                        'type' => 1,
+                        'status' => '增值订单',
+                        );
+                        Serial::serial_add($serial_data);
                     if($data['special_id'] > 0) {
                         $one = Db::name("analyse_goods")->where("id",$data['goods_id'])->setInc('goods_volume',$data['order_quantity']);
                         $two = Db::name("analyse_special")->where("id",$data['special_id'])->setInc('sales',$data['order_quantity']);

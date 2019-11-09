@@ -12,6 +12,7 @@ use think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
 use think\View;
+use app\index\model\Serial;
 
 class  AddeOrder extends  Controller{
     
@@ -394,6 +395,14 @@ class  AddeOrder extends  Controller{
             ->setDec('store_wallet',$order_real_pay);
 
             if($rest && $store_rest){
+                $serial_data = array(
+                    'serial_number' => $order_number,
+                    'money' => $order_real_pay,
+                    'create_time' => time(),
+                    'type' => 1 ,
+                    'status' => '增值订单',
+                    );
+                    Serial::serial_add($serial_data);
                 return ajax_success("支付成功");
             } else {
                 return ajax_error("支付失败");

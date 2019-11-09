@@ -53,19 +53,19 @@
     <div class="childrenBody">
         {include file="template/_top" /}
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/GoodsType/search')}">
+            <form class="layui-form" action="{:url('admin/Bankroll/rewardsIndex')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">用户账号</div>
                         <div class="seach_input">
-                            <input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="请输入账号"
+                            <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入账号"
                                 class="layui-input">
                         </div>
                     </div>
                     <div class="seach_list">
                         <div class="seach_laber">开始时间</div>
                         <div class="seach_input">
-                            <span class="start_time"><input type="text" name="date_min"
+                            <span class="start_time"><input type="text" name="start_time"
                                     class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value="">
                             </span>
                         </div>
@@ -73,7 +73,7 @@
                     <div class="seach_list">
                         <div class="seach_laber">结束时间</div>
                         <div class="seach_input">
-                            <span class="end_time"><input type="text" name="date_max"
+                            <span class="end_time"><input type="text" name="end_time"
                                     class=" text datetimepicker layui-input" readonly="readonly" id="endTime"
                                     value=""></span>
 
@@ -102,24 +102,23 @@
                         <th>所在城市</th>
                         <th>奖惩金额</th>
                         <th>奖惩事由</th>
-                        <th>操作</th>
+                        
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                    {if !empty($data)}{volist name="data" id="value"}
                     <tr>
                         <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose"
                                 data-id=""></td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>
-                        <a class=" layui-btn layui-btn-mini static_btus" href="{:url('admin/Bankroll/rewards_index_edit')}" >编辑 </a>
-                        </td>
+                        <td>{$value.create_time}</td>
+                        <td>{if $value.id_status == 1}商户{else}城市合伙人{/if}</td>
+                        <td>{$value.phone_number}</td>
+                        <td>{$value.user_name}</td>
+                        <td>{$value.city_address}</td>
+                        <td>{$value.money}</td>
+                        <td>{$value.reason}</td>
                     </tr>
+                    {/volist}{/if}
                 </tbody>
             </table>
             <div id="page">
@@ -135,6 +134,7 @@
                     </button>
                 </div>
             </div>
+            {if !empty($data)}{$data->render()}{/if}
 
         </div>
 
