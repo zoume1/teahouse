@@ -306,4 +306,20 @@ class CityCopartner extends Model
 
     }
 
+
+    /**
+     * 城市合伙人资金奖惩
+     * @param User 
+     * @param $user_id
+     * @return false|int
+     * @throws BaseException
+     */
+    public static function city_sanction($data)
+    {
+        $add_money = Db::name('city_copartner')->where('phone_number',$data['phone_number'])->setInc('member_wallet',$data['money']);
+        return $add_money;
+
+    }
+    
+
 }

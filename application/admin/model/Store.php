@@ -2,6 +2,7 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\Db;
 use think\db\Query;
 use app\city\model\CityCopartner;
 const ADDRESS_ONE = 1;
@@ -62,5 +63,17 @@ class Store extends Model
         $user = CityCopartner::detail(['city_address'=>$address,'judge_status'=>ADDRESS_ONE,'is_delete'=>0]);
         return $user ? $user['user_id'] : 0;
         
+    }
+
+    /**gy
+     * 店铺奖罚
+     * @param $meal_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function store_sanction($data)
+    {
+        $add_money = Db::name('store')->where('phone_number',$data['phone_number'])->setInc('store_wallet',$data['money']);
+        return $add_money;
     }
 }

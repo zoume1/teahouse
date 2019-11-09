@@ -14,46 +14,39 @@
 
 <body>
     {block name="content"}
-    <form class="layui-form layui-form-lists" action="{:url('admin/GoodsType/save')}" method="post"
+    <form class="layui-form layui-form-lists" action="{:url('admin/Bankroll/rewards_index_add')}" method="post"
         enctype="multipart/form-data">
         
         <div class="form-item">
             <label class="form-label">角色身份</label>
             <div class="form-input" style="line-height:10px">
-                <!-- {if !empty($goods_liste)}
-                <select name="pid" id="admin_role" class="role_list">
-						<option value="0">顶级</option>
-						{volist name="goods_liste" id="value"}
-						<option value="{$value.id}">{$value.name}</option>
-						{/volist}
-					</select><br/> {else}
-                <select name="pid" class="role_list">
-						<option value="0">顶级</option>
-					</select><br/> {/if}
-                </select> -->
-
+                <select name="id_status">
+                    <option value="" selected="">请选择</option>
+                    <option value="1">商户</option>
+                    <option value="2">城市合伙人</option>
+                </select>
             </div>
 
         </div>
         <div class="form-item">
             <label class="form-label">账号</label>
             <div class="form-input">
-                <input type="text" name="meal_price" value="" required lay-verify="title" autocomplete="off"
-                    placeholder="  请输入账号" class="layui-input" value="">
+                <input type="text" name="phone_number" value="" required lay-verify="title" autocomplete="off"
+                    placeholder="  请输入账号" class="layui-input" >
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">奖惩金额</label>
             <div class="form-input">
-                <input type="text" name="meal_price" value="" required lay-verify="title" autocomplete="off"
-                    placeholder="              元" class="layui-input" value="">
+                <input type="text" name="money" value="" required lay-verify="title" autocomplete="off"
+                    placeholder="              元" class="layui-input">
             </div>
             <div class="tips" style="line-height: 1px"> *可输入负数</div>
         </div>
         <div class="form-item">
                 <label class="form-label">奖惩事由</label>
                 <div class="form-input">
-                   <textarea name="selling_point" placeholder="请输入内容" required lay-verify="required"
+                   <textarea name="reason" placeholder="请输入内容" required lay-verify="required"
                         class="layui-textarea"></textarea>
                 </div>
             </div>

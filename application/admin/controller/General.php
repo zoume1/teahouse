@@ -2166,6 +2166,16 @@ class  General extends  Base {
             ->where("store_id",$this->store_ids)
             ->where("audit_status",1)
             ->find();    
+
+            $serial_data = array(
+                'serial_number' => '流水号',
+                'money' => 'money',
+                'create_time' => time(),
+                'type' => 2,
+                'status' => '套餐订单',
+                );
+            Serial::serial_add($serial_data);
+
             if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] = time();//支付时间

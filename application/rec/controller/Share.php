@@ -44,12 +44,12 @@ class Share extends Controller
      * @param $a
      * @return string
      */
-    function code($url,$a){
+    public function code($url,$a){
 
         //生成二维码
         $list = 'http://qr.topscan.com/api.php?text=' .$url.'?yqm='. $a;
 
-        return $list;
+         echo "<img src='".$list."'>";
     }
 
 }

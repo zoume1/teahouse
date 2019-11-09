@@ -10,7 +10,7 @@ use app\common\exception\BaseException;
 
 
 /**
- * 分销明细模型
+ * 资金明细模型
  * Class StoreSetting
  * @package app\city\model
  */
@@ -24,7 +24,7 @@ class Serial extends Model
 
 
     /**gy
-     * 分销明细列表
+     * 资金明细列表
      * @param $meal_id
      * @return null|static
      * @throws \think\exception\DbException
@@ -43,7 +43,7 @@ class Serial extends Model
     }
 
     /**gy
-     *  分销明细添加
+     *  资金明细添加
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
@@ -72,7 +72,7 @@ class Serial extends Model
     }
 
     /**gy
-     *  分销明细列表更新
+     *  资金明细列表更新
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
