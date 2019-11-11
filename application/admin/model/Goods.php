@@ -118,7 +118,7 @@ class Goods extends Model
     {
         $ACCESS_TOKEN = $this->gettoken();
         $id =433;
-        $puthc = 'pages/logs/logs?goods=share&goods_id='.$id;//小程序的路径 可以带参数
+        $puthc = 'pages/logs/logs?goods=share&title='.$id;//小程序的路径 可以带参数
         $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
         $param = json_encode(array("path"=>$puthc,"width"=> 150));
         $result = $this->httpRequest( $qcode,$param,"POST");
