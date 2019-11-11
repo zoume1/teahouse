@@ -2,6 +2,8 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\Session;
+use think\Db;
 
 class Goods extends Model
 {
@@ -67,8 +69,13 @@ class Goods extends Model
 
     public function gettoken()
     {
-        $APPID = "wx301c1368929fdba8";
-        $APPSECRET =  "4bc1912eb2cbab3e7b0bb0990b60036e";
+        $store_id = Session::get("store_id");
+        $applet = Db::table('applet')
+                ->where('id','=',$store_id)
+                ->find();
+                
+        $APPID = $applet['appID'];
+        $APPSECRET =  $applet['appSecret'];
         $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
         $json = $this->httpRequest($access_token);
         return  json_decode($json,true);
@@ -100,31 +107,18 @@ class Goods extends Model
         return $result;
     }
 
-    // //生成二维码
-    // public function qrcode($shopid,$userid)
-    // {
-    //     $ACCESS_TOKEN = $this->gettoken();
-    //     $puthc = '/pages/product/detail?pro_id='.$shopid.'&userid='.$userid;//小程序的路径 可以带参数
-    //     $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
-    //     $param = json_encode(array("path"=>$puthc,"width"=> 150));
-    //     $result = $this->httpRequest( $qcode,$param,"POST");
-    //     $puth = "public/qrcode/".time().rand(100000,999999).'.png';
-    //     file_put_contents($puth,$result);
-    //     return $puth;
-    // }
 
         //生成二维码
-    public function qrcode()
+    public function qrcode($goods_id)
     {
         $ACCESS_TOKEN = $this->gettoken();
-        $id =433;
-        $puthc = 'pages/logs/logs?goods=share&title='.$id;//小程序的路径 可以带参数
+        $puthc = 'pages/logs/logs?goods=share&title='.$goods_id;//小程序的路径 可以带参数
         $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
         $param = json_encode(array("path"=>$puthc,"width"=> 150));
         $result = $this->httpRequest( $qcode,$param,"POST");
-        $puth = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.time().rand(100000,999999).'.png';
-        
+        $puth = ROOT_PATH . 'public' . DS . 'share'.DS.'D'.time().rand(100000,999999).'.png';
         file_put_contents($puth,$result);
+        db('goods')->where('id','=',$goods_id)->update(['share_code'=>$puth]);
         return $puth;
     }
  
