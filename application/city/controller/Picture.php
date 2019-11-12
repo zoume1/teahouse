@@ -70,6 +70,32 @@ class Picture extends Controller
     }
 
 
+    /**
+     * 上传单张图片
+     * Class Picture
+     * @package app\city\controller
+     */
+    public  function photo_pins($file){
+        $ext ='png';
+        $key =substr(md5($file) , 0, 5). date('YmdHis') . rand(0, 9999) . '.' . $ext;
+        // 需要填写你的 Access Key 和 Secret Key
+        // 构建鉴权对象
+        $auth = new Auth($this->accesskey,$this->secrectkey);
+        // 要上传的空间
+        $token = $auth->uploadToken($this->bucket);
+        // 初始化 UploadManager 对象并进行文件的上传
+        $uploadMgr = new UploadManager();
+        // 调用 UploadManager 的 putFile 方法进行文件的上传
+        list($ret, $err) = $uploadMgr->putFile($token, $key, $file);
+        if ($err !== null) {
+            return false;
+        } 
+        $domain = $this->domain;
+        $list = 'http://'.$domain.'/'.$ret['key'];
+        return $list;
+    }
+
+
 
 
 }

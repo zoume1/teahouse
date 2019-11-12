@@ -1,10 +1,13 @@
 <?php
 namespace app\admin\model;
-
+vendor('qiniu.autoload');
 use think\Model;
 use think\Session;
 use think\Db;
-vendor('qiniu.autoload');
+use Qiniu\Auth as Auth;
+use Qiniu\Storage\UploadManager;
+use think\Controller;
+use app\city\controller\Picture;
 class Goods extends Model
 {
     protected $table = "tb_goods";
@@ -120,21 +123,11 @@ class Goods extends Model
         $result = $this->httpRequest( $qcode,$param,"POST");
         $puth = ROOT_PATH . 'public' . DS . 'share'.DS.'D'.time().rand(100000,999999).'.png';
         file_put_contents($puth,$result);
-        $codeName = basename($puth);
-        $config = array(
-            'accessKey' => 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ',
-            'secretKey' => 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB',
-            'bucketName' => 'goods',
-            'baseUrl' => 'teahouse.siring.cn',
-            'separator' => '-',
-        );
-        $qiniu = new Qiniu($config);
-        $bool = $qiniu->put($codeName, file_get_contents($puth));
-        //小图url 规则: "m"
-        $codeUrl = $qiniu->url($codeName, 'm');
-        $resultes = db('goods')->where('id','=',$goods_id)->update(['share_code'=>$codeUrl]);
+
+        $image_url = (new Picture())->photo_pins($puth);
+        $resultes = db('goods')->where('id','=',$goods_id)->update(['share_code'=>$image_url]);
         unlink($puth);
-        return $codeUrl;
+        return ajax_success($image_url);
     }
  
 }
