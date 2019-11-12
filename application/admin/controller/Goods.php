@@ -14,7 +14,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
-use app\admin\model\Good;
+use app\admin\model\Goods as Goodsmodel;
 use app\admin\model\GoodsImages;
 use think\Session;
 use think\Loader;
@@ -37,31 +37,13 @@ class Goods extends Controller
      */
     public function index(Request $request)
     {
-        // $data = [
-        //     'member_id'=>1144,
-        //     'id'=>2133,
-        //     'parts_order_number'=>'ZY201907231129002145',
-        //     'goods_id'=>[243,265,295],
-        //     'store_id'=>6,
-        //     'order_amount'=>[200,100,100],
-        //     'goods_money'=>400,
-        //     'status'=>2,
-        // ];
-        // halt(Order::createOrder($data));
-        // $order_type = Db::name("order")->where("parts_order_number",$data["parts_order_number"])->find();
-        // $order = GoodsOrder::getOrderInforMation($order_type);
-        // $model = OrderModel::grantMoney($order);
-        // // halt(Order::grantMoney($data));
-        // $store_id = Session::get('store_id');
-        // $member_id = 1122;
-        // $member_data = Db::name("member")->where('member_id','=',$member_id)->find();
-        // $apply = new Apply;
-        // $rest = $apply->submit($member_data);
-        // $inviter_id = 0;
-        
-        // RefereeModel::createRelation($member_id, $inviter_id,$store_id);
         $store_id = Session::get('store_id');
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
+        $goodsmodel = new Goodsmodel();
+        $bool = [];
+        foreach($goods as $kk => $va){
+            $bool = $goodsmodel->qrcode($goods[$kk]['id']);
+        }
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
@@ -182,6 +164,8 @@ class Goods extends Controller
             $goods_data["server"] = json_encode($goods_data["server"]); 
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insertGetId($goods_data);
+                $share_code = Goodsmodel::qrcode($bool);
+                db('goods')->where('id','=',$bool)->update(['share_code'=>$share_code]);
                 $restl = new UpdateLine;
                 $update_data = [
                     'goods_line'=>$goods_data['goods_bottom_money'],
@@ -236,7 +220,8 @@ class Goods extends Controller
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
-
+                $share_code = Goodsmodel::qrcode($goods_id);
+                db('goods')->where('id','=',$goods_id)->update(['share_code'=>$share_code]);
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
                         if (substr($kn, 0, 3) == "sss") {
