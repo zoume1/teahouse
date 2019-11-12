@@ -4,7 +4,7 @@ namespace app\admin\model;
 use think\Model;
 use think\Session;
 use think\Db;
-
+vendor('qiniu.autoload');
 class Goods extends Model
 {
     protected $table = "tb_goods";
@@ -69,13 +69,15 @@ class Goods extends Model
 
     public function gettoken()
     {
-        $store_id = Session::get("store_id");
-        $applet = Db::table('applet')
-                ->where('id','=',$store_id)
-                ->find();
+        // $store_id = Session::get("store_id");
+        // $applet = Db::table('applet')
+        //         ->where('id','=',$store_id)
+        //         ->find();
                 
-        $APPID = $applet['appID'];
-        $APPSECRET =  $applet['appSecret'];
+        // $APPID = $applet['appID'];
+        // $APPSECRET =  $applet['appSecret'];
+        $APPID = 'wx301c1368929fdba8';
+        $APPSECRET =  '4bc1912eb2cbab3e7b0bb0990b60036e';
         $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
         $json = $this->httpRequest($access_token);
         return  json_decode($json,true);
@@ -118,8 +120,21 @@ class Goods extends Model
         $result = $this->httpRequest( $qcode,$param,"POST");
         $puth = ROOT_PATH . 'public' . DS . 'share'.DS.'D'.time().rand(100000,999999).'.png';
         file_put_contents($puth,$result);
-        db('goods')->where('id','=',$goods_id)->update(['share_code'=>$puth]);
-        return $puth;
+        $codeName = basename($puth);
+        $config = array(
+            'accessKey' => 'Rf_gkgGeg_lYnq30jPAa725UQax5JYYqt_D-BbMZ',
+            'secretKey' => 'P7MWrpaKYM65h1qCIM0GW-uFkkNgbhkGvM5oKqeB',
+            'bucketName' => 'goods',
+            'baseUrl' => 'teahouse.siring.cn',
+            'separator' => '-',
+        );
+        $qiniu = new Qiniu($config);
+        $bool = $qiniu->put($codeName, file_get_contents($puth));
+        //小图url 规则: "m"
+        $codeUrl = $qiniu->url($codeName, 'm');
+        $resultes = db('goods')->where('id','=',$goods_id)->update(['share_code'=>$codeUrl]);
+        unlink($puth);
+        return $codeUrl;
     }
  
 }

@@ -37,7 +37,7 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            $bool = (new Goods)->qrcode(443);
+            $bool = (new Goods)->qrcode(433);
              
         }
     }
