@@ -12,16 +12,21 @@
 <body>
     {block name="content"}
         <div class="wrapper">
-            <form class="layui-form" action="{:url('admin/Material/interaction_add_do')}" method="post" enctype="multipart/form-data">
+            <form class="layui-form" action="{:url('admin/Material/interaction_add')}" method="post" enctype="multipart/form-data">
                 <div class="layui-form-item">
                     <label class="layui-form-label">选择仓库</label>
                     <div class="layui-input-block my-input-block">
-                        <select name="city_name">
-                            <option value="all">全部</option>
-                            <option value="0">茶仓</option>
-                            <option value="1">茶山</option>
-                            <option value="2">茶厂</option>
+                        {if !empty($store_name)}
+                        <select name="store_name" id="admin_role" class="role_list">
+                            <option value="">请选择</option>
+                            {volist name="store_name" id="value"}
+                            <option value="{$value.name}">{$value.name}</option>
+                            {/volist}
                         </select>
+                        {else}
+                        <select name="store_name" class="role_list">
+                        </select>
+                        {/if}
                     </div>
                 </div>
                 <div class="layui-form-item">
