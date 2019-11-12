@@ -2251,7 +2251,7 @@ class  Order extends  Controller
                         Db::name("integral")->insert($integral_data);
                     }
                     $member_data_result = db('member')->where('member_id','=',$member_id)->find();
-                    $this->send($member_data_result['member_openid'], $page, $member_data_result['member_name'], $information["order_real_pay"], $order_pay_time, $information["parts_goods_name"],$val['prepay_id']);
+                    $this->send($member_data_result['member_openid'],$member_data_result['member_name'],$information["order_real_pay"], $order_pay_time, $information["parts_goods_name"],$val['prepay_id']);
                     echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } else {
                     return ajax_error("失败");
@@ -2926,11 +2926,11 @@ class  Order extends  Controller
      * $goods_name 商品名
      * $shop_name 商家名
      */
-    public function send($openid, $page, $member_name, $count_money, $pay_time, $goods_name,$form_id)
+    public function send($openid, $member_name, $count_money, $pay_time, $goods_name,$form_id)
     {
         $data = [
             'openid' => $openid,
-            'page' => $page,
+            // 'page' => $page,
             'form_id' => $form_id, //模板消息需要的formid
             'data' => [
                 $member_name, $count_money, $pay_time, $goods_name
@@ -2964,7 +2964,6 @@ class  Order extends  Controller
         $postData = [
             'touser'        =>  $params['openid'],
             'template_id'   =>  'xzdvaFjhvRGtnUqOkLoPpnEYYDao93m70Q4tB2HE6GU',//这是模板id,需要去申请
-            'page'          =>  $params['page'],
             'form_id'       =>  $params['form_id'],
             'data'          =>  $data
         ];
