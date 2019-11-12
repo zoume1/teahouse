@@ -17,6 +17,7 @@
 		padding-left: 50px;
 		background: #FDFDFE;
     }
+    .tg-box{position: absolute;top: 40px;left:40px;background-color: #fff;width:170px;text-align: center;display: none;z-index: 99;border: 1px solid rgb(226,226,226);}
 </style>
 
 {/block}
@@ -81,7 +82,7 @@
                         <th>排序</th>
                         <th>首页推荐</th>
                         <th>分销状态</th>
-                        <th width="200px">操作</th>
+                        <th width="300px">操作</th>
                     </tr>
                 </thead>
                 <tbody class="news_content">
@@ -135,10 +136,14 @@
                                 <input type="checkbox" class="Status" name="status" value="{$value.distribution_status}"
                                 lay-skin="switch" lay-text="启用|关闭" lay-filter="isShowes" checked data-id="{$value.id}">{/if}
                         </td>
-                        <td>
+                        <td style="position: relative;">
+                            <div class="tg-box">
+                                <img src="{$value.share_code}" alt="" width="150px;" height="150px;">
+                            </div>
                             <a class="layui-btn layui-btn-mini edit"
                                 href="{:url('admin/Goods/edit',['id'=>$value.id])}"> 编辑
                             </a>
+                            <div class="layui-btn layui-btn-mini share" >推广</div>
                             {if !empty($value.distribution_id)}
                             <a class="layui-btn layui-btn-mini edit"
                                 href="{:url('admin/Distribution/goods_edit',['id'=>$value.distribution_id])}"> 分销设置
@@ -247,7 +252,9 @@
                 }
 
             });
-
+            $('.share').click(function(){
+                $(this).siblings('.tg-box').toggle();
+            })
             //全选
             form.on('checkbox(allChoose)', function (data) {
                 var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
