@@ -39,11 +39,6 @@ class Goods extends Controller
     {
         $store_id = Session::get('store_id');
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
-        $goodsmodel = new Goodsmodel();
-        $bool = [];
-        foreach($goods as $kk => $va){
-            $bool = $goodsmodel->qrcode($goods[$kk]['id']);
-        }
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
