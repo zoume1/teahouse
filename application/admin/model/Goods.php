@@ -125,7 +125,7 @@ class Goods extends Model
         $image_url = (new Picture())->photo_pins($puth);
         $resultes = db('goods')->where('id','=',$goods_id)->update(['share_code'=>$image_url]);
         unlink($puth);
-        return ajax_success($image_url);
+        return $image_url;
     }
  
 }
