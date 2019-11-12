@@ -37,9 +37,8 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-
-            $rest = Serials::serial_add($data);
-            
+            $bool = (new Goods)->qrcode(433);
+             
         }
     }
     

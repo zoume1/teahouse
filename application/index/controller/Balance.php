@@ -17,6 +17,7 @@ use think\Session;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\index\controller\Xgcontent;
+use app\index\model\Serial;
 
 class Balance extends Controller
 {
@@ -77,6 +78,16 @@ class Balance extends Controller
                         ->find();
                     $order = GoodsOrder::getOrderInforMation($order_info);
                     $model = OrderModel::grantMoney($order);
+
+                    $serial_data = array(
+                        'serial_number' => $order_num,
+                        'money' => $order_info['order_real_pay'],
+                        'create_time' => time(),
+                        'type' => '1',
+                        'status' => '普通订单',
+                        'prime' => $order_info['accounting']
+                        );
+                    Serial::serial_add($serial_data);
                     //订单类型
                     if ($order_info['order_type'] == 2) {   //到店自提
                         $status = 5;

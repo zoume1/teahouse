@@ -239,6 +239,7 @@ class Commodity extends Controller
                 $goods[0]["max_price"] = $max_prices;
                 $goods[0]["min_price"] = $min_prices;
                 $goods[0]["min_line"] = $min_line;
+                $goods[0]["element"] = $goods_standard[0]['element'];
                 $goods[0]["unit"] = $goods_standard[0]['offer'];
                 $goods[0]["goods_volume"] = $goods_volume;
             } else {

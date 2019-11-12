@@ -16,6 +16,7 @@ use think\Session;
 use app\admin\model\Goods;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
+use app\index\model\Serial;
 
 class  Order extends  Controller
 {
@@ -2103,6 +2104,17 @@ class  Order extends  Controller
             
             if($res){
                 //做消费记录
+
+                $serial_data = array(
+                    'serial_number' => $val["out_trade_no"],
+                    'money' => $activity['cost_moneny'],
+                    'create_time' => time(),
+                    'type' => 1,
+                    'status' => '活动订单',
+                    );
+                    Serial::serial_add($serial_data);
+
+
                 $information =Db::name("activity_order")
                     ->field("member_openid,cost_moneny,activity_name")
                     ->where("parts_order_number",$val["out_trade_no"])
@@ -2166,6 +2178,16 @@ class  Order extends  Controller
             if($res){
                 $order = GoodsOrder::getOrderInforMation($order_type);
                 $model = OrderModel::grantMoney($order);
+
+                $serial_data = array(
+                    'serial_number' => $val["out_trade_no"],
+                    'money' => $order_type['order_real_pay'],
+                    'create_time' => time(),
+                    'type' => 1,
+                    'status' => '普通订单',
+                    'prime' => $order_type['accounting']
+                );
+                Serial::serial_add($serial_data);
                 //商品库存减少、销量增加
                 $goods_order = Db::name("order") 
                 ->where("parts_order_number",$val["out_trade_no"])
@@ -2365,6 +2387,16 @@ class  Order extends  Controller
             if($res){
                 //做消费记录
                 $information =Db::name("reward")->field("money,order_number,crowd_name,member_id")->where("order_number",$val["out_trade_no"])->find();
+
+                $serial_data = array(
+                    'serial_number' => $val["out_trade_no"],
+                    'money' => $information['money'],
+                    'create_time' => time(),
+                    'type' => 1 ,
+                    'status' => '打赏订单',
+                    );
+                Serial::serial_add($serial_data);
+
                 //需要前端添加一个商品id
                 $rest_one = Db::name("crowd_goods")->where("id",$information['goods_id'])->setInc('collecting_money',$information['money']);
                 $rest_two = Db::name("crowd_goods")->where("id",$information['goods_id'])->setInc('collecting');
