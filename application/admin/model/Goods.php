@@ -72,15 +72,13 @@ class Goods extends Model
 
     public function gettoken()
     {
-        // $store_id = Session::get("store_id");
-        // $applet = Db::table('applet')
-        //         ->where('id','=',$store_id)
-        //         ->find();
+        $store_id = Session::get("store_id");
+        $applet = Db::table('applet')
+                ->where('id','=',$store_id)
+                ->find();
                 
-        // $APPID = $applet['appID'];
-        // $APPSECRET =  $applet['appSecret'];
-        $APPID = 'wx301c1368929fdba8';
-        $APPSECRET =  '4bc1912eb2cbab3e7b0bb0990b60036e';
+        $APPID = $applet['appID'];
+        $APPSECRET =  $applet['appSecret'];
         $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
         $json = $this->httpRequest($access_token);
         return  json_decode($json,true);
