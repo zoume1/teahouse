@@ -914,6 +914,8 @@ Route::group("admin",[
     "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
     "wenshidu" =>"admin/Material/wenshidu",                                                         //温湿感应仪器登录操作
     "video_comment" =>"admin/Material/video_comment",                                               //直播评论
+    "interaction_delete" =>"admin/Material/interaction_delete",                                     //温湿感应列表删除
+
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况

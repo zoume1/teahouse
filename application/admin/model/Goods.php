@@ -112,7 +112,7 @@ class Goods extends Model
 
 
         //生成二维码
-    public function qrcode($goods_id)
+    public  function qrcode($goods_id)
     {
         $ACCESS_TOKEN = $this->gettoken();
         $puthc = 'pages/logs/logs?goods=share&title='.$goods_id;//小程序的路径 可以带参数
@@ -125,7 +125,7 @@ class Goods extends Model
         $image_url = (new Picture())->photo_pins($puth);
         $resultes = db('goods')->where('id','=',$goods_id)->update(['share_code'=>$image_url]);
         unlink($puth);
-        return $resultes;
+        return $image_url;
     }
  
 }
