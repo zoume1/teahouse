@@ -372,9 +372,9 @@ class User extends Model
     {
         $model = new static();
         $user_data = $model->detail(['phone_number'=>$data['phone_number']]);
-        if(empty($user_data['openid'])){
-            $bool = $model -> allowField(true)->save(['openid' => $data['openid']],['phone_number'=>$data['phone_number']]);
-        }
+        // if(empty($user_data['openid'])){
+        //     $bool = $model -> allowField(true)->save(['openid' => $data['openid']],['phone_number'=>$data['phone_number']]);
+        // }
         $data['user_id'] = $user_data['user_id'];
         return $data;
  
