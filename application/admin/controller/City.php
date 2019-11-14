@@ -218,18 +218,24 @@ class  City extends  Controller{
         return view("city_price_examine",['data'=>$data]);
     }
 
-        /**
+    /**
      * [城市入驻费用审核编辑]
      * 郭杨
      */    
     public function city_price_examine_replace(Request $request){
         if($request->isPost()){
             $data = input();
+            $model = new CityOrder; 
+            $user_data = $model->detail(['id'=>$data['id']]);
+            $order_detail = new CityDetail;
             $rest = CityOrder::meal_update($data);
             $restul  = new CityCopartner;
             $bool  = $restul->allowField(true)->save(['judge_status'=>$data['account_status']],['user_id'=>$data['city_user_id']]);
 
             if($rest || $bool){
+                if($data['account_status']  == 1){
+                    $detailes  = $order_detail->city_store_update($user_data['city_address'],$user_data['city_user_id']);
+                }
                 $this->success("更新成功", url("admin/City/city_price_examine"));
             } else {
                 $this->success("更新成功", url("admin/City/city_price_examine"));
