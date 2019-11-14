@@ -301,7 +301,7 @@ class CityCopartner extends Model
             'order_data' => $order,
 
         ];
-
+        halt($data);
         return $data;
 
     }
