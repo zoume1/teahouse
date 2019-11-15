@@ -218,6 +218,7 @@ class Commodity extends Controller
             $min_price = db("special")->where("goods_id", $goods_id)->min("price");
             $min_line = db("special")->where("goods_id", $goods_id)->min("line");
             $goods_volume  = db("special")->where("goods_id", $goods_id)->sum("volume");
+            $goods_repertory = db("special")->where("goods_id", $goods_id)->sum("stock");
             $max_prices = $max_price * $discount;
             $min_prices = $min_price * $discount;
             if(!empty($goods[0]['goods_delivery'])){
@@ -242,6 +243,7 @@ class Commodity extends Controller
                 $goods[0]["element"] = $goods_standard[0]['element'];
                 $goods[0]["unit"] = $goods_standard[0]['offer'];
                 $goods[0]["goods_volume"] = $goods_volume;
+                $goods[0]['goods_repertory'] = $goods_repertory;
             } else {
                 $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
