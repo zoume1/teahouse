@@ -121,7 +121,7 @@ class Pay extends  Controller{
         //       json化返回给小程序端
         header("Content-Type: application/json");
         $pay_information =  $this->getJsApiParameters($order);
-        (new WxappPrepayIdModel)->add($pay_information['prepay_id'], $order_datas['id'], $member_id, PAY_COMMON,$order_datas["store_id"]);
+        (new WxappPrepayIdModel)->add(json_decode($pay_information)['prepay_id'], $order_datas['id'], $member_id, PAY_COMMON,$order_datas["store_id"]);
         echo $pay_information;
     }
 
