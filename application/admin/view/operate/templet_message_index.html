@@ -1,1 +1,400 @@
-模板消息设置
+{include file="template/_meta" /}
+<title></title>
+</head>
+
+{block name="css"}
+
+<style type="text/css">
+    body {
+        background: #fff;
+    }
+
+    #page {
+        width: 97%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
+    }
+
+    .on {
+        color: #21A5FA !important;
+        border-bottom: solid 3px #21A5FA;
+    }
+
+    .distribution_list {
+        margin-bottom: 10px;
+        border-bottom: solid 1px #D7D7D7;
+    }
+
+    .distribution_list ul {
+        display: flex;
+        align-items: center;
+    }
+
+    .distribution_list a {
+        font-size: 14px;
+        padding: 9px;
+        color: #5E5E5E;
+    }
+
+    .tip {
+        margin: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .tip-title {
+        padding: 5px;
+    }
+
+    .red {
+        color: red;
+        font-weight: 700;
+    }
+
+    .m_l {
+        margin-left: 15px;
+    }
+
+    /*
+     * 弹窗
+     4*/
+
+    .popup {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: solid 1px #D7D7D7;
+        box-sizing: border-box;
+    }
+
+    .submit_btns,
+    .invoice_btns {
+        width: 100px;
+        height: 38px;
+        color: #fff;
+        background: #169BD5;
+        border-radius: 10px;
+    }
+
+    .popup_doms {
+        /* width: 790px; */
+        /* height: 400px; */
+        background: #fff;
+    }
+
+    .popup_doms1 {
+        width: 900px;
+        background: #fff;
+    }
+
+    .popup_content {
+        padding: 20px;
+    }
+
+    .popup_title {
+        height: 40px;
+        line-height: 40px;
+        color: #66662B;
+        background: #EEF7EA;
+        padding-left: 20px;
+    }
+
+    .span {
+        display: inline-block;
+        width: 80px;
+        text-align: left;
+        margin-right: 20px;
+    }
+
+    .repany .layui-input {
+        width: 530px;
+    }
+
+    .repany {
+        margin-bottom: 10px;
+    }
+
+    .operation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .chat {
+        height: 210px;
+    }
+
+    .danhao {
+        width: 200px;
+        margin-right: 10px;
+    }
+
+    .operation select {
+        width: 130px;
+        height: 40px;
+        border-color: #ABADB3;
+        color: #000;
+        background: #fff;
+    }
+
+    .operation div {
+        margin-right: 10px;
+    }
+
+    .tip {
+        color: red;
+        margin-left: 200px;
+    }
+
+    .noshow {
+        display: none;
+    }
+
+    .popup_title {
+        position: relative;
+    }
+
+    .popup_x {
+        width: 25px;
+        position: absolute;
+        right: 12px;
+        top: -4px;
+    }
+
+    .repay_tip {
+        display: inline-block;
+        width: 100px;
+        height: 35px;
+        text-align: center;
+        line-height: 35px;
+        color: #fff;
+        background: #669900;
+        border-radius: 5px;
+    }
+    .btn_all{
+        padding: 10px;
+        float: right;
+        display: flex;
+    }
+    .button {
+        width: 100px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        background-color: rgb(74,178,255);
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .button-qx {
+		width: 100px;
+		line-height: 30px;
+		text-align: center;
+		border: 1px solid #a2a2a2;
+		border-radius: 5px;
+		cursor: pointer;
+        margin-right: 5px;
+	}
+
+
+    /*
+     * 弹窗end
+		 */
+</style>
+
+{/block}
+
+<body>
+
+    <div class="popup popup_one noshow">
+        <div class="popup_doms">
+            <div class="popup_title">
+                设置消息模板
+                <div class="popup_x">
+                    <img src="__STATIC__/admin/index/img/X.png" />
+                </div>
+            </div>
+            <div class="popup_content">
+                <div style="padding:30px;display:flex;">
+                    <div style="line-height:33px;margin-right:10px;"><span class="red">*</span>模板ID：</div>
+                    <div style="width:200px;">
+                        <input type="text" id="mbId" name="title" placeholder="请输入模板ID" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            <div class="btn_all">
+                <div class="button-qx">取消</div>
+                <div class="button">确定</div>
+            </div>
+        </div>
+    </div>
+
+    {block name="content"}
+    <div class="childrenBody">
+        {include file="template/_top" /}
+        <div class="tip">
+            <div>
+                <img src="__STATIC__/admin/index/img/u39113.png" alt="" class="laba"
+                    style="width:16px;margin-right: 10px;margin-left: 10px;">
+                <span style="font-size: 13px;color: #333333;">消息提醒为系统触发通知消息，一般无需操作，如有特殊信息要求，请联系平台客服予以协助添加</span>
+            </div>
+            <div class="m_l">
+                <a class="layui-btn layui-btn-danger batchDel" href="goods_add">购买短信</a>
+            </div>
+            <div class="m_l">短信剩余条数：<span class="red">2002条</span></div>
+        </div>
+        <blockquote class="layui-elem-quote">
+            <div class="tip-title">订单/售后通知</div>
+        </blockquote>
+
+        <div class="layui-form news_list">
+            <table class="layui-table">
+                <thead>
+                    <tr>
+                        <th>所属</th>
+                        <th>通知类型</th>
+                        <th>推送规则</th>
+                        <th>短信通知</th>
+                        <th>小程序模板消息</th>
+                        <th>站内通知</th>
+                    </tr>
+                </thead>
+                <tbody class="news_content">
+                    <tr>
+                        <td rowspan="3">订单</td>
+                        <td>订单支付成功</td>
+                        <td>订单支付成功时，即时提醒</td>
+                        <td>
+                            <input type="checkbox" name="sky" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            <div class="layui-btn layui-btn-mini edit"> 设置
+                            </div>
+                        </td>
+                        <td>----</td>
+                    </tr>
+                    <tr>
+                        <td>订单已完成</td>
+                        <td>会员确认收货后，即时提醒</td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            <div class="layui-btn layui-btn-mini edit"> 设置
+                            </div>
+                        </td>
+                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>同城订单-取消订单成功</td>
+                        <td>会员取消订单后，即时提醒</td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            <div class="layui-btn layui-btn-mini edit"> 设置
+                            </div>
+                        </td>
+                        <td>----</td>
+                    </tr>
+                    <!-- 售后 -->
+                    <tr>
+                        <td rowspan="3">售后</td>
+                        <td>成功发起退款申请</td>
+                        <td>会员发起退款/退货成功后，即时提醒</td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            <div class="layui-btn layui-btn-mini edit"> 设置
+                            </div>
+                        </td>
+                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>退款成功</td>
+                        <td>商家退款成功后，即时提醒</td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            <div class="layui-btn layui-btn-mini edit"> 设置
+                            </div>
+                        </td>
+                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>成功发起退款申请</td>
+                        <td>商家拒绝退款后，即时提醒</td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                        <td>
+                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            <div class="layui-btn layui-btn-mini edit"> 设置
+                            </div>
+                        </td>
+                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+
+        </div>
+
+    </div>
+
+    {/block}
+
+    <!--_footer 作为公共模版分离出去-->
+    {include file="template/_footer" /}
+    <!--/_footer 作为公共模版分离出去-->
+
+    <!--请在下方写此页面业务相关的脚本-->
+    {block name="bottom"}
+    <script type="text/javascript">
+        layui.config({
+            base: "js/"
+        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+            var form = layui.form(),
+                layer = parent.layer === undefined ? layui.layer : parent.layer,
+                laypage = layui.laypage,
+                $ = layui.jquery;
+
+            form.on('checkbox(start)', function (data) {
+                console.log(data)
+                form.render('checkbox');
+            });
+
+            //弹窗隐藏
+            $(".popup_x").add('.button-qx').click(function () {
+                $(".popup").addClass("noshow");
+            });
+            $('.edit').click(function () {
+                $(".popup").removeClass("noshow");
+
+            })
+        })
+    </script>
+
+    {/block}
+
+</body>
+
+</html>
