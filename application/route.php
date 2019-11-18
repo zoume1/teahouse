@@ -788,6 +788,7 @@ Route::group("admin",[
     "operate_problem_delete"=>"admin/operate/operate_problem_delete",    //常见问题删除
     "operate_problem_status"=>"admin/operate/operate_problem_status",    //常见问题状态值修改
     "operate_problem_search"=>"admin/operate/operate_problem_search",    //常见问题搜索
+    "templet_message_index"=>"admin/operate/templet_message_index",      //模板消息设置
 
 
     "operate_contract"=>"admin/operate/operate_contract",                //协议合同显示
