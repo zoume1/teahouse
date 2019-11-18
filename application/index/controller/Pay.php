@@ -119,10 +119,9 @@ class Pay extends  Controller{
         //         向微信统一下单，并返回order，它是一个array数组
         $order = \WxPayApi::unifiedOrder($input);
         //       json化返回给小程序端
+        (new WxappPrepayIdModel)->add($order['prepay_id'], $order_datas['id'], $member_id, PAY_COMMON,$order_datas["store_id"]);
         header("Content-Type: application/json");
-        $pay_information =  $this->getJsApiParameters($order);
-        (new WxappPrepayIdModel)->add(json_decode($pay_information)['prepay_id'], $order_datas['id'], $member_id, PAY_COMMON,$order_datas["store_id"]);
-        echo $pay_information;
+        echo $this->getJsApiParameters($order);;
     }
 
 
