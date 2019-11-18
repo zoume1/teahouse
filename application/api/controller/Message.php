@@ -3,6 +3,7 @@
 namespace app\api\controller;
 
 use think\Controller;
+use think\Db;
 use app\api\model\WxappPrepayId as WxappPrepayIdModel;
 use app\api\controller\WxTplMsg;
 use app\admin\model\Member;
@@ -31,9 +32,10 @@ class Message extends Controller
         // 获取 prepay_id
         $prepayId = $this->getPrepayId($order['id'], $orderType);
         $member = Member::detail(['member_id' => $order['member_id']]);
-
+        $order_number = $orderType['parts_order_number'];
         // 页面链接
-        $urls = 'pages/diy/index/index';
+        $status = 2;
+        $urls = 'pages/order_detail/order_detail?status='.$status.'&title='.$order_number;
 
         // 发送模板消息
         $status = $this->sendTemplateMessage($order['store_id'], [
@@ -49,7 +51,8 @@ class Message extends Controller
                 // 订单金额
                 'keyword3' => $order['order_real_pay'],
                 // 商品名称
-                'keyword4' => $this->formatGoodsName($order['parts_goods_name']),
+                // 'keyword4' => $this->formatGoodsName($order['parts_goods_name']),
+                'keyword4' => $order['parts_goods_name'],
             ]
         ]);
         // 标记已使用次数

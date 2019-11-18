@@ -24,7 +24,7 @@ use app\admin\model\Store;
 use app\city\model\CityDetail;
 use app\city\model\CityRank;
 use app\index\model\Serial as Serials;
-use app\api\model\WxappPrepayId;
+use app\api\controller\Message as MessageService;
 
 class Bill extends Controller{
 
@@ -38,14 +38,8 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            // $bool = (new Goods)->qrcode(433);
-            $prepayId = '12345678';
-            $orderId = 3;
-            $userId = 10;
-            $orderType = 10;
-            $wxapp_id = 6;
-            $result = WxappPrepayId::detail($orderId,10);
-            halt($result);
+            $order_type = Db::name('order')->where('id','=',3211)->find();
+            $message = (new MessageService)->payment($order_type, 10);
         }
     }
     
