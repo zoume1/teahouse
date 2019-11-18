@@ -54,6 +54,7 @@ class WxappPrepayId extends Model
             'can_use_times' => 0,
             'used_times' => 0,
             'expiry_time' => time() + (7 * 86400),
+            'create_time' =>time(),
             'wxapp_id' => $wxapp_id,
         ]);
     }
