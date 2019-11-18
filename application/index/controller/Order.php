@@ -18,6 +18,7 @@ use app\admin\model\Goods;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\index\model\Serial;
+use app\api\controller\Message as MessageService;
 
 class  Order extends  Controller
 {
@@ -2177,7 +2178,8 @@ class  Order extends  Controller
                 if ($res) {
                     $order = GoodsOrder::getOrderInforMation($order_type);
                     $model = OrderModel::grantMoney($order);
-
+                    // 发送消息通知
+                    $message = (new MessageService)->payment($order_type, 10);
                     $serial_data = array(
                         'serial_number' => $val["out_trade_no"],
                         'money' => $order_type['order_real_pay'],
@@ -2250,8 +2252,7 @@ class  Order extends  Controller
                         ];
                         Db::name("integral")->insert($integral_data);
                     }
-                    $member_data_result = db('member')->where('member_id','=',$member_id)->find();
-                    $this->send($member_data_result['member_openid'],$member_data_result['member_name'],$information["order_real_pay"], $order_pay_time, $information["parts_goods_name"],$val['prepay_id']);
+
                     echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } else {
                     return ajax_error("失败");

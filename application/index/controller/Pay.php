@@ -6,6 +6,10 @@ use think\Request;
 use  think\Db;
 use think\Cache;
 use app\index\controller\Order as Orderset;
+use app\api\model\WxappPrepayId as WxappPrepayIdModel;
+const PAY_COMMON = 10;
+const CROWD_FUNDING = 20;
+
 
 include('../extend/WxpayAPI/lib/WxPay.Api.php');
 include('../extend/WxpayAPI/example/WxPay.NativePay.php');
@@ -116,7 +120,9 @@ class Pay extends  Controller{
         $order = \WxPayApi::unifiedOrder($input);
         //       json化返回给小程序端
         header("Content-Type: application/json");
-        echo $this->getJsApiParameters($order);
+        $pay_information =  $this->getJsApiParameters($order);
+        (new WxappPrepayIdModel)->add($pay_information['prepay_id'], $order_datas['id'], $member_id, PAY_COMMON,$order_datas["store_id"]);
+        echo $pay_information;
     }
 
 

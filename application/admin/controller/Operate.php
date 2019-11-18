@@ -641,4 +641,14 @@ class Operate extends  Controller{
         return view("operate_problem",["problem"=>$problem]);
     }
 
+
+    /**
+     * [模板消息设置]
+     * GY
+    */
+    public function templet_message_index(){
+        $store_id = Session::get("store_id");
+        return view("templet_message_index");
+    }
+
 }
