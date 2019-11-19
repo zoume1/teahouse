@@ -7,6 +7,9 @@ use think\Db;
 use app\api\model\WxappPrepayId as WxappPrepayIdModel;
 use app\api\controller\WxTplMsg;
 use app\admin\model\Member;
+use app\admin\model\TempletMessage;
+use app\admin\model\Order;
+const PAY_STATUS_ID = 0;
 
 /**
  * 消息通知服务
@@ -26,38 +29,42 @@ class Message extends Controller
      */
     public function payment($order, $orderType)
     {
+        $rr = $this->formatGoodsName($order);
+        halt($rr);
         // 1. 微信模板消息
-        // $template = SettingModel::getItem('tplMsg', $order['wxapp_id'])['payment'];
-        $template['template_id'] = 'mPROnmLqYAKicU8JgRYU33JrSiKG7am9lsaQGosvcCg'; //测试模板id
-        // 获取 prepay_id
-        $prepayId = $this->getPrepayId($order['id'], $orderType);
-        $member = Member::detail(['member_id' => $order['member_id']]);
-        $order_number = $orderType['parts_order_number'];
-        // 页面链接
-        $status = 2;
-        $urls = 'pages/order_detail/order_detail?status='.$status.'&title='.$order_number;
+        $template = TempletMessage::getTempletStatus($order['store_id'],PAY_STATUS_ID);
+        if($template){
+            // $template['template_id'] = 'mPROnmLqYAKicU8JgRYU33JrSiKG7am9lsaQGosvcCg'; //测试模板id
+            $prepayId = $this->getPrepayId($order['id'], $orderType);
+            $member = Member::detail(['member_id' => $order['member_id']]);
+            $order_number = $orderType['parts_order_number'];
+            // 页面链接
+            $status = $orderType['status'];
+            $urls = 'pages/order_detail/order_detail?status='.$status.'&order_number='.$order_number;
 
-        // 发送模板消息
-        $status = $this->sendTemplateMessage($order['store_id'], [
-            'touser' => $member['member_openid'],
-            'template_id' => $template['template_id'],
-            'page' => $urls,
-            'form_id' => $prepayId['prepay_id'],
-            'data' => [
-                // 支付时间
-                'keyword1' => date('Y-m-d H:i:s', $order['pay_time']),
-                // 订单编号
-                'keyword2' => $order['parts_order_number'],
-                // 订单金额
-                'keyword3' => $order['order_real_pay'],
-                // 商品名称
-                // 'keyword4' => $this->formatGoodsName($order['parts_goods_name']),
-                'keyword4' => $order['parts_goods_name'],
-            ]
-        ]);
-        // 标记已使用次数
-        $status === true && $prepayId->updateUsedTimes();
-        return $status;
+            // 发送模板消息
+            $status = $this->sendTemplateMessage($order['store_id'], [
+                'touser' => $member['member_openid'],
+                'template_id' => $template,
+                'page' => $urls,
+                'form_id' => $prepayId['prepay_id'],
+                'data' => [
+                    // 支付时间
+                    'keyword1' => date('Y-m-d H:i:s', $order['pay_time']),
+                    // 订单编号
+                    'keyword2' => $order['parts_order_number'],
+                    // 订单金额
+                    'keyword3' => $order['order_real_pay'],
+                    // 商品名称
+                    // 'keyword4' => $this->formatGoodsName($order['parts_goods_name']),
+                    'keyword4' => $order['parts_goods_name'],
+                ]
+            ]);
+            // 标记已使用次数
+            $status === true && $prepayId->updateUsedTimes($prepayId['prepay_id']);
+            return $status;
+        }
+        return true;
         
         // // 2. 商家短信通知
         // $smsConfig = SettingModel::getItem('sms', $order['wxapp_id']);
@@ -339,11 +346,13 @@ class Message extends Controller
      * @param $goodsData
      * @return string
      */
-    private function formatGoodsName($goodsData)
+    private function formatGoodsName($order)
     {
-        $str = '';
-        foreach ($goodsData as $goods) $str .= $goods['goods_name'] . ' ';
-        return $str;
+        $goodsData  = Order::getOrderGoods($order);
+        foreach ($goodsData as $goods){
+            $str[]= $goods['parts_goods_name'] . ' ';
+        } 
+        return implode('',$str);
     }
 
 }

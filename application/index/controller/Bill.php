@@ -25,6 +25,10 @@ use app\city\model\CityDetail;
 use app\city\model\CityRank;
 use app\index\model\Serial as Serials;
 use app\api\controller\Message as MessageService;
+use app\admin\model\TempletMessage;
+use think\Validate;
+
+
 
 class Bill extends Controller{
 
@@ -38,8 +42,9 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            $order_type = Db::name('order')->where('id','=',3211)->find();
+            $order_type = Db::name('order')->where('id','=',3213)->find();
             $message = (new MessageService)->payment($order_type, 10);
+
         }
     }
     

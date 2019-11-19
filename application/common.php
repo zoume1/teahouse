@@ -1300,6 +1300,18 @@ function MemberFristAdd($store_id)
         $boole = db("goods_type")->insert($ve);
     }
 
+    //活动分类
+    $categoryed = Db::table('tp_templet_message')->where("store_id","EQ",$store)->select();
+    foreach($categoryed as $kk => $val){
+        unset($categoryed[$kk]['id']);
+        $categoryed[$kk]['store_id'] = $store_id;
+        
+    }
+
+    foreach($categoryed as $kv => $ve){
+        $boole = Db::table('tp_templet_message')->insert($ve);
+    }
+
     $ppid = db("goods_type")->where("store_id",'EQ',$store_id)->where('pid',0)->value('id');
     $bb =  db("goods_type")->where("store_id",'EQ',$store_id)->where('pid','>',0)->update(['pid'=>$ppid]);
     
