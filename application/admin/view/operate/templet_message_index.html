@@ -493,8 +493,8 @@
                         "status": status
                     },
                     success: (res) => {
-                        console.log(res);
-                        layer.msg(res.msg)
+                        layer.msg(res.msg);
+                        window.location.reload();
                     },
                     error: (err) => {console.log(err)}
                 });
@@ -508,7 +508,6 @@
             $('.edit').click(function () {
                 $(".popup").removeClass("noshow");
                 let id = $(this).data("id");
-                console.log(id)
                 $("#mbId").data("id", id);
                 $.ajax({
                     type: "POST",
@@ -517,7 +516,6 @@
                         "id": id,
                     },
                     success: (res) => {
-                        console.log(res);
                         if(res.code == "1") {
                             $("#tempID").val(res.data.template_id);
                         } else {
@@ -538,7 +536,6 @@
                         "template_id":tempID
                     },
                     success: (res) => {
-                        console.log(res);
                         layer.msg(res.msg);
                         setTimeout(function(){
                             $(".popup").addClass("noshow");
