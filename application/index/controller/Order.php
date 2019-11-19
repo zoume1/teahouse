@@ -630,7 +630,7 @@ class  Order extends  Controller
                     $datas["user_account_name"] = $user_information["member_name"]; //用户名
                     $datas["user_phone_number"] = $user_information["member_phone_num"]; //用户名手机号
                     $datas["harvester"] = $harvester;
-                    $datas["shop_satatus"] = 2;
+                    $datas["shop_status"] = 2;
                     $datas["harvest_phone_num"] = $harvester_phone_num;
                     $datas["harvester_address"] = $harvest_address;
                     $datas["order_create_time"] = $create_time;

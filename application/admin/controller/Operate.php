@@ -689,12 +689,6 @@ class Operate extends  Controller{
                 return jsonError($validate->getError());
             }
             $param['store_id'] = $store_id;
-            if(isset($param['message_status']) && $param['message_status'] == 1){
-                $template = TempletMessage::detail(['id'=>$param['id']]);
-                if(empty($template['template_id'])){
-                    return jsonError('请添加模板id');
-                }
-            }
             $rest_data = array(
                 'store_id' => $store_id,
             );
@@ -705,7 +699,12 @@ class Operate extends  Controller{
             } elseif($param['name'] =='notify_status'){
                 $rest_data['notify_status'] = $param['status'];
             }
-
+            if(isset($rest_data['message_status']) && $rest_data['message_status'] == 1){
+                $template = TempletMessage::detail(['id'=>$param['id']]);
+                if(empty($template['template_id'])){
+                    return jsonError('请添加模板id');
+                }
+            }
             $rest = (new TempletMessage)-> allowField(true)->save($rest_data,$id);
             return jsonSuccess('设置成功');
         } 

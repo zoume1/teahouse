@@ -34,6 +34,23 @@ class TempletMessage extends Model
     }
 
 
+    /**
+     * 模板消息返回tid
+     * @param $store_id
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public static function getTempletStatus($store_id,$status)
+    {   
+        $rest = self::getTemplet($store_id);
+        if($rest){
+            $template_id = $rest[$status]['template_id'];
+            return $template_id ? $template_id :false;
+        }
+        return $rest;
+    }
+
+
 
  
 }

@@ -30,9 +30,9 @@ class WxappPrepayId extends Model
      * @return int|true
      * @throws \think\Exception
      */
-    public function updateUsedTimes()
+    public function updateUsedTimes($prepay_id)
     {
-        return $this->setInc('used_times', 1);
+        return $this->where('prepay_id','=',$prepay_id)->setInc('used_times', 1);
     }
 
 
@@ -57,6 +57,23 @@ class WxappPrepayId extends Model
             'create_time' =>time(),
             'wxapp_id' => $wxapp_id,
         ]);
+    }
+
+        /**
+     * 更新prepay_id已付款状态
+     * @param $orderId
+     * @param $orderType
+     * @return false|int
+     */
+    public static function updatePayStatus($orderId, $orderType = OrderTypeEnum::MASTER)
+    {
+        // 获取prepay_id记录
+        $model = static::detail($orderId, $orderType);
+        if (empty($model)) {
+            return false;
+        }
+        // 更新记录
+        return $model->save(['can_use_times' => 3, 'pay_status' => 1]);
     }
 
 }

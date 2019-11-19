@@ -42,8 +42,8 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            // $order_type = Db::name('order')->where('id','=',1130)->find();
-            // $message = (new MessageService)->payment($order_type, 10);
+            $order_type = Db::name('order')->where('id','=',3213)->find();
+            $message = (new MessageService)->payment($order_type, 10);
 
         }
     }
