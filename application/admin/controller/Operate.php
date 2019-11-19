@@ -651,6 +651,9 @@ class Operate extends  Controller{
     public function templet_message_index(){
         $store_id = Session::get("store_id");
         $data = TempletMessage::getTemplet($store_id);
+        if(empty($data)){
+            $templet = TempletMessage::getTemplet(6);
+        }
         return view("templet_message_index",['data' => $data]);
     }
 
@@ -667,6 +670,8 @@ class Operate extends  Controller{
             $id = $request->only('id');
             $validate = new Validate([
                 ['id', 'require', 'id不能为空'],  
+                ['name', 'require', '字段名不能为空'],  
+                ['status', 'require', '字段值不能为空'],  
             ]);
             //验证部分数据合法性
             if (!$validate->check($param)) {
@@ -679,7 +684,18 @@ class Operate extends  Controller{
                     return jsonError('请添加模板id');
                 }
             }
-            $rest = (new TempletMessage)-> allowField(true)->save($param,$id);
+            $rest_data = array(
+                'store_id' => $store_id,
+            );
+            if($param['name'] == 'sms_status'){
+                $rest_data['sms_status'] = $param['status'];
+            } elseif($param['name'] =='message_status'){
+                $rest_data['message_status'] = $param['status'];
+            } elseif($param['name'] =='notify_status'){
+                $rest_data['notify_status'] = $param['status'];
+            }
+
+            $rest = (new TempletMessage)-> allowField(true)->save($rest_data,$id);
             return jsonSuccess('设置成功');
         } 
     }
