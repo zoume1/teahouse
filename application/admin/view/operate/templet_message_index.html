@@ -539,7 +539,10 @@
                     },
                     success: (res) => {
                         console.log(res);
-                            layer.msg(res.msg);
+                        layer.msg(res.msg);
+                        setTimeout(function(){
+                            $(".popup").addClass("noshow");
+                        },1000)
                     },
                     error: (err) => {console.log(err)}
                 });
