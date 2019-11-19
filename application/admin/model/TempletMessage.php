@@ -17,7 +17,7 @@ class TempletMessage extends Model
      */
     public static function getTemplet($store_id)
     {
-        $rest = self::where('store_id','=',6)->select();
+        $rest = self::where('store_id','=',$store_id)->select();
         return $rest ? $rest->toArray() :false;
         
     }

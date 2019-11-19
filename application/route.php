@@ -789,7 +789,7 @@ Route::group("admin",[
     "operate_problem_status"=>"admin/operate/operate_problem_status",    //常见问题状态值修改
     "operate_problem_search"=>"admin/operate/operate_problem_search",    //常见问题搜索
     "templet_message_index"=>"admin/operate/templet_message_index",      //模板消息设置
-    "templet_switch"=>"admin/operate/templet_switch",      //模板消息设置开关
+    "templet_switch"=>"admin/operate/templet_switch",      //模板消息启用开关
     "templetid_edit"=>"admin/operate/templetid_edit",      //模板消息编辑模板ID
     "templetid_index"=>"admin/operate/templetid_index",    //模板id页面显示
 
