@@ -651,9 +651,20 @@ class Operate extends  Controller{
     public function templet_message_index(){
         $store_id = Session::get("store_id");
         $data = TempletMessage::getTemplet($store_id);
-        if(empty($data)){
-            $templet = TempletMessage::getTemplet(6);
-        }
+        // if(empty($data)){
+        //     $categoryed = Db::table('tp_templet_message')->where("store_id","EQ",6)->select();
+        //     foreach($categoryed as $kk => $val){
+        //         unset($categoryed[$kk]['id']);
+        //         $categoryed[$kk]['store_id'] = $store_id;
+                
+        //     }
+        
+        //     foreach($categoryed as $kv => $ve){
+        //         $boole = Db::table('tp_templet_message')->insert($ve);
+        //     }
+        //     $data = TempletMessage::getTemplet($store_id);
+
+        // }
         return view("templet_message_index",['data' => $data]);
     }
 
