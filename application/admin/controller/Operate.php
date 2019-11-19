@@ -14,6 +14,8 @@ use think\console\Input;
 use think\Db;
 use think\Request;
 use think\Session;
+use think\Validate;
+use app\admin\model\TempletMessage;
 
 class Operate extends  Controller{
 
@@ -648,7 +650,89 @@ class Operate extends  Controller{
     */
     public function templet_message_index(){
         $store_id = Session::get("store_id");
-        return view("templet_message_index");
+        $data = TempletMessage::getTemplet($store_id);
+        return view("templet_message_index",['data' => $data]);
+    }
+
+    /**
+     * [模板消息设置开关]
+     * GY
+     * @param $id
+     * @param $name
+    */
+    public function templet_switch(Request $request){
+        if($request->isPost()){
+            $param = Request::instance()->param();
+            $store_id = Session::get("store_id");
+            $id = $request->only('id');
+            $validate = new Validate([
+                ['id', 'require', 'id不能为空'],  
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($param)) {
+                return jsonError($validate->getError());
+            }
+            $param['store_id'] = $store_id;
+            if(isset($param['message_status']) && $param['message_status'] == 1){
+                $template = TempletMessage::detail(['id'=>$param['id']]);
+                if(empty($template['template_id'])){
+                    return jsonError('请添加模板id');
+                }
+            }
+            $rest = (new TempletMessage)-> allowField(true)->save($param,$id);
+            return jsonSuccess('设置成功');
+        } 
+    }
+
+    /**
+     * [模板消息编辑模板ID]
+     * GY
+     * @param $id
+     * @param $name
+    */
+    public function templetid_edit(Request $request){
+        if($request->isPost()){
+            $id = $request->only('id');
+            $param = Request::instance()->param();
+            $store_id = Session::get("store_id");
+            $validate = new Validate([
+                ['id', 'require', 'id不能为空'],
+                ['template_id', 'require', 'template_id不能为空'],
+
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($param)) {
+                return jsonError($validate->getError());
+            }
+            $param['store_id'] = $store_id;
+            $rest = (new TempletMessage)-> allowField(true)->save($param,$id);
+            if(!$rest){
+                return jsonError('编辑失败');
+            }
+            return jsonSuccess('编辑成功');
+        } 
+    }
+
+
+    /**
+     * [模板id页面显示]
+     * GY
+     * @param $id
+     * @param $name
+    */
+    public function templetid_index(Request $request){
+        if($request->isPost()){
+            $param = Request::instance()->param();
+            $validate = new Validate([
+                ['id', 'require', 'id不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($param)) {
+                return jsonError($validate->getError());
+            }
+            $rest = (new TempletMessage)->get($param);
+            return jsonSuccess("发送成功",['template_id' => $rest['template_id']]);
+        } 
     }
 
 }

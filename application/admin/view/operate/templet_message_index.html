@@ -271,11 +271,19 @@
                         <td rowspan="3">订单</td>
                         <td>订单支付成功</td>
                         <td>订单支付成功时，即时提醒</td>
-                        <td>
-                            <input type="checkbox" name="sky" lay-skin="primary" lay-filter="start" title="启用">
+                        <td> 
+                            {if $data[0]['sms_status'] == 1 && isset($data[0]['sms_status'])}
+                            <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[0]['id']}" checked>
+                            {else}
+                            <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" title="启用">
+                            {/if}
                         </td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            {if $data[0]['message_status'] == 1 && isset($data[0]['sms_status'])}
+                            <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[0]['id']}"  checked>
+                            {else}
+                            <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" data-id="{$data[0]['id']}" title="启用" checked>
+                            {/if}
                             <div class="layui-btn layui-btn-mini edit"> 设置
                             </div>
                         </td>
@@ -285,24 +293,45 @@
                         <td>订单已完成</td>
                         <td>会员确认收货后，即时提醒</td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                            {if $data[1]['sms_status'] == 1 && isset($data[1]['sms_status'])}                            
+                            <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start"  data-id="{$data[1]['id']}" title="启用" checked>
+                            {else}
+                            <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start"  data-id="{$data[1]['id']}" title="启用" >
+                            {/if}
                         </td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[1]['message_status'] == 1 && isset($data[1]['sms_status'])}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[1]['id']}"  checked>
+                                {else}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" data-id="{$data[1]['id']}" title="启用" >
+                                {/if}
                             <div class="layui-btn layui-btn-mini edit"> 设置
                             </div>
                         </td>
-                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        <td>
+                            {if $data[1]['notify_status'] == 1 && isset($data[1]['notify_status'])}
+                            <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[1]['notify_status']}"  title="启用" checked>
+                            {else}
+                            <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[1]['notify_status']}"  title="启用">
+                            {/if}
                         </td>
                     </tr>
                     <tr>
                         <td>同城订单-取消订单成功</td>
                         <td>会员取消订单后，即时提醒</td>
-                        <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        <td> 
+                                {if $data[2]['sms_status'] == 1 && isset($data[2]['sms_status'])}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[2]['id']}" checked>
+                                {else}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" data-id="{$data[2]['id']}" title="启用">
+                                {/if}
                         </td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[2]['message_status'] == 1 && isset($data[2]['sms_status'])}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[2]['id']}"  checked>
+                                {else}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" data-id="{$data[2]['id']}" title="启用" >
+                                {/if}
                             <div class="layui-btn layui-btn-mini edit"> 设置
                             </div>
                         </td>
@@ -314,42 +343,81 @@
                         <td>成功发起退款申请</td>
                         <td>会员发起退款/退货成功后，即时提醒</td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[3]['sms_status'] == 1 && isset($data[3]['sms_status'])}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[3]['id']}" checked>
+                                {else}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" data-id="{$data[3]['id']}" title="启用">
+                                {/if}
                         </td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[3]['message_status'] == 1 && isset($data[3]['sms_status'])}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[3]['id']}"  checked>
+                                {else}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" data-id="{$data[3]['id']}" title="启用" >
+                                {/if}
                             <div class="layui-btn layui-btn-mini edit"> 设置
                             </div>
                         </td>
-                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        <td>
+                                {if $data[3]['notify_status'] == 1 && isset($data[3]['notify_status'])}
+                                <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[3]['notify_status']}"  title="启用" checked>
+                                {else}
+                                <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[3]['notify_status']}"  title="启用">
+                                {/if}
                         </td>
                     </tr>
                     <tr>
                         <td>退款成功</td>
                         <td>商家退款成功后，即时提醒</td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[4]['sms_status'] == 1 && isset($data[4]['sms_status'])}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[4]['id']}" checked>
+                                {else}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" data-id="{$data[4]['id']}" title="启用">
+                                {/if}
                         </td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[4]['message_status'] == 1 && isset($data[4]['sms_status'])}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[4]['id']}"  checked>
+                                {else}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" data-id="{$data[4]['id']}" title="启用" >
+                                {/if}
                             <div class="layui-btn layui-btn-mini edit"> 设置
                             </div>
                         </td>
-                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        <td>
+                                {if $data[4]['notify_status'] == 1 && isset($data[4]['notify_status'])}
+                                <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[4]['notify_status']}"  title="启用" checked>
+                                {else}
+                                <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[4]['notify_status']}"  title="启用">
+                                {/if}
                         </td>
                     </tr>
                     <tr>
                         <td>成功发起退款申请</td>
                         <td>商家拒绝退款后，即时提醒</td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[5]['sms_status'] == 1 && isset($data[5]['sms_status'])}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[5]['id']}" checked>
+                                {else}
+                                <input type="checkbox" name="sms_status" lay-skin="primary" lay-filter="start" data-id="{$data[5]['id']}" title="启用">
+                                {/if}
                         </td>
                         <td>
-                            <input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                                {if $data[5]['message_status'] == 1 && isset($data[5]['sms_status'])}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" title="启用" data-id="{$data[5]['id']}"  checked>
+                                {else}
+                                <input type="checkbox" name="message_status" lay-skin="primary" lay-filter="start" data-id="{$data[5]['id']}" title="启用" >
+                                {/if}
                             <div class="layui-btn layui-btn-mini edit"> 设置
                             </div>
                         </td>
-                        <td><input type="checkbox" name="like1[write]" lay-skin="primary" lay-filter="start" title="启用">
+                        <td>
+                                {if $data[5]['notify_status'] == 1 && isset($data[5]['notify_status'])}
+                                <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[5]['notify_status']}"  title="启用" checked>
+                                {else}
+                                <input type="checkbox" name="notify_status" lay-skin="primary" lay-filter="start" data-id="{$data[5]['notify_status']}"  title="启用">
+                                {/if}
                         </td>
                     </tr>
                 </tbody>

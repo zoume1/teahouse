@@ -34,8 +34,8 @@ class Message extends Controller
         $member = Member::detail(['member_id' => $order['member_id']]);
         $order_number = $orderType['parts_order_number'];
         // 页面链接
-        $status = 2;
-        $urls = 'pages/order_detail/order_detail?status='.$status.'&title='.$order_number;
+        $status = $orderType['status'];
+        $urls = 'pages/order_detail/order_detail?status='.$status.'&order_number='.$order_number;
 
         // 发送模板消息
         $status = $this->sendTemplateMessage($order['store_id'], [
