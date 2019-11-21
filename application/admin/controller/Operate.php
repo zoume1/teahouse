@@ -651,9 +651,20 @@ class Operate extends  Controller{
     public function templet_message_index(){
         $store_id = Session::get("store_id");
         $data = TempletMessage::getTemplet($store_id);
-        if(empty($data)){
-            $templet = TempletMessage::getTemplet(6);
-        }
+        // if(empty($data)){
+        //     $categoryed = Db::table('tp_templet_message')->where("store_id","EQ",6)->select();
+        //     foreach($categoryed as $kk => $val){
+        //         unset($categoryed[$kk]['id']);
+        //         $categoryed[$kk]['store_id'] = $store_id;
+                
+        //     }
+        
+        //     foreach($categoryed as $kv => $ve){
+        //         $boole = Db::table('tp_templet_message')->insert($ve);
+        //     }
+        //     $data = TempletMessage::getTemplet($store_id);
+
+        // }
         return view("templet_message_index",['data' => $data]);
     }
 
@@ -678,12 +689,6 @@ class Operate extends  Controller{
                 return jsonError($validate->getError());
             }
             $param['store_id'] = $store_id;
-            if(isset($param['message_status']) && $param['message_status'] == 1){
-                $template = TempletMessage::detail(['id'=>$param['id']]);
-                if(empty($template['template_id'])){
-                    return jsonError('请添加模板id');
-                }
-            }
             $rest_data = array(
                 'store_id' => $store_id,
             );
@@ -694,7 +699,12 @@ class Operate extends  Controller{
             } elseif($param['name'] =='notify_status'){
                 $rest_data['notify_status'] = $param['status'];
             }
-
+            if(isset($rest_data['message_status']) && $rest_data['message_status'] == 1){
+                $template = TempletMessage::detail(['id'=>$param['id']]);
+                if(empty($template['template_id'])){
+                    return jsonError('请添加模板id');
+                }
+            }
             $rest = (new TempletMessage)-> allowField(true)->save($rest_data,$id);
             return jsonSuccess('设置成功');
         } 
