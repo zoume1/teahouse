@@ -559,7 +559,9 @@ class  Material extends  Controller{
         //获取商品的list
         $store_id = Session::get('store_id');
         $rr=db('anti_goods')->where('store_id',$store_id)->select();
-        return view("anti_fake",['data'=>$rr]);
+        //获取会员范围
+        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
+        return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
     }
     /**
      **************GY*******************
@@ -768,5 +770,48 @@ class  Material extends  Controller{
         }
     }
 
+     /**
+     * lilu
+     * 防伪溯源-生成商品
+     * id    防伪溯源商品id
+     */
+    public function create_good()
+    {
+        $id=input();
+        $store_id=Session::get('store_id');
+        //测试七牛上传图片
+        $qiniu=new Qiniu();
+        //获取店铺七牛云的配置项
+        $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+        $images='goods_show_images';
+        $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+        if(empty($rr)){
+          
+        }else{
+         $data["goods_show_image"] =  $rr[0];
+         $data["goods_show_images"] = implode(',', $rr);
+        }
+        //获取防伪溯源商品的信息
+        $anti_info=db('anti_goods')->where('id',$id['id'])->find();
+        $data['goods_name']=$anti_info['goods_name'];
+        $data['produce']=$anti_info['produce'];
+        $data['brand']=$anti_info['goods_brand'];
+        $data['goods_number']=$anti_info['goods_number'];
+        $data['date']=$anti_info['frement_date'];
+        $data['goods_selling']=$input['goods_selling'];
+        $data['goods_standard']=0;
+        $data['goods_new_money']=$input['goods_new_money'];
+        $data['goods_bottom_money']=$input['goods_bottom_money'];
+        $data['goods_cost']=$input['goods_cost'];
+        $data['goods_repertory']=$anti_info['goods_repertory'];
+        $data['goods_franking']=0;
+        $data['label']=0;
+        $data['status']=0;
+        $data['scope']='';
+        $data['store_id']=Session::get('store_id');
+        halt($data);
 
+    }
+
+    
  }
