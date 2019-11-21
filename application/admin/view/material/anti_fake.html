@@ -294,6 +294,8 @@
             <div class="popup_content">
                 <form class="layui-form layui-form-lists" action="{:url('admin/Material/create_good')}" method="post"
                     enctype="multipart/form-data">
+                    <input type="hidden" name="id" lay-verify="title" autocomplete="off"
+                                placeholder="" class="layui-input">
                     <div class="form-item">
                         <label class="form-label"> <span class="red">*</span> 商品卖点</label>
                         <div class="form-input">
@@ -529,7 +531,7 @@
                                             style="color: rgb(10,135,255);">芯片详情</a>
                                     </div>
                                     <!-- <div class="complete">已生成商品</div> -->
-                                    <div class="unfinished">未生成商品</div>
+                                    <div class="unfinished" data-id="{$vo.id}">未生成商品</div>
                                 </div>
                             </td>
                         </tr>
@@ -598,8 +600,11 @@
             $(".popup_x").add('.button-qx').click(function () {
                 $(".popup").addClass("noshow");
             });
-            $(".unfinished").click(function name(params) {
+            $(".unfinished").click(function() {
+                let id = $(this).data("id");
+                $('input[name="id"]').val(id);
                 $(".popup").removeClass("noshow");
+
             })
             form.render();
         })
