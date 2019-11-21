@@ -3,225 +3,277 @@
 
 {block name="css"}
 <style>
-    *{margin: 0; padding: 0; list-style: none;}
-    .wrapper{padding: 20px; background-color: #fff;}
-    .redStar::before{content: '*'; color: #f00;}
-    .my-input-block, .my-input-line{display: flex;}
-    .my-input-block>div{flex: 1; margin-right: 20px;}
-    .live_c .layui-form-select {width: 28%; margin-right: 20px; }
-     /* 数据库展现图片样式 */
-     .img {position: relative;display: inline-block;width: 100px;}
-    .imgcontent {margin: 10px;}
-    .img>i {display: inline-block;width: 20px;position: absolute;right: 0;top: 0;}
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .wrapper {
+        padding: 20px;
+        background-color: #fff;
+    }
+
+    .redStar::before {
+        content: '*';
+        color: #f00;
+    }
+
+    .my-input-block,
+    .my-input-line {
+        display: flex;
+    }
+
+    .my-input-block>div {
+        flex: 1;
+        margin-right: 20px;
+    }
+
+    .live_c .layui-form-select {
+        width: 28%;
+        margin-right: 20px;
+    }
+
+    /* 数据库展现图片样式 */
+    .img {
+        position: relative;
+        display: inline-block;
+        width: 100px;
+    }
+
+    .imgcontent {
+        margin: 10px;
+    }
+
+    .img>i {
+        display: inline-block;
+        width: 20px;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
 </style>
 {/block}
 
 </head>
+
 <body>
     {block name="content"}
-        <div class="wrapper">
-            {if !empty($data)}{volist name="data" id="value"}.
+    <div class="wrapper">
+        {if !empty($data)}{volist name="data" id="value"}.
 
-            <form class="layui-form" action="{:url('admin/Material/direct_seeding_update')}" method="post" enctype="multipart/form-data">
-                <div class="layui-form-item">
-                    <label class="layui-form-label"><span class="red">*</span>直播分类</label>
-                    <div class="layui-input-block my-input-block">
-                        {if !empty($direct)}
-                        <select name="classify_name" id="admin_role" class="role_list">
-                            {volist name="direct" id="v"}{if condition="$value.classify_name eq $v.title"}
-                            <option value="{$v.title}" selected="">{$v.title}</option>
-                            {else}
-                            <option value="{$v.title}">{$v.title}</option>
-                            {/if}{/volist}
-                        </select>
+        <form class="layui-form" action="{:url('admin/Material/direct_seeding_update')}" method="post"
+            enctype="multipart/form-data">
+            <div class="layui-form-item">
+                <label class="layui-form-label"><span class="red">*</span>直播分类</label>
+                <div class="layui-input-block my-input-block">
+                    {if !empty($direct)}
+                    <select name="classify_name" id="admin_role" class="role_list">
+                        {volist name="direct" id="v"}{if condition="$value.classify_name eq $v.title"}
+                        <option value="{$v.title}" selected="">{$v.title}</option>
                         {else}
-                        <select name="classify_name" class="role_list">
-                        </select>
-                        {/if}
-                        </select>
-                        <button class="layui-btn">添加分类</button>
-                    </div>
+                        <option value="{$v.title}">{$v.title}</option>
+                        {/if}{/volist}
+                    </select>
+                    {else}
+                    <select name="classify_name" class="role_list">
+                    </select>
+                    {/if}
+                    </select>
+                    <button class="layui-btn">添加分类</button>
                 </div>
-                <input type="hidden" name="id" id="" value="{$value.id}" />
-                <div class="layui-form-item">
-                    <label class="layui-form-label redStar">直播标题</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="title" value="{$value.title}"required lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                    <div  class="tips"  style="margin-left: 120px;">*如果是仓库直播，请填写仓库名</div>
+            </div>
+            <input type="hidden" name="id" id="" value="{$value.id}" />
+            <div class="layui-form-item">
+                <label class="layui-form-label redStar">直播标题</label>
+                <div class="layui-input-block">
+                    <input type="text" name="title" value="{$value.title}" required lay-verify="required"
+                        placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
-                <div class="layui-form-item layui-form-text">
-                    <label class="layui-form-label redStar">介绍内容</label>
-                    <div class="layui-input-block">
-                        <textarea name="substance"  required lay-verify="required" placeholder="请输入内容" class="layui-textarea">{$value.substance}</textarea>
-                    </div>
+                <div class="tips" style="margin-left: 120px;">*如果是仓库直播，请填写仓库名</div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label redStar">介绍内容</label>
+                <div class="layui-input-block">
+                    <textarea name="substance" required lay-verify="required" placeholder="请输入内容"
+                        class="layui-textarea">{$value.substance}</textarea>
                 </div>
-                <!-- <div class="layui-form-item">
+            </div>
+            <!-- <div class="layui-form-item">
                     <label class="layui-form-label">直播链接</label>
                     <div class="layui-input-block">
                         <input type="text" name="urls" value="{$value.urls}" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div> -->
-                <div class="layui-form-item">
-                        <label class="layui-form-label">直播链接</label>
-                        <div class="layui-input-block">
-                                <input type="radio" name="live_type" value="萤石直播"  title="萤石直播">
-                            <input type="text" style="width: 83%;" value="{$value.urls}" name="urls" placeholder="请输入" autocomplete="off" class="layui-input" required>
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label"></label>
-                        <div class="layui-input-block">
-                                <input type="radio" name="live_type" value="七牛直播"  title="七牛直播">
-                            <input type="text" style="width: 83%;" name="urls" placeholder="请输入" autocomplete="off" class="layui-input" required>
-                        </div>
-                    </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">设备序列号</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="series_number" value="{$value.series_number}" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">直播链接</label>
+                <div class="layui-input-block">
+                    <input type="radio" name="live_type" value="1" title="萤石直播" checked>
+                    <input type="radio" name="live_type" value="2" title="七牛直播">
                 </div>
-                {if $value.live == 1}
-                <div class="layui-form-item" style="width: 100%;">
-                    <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
-                    <div class="layui-input-block  my-input-line live_c">
-                        <input type="radio" name="live" value="仓储直播"  title="仓储直播" checked>
-                        {if !empty($store_name)}
-                        <select name="store_name" id="admin_role" class="role_list">
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <input type="text" name="urls" placeholder="请输入直播流" autocomplete="off" class="layui-input" required>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">设备序列号</label>
+                <div class="layui-input-block">
+                    <input type="text" name="series_number" value="{$value.series_number}" placeholder="请输入"
+                        autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            {if $value.live == 1}
+            <div class="layui-form-item" style="width: 100%;">
+                <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
+                <div class="layui-input-block  my-input-line live_c">
+                    <input type="radio" name="live" value="仓储直播" title="仓储直播" checked>
+                    {if !empty($store_name)}
+                    <select name="store_name" id="admin_role" class="role_list">
                         <option value="">请选择</option>
                         {volist name="store_name" id="v"}{if condition="$value.store_name eq $v.name"}
                         <option value="{$v.name}" selected="">{$v.name}</option>
                         {else}
                         <option value="{$v.name}">{$v.name}</option>
                         {/if}{/volist}
-                        </select>
+                    </select>
+                    {else}
+                    <select name="store_name" class="role_list">
+                    </select>
+                    {/if}
+                    </select>
+                    <button class="layui-btn">添加仓库</button>
+                </div>
+            </div>
+            <div class="layui-form-item" style="width: 100%;">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block my-input-line">
+                    <input type="radio" name="live" value="流动直播" title="流动直播">
+                    <input style="width: 28%;" type="text" name="" placeholder="请输入" autocomplete="off"
+                        class="layui-input">
+                </div>
+                <div class="tips" style="margin-left: 220px;">
+                    如：茶山、茶树监控直播、茶定制生产的现场直播
+                </div>
+            </div>
+            {else}
+            <div class="layui-form-item" style="width: 100%;">
+                <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
+                <div class="layui-input-block  my-input-line live_c">
+                    <input type="radio" name="live" value="仓储直播" title="仓储直播">
+                    {if !empty($store_name)}
+                    <select name="store_name" id="admin_role" class="role_list">
+                        <option value="">请选择</option>
+                        {volist name="store_name" id="v"}{if condition="$value.store_name eq $v.name"}
+                        <option value="{$v.name}" selected="">{$v.name}</option>
                         {else}
-                        <select name="store_name" class="role_list">
-                        </select>
-                        {/if}
-                        </select>
-                        <button class="layui-btn">添加仓库</button>
-                    </div>
+                        <option value="{$v.name}">{$v.name}</option>
+                        {/if}{/volist}
+                    </select>
+                    {else}
+                    <select name="store_name" class="role_list">
+                    </select>
+                    {/if}
+                    </select>
+                    <button class="layui-btn">添加仓库</button>
                 </div>
-                <div class="layui-form-item" style="width: 100%;">
-                    <label class="layui-form-label"></label>
-                    <div class="layui-input-block my-input-line">
-                        <input type="radio" name="live" value="流动直播" title="流动直播">
-                        <input style="width: 28%;" type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
-                    </div>
-                    <div class="tips" style="margin-left: 220px;">
-                            如：茶山、茶树监控直播、茶定制生产的现场直播
-                        </div>
+            </div>
+            <div class="layui-form-item" style="width: 100%;">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block my-input-line">
+                    <input type="radio" name="live" value="流动直播" title="流动直播" checked>
+                    <input style="width: 28%;" type="text" name="store_one" value="{$value.store_name}"
+                        placeholder="请输入" autocomplete="off" class="layui-input">
                 </div>
-                {else}
-                <div class="layui-form-item" style="width: 100%;">
-                        <label class="layui-form-label"><span class="red">*</span>所属仓库</label>
-                        <div class="layui-input-block  my-input-line live_c">
-                            <input type="radio" name="live" value="仓储直播"  title="仓储直播" >
-                            {if !empty($store_name)}
-                            <select name="store_name" id="admin_role" class="role_list">
-                            <option value="">请选择</option>
-                            {volist name="store_name" id="v"}{if condition="$value.store_name eq $v.name"}
-                            <option value="{$v.name}" selected="">{$v.name}</option>
-                            {else}
-                            <option value="{$v.name}">{$v.name}</option>
-                            {/if}{/volist}
-                            </select>
-                            {else}
-                            <select name="store_name" class="role_list">
-                            </select>
-                            {/if}
-                            </select>
-                            <button class="layui-btn">添加仓库</button>
-                        </div>
-                    </div>
-                    <div class="layui-form-item" style="width: 100%;">
-                        <label class="layui-form-label"></label>
-                        <div class="layui-input-block my-input-line">
-                            <input type="radio" name="live" value="流动直播" title="流动直播" checked>
-                            <input style="width: 28%;" type="text" name="store_one" value="{$value.store_name}"placeholder="请输入" autocomplete="off" class="layui-input">
-                        </div>
-                        <div class="tips" style="margin-left: 220px;">
-                                如：茶山、茶树监控直播、茶定制生产的现场直播
-                            </div>
+                <div class="tips" style="margin-left: 220px;">
+                    如：茶山、茶树监控直播、茶定制生产的现场直播
+                </div>
+            </div>
+            {/if}
+            <div class="form-item">
+                <label class="form-label">直播封面</label>
+                <div class="form-input">
+                    {if $value.icon_image}
+                    <div class="imgcontent">
+                        <span class="img">
+                            <img src="{$value.icon_image}" width="100%">
+                            <i class="remove-img" name="icon_image" value="{$value.icon_image}" data-id="{$value.id}"
+                                data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+                        </span>
                     </div>
                     {/if}
-                <div class="form-item">
-                        <label class="form-label">直播封面</label>
-                        <div class="form-input">
-                            {if $value.icon_image}
-                            <div class="imgcontent">
-                                <span class="img">
-                                    <img src="{$value.icon_image}" width="100%">
-                                    <i class="remove-img" name="icon_image" value="{$value.icon_image}" data-id="{$value.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
-                                </span>
-                            </div>
-                            {/if}
-                            <div class="img-box full">
-                                <section class=" img-section">
-                                    <div class="z_photo upimg-div clear">
-                                        <section class="z_file fl">
-                                            <img src="http://zhihuichacang.com/a11.png" class="add-img">
-                                            <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
-                                        </section>
-                                    </div>
+                    <div class="img-box full">
+                        <section class=" img-section">
+                            <div class="z_photo upimg-div clear">
+                                <section class="z_file fl">
+                                    <img src="http://zhihuichacang.com/a11.png" class="add-img">
+                                    <input type="file" name="icon_image" id="file" class="file" value=""
+                                        accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
                                 </section>
                             </div>
-            
-                            <aside class="mask works-mask">
-                                <div class="mask-content">
-                                    <p class="del-p ">您确定要删除作品图片吗？</p>
-                                    <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span></p>
-                                </div>
-                            </aside>
+                        </section>
+                    </div>
+
+                    <aside class="mask works-mask">
+                        <div class="mask-content">
+                            <p class="del-p ">您确定要删除作品图片吗？</p>
+                            <p class="check-p"><span class="del-com wsdel-ok">确定</span><span class="wsdel-no">取消</span>
+                            </p>
                         </div>
-                    </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">声音</label>
-                    <div class="layui-input-block">
-                        {if $value.sound == 1}
-                        <input type="checkbox" name="sound" $value="{$value.sound}"lay-filter="isShow" lay-skin="switch" value="1" checked>{else}
-                        <input type="checkbox" name="sound" $value="{$value.sound}"lay-filter="isShow" lay-skin="switch" value="0" checked>{/if}
-                    </div>
+                    </aside>
                 </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">视频</label>
-                    <div class="layui-input-block">
-                        {if $value.video == 1}
-                        <input type="checkbox" name="video"  value="{$value.video}"lay-filter="isShow" lay-skin="switch" value="1" checked>{else}
-                        <input type="checkbox" name="video"  value="{$value.video}"lay-filter="isShow" lay-skin="switch" value="0">{/if}
-                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">声音</label>
+                <div class="layui-input-block">
+                    {if $value.sound == 1}
+                    <input type="checkbox" name="sound" $value="{$value.sound}" lay-filter="isShow" lay-skin="switch"
+                        value="1" checked>{else}
+                    <input type="checkbox" name="sound" $value="{$value.sound}" lay-filter="isShow" lay-skin="switch"
+                        value="0" checked>{/if}
                 </div>
-                <div class="layui-form-item">
-                        <label class="layui-form-label">状态</label>
-                        <div class="layui-input-block">
-                            {if $value.status==0}
-                            <input type="radio" name="status" value="1" title="开启" >
-                            <input type="radio" name="status" value="0" title="关闭" checked=""> {else}
-                            <input type="radio" name="status" value="1" title="开启" checked="">
-                            <input type="radio" name="status" value="0" title="关闭" >{/if}
-                        </div>
-                    </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">单选框</label>
-                    <div class="layui-input-block">
-                        {if $value.open_status == "公开"}
-                        <input type="radio" name="open_status" value="公开"  title="公开" checked>
-                        <input type="radio" name="open_status" value="私有"  title="私有">{else}
-                        <input type="radio" name="open_status" value="公开"  title="公开" >
-                        <input type="radio" name="open_status" value="私有"  title="私有" checked>{/if}
-                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">视频</label>
+                <div class="layui-input-block">
+                    {if $value.video == 1}
+                    <input type="checkbox" name="video" value="{$value.video}" lay-filter="isShow" lay-skin="switch"
+                        value="1" checked>{else}
+                    <input type="checkbox" name="video" value="{$value.video}" lay-filter="isShow" lay-skin="switch"
+                        value="0">{/if}
                 </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                        <button class="layui-btn layui-btn-primary" onclick="javascript:history.back(-1);">返回</button>
-                    </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">状态</label>
+                <div class="layui-input-block">
+                    {if $value.status==0}
+                    <input type="radio" name="status" value="1" title="开启">
+                    <input type="radio" name="status" value="0" title="关闭" checked=""> {else}
+                    <input type="radio" name="status" value="1" title="开启" checked="">
+                    <input type="radio" name="status" value="0" title="关闭">{/if}
                 </div>
-            </form>
-            {/volist}{/if}
-        </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">单选框</label>
+                <div class="layui-input-block">
+                    {if $value.open_status == "公开"}
+                    <input type="radio" name="open_status" value="公开" title="公开" checked>
+                    <input type="radio" name="open_status" value="私有" title="私有">{else}
+                    <input type="radio" name="open_status" value="公开" title="公开">
+                    <input type="radio" name="open_status" value="私有" title="私有" checked>{/if}
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+                    <button class="layui-btn layui-btn-primary" onclick="javascript:history.back(-1);">返回</button>
+                </div>
+            </div>
+        </form>
+        {/volist}{/if}
+    </div>
     {/block}
 
     <!--_footer 作为公共模版分离出去-->
@@ -238,39 +290,40 @@
                 layer = parent.layer === undefined ? layui.layer : parent.layer,
                 $ = layui.jquery,
                 upload = layui.upload;
-                form.on('switch(isShow)', function (data) {
-                    if ($(this).val() == 0) {
-                        $(this).val(1);
-                    } else {
-                        $(this).val(0);
+            form.on('switch(isShow)', function (data) {
+                if ($(this).val() == 0) {
+                    $(this).val(1);
+                } else {
+                    $(this).val(0);
+                }
+            });
+
+            // 图片删除
+            $(".remove-img").click(function () {
+                var remove = $(this).parent();
+                var id = $(this).data("id");
+                var value = $(this).data("value");
+                $.ajax({
+                    type: "POST",
+                    url: "{:url('admin/Material/direct_seeding_delete_image')}",
+                    data: {
+                        "id": id
+                    },
+                    dataType: "json",
+                    success: function (data) {
+                        remove.remove();
+                        alert(data.info);
+                        location.reload();
+                    },
+                    error: function (data) {
+                        console.log("错误");
                     }
                 });
-
-                // 图片删除
-                $(".remove-img").click(function () {
-                    var remove = $(this).parent();
-                    var id = $(this).data("id");
-                    var value = $(this).data("value");
-                    $.ajax({
-                        type: "POST",
-                        url: "{:url('admin/Material/direct_seeding_delete_image')}",
-                        data: {
-                            "id": id
-                        },
-                        dataType: "json",
-                        success: function (data) {
-                            remove.remove();
-                            alert(data.info);
-                            location.reload();
-                        },
-                        error: function (data) {
-                            console.log("错误");
-                        }
-                    });
-                });
+            });
         })
     </script>
 
     {/block}
 </body>
+
 </html>
