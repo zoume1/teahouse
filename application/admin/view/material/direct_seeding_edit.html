@@ -105,17 +105,29 @@
                         <input type="text" name="urls" value="{$value.urls}" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div> -->
+            <!--{if $value.status==0}-->
+            <!--<input type="radio" name="status" value="1" title="开启">-->
+            <!--<input type="radio" name="status" value="0" title="关闭" checked="">-->
+            <!--{else}-->
+            <!--<input type="radio" name="status" value="1" title="开启" checked="">-->
+            <!--<input type="radio" name="status" value="0" title="关闭">-->
+            <!--{/if}-->
             <div class="layui-form-item">
                 <label class="layui-form-label">直播链接</label>
                 <div class="layui-input-block">
-                    <input type="radio" name="live_type" value="1" title="萤石直播" checked>
+                    {if $value.live_type==1}
+                    <input type="radio" name="live_type" value="1" title="萤石直播" checked="">
                     <input type="radio" name="live_type" value="2" title="七牛直播">
+                    {else}
+                    <input type="radio" name="live_type" value="1" title="萤石直播" >
+                    <input type="radio" name="live_type" value="2" title="七牛直播" checked="">
+                    {/if}
                 </div>
             </div>
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <div class="layui-input-block">
-                    <input type="text" name="urls" placeholder="请输入直播流" autocomplete="off" class="layui-input" required>
+                    <input type="text" name="urls" value="{$value.urls}" placeholder="请输入直播流" autocomplete="off" class="layui-input" required>
                 </div>
             </div>
             <div class="layui-form-item">
@@ -250,9 +262,11 @@
                 <div class="layui-input-block">
                     {if $value.status==0}
                     <input type="radio" name="status" value="1" title="开启">
-                    <input type="radio" name="status" value="0" title="关闭" checked=""> {else}
+                    <input type="radio" name="status" value="0" title="关闭" checked="">
+                    {else}
                     <input type="radio" name="status" value="1" title="开启" checked="">
-                    <input type="radio" name="status" value="0" title="关闭">{/if}
+                    <input type="radio" name="status" value="0" title="关闭">
+                    {/if}
                 </div>
             </div>
             <div class="layui-form-item">

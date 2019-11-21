@@ -45,7 +45,6 @@ class  Material extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id");
             $data = $request->param();
-            print_r($data);die;
              //测试七牛上传图片
            $qiniu=new Qiniu();
            //获取店铺七牛云的配置项
