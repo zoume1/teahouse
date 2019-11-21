@@ -29,7 +29,6 @@ class Order extends Model
             }
 
         } 
-
         $goods_bool = Goods::getDistributionStatus($goods_id); // 是否分销商品
         $count_money = Goods::getDistributionPrice($goods_id,$goods_bool,$all_money);
         $data = [
@@ -44,6 +43,22 @@ class Order extends Model
         ];
                                     
         return $data;
+        
+    }
+
+
+
+    /**
+     * 获取商品名
+     * @param $order
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public static function getOrderGoods($order)
+    {
+
+        $order_data = self::where('parts_order_number',"=",$order['parts_order_number'])->select();                    
+        return $order_data;
         
     }
 

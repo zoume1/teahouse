@@ -734,6 +734,8 @@ Route::group("admin",[
     "distribution_member_update"=>"admin/Member/member_update",        //分销成员页面更新
     "distribution_member_save"=>"admin/Member/member_save",            //分销成员保存入库
     "distribution_member_status"=>"admin/Member/member_status",        //分销成员状态更改
+    "distribution_member_index_search"=>"admin/Member/member_index_search",          //分销成员页面
+
     /*TODO：分销结束*/
 
 
@@ -786,6 +788,10 @@ Route::group("admin",[
     "operate_problem_delete"=>"admin/operate/operate_problem_delete",    //常见问题删除
     "operate_problem_status"=>"admin/operate/operate_problem_status",    //常见问题状态值修改
     "operate_problem_search"=>"admin/operate/operate_problem_search",    //常见问题搜索
+    "templet_message_index"=>"admin/operate/templet_message_index",      //模板消息设置
+    "templet_switch"=>"admin/operate/templet_switch",      //模板消息启用开关
+    "templetid_edit"=>"admin/operate/templetid_edit",      //模板消息编辑模板ID
+    "templetid_index"=>"admin/operate/templetid_index",    //模板id页面显示
 
 
     "operate_contract"=>"admin/operate/operate_contract",                //协议合同显示
@@ -912,6 +918,8 @@ Route::group("admin",[
     "interaction_add_do" =>"admin/Material/interaction_add_do",                                     //温湿感应仪器添加处理
     "wenshidu" =>"admin/Material/wenshidu",                                                         //温湿感应仪器登录操作
     "video_comment" =>"admin/Material/video_comment",                                               //直播评论
+    "interaction_delete" =>"admin/Material/interaction_delete",                                     //温湿感应列表删除
+
 
     /*数据*/
     "data_index" =>"admin/Information/data_index",                //数据概况
@@ -1178,10 +1186,11 @@ Route::group("admin",[
    "city_market_feedback_delete"=>"admin/City/city_market_feedback_delete",  //城市市场回复删除
 
    /*总控资金管理 */
-   "adminBankRollIndex" => "admin/Bankroll/adminBankRollIndex", //总控资金管理-提现审核
-   "rewardsIndex" => "admin/Bankroll/rewardsIndex" ,            //总控资金管理-资金奖惩
-   "rewards_index_add" => "admin/Bankroll/rewards_index_add" ,    //总控资金管理-资金奖惩添加
-   "rewards_index_edit" => "admin/Bankroll/rewards_index_edit" ,  //总控资金管理-资金奖惩编辑
+   "adminBankRollIndex" => "admin/Bankroll/adminBankRollIndex",         //总控资金管理-提现审核
+   "rewardsIndex" => "admin/Bankroll/rewardsIndex" ,                    //总控资金管理-资金奖惩
+   "rewards_index_add" => "admin/Bankroll/rewards_index_add" ,          //总控资金管理-资金奖惩添加
+   "rewards_index_edit" => "admin/Bankroll/rewards_index_edit" ,        //总控资金管理-资金奖惩编辑
+   "adminBankRollExamine" => "admin/Bankroll/adminBankRollExamine" ,    //总控资金管理-资金奖惩确认支付
 ]);
 
 /**

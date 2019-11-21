@@ -23,7 +23,7 @@ class Member extends Controller{
      */
     public function member_index(){
         $store_id = Session::get('store_id');
-        $member =Db::name('dealer_user')
+        $member = Db::name('dealer_user')
             ->field("tb_dealer_user.*,tb_member.member_phone_num")
             ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
             ->where("tb_dealer_user.wxapp_id",$store_id)
@@ -160,6 +160,38 @@ class Member extends Controller{
                 }
             }
         }
+    }
+
+
+        /**
+     * [分销成员页面搜索]
+     * GY
+     */
+    public function member_index_search(){
+        $search = input('name');
+        $store_id = Session::get('store_id');
+        if(!empty($search)){
+            $member = Db::name('dealer_user')
+            ->field("tb_dealer_user.*,tb_member.member_phone_num")
+            ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
+            ->where('tb_dealer_user.mobile|tb_dealer_user.real_name', 'like', '%' . trim($search) . '%')
+            ->where("tb_dealer_user.wxapp_id",$store_id)
+            ->where("tb_dealer_user.show_status",'=',1) 
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        } else {
+            $member = Db::name('dealer_user')
+            ->field("tb_dealer_user.*,tb_member.member_phone_num")
+            ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
+            ->where("tb_dealer_user.wxapp_id",$store_id)
+            ->where("tb_dealer_user.show_status",'=',1) 
+            ->paginate(20 ,false, [
+                'query' => request()->param(),
+            ]);
+        }
+      
+        return view('member_index',["member"=>$member]);
     }
 
 

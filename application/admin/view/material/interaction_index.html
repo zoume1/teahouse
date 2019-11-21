@@ -150,15 +150,17 @@
 
     <div class="wrapper">
         <div class="inner">
+            <form class="layui-form" action="{:url('admin/Material/interaction_index')}">
             <div class="search-hd">
                 <div class="search-box layui-form">
                     <div class="s-input">
                         <label>选择仓库：</label>
-                        <input type="text" placeholder="编号/名称" id="searchTxt">
+                        <input type="text" name="name" placeholder="编号/名称" id="searchTxt">
                     </div>
                     <button class="search-btn layui-btn">立即搜索</button>
                 </div>
             </div>
+            </form>
             <div class="operate-hd">
                 <a href="interaction_add" class="layui-btn layui-btn-danger">添加设备</a>
             </div>
@@ -177,9 +179,7 @@
                             <th class="table-cell">
                                 <div class="table-cell-div">温湿度传感器序列号</div>
                             </th>
-                            <!-- <th class="table-cell">
-                                <div class="table-cell-div">实时温度</div>
-                            </th> -->
+ 
                             <th class="table-cell">
                                 <div class="table-cell-div">实时温湿度</div>
                             </th>
@@ -189,7 +189,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {volist name="data" id="vo"}
+                        {if !empty($data)}{volist name="data" id="vo"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
@@ -197,7 +197,7 @@
                                 </div>
                             </td>
                             <td class="table-cell">
-                                <div class="table-cell-div">{$vo['city_name']}</div>
+                                <div class="table-cell-div">{$vo['store_name']}</div>
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">{$vo['instrument_number']}</div>
@@ -215,12 +215,11 @@
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn layui-btn-mini">编辑</button>
-                                    <button class="layui-btn layui-btn-mini layui-btn-danger ">删除</button>
+                                    <a href="{:url('admin/Material/interaction_delete',['id'=>$vo.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
                                 </div>
                             </td>
                         </tr>
-                        {/volist}
+                        {/volist}{/if}
                     </tbody>
                 </table>
             </div>
@@ -234,6 +233,7 @@
                 <div>
                     <button type="button" id="operation-btn" class="operation-btn">确定</button>
                 </div>
+                {if !empty($data)}{$data->render()}{/if}
             </div>
         </div>
     </div>

@@ -24,6 +24,7 @@ use app\city\model\StoreCommission;
 use app\city\model\CitySetting;
 use app\city\model\CityCopartner;
 use app\city\model\CityRank;
+use think\Log;
 
 
 
@@ -1299,6 +1300,18 @@ function MemberFristAdd($store_id)
         $boole = db("goods_type")->insert($ve);
     }
 
+    //活动分类
+    $categoryed = Db::table('tp_templet_message')->where("store_id","EQ",$store)->select();
+    foreach($categoryed as $kk => $val){
+        unset($categoryed[$kk]['id']);
+        $categoryed[$kk]['store_id'] = $store_id;
+        
+    }
+
+    foreach($categoryed as $kv => $ve){
+        $boole = Db::table('tp_templet_message')->insert($ve);
+    }
+
     $ppid = db("goods_type")->where("store_id",'EQ',$store_id)->where('pid',0)->value('id');
     $bb =  db("goods_type")->where("store_id",'EQ',$store_id)->where('pid','>',0)->update(['pid'=>$ppid]);
     
@@ -1868,6 +1881,19 @@ function get_random( $length = 6) {
     } 
     return $password; 
     } 
+
+
+
+/**
+ * 写入日志 (使用tp自带驱动记录到runtime目录中)
+ * @param $value
+ * @param string $type
+ */
+function log_write($value, $type = 'yoshop-info')
+{
+    $msg = is_string($value) ? $value : var_export($value, true);
+    Log::record($msg, $type);
+}
 
 
 

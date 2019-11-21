@@ -65,12 +65,12 @@
     <div class="childrenBody">
         {include file="template/_top" /}
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/GoodsType/search')}">
+            <form class="layui-form" action="{:url('admin/Bankroll/adminBankRollIndex')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">开始时间</div>
                         <div class="seach_input">
-                            <span class="start_time"><input type="text" name="date_min"
+                            <span class="start_time"><input type="text" name="start_time"
                                     class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value="">
                             </span>
                         </div>
@@ -78,7 +78,7 @@
                     <div class="seach_list">
                         <div class="seach_laber">结束时间</div>
                         <div class="seach_input">
-                            <span class="end_time"><input type="text" name="date_max"
+                            <span class="end_time"><input type="text" name="end_time"
                                     class=" text datetimepicker layui-input" readonly="readonly" id="endTime"
                                     value=""></span>
 
@@ -87,14 +87,14 @@
                     <div class="seach_list">
                         <div class="seach_laber">用户账号</div>
                         <div class="seach_input">
-                            <input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="请输入账号"
+                            <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入账号"
                                 class="layui-input">
                         </div>
                     </div>
                     <div class="seach_list">
                         <div class="seach_laber">分类状态</div>
                         <div class="seach_input">
-                            <select name="interest" id="admin_status">
+                            <select name="status" id="admin_status">
                                 <option value="" selected="">全部</option>
                                 <option value="1">待审核</option>
                                 <option value="2">已付款</option>
@@ -128,23 +128,28 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                    {if !empty($data)}{volist name="data" id="value"}
                     <tr>
                         <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose"
-                                data-id=""></td>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
+                                data-id="{$value.id}"></td>
+                        <td>{$value.phone_number}</td>
+                        <td>{if $value.type == 1}商户{else} 城市合伙人{/if}</td>
+                        <td>{$value.money}</td>
+                        <td>{$value.create_time}</td>
+                        <td>{if $value.invoice_type == 1}纸质{else}电子{/if}</td>
+                        <td>{$value.express_name}</td>
                         <td>
-                            <div class=" layui-btn static_btus color-1">代付款</div>
+                            {if $value.status == 1}
+                            <div class=" layui-btn static_btus color-1" data-id="{$value.id}">待付款</div>
+                            {else}
                             <div class=" layui-btn static_btus color-2">已付款</div>
+                            {/if}
                         </td>
                     </tr>
+                    {/volist}{/if}
                 </tbody>
             </table>
-            <div id="page">
+            <!-- <div id="page">
                 <div class="opation up-form-select" style="width: 200px; float: left;">
                     <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
                         <option check="" value="0">请选择</option>
@@ -156,7 +161,8 @@
                         style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
                     </button>
                 </div>
-            </div>
+            </div> -->
+            {if !empty($data)}{$data->render()}{/if}
 
         </div>
 
@@ -257,7 +263,8 @@
                 form.render('checkbox');
             })
 
-            $('.static_btus').click(function () {
+            $('.color-1').click(function () {
+                let id = $(this).data("id");
                 layer.open({
                     type: 1,
                     title: false, //不显示标题栏
@@ -268,9 +275,30 @@
                     btn: ['确定', '返回'],
                     btnAlign: 'c',
                     moveType: 1, //拖拽模式，0或者1
-                    content: '<div style="text-align:center;font-size:24px;margin:10px;">代付款</div><div style="text-align:center;margin-10px;font-size:18px">确定该笔款项已支付了吗？</div>',
-                    success: function (layero) {
-                        
+                    content: '<div style="text-align:center;font-size:24px;margin:10px;">待付款</div><div style="text-align:center;margin-10px;font-size:18px">确定该笔款项已支付了吗？</div>',
+                    yes: function (layero) {
+                        $.ajax({
+                            type: "POST",
+                            url: "adminBankRollExamine",
+                            data: {
+                                "id": id,
+                                "status": 2
+                            },
+                            success: function (res) {
+                                layer.closeAll();
+                                layer.msg(res.msg, {
+                                    time: 1000, //20s后自动关闭
+                                });
+                                if(res.code == 1) {
+                                    setTimeout(function() {
+                                        window.location.reload();
+                                    },1000)
+                                }
+                            },
+                            error: function (e) {
+                                console.log(e)
+                            }
+                        });
                     }
                 });
             })

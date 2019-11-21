@@ -557,7 +557,7 @@ class  Material extends  Controller{
     public function anti_fake()
     {   
         //获取商品的list
-        $store_id=Session::get('store_id');
+        $store_id = Session::get('store_id');
         $rr=db('anti_goods')->where('store_id',$store_id)->select();
         return view("anti_fake",['data'=>$rr]);
     }
@@ -569,15 +569,25 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function interaction_index(){
-        //获取仪器列表
-        $store_id=Session::get('store_id');
-        $list=db('instrument')->where('store_id',$store_id)->select();
-        if($list){
-            $pp=1;
-        }else{
-           $pp=0;
+        $name = input('name');
+        $store_id = Session::get('store_id');
+        if(!empty($name)){
+            $list = Db::name('instrument')
+                ->where('store_id',$store_id)
+                ->where('instrument_number|store_name', 'like', '%' . trim($name) . '%')
+                ->order(['create_time' => 'desc'])
+                ->paginate(20, false, [
+                'query' => \request()->request()
+            ]);
+        } else {
+            $list = Db::name('instrument')
+            ->where('store_id',$store_id)
+            ->order(['create_time' => 'desc'])
+            ->paginate(20, false, [
+            'query' => \request()->request()
+            ]);
         }
-        return view("interaction_index",['pp'=>$pp,'data'=>$list]);
+        return view("interaction_index",['data'=>$list]);
     }
 
     /**
@@ -587,9 +597,23 @@ class  Material extends  Controller{
      **************************************
      * @return \think\response\View
      */
-    public function interaction_add(){
-        
-        return view("interaction_add");
+    public function interaction_add(Request $request){
+        if($request->isPost()){
+            $store_id = Session::get('store_id');
+            $data = Request::instance()->param();
+            $data['create_time'] = time();
+            $data['store_id'] = $store_id;
+            $restul = db('instrument')->insertGetId($data);
+            if($restul < 0){
+                $this->error('新增失败',url('admin/Material/interaction_index'));
+            }
+            $this->success('新增成功',url('admin/Material/interaction_index'));
+        }
+        $store_id = Session :: get("store_id");
+        $store_name = Db::name('store_house')
+                    ->where('store_id','=',$store_id)
+                    ->select();
+        return view("interaction_add",['store_name'=>$store_name]);
     }
     /**
      **************GY*******************
@@ -600,18 +624,37 @@ class  Material extends  Controller{
      */
     public function interaction_add_do(){
        //获取数据
-       $input=input();
+       $input = input();
        $input['store_id']=Session::get('store_id');
        $re=db('instrument')->where('instrument_number',$input['instrument_number'])->find();
        if(!$re){
-           db('instrument')->insert($input);
+            db('instrument')->insert($input);
        }else{
-           db('instrument')->where('instrument_number',$input['instrument_number'])->update($input);
+            db('instrument')->where('instrument_number',$input['instrument_number'])->update($input);
        }
-
-        // return view("interaction_index");/
         $this->success('操作成功',url('Material/interaction_index'));
     }
+
+    /**gy
+     * 温湿度删除
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function interaction_delete($id)
+    {
+        $bool = Db::name('instrument')
+                ->where('id','=',$id)
+                ->delete();
+        if(!$bool){
+            $this->error('删除失败',url('Material/interaction_index'));
+        }
+        $this->success('删除成功',url('Material/interaction_index'));
+    }
+
+
     /**
      * lilu
      * 温湿度查询

@@ -115,13 +115,22 @@
                                     <span class="pw-icon"></span>
                                 </div>
                             </div>
+
+                            {if isset($share_code)  && !empty($share_code)}
+                            <div class="section-group invitation-wrap">
+                                <label class="form-label">邀请码</label>
+                                <div class="form-input-wrap">
+                                    <input type="text" id="invitation" name="invitation" value="{$share_code}" placeholder="请输入朋友邀请码或注册会员手机号">
+                                </div>
+                            </div>
+                            {else}
                             <div class="section-group invitation-wrap">
                                 <label class="form-label">邀请码</label>
                                 <div class="form-input-wrap">
                                     <input type="text" id="invitation" name="invitation" placeholder="请输入朋友邀请码或注册会员手机号">
                                 </div>
-                                
                             </div>
+                            {/if}
                             <div>
                             <span class="tips">
                                     *邀请码为非必填项</span></div>

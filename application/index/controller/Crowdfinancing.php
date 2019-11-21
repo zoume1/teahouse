@@ -12,6 +12,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use think\Image;
+use app\index\model\Serial;
 
 
 class Crowdfinancing extends Controller
@@ -1787,6 +1788,16 @@ class Crowdfinancing extends Controller
                 $order_amount = $information["order_amount"];      // 商品总金额
 
             if($res){
+
+                $serial_data = array(
+                    'serial_number' => $val["out_trade_no"],
+                    'money' => $information['order_real_pay'],
+                    'create_time' => time(),
+                    'type' => 1,
+                    'status' => '众筹订单',
+                    );
+                Serial::serial_add($serial_data);
+
                 $one = db("crowd_special")->where("id",$special_id)->setInc("collecting");
                 $twe = db("crowd_special")->where("id",$special_id)->setInc("collecting_money",$order_amount);
                 $three = db("crowd_special")->where("id",$special_id)->setInc("collecting_number",$order_quantity);
