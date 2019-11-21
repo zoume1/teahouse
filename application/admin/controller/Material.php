@@ -773,10 +773,35 @@ class  Material extends  Controller{
      * 物联-防伪溯源-生成商品
      * param    id    防伪溯源商品id
      */
-    public function create_goods()
+     /**
+     * lilu
+     * 防伪溯源-生成商品
+     * id    防伪溯源商品id
+     */
+    public function create_good()
     {
-        //获取参数
-        $postData=input();
+        $id=input();
+        //获取防伪溯源商品的信息
+        $anti_info=db('anti_goods')->where('id',$id['id'])->find();
+        $data['goods_name']=$anti_info['goods_name'];
+        $data['produce']=$anti_info['produce'];
+        $data['brand']=$anti_info['goods_brand'];
+        $data['goods_number']=$anti_info['goods_number'];
+        $data['date']=$anti_info['frement_date'];
+        $data['goods_selling']=$input['goods_selling'];
+        $data['goods_standard']=0;
+        $data['goods_new_money']=;
+        $data['goods_bottom_money']=;
+        $data['goods_cost']=;
+        $data['goods_repertory']=;
+        $data['goods_show_images']=;
+        $data['goods_repertory']=;
+        $data['goods_franking']=0;
+        $data['label']=0;
+        $data['status']=0;
+        $data['goods_show_image']=;
+        $data['scope']=;
+        $data['store_id']=Session::get('store_id');
 
     }
 
