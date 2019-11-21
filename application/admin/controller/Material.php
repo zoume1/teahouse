@@ -725,5 +725,17 @@ class  Material extends  Controller{
         }
     }
 
+    /**
+     * lilu
+     * 物联-防伪溯源-生成商品
+     * param    id    防伪溯源商品id
+     */
+    public function create_goods()
+    {
+        //获取参数
+        $postData=input();
+
+    }
+
     
  }
