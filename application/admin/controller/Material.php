@@ -45,6 +45,7 @@ class  Material extends  Controller{
         if($request->isPost()){
             $store_id = Session::get("store_id");
             $data = $request->param();
+            print_r($data);die;
              //测试七牛上传图片
            $qiniu=new Qiniu();
            //获取店铺七牛云的配置项
@@ -136,7 +137,7 @@ class  Material extends  Controller{
             $this->error("更新失败", url("admin/Material/direct_seeding"));
         }
     }
-        
+
     }
 
         /**
@@ -151,7 +152,7 @@ class  Material extends  Controller{
             $this->success("删除成功", url("admin/Material/direct_seeding"));
         } else {
             $this->error("删除失败", url("admin/Material/direct_seeding"));
-        }      
+        }
     }
 
     /**
@@ -160,7 +161,7 @@ class  Material extends  Controller{
      * Notes:视频直播更新设备
      **************************************
      */
-    public  function  direct_seeding_status(Request $request){       
+    public  function  direct_seeding_status(Request $request){
         if ($request->isPost()) {
             $status = $request->only(["status"])["status"];
             if ($status == 0) {
@@ -269,7 +270,7 @@ class  Material extends  Controller{
      */
     public function direct_seeding_classification(){
         $store_id = Session::get("store_id");
-        $direct_data = Db::name("direct_seeding") 
+        $direct_data = Db::name("direct_seeding")
                 ->where("store_id",$store_id)
                 ->select();
         $url = 'admin/Material/direct_seeding_classification';
@@ -279,7 +280,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************GY******************* 
+     **************GY*******************
      * @param Request $request
      * Notes:直播分类添加保存
      **************************************
@@ -305,7 +306,7 @@ class  Material extends  Controller{
             if(empty($data['title']) || empty($data['icon_image'])){
                 $this->error("请仔细填写", url("admin/Material/direct_seeding_classification"));
             }
-            
+
             $bool = Db::name("direct_seeding")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Material/direct_seeding_classification"));
@@ -314,12 +315,12 @@ class  Material extends  Controller{
             }
         }
         return view("direct_seeding_classification_add");
-        
+
     }
 
 
     /**
-     **************GY******************* 
+     **************GY*******************
      * @param Request $request
      * Notes:直播分类编辑
      **************************************
@@ -332,7 +333,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************GY******************* 
+     **************GY*******************
      * @param Request $request
      * Notes:直播分类删除
      **************************************
@@ -350,7 +351,7 @@ class  Material extends  Controller{
     }
 
     /**
-     **************GY******************* 
+     **************GY*******************
      * @param Request $request
      * Notes:直播分类更新
      **************************************
@@ -380,9 +381,9 @@ class  Material extends  Controller{
                 $this->error("未更改数据", url("admin/Material/direct_seeding_classification"));
             }
         }
-        
+
     }
-       
+
     /**
      * [图片删除]
      * 郭杨
@@ -426,7 +427,7 @@ class  Material extends  Controller{
      * Notes:视频直播更新设备
      **************************************
      */
-    public  function  direct_seeding_classification_status(Request $request){       
+    public  function  direct_seeding_classification_status(Request $request){
         if ($request->isPost()) {
             $status = $request->only(["status"])["status"];
             if ($status == 0) {
@@ -525,7 +526,7 @@ class  Material extends  Controller{
                 $v['store_id']=$store_id;
                 $v['produceUid']='50';
                 $v['goods_number']=get_random();
-                db('anti_goods')->insert($v); 
+                db('anti_goods')->insert($v);
             }
             //2.获取母标，子标记录列表
             $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript  ';
@@ -555,7 +556,7 @@ class  Material extends  Controller{
      * @return \think\response\View
      */
     public function anti_fake()
-    {   
+    {
         //获取商品的list
         $store_id = Session::get('store_id');
         $rr=db('anti_goods')->where('store_id',$store_id)->select();
@@ -707,7 +708,7 @@ class  Material extends  Controller{
 
     //直播更新token
     public function edit_video_token()
-    {   
+    {
         $request      = Request::instance();
         $param        = $request->param();//获取所有参数，最全
         $validate     = new Validate([
@@ -768,5 +769,5 @@ class  Material extends  Controller{
         }
     }
 
-    
+
  }
