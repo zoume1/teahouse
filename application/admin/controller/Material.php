@@ -777,7 +777,7 @@ class  Material extends  Controller{
      */
     public function create_good()
     {
-        $id=input();
+        $input=input();
         $store_id=Session::get('store_id');
         //测试七牛上传图片
         $qiniu=new Qiniu();
@@ -792,7 +792,7 @@ class  Material extends  Controller{
          $data["goods_show_images"] = implode(',', $rr);
         }
         //获取防伪溯源商品的信息
-        $anti_info=db('anti_goods')->where('id',$id['id'])->find();
+        $anti_info=db('anti_goods')->where('id',$input['id'])->find();
         $data['goods_name']=$anti_info['goods_name'];
         $data['produce']=$anti_info['produce'];
         $data['brand']=$anti_info['goods_brand'];
@@ -807,9 +807,28 @@ class  Material extends  Controller{
         $data['goods_franking']=0;
         $data['label']=0;
         $data['status']=0;
-        $data['scope']='';
+        // //判断商品的分类是否存在
+        // $data['pid']=$anti_info['category'];
+        if(!empty($input["scope"])){
+            $data["scope"] = implode(',', $input["scope"]);
+        } else {
+            $data["scope"] = "";
+        }
         $data['store_id']=Session::get('store_id');
-        halt($data);
+        if($data)
+        {
+            //生成新的商品
+            $re=db('goods')->insert($data);
+            if($re){
+                //修改防伪溯源商品的生成状态
+                $res=db('anti_goods')->where('id',$input['id'])->update(['is_create_good'=>1]);
+                $this->success("生成成功", url("admin/Material/anti_fake"));
+            }else{
+                $this->error('生成失败');
+            }
+        }else{
+            $this->error('获取参数失败');
+        }
 
     }
 

@@ -530,8 +530,11 @@
                                         <a href="{:url('admin/Material/fake_chip',['id'=>$vo.id])}"
                                             style="color: rgb(10,135,255);">芯片详情</a>
                                     </div>
-                                    <!-- <div class="complete">已生成商品</div> -->
+                                    {if $vo.is_create_good=='1'}
+                                    <div class="complete">已生成商品</div>
+                                    {else}
                                     <div class="unfinished" data-id="{$vo.id}">未生成商品</div>
+                                    {/if}
                                 </div>
                             </td>
                         </tr>
