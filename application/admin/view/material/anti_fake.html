@@ -17,30 +17,395 @@
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/css/aaa.css" />
 <link rel="stylesheet" href="__STATIC__/admin/common/layui/css/layui.css">
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/css/index.css" />
+<link rel="stylesheet" type="text/css" href="__STATIC__/admin/common/upfile/css/index.css" />
 <style>
-    *{margin: 0; padding: 0; list-style: none;}
-    .wrapper{padding: 20px 10px; background-color: #fff;}
-    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
-    .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
-    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
-    .s-input, 
-    .date-input{margin-right: 20px;}
-    .search-box input::placeholder{color: #b2b2b2;}
-    .bot-operate{ width: 97%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
-    .bot-operate .opation{float: left}
-    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
-    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-    .details{border: 1px solid rgb(51,204,255);padding: 5px;border-radius: 3px;margin-right: 20px;}
-    .complete{color: rgb(0,0,255);border: 1px solid rgb(0,0,255);padding: 5px;border-radius: 3px;}
-    .unfinished{color: rgb(188,188,188);border: 1px solid rgb(188,188,188);padding: 5px;border-radius: 3px;}
-    .green_zi{color:rgb(102,153,0);}
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .wrapper {
+        padding: 20px 10px;
+        background-color: #fff;
+    }
+
+    .search-hd {
+        background-color: #f9f8f7;
+        padding: 12px 0 12px 20px;
+        margin-bottom: 10px;
+        border-left: 5px solid #009688;
+    }
+
+    .search-box {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .search-box input {
+        border: 1px solid #e4e4e4;
+        background-color: #fff;
+        padding-left: 5px;
+        width: 180px;
+        height: 35px;
+        box-sizing: border-box;
+    }
+
+    .s-input,
+    .date-input {
+        margin-right: 20px;
+    }
+
+    .search-box input::placeholder {
+        color: #b2b2b2;
+    }
+
+    .bot-operate {
+        width: 97%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #e2e2e2;
+        padding-left: 50px;
+        background: #fdfdfd;
+    }
+
+    .bot-operate .opation {
+        float: left
+    }
+
+    .bot-operate .opation select {
+        color: #c1a5a5;
+        border-color: #e4e4e4;
+        height: 30px;
+    }
+
+    .bot-operate .operation-btn {
+        width: 60px;
+        background: #fff;
+        color: #333;
+        border: #ccc solid 1px;
+        height: 30px;
+        line-height: 30px;
+        margin-left: 20px;
+    }
+
+    .details {
+        border: 1px solid rgb(51, 204, 255);
+        padding: 5px;
+        border-radius: 3px;
+        margin-right: 20px;
+    }
+
+    .complete {
+        color: rgb(0, 0, 255);
+        border: 1px solid rgb(0, 0, 255);
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .unfinished {
+        color: rgb(188, 188, 188);
+        border: 1px solid rgb(188, 188, 188);
+        padding: 5px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+    .green_zi {
+        color: rgb(102, 153, 0);
+    }
+
+    /*
+     * 弹窗
+     4*/
+
+    .popup {
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 99999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: solid 1px #D7D7D7;
+        box-sizing: border-box;
+    }
+
+    .submit_btns,
+    .invoice_btns {
+        width: 100px;
+        height: 38px;
+        color: #fff;
+        background: #169BD5;
+        border-radius: 10px;
+    }
+
+    .popup_doms {
+        width: 1000px;
+        /* height: 400px; */
+        background: #fff;
+    }
+
+    .popup_doms1 {
+        width: 900px;
+        background: #fff;
+    }
+
+    .popup_content {
+        padding: 20px;
+    }
+
+    .popup_title {
+        height: 40px;
+        line-height: 40px;
+        color: #66662B;
+        background: #EEF7EA;
+        padding-left: 20px;
+    }
+
+    .span {
+        display: inline-block;
+        width: 80px;
+        text-align: left;
+        margin-right: 20px;
+    }
+
+    .repany .layui-input {
+        width: 530px;
+    }
+
+    .repany {
+        margin-bottom: 10px;
+    }
+
+    .operation {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .chat {
+        height: 210px;
+    }
+
+    .danhao {
+        width: 200px;
+        margin-right: 10px;
+    }
+
+    .operation select {
+        width: 130px;
+        height: 40px;
+        border-color: #ABADB3;
+        color: #000;
+        background: #fff;
+    }
+
+    .operation div {
+        margin-right: 10px;
+    }
+
+    .tip {
+        color: red;
+        margin-left: 200px;
+    }
+
+    .noshow {
+        display: none;
+    }
+
+    .popup_title {
+        position: relative;
+    }
+
+    .popup_x {
+        width: 25px;
+        position: absolute;
+        right: 12px;
+        top: -4px;
+    }
+
+    .popup_x img {
+        width: 25px;
+    }
+
+    .repay_tip {
+        display: inline-block;
+        width: 100px;
+        height: 35px;
+        text-align: center;
+        line-height: 35px;
+        color: #fff;
+        background: #669900;
+        border-radius: 5px;
+    }
+
+    .btn_all {
+        padding: 10px;
+        display: flex;
+        margin-left: 130px;
+    }
+
+    .button {
+        width: 100px;
+        line-height: 30px;
+        text-align: center;
+        color: #fff;
+        background-color: rgb(74, 178, 255);
+        border-radius: 5px;
+        cursor: pointer;
+        margin-right: 5px;
+    }
+
+    .button-qx {
+        width: 100px;
+        line-height: 30px;
+        text-align: center;
+        border: 1px solid #a2a2a2;
+        border-radius: 5px;
+        cursor: pointer;
+
+    }
+
+
+    /*
+     * 弹窗end
+		 */
 </style>
 {/block}
 
 </head>
+
 <body>
     {block name="content"}
     <!-- <img src="http://zhihuichacang.com/image779166.gif" style="" role="img"> -->
+    <div class="popup popup_one noshow">
+        <div class="popup_doms">
+            <div class="popup_title">
+                生成商品
+                <div class="popup_x">
+                    <img src="__STATIC__/admin/index/img/X.png" />
+                </div>
+            </div>
+            <div class="popup_content">
+                <form class="layui-form layui-form-lists" action="{:url('admin/Material/create_good')}" method="post"
+                    enctype="multipart/form-data">
+                    <input type="hidden" name="id" lay-verify="title" autocomplete="off"
+                                placeholder="" class="layui-input">
+                    <div class="form-item">
+                        <label class="form-label"> <span class="red">*</span> 商品卖点</label>
+                        <div class="form-input">
+                            <input type="text" name="goods_selling" lay-verify="title" autocomplete="off"
+                                placeholder="请输入" class="layui-input" required>
+                            <div class="tips">
+                                *在商品列表页、详情页标题下面展示卖点信息，建议60字以内 <span class="tan" style="color: #0E90D2;"
+                                    data-id="__STATIC__/admin/common/img/u27672.png">查看实例</span>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label"><span class="red"></span>商品售价</label>
+                        <div class="form-input line">
+                            <input type="number" step="1" min="0" max="10000000"
+                                onkeyup="value=value.replace(/^\\d+$/ ,'')" name="goods_new_money" lay-verify="title"
+                                autocomplete="off" placeholder="请输入" class="layui-input">
+                            <!-- <span class="change_danwei">修改单位</span> -->
+                            <span class="danwei">/片</span>
+                            <input type="hidden" name="monomer" value="片" class="monomer">
+
+                            <!-- <select id="unitList" lay-filter="unitList" style="display: none;">
+                                    <option value=""></option>
+                                </select> -->
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label"><span class="red">*</span>商品划线价</label>
+                        <div class="form-input line">
+                            <input type="number" step="1" min="0" max="10000000"
+                                onkeyup="value=value.replace(/^\\d+$/ ,'')" name="goods_bottom_money" lay-verify="title"
+                                autocomplete="off" placeholder="请输入" class="layui-input">
+                            <span class="danwei">/片</span>
+                            <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png"
+                                style="color: #0E90D2;">
+                                查看示例</span>
+
+
+                        </div>
+
+                    </div>
+                    <div class="tips" style="margin-left: 102px">
+                        *划线价即为“当前市场参考价”
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label"><span class="red"></span>商品成本价</label>
+                        <div class="form-input line">
+                            <input type="number" step="1" min="0" max="10000000"
+                                onkeyup="value=value.replace(/^\\d+$/ ,'')" name="goods_cost" lay-verify="title"
+                                autocomplete="off" placeholder="请输入" class="layui-input">
+                            <span class="danwei">/片</span>
+                            <div class="tips">
+                                *成本价不显示到客户端，适用于利润分析等
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label">面向范围</label>
+                        <div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap;">
+                            {foreach name="scope" item="val" key="key"}
+                            <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val.member_grade_name}"
+                                value="{$val.member_grade_name}">
+                            {/foreach}
+                        </div>
+            
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label"><span class="red">*</span>商品图</label>
+                        <div class="form-input">
+                            <div class="img-box full">
+                                <section class=" img-section">
+                                    <div class="z_photo upimg-div clear">
+                                        <section class="z_file fl">
+                                            <img src="http://zhihuichacang.com/a11.png" class="add-img">
+                                            <input type="file" name="goods_show_images[]" id="file" class="file"
+                                                value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple
+                                                data-id="15" required />
+                                        </section>
+                                    </div>
+                                </section>
+                            </div>
+                            <aside class="mask works-mask">
+                                <div class="mask-content">
+                                    <p class="del-p ">您确定要删除作品图片吗？</p>
+                                    <p class="check-p"><span class="del-com wsdel-ok">确定</span><span
+                                            class="wsdel-no">取消</span></p>
+                                </div>
+                            </aside>
+                            <div class="tips">
+                                建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="layui-form-item">
+                        <div class="layui-input-block">
+                            <button class="layui-btn layui-btn-normal" type="submit" id="submit">确认提交</button>
+                            <button type="button" class="layui-btn layui-btn-primary button-qx" onClick="">返回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- <div class="btn_all">
+                <div class="button" id="mbId">确定</div>
+                <div class="button-qx">取消</div>
+            </div> -->
+        </div>
+    </div>
+
     <div class="wrapper">
         <div class="inner">
             <div class="search-hd">
@@ -67,9 +432,9 @@
             </div>
             <div class="layui-form news_list">
                 <table class="layui-table">
-                        <colgroup>
-                            <col width="3%">
-                        </colgroup>
+                    <colgroup>
+                        <col width="3%">
+                    </colgroup>
                     <thead>
                         <tr>
                             <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
@@ -120,7 +485,8 @@
                     <tbody>
                         {foreach $data as $k =>$vo}
                         <tr>
-                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+                            <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose"
+                                    data-id="{$vo.id}">
                             </td>
                             <td>
                                 <div class="table-cell-div">{$vo.goods_number}</div>
@@ -161,10 +527,14 @@
                             <td>
                                 <div style="display:flex;justify-content: center;">
                                     <div class="table-cell-div details">
-                                        <a href="{:url('admin/Material/fake_chip',['id'=>$vo.id])}" style="color: rgb(10,135,255);">芯片详情</a>
+                                        <a href="{:url('admin/Material/fake_chip',['id'=>$vo.id])}"
+                                            style="color: rgb(10,135,255);">芯片详情</a>
                                     </div>
-                                    <!-- <div class="complete">已生成商品</div> -->
-                                    <div class="unfinished">未生成商品</div>
+                                    {if $vo.is_create_good=='1'}
+                                    <div class="complete">已生成商品</div>
+                                    {else}
+                                    <div class="unfinished" data-id="{$vo.id}">未生成商品</div>
+                                    {/if}
                                 </div>
                             </td>
                         </tr>
@@ -172,7 +542,7 @@
                     </tbody>
                 </table>
             </div>
-           
+
             <div class="bot-operate">
                 <div class="opation">
                     <select>
@@ -191,28 +561,29 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script src="__STATIC__/admin/common/layui/layui.js"></script>
+    <script type="text/javascript " src="__STATIC__/admin/common/upfile/js/imgUp.js"></script>
     <script>
-        layui.use(['laydate', 'form'], function(){
+        layui.use(['laydate', 'form'], function () {
             var laydate = layui.laydate,
                 form = layui.form;
-            laydate.render({elem: '#searchDate'});
+            laydate.render({ elem: '#searchDate' });
 
             $.ajax({
-                url:"anti_fake_judge",
-                type:"POST",
-                data:"",
+                url: "anti_fake_judge",
+                type: "POST",
+                data: "",
                 success: (res) => {
                     var res = JSON.parse(res);
-                    if(res.status == "1") {
+                    if (res.status == "1") {
                         console.log(res)
                     } else {
                         layer.msg('数据正在同步，请稍等', {
                             time: 20000, //20s后自动关闭
                         });
                         $.ajax({
-                            url:"anti_fake_dts",
-                            type:"POST",
-                            data:"",
+                            url: "anti_fake_dts",
+                            type: "POST",
+                            data: "",
                             success: (res) => {
                                 console.log(res)
                                 window.location.reload();
@@ -227,10 +598,22 @@
                     console.log(e)
                 }
             })
+
+            //弹窗隐藏
+            $(".popup_x").add('.button-qx').click(function () {
+                $(".popup").addClass("noshow");
+            });
+            $(".unfinished").click(function() {
+                let id = $(this).data("id");
+                $('input[name="id"]').val(id);
+                $(".popup").removeClass("noshow");
+
+            })
             form.render();
         })
     </script>
 
     {/block}
 </body>
+
 </html>
