@@ -50,6 +50,10 @@ class  Store extends  Controller{
                     return ajax_error("请填写企业信息");
                 }
             }
+            $store_name_status = db('store')->where('store_name','=',$store_name)->find();
+            if(!empty($store_name_status)){
+                return ajax_error("该店铺名已被注册");
+            }
             $card_positive =$request->only(["card_positive"])["card_positive"]; //身份证正面
             $card_side_file = $request->only(["card_side"])["card_side"];//身份证反面
  

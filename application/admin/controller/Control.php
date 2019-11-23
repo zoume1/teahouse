@@ -216,7 +216,6 @@ class  Control extends  Controller{
             ->paginate(20 ,false, [
                 'query' => request()->param(),
             ]);
-
         $enter_meal = db("enter_meal")->field("name")->select();
         
         $type_meal['0']['audit_status']='入驻审核不通过';
