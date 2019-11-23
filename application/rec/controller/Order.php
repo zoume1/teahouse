@@ -53,7 +53,7 @@ Class Order extends Controller{
         switch($ifout) {
             case 1:
                 
-                $order_all = MealOrder::where('store_id', $param['store_id'])->find();
+                $order_all = OrdersMeal::where('store_id', $param['store_id'])->find();
             
                 if ($order_all) {
 
@@ -61,7 +61,7 @@ Class Order extends Controller{
                     $data = $pay->get_pay($order_all['id']);
 
                     //存入微信支付返回参数
-                    MealOrder::where('id', $order_all['id'])->update(['wx_pay' => $data, 'wx_time' => date('Y-m-d H:i:s')]);
+                    OrdersMeal::where('id', $order_all['id'])->update(['wx_pay' => $data, 'wx_time' => date('Y-m-d H:i:s')]);
 
                     $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
                 } else {
@@ -96,7 +96,7 @@ Class Order extends Controller{
                             $data = $pay->get_pay($order_id);
 
                             //存入微信支付返回参数
-                            $order->where('id', $order_id)->update(['wx_pay' => $data]);
+                            $meal_orders->where('id', $order_id)->update(['wx_pay' => $data]);
 
                             $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
                         }
