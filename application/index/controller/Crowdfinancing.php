@@ -1792,6 +1792,8 @@ class Crowdfinancing extends Controller
                 $serial_data = array(
                     'serial_number' => $val["out_trade_no"],
                     'money' => $information['order_real_pay'],
+                    'store_id' => $information['store_id'],
+                    'phone_number' => $information['user_phone_number'],
                     'create_time' => time(),
                     'type' => 1,
                     'status' => '众筹订单',

@@ -317,7 +317,7 @@ class  AddeOrder extends  Controller{
 
             $store_pass = Db::name("store")
                 ->where("id",$store_id)
-                ->field("store_pay_pass,store_wallet")
+                ->field("store_pay_pass,store_wallet,phone_number")
                 ->find();
             if(empty( $store_pass['store_pay_pass'])){
                 exit(json_encode(array("status" => 2, "info" => "没有设置支付密码，请前往设置")));
@@ -397,6 +397,8 @@ class  AddeOrder extends  Controller{
             if($rest && $store_rest){
                 $serial_data = array(
                     'serial_number' => $order_number,
+                    'store_id' => $store_id,
+                    'phone_number' => $store_pass['phone_number'],
                     'money' => $order_real_pay,
                     'create_time' => time(),
                     'type' => 1 ,

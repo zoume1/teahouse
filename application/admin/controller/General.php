@@ -20,6 +20,7 @@ use app\admin\model\Store as Store;
 use app\admin\controller\Qiniu;
 use app\city\model\StoreCommission;
 use app\index\model\Serial;
+use app\city\model\CityDetail;
 use app\rec\controller\Share;
 
 
@@ -2144,7 +2145,6 @@ class  General extends  Base {
             $pay_money =$request->only(["pay_money"])["pay_money"];//订单的金额
             $store_pass = Db::name("store")
                 ->where("id",$this->store_ids)
-                ->field("store_pay_pass,store_wallet")
                 ->find();
             if(empty( $store_pass['store_pay_pass'])){
                 exit(json_encode(array("status" => 2, "info" => "没有设置支付密码，请前往设置")));
@@ -2166,9 +2166,12 @@ class  General extends  Base {
             ->where("store_id",$this->store_ids)
             ->where("audit_status",1)
             ->find();    
-
+            //生成分销代理订单
+            CityDetail::store_order_commission($order_data,$store_pass);
             $serial_data = array(
                 'serial_number' => '流水号',
+                'phone_number' => $store_pass['phone_number'],
+                'store_id' => $store_pass['id'],
                 'money' => 'money',
                 'create_time' => time(),
                 'type' => 2,
