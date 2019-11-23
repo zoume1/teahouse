@@ -82,9 +82,11 @@ class Balance extends Controller
                     $serial_data = array(
                         'serial_number' => $order_num,
                         'money' => $order_info['order_real_pay'],
+                        'phone_number' => $order_info['user_phone_number'],
                         'create_time' => time(),
                         'type' => '1',
                         'status' => '普通订单',
+                        'store_id' => $order_info['store_id'],
                         'prime' => $order_info['accounting']
                         );
                     Serial::serial_add($serial_data);

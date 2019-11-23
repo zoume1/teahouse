@@ -63,9 +63,11 @@ class  AdminWx extends Controller{
                 $serial_data = array(
                     'serial_number' => $val["out_trade_no"],
                     'money' => $enter_all_data['amount_money'],
+                    'store_id' => $enter_all_data['store_id'],
+                    'phone_number' => $store_data_rest['phone_number'],
                     'create_time' => time(),
                     'type' => 2,
-                    'status' => '增值订单',
+                    'status' => '套餐订单',
 
                     );
                 Serial::serial_add($serial_data);
@@ -313,8 +315,10 @@ class  AdminWx extends Controller{
                     'serial_number' => $out_trade_no,
                     'money' => $enter_all_data['amount_money'],
                     'create_time' => time(),
+                    'store_id' => $enter_all_data['store_id'],
+                    'phone_number' => $store_data_rest['phone_number'],
                     'type' => 2,
-                    'status' => '增值订单',
+                    'status' => '套餐订单',
                     );
                 Serial::serial_add($serial_data);
 
@@ -637,6 +641,8 @@ class  AdminWx extends Controller{
                         'serial_number' => $out_trade_no,
                         'money' => $data['order_real_pay'],
                         'create_time' => time(),
+                        'store_id' => $data['store_id'],
+                        'phone_number' => $data['user_phone_number'],
                         'type' => 1,
                         'status' => '增值订单',
                         );

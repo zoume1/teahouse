@@ -96,7 +96,11 @@ Class Order extends Controller{
                             $data = $pay->get_pay($order_id);
 
                             //存入微信支付返回参数
+<<<<<<< HEAD
                             $meal_orders->where('id', $order_id)->update(['wx_pay' => $data]);
+=======
+                            OrdersMeal::where('id', $order_id)->update(['wx_pay' => $data]);
+>>>>>>> 6f2c252bface914f9b16e084d0504274ee0d9b14
 
                             $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
                         }
@@ -133,7 +137,7 @@ Class Order extends Controller{
                                 $data = $pay->get_pay($order_id);
 
                                 //存入微信支付返回参数
-                                $order->where('id', $order_id)->update(['wx_pay' => $data, 'wx_time' => date('Y-m-d H:i:s')]);
+                                OrdersMeal::where('id', $order_id)->update(['wx_pay' => $data, 'wx_time' => date('Y-m-d H:i:s')]);
 
                                 $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
 
@@ -198,7 +202,7 @@ Class Order extends Controller{
                         $data = $pay->get_pay($order_id);
 
                         //存入微信支付返回参数
-                        $order->where('id', $order_id)->update(['wx_pay' => $data]);
+                        OrdersMeal::where('id', $order_id)->update(['wx_pay' => $data]);
 
                         $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
                     }
@@ -254,7 +258,7 @@ Class Order extends Controller{
                             $data = $pay->get_pay($order_id);
 
                             //存入微信支付返回参数
-                            $order->where('id', $order_id)->update(['wx_pay' => $data]);
+                            OrdersMeal::where('id', $order_id)->update(['wx_pay' => $data]);
 
                             $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
 
@@ -283,7 +287,7 @@ Class Order extends Controller{
         if(!$param['store_id'])returnJson(0,'店铺ID不能为空');
         if(!$param['store_name'])returnJson(0,'店铺名不能为空');
 
-        $data = MealOrder::where(['store_id'=>$param['store_id'],'store_name'=>$param['store_name']])->field('wx_pay')->find();
+        $data = OrdersMeal::where(['store_id'=>$param['store_id'],'store_name'=>$param['store_name']])->field('wx_pay')->find();
          //判断
         returnArray($data);
         
