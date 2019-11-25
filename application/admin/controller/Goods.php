@@ -39,11 +39,6 @@ class Goods extends Controller
     {
         $store_id = Session::get('store_id');
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
-
-        foreach($goods as $k => $v){
-            $image = (new Goodsmodel)->qrcode($goods[$k]['id']);
-            db('goods')->where('id',$goods[$k]['id'])->update(['share_code'=>$image]);
-        }
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
@@ -221,7 +216,6 @@ class Goods extends Controller
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
                 $share_code = (new Goodsmodel())->qrcode($bool);
-                db('goods')->where('id','=',$goods_id)->update(['share_code'=>$share_code]);
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
                         if (substr($kn, 0, 3) == "sss") {
