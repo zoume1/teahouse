@@ -556,12 +556,48 @@ class  Material extends  Controller{
      */
     public function anti_fake()
     {
-        //获取商品的list
-        $store_id = Session::get('store_id');
-        $rr=db('anti_goods')->where('store_id',$store_id)->select();
-        //获取会员范围
-        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
-        return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
+        // //获取商品的list
+        // $store_id = Session::get('store_id');
+        // $rr=db('anti_goods')->where('store_id',$store_id)->select();
+        // //获取会员范围
+        // $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
+        // return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
+        $userName="18510393696";
+            $password="zhcc63268696";
+            $url_login='https://api.dtuip.com/qy/user/login.html';
+            $data_login= '{
+                "userName":"18510393696",
+                "password":"zhcc63268696",
+            }';
+            $login=$thsi->https_post($url_login,$data_login);
+            halt($login);
+            $userApiKey='';   //      zhcc63268696
+            $deviceNo='8606S86YL8295C5Y';
+
+            // $data = '{
+            //     // "action":"add",
+            //     // "requestdomain":"https://'.$domain.'",
+            //     // "wsrequestdomain":"wss://'.$domain.'",
+            //     // "uploaddomain":"https://'.$domain.'",
+            //     // "downloaddomain":"https://'.$domain.'"
+            // }';
+            // $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
+            // $res = https_post($url,$data);
+            // var_dump($res);
+           
+    }
+    public function https_post($url,$data)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        if (!empty($data)){
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
     }
     /**
      **************GY*******************
