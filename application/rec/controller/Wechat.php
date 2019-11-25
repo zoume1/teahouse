@@ -132,8 +132,9 @@ class Wechat extends Controller{
          // print_r($openid_name);die;
          if($openid_name){
              //更新用户信息
-             db('pc_user')->where(array('openid'=> $openid))
+             db('pc_user')->where(array('id'=> $openid_name['id']))
                  ->update([
+                 	'openid'=> $res['openid'],
                      'img'=>$res['headimgurl'],
                      'utime'=>time()
                  ]);
