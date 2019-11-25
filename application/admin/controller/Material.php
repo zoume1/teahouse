@@ -572,20 +572,22 @@ class  Material extends  Controller{
             }';
             $login=$this->posturl($url_login,$data_login);
             $login=json_decode($login,true);
-            halt($login);
+            if($login['flag']=='00'){
+                $data = '{
+                    "userApiKey": '.$login['userApikey'].',
+                    "deviceNo":'.$login['companyApiKey'].',
+                    "flagCode":'.$login['flagCode'].',
+                    }';
+            $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
+            $res = $this->posturl($url,$data);
+            halt($res);
+            }else{
+                die;
+            }
         //     $userApiKey='';   //zhcc63268696
         //     $deviceNo='8606S86YL8295C5Y';
 
-            // $data = '{
-            //     // "action":"add",
-            //     // "requestdomain":"https://'.$domain.'",
-            //     // "wsrequestdomain":"wss://'.$domain.'",
-            //     // "uploaddomain":"https://'.$domain.'",
-            //     // "downloaddomain":"https://'.$domain.'"
-            // }';
-            // $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
-            // $res = https_post($url,$data);
-            // var_dump($res);
+            
     }
     public function https_post($url,$data)
     {
