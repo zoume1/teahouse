@@ -575,7 +575,6 @@ class  Material extends  Controller{
             if($login['flag']=='00'){
                 $data = '{
                     "userApiKey": '.$login['userApikey'].',
-                    "deviceNo":'.$login['companyApiKey'].',
                     "flagCode":'.$login['flagCode'].',
                     }';
             $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
