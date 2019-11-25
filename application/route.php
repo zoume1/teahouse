@@ -434,6 +434,8 @@ Route::group("",[
     
     /**物联 */
     "get_anti_fake_info"=>"index/Material/get_anti_fake_info",        //分销明细显示
+    "get_humiture"=>"index/Material/get_humiture",                   //插入温湿度历史记录
+    "get_humiture_list"=>"index/Material/get_humiture_list",         //获取温湿度历史记录
      
 
 ]);
