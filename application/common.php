@@ -1160,7 +1160,7 @@ function diffBetweenTwoDays ($second1, $second2)
  */
 function audit_status($status){
     if($status==0){
-        echo '<button type="button" class="state payment-has-been" >审核已通过</button>';
+        echo '<button type="button" class="state payment-has-been" >待付款</button>';
     }else  if($status==1){
         echo '<button type="button" class="state payment-has-been" >审核已通过</button>';
     }else  if($status==-1){

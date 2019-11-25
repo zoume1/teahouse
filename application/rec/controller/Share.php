@@ -49,7 +49,7 @@ class Share extends Controller
         //生成二维码
         $list = 'http://qr.topscan.com/api.php?text=' .$url.'?yqm='. $a;
 
-         echo "<img src='".$list."'>";
+        return $list;
     }
 
 }
