@@ -569,7 +569,7 @@ class  Material extends  Controller{
                 "userName":"18510393696",
                 "password":"zhcc63268696",
             }';
-            $login=$thsi->https_post($url_login,$data_login);
+            $login=$this->https_post($url_login,$data_login);
             halt($login);
             $userApiKey='';   //      zhcc63268696
             $deviceNo='8606S86YL8295C5Y';
