@@ -39,6 +39,11 @@ class Goods extends Controller
     {
         $store_id = Session::get('store_id');
         $goods = db("goods")->where("store_id",'EQ',$store_id)->order("sort_number desc")->select();
+
+        foreach($goods as $k => $v){
+            $image = (new Goodsmodel)->qrcode($goods[$k]['id']);
+            db('goods')->where('id',$goods[$k]['id'])->update(['share_code'=>$image]);
+        }
         $goods_list = getSelectListes("wares");
         foreach ($goods as $key => $value) {
             if ($value["pid"]) {
