@@ -563,7 +563,7 @@ class  Material extends  Controller{
         // $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         // return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
 
-        $userName="18510393696";
+            $userName="18510393696";
             $password="zhcc63268696";
             $url_login='https://api.dtuip.com/qy/user/login.html';
             $data_login= '{
@@ -579,6 +579,7 @@ class  Material extends  Controller{
                     }';
             $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
             $res = $this->posturl($url,$data);
+            $res=json_decode($res,true);
             halt($res);
             }else{
                 die;
