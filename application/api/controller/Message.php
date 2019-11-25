@@ -29,8 +29,6 @@ class Message extends Controller
      */
     public function payment($order, $orderType)
     {
-        $rr = $this->formatGoodsName($order);
-        halt($rr);
         // 1. 微信模板消息
         $template = TempletMessage::getTempletStatus($order['store_id'],PAY_STATUS_ID);
         if($template){
@@ -56,8 +54,7 @@ class Message extends Controller
                     // 订单金额
                     'keyword3' => $order['order_real_pay'],
                     // 商品名称
-                    // 'keyword4' => $this->formatGoodsName($order['parts_goods_name']),
-                    'keyword4' => $order['parts_goods_name'],
+                    'keyword4' => $this->formatGoodsName($order),
                 ]
             ]);
             // 标记已使用次数
@@ -350,9 +347,9 @@ class Message extends Controller
     {
         $goodsData  = Order::getOrderGoods($order);
         foreach ($goodsData as $goods){
-            $str[]= $goods['parts_goods_name'] . ' ';
+            $str[]= $goods['parts_goods_name'];
         } 
-        return implode('',$str);
+        return implode(' ',$str);
     }
 
 }
