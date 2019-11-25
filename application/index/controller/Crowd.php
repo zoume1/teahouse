@@ -405,6 +405,7 @@ class Crowd extends Controller
                 "special_id"=>$id,
                 "member_id"=>$member_id,
                 "user_name"=>$user_information["member_name"],
+                "phone_number" => $user_information["member_phone_num"],
                 "create_time"=>$create_time,
                 "order_number"=>$order_number,
                 "crowd_name"=>$crowd["name"],

@@ -55,8 +55,9 @@ class Wechat extends Controller{
         $openid_name = db('pc_user')->where(array('openid'=> $res['openid']))->field('id,phone_number')->find();
 
         if($openid_name){
-            db('pc_user')->where(array('openid'=> $res['openid']))
+            db('pc_user')->where(array('id'=> $openid_name['id']))
                 ->update([
+                    'openid'=> $res['openid'],
                     'img'=>$res['headimgurl'],
                     'utime'=>time()
                 ]);

@@ -31,11 +31,12 @@ class Serial extends Model
      */
     public static function index($search)
     {
-        // halt($search);
         $model = new static;
         // 查询条件
+        $store_id = Session::get('store_id');
         !empty($search) && $model->setWhere($search);
         $rest = $model->order(['create_time' => 'desc'])
+        ->where('store_id','=',$store_id)
         ->paginate(20, false, [
             'query' => \request()->request()
         ]);

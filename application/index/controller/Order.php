@@ -2106,6 +2106,8 @@ class  Order extends  Controller
 
                 $serial_data = array(
                     'serial_number' => $val["out_trade_no"],
+                    'store_id' => $activity['store_id'],
+                    'phone_number' => $activity['account'],
                     'money' => $activity['cost_moneny'],
                     'create_time' => time(),
                     'type' => 1,
@@ -2184,8 +2186,10 @@ class  Order extends  Controller
                         'serial_number' => $val["out_trade_no"],
                         'money' => $order_type['order_real_pay'],
                         'create_time' => $order_pay_time,
+                        'phone_number' => $order_type['user_phone_number'],
                         'type' => 1,
                         'status' => '普通订单',
+                        'store_id' => $order_type['store_id'],
                         'prime' => $order_type['accounting']
                     );
                     Serial::serial_add($serial_data);
@@ -2390,11 +2394,13 @@ class  Order extends  Controller
                 ->update(["status" => 2, "pay_time" => time()]);
             if ($res) {
                 //做消费记录
-                $information = Db::name("reward")->field("money,order_number,crowd_name,member_id")->where("order_number", $val["out_trade_no"])->find();
+                $information = Db::name("reward")->field("money,order_number,phone_number,crowd_name,member_id,store_id")->where("order_number", $val["out_trade_no"])->find();
 
                 $serial_data = array(
                     'serial_number' => $val["out_trade_no"],
+                    'phone_number' => $information['phone_number'],
                     'money' => $information['money'],
+                    'store_id' => $information['store_id'],
                     'create_time' => time(),
                     'type' => 1,
                     'status' => '打赏订单',
