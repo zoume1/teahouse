@@ -571,6 +571,7 @@ class  Material extends  Controller{
                 "password":"zhcc63268696",
             }';
             $login=$this->posturl($url_login,$data_login);
+            $login=json_decode($login,true);
             halt($login);
         //     $userApiKey='';   //zhcc63268696
         //     $deviceNo='8606S86YL8295C5Y';
