@@ -557,36 +557,11 @@ class  Material extends  Controller{
     public function anti_fake()
     {
         //获取商品的list
-        // $store_id = Session::get('store_id');
-        // $rr=db('anti_goods')->where('store_id',$store_id)->select();
-        // //获取会员范围
-        // $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
-        // return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
-
-            $userName="18510393696";
-            $password="zhcc63268696";
-            $url_login='https://api.dtuip.com/qy/user/login.html';
-            $data_login= '{
-                "userName":"18510393696",
-                "password":"zhcc63268696",
-            }';
-            $login=$this->posturl($url_login,$data_login);
-            $login=json_decode($login,true);
-            if($login['flag']=='00'){
-                $data = '{
-                    "userApiKey": '.$login['userApikey'].',
-                    "flagCode":'.$login['flagCode'].',
-                    }';
-            $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
-            $res = $this->posturl($url,$data);
-            $res=json_decode($res,true);
-            }else{
-                die;
-            }
-        //     $userApiKey='';   //zhcc63268696
-        //     $deviceNo='8606S86YL8295C5Y';
-
-            
+        $store_id = Session::get('store_id');
+        $rr=db('anti_goods')->where('store_id',$store_id)->select();
+        //获取会员范围
+        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
+        return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
     }
     public function https_post($url,$data)
     {
