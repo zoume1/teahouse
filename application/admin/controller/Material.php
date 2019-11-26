@@ -563,6 +563,37 @@ class  Material extends  Controller{
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
     }
+    public function https_post($url,$data)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        if (!empty($data)){
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+
+    public function posturl($url,$data){
+        // $data  = json_encode($data); 
+    
+        $headerArray =array("Content-type:application/json;charset='utf-8'","Accept:application/json");
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+
+        return $output;
+    }
     /**
      **************GY*******************
      * @param Request $request
@@ -672,24 +703,24 @@ class  Material extends  Controller{
             return ajax_success('登录失败',$ret);
         }
     }
-     /*
-        * 发起POST网络提交
-        * @params string $url : 网络地址
-        * @params json $data ： 发送的json格式数据
-        */
-        public function https_post($url,$data)
-        {
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $url);
-            if (!empty($data)){
-                curl_setopt($curl, CURLOPT_POST, 1);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            }
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $output = curl_exec($curl);
-            curl_close($curl);
-            return $output;
-        }
+    //  /*
+    //     * 发起POST网络提交
+    //     * @params string $url : 网络地址
+    //     * @params json $data ： 发送的json格式数据
+    //     */
+    //     public function https_post($url,$data)
+    //     {
+    //         $curl = curl_init();
+    //         curl_setopt($curl, CURLOPT_URL, $url);
+    //         if (!empty($data)){
+    //             curl_setopt($curl, CURLOPT_POST, 1);
+    //             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    //         }
+    //         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //         $output = curl_exec($curl);
+    //         curl_close($curl);
+    //         return $output;
+    //     }
 
     //详情
     public function video_comment(){
