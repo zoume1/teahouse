@@ -27,63 +27,40 @@ class Phpexcel extends Controller{
 
     /**
      * lilu
-     * 导入
+     * 
      */
     public function import_excel()
     {
          if (!empty ($_FILES ['file_stu'] ['name'])) {
             $tmp_file = $_FILES ['file_stu'] ['tmp_name'];
             $file_types = explode(".", $_FILES ['file_stu'] ['name']);
-            $file_type = $file_types [count($file_types) - 1];
-            /*判别是不是.xls文件，判别是不是excel文件*/
-            // if (strtolower($file_type) != "xls" || strtolower($file_type)!='xlsx') {
-            //     $this->error('不是Excel文件，重新上传');
-            // }
-            /*设置上传路径*/
-            /*百度有些文章写的上传路径经过编译之后斜杠不对。不对的时候用大写的DS代替，然后用连接符链接就可以拼凑路径了。*/
-            $savePath = ROOT_PATH . 'public' . DS . 'upload' . DS;
+            $obj_PHPExcel = new \PHPExcel();
+            $objReader =\PHPExcel_IOFactory::createReaderForFile($_FILES["file_stu"]['tmp_name']);
+            $objReader->setReadDataOnly(true);//这段其实也可以不要
+            $obj_PHPExcel =\PHPExcel_IOFactory::load($_FILES["file_stu"]['tmp_name']);
+            //这里是加载文件,千万要注意你导入文件的格式不是文件后缀是文件格式,笔者在这个坑上待了很久,
+            //$fileType=PHPExcel_IOFactory::identify($filename);上面load()500了可以用着个来校验上传的文件格式如果是html格式你就要注意了.
+            $excel_array=$obj_PHPExcel->getsheet(0)->toArray();   //转换为数组格式
+            unset($excel_array[0]);
+            halt($excel_array);//到这剩下的就交给你自己了
 
-            /*以时间来命名上传的文件*/
-            $str = date('Ymdhis');
-            $file_name = $str . "." . $file_type;
-            /*是否上传成功*/
-            if (!copy($tmp_file, $savePath . $file_name)) {
-                $this->error('上传失败');
-            }
-            /*
-            *对上传的Excel数据进行处理生成编程数据,这个函数会在下面第三步的ExcelToArray类中
-            *注意：这里调用执行了第三步类里面的read函数，把Excel转化为数组并返回给$res,再进行数据库写入
-            */
-            // require THINK_PATH.'Library/Org1/Util/ExcelToArrary.class.php';//导入excelToArray类
-          //引入这个类试了百度出来的好几个方法都不行。最后简单粗暴的使用了require方式。这个类想放在哪里放在哪里。只要路径对就行。
-            // $ExcelToArrary=new \ExcelToArrary();//实例化
-
-            $res=$this->read($savePath.$file_name,"UTF-8",$file_type);//传参,判断office2007还是office2003
-
-            /*对生成的数组进行数据库的写入*/
-            foreach ($res as $k => $v) {
-                if ($k > 1) {
-                    $data[$k]['username'] = $v[1];
-                    $data[$k]['phone'] = $v[2];
-//                    $data ['password'] = sha1('111111');
-                }
-            }
             //插入的操作最好放在循环外面
-            $result = db('sys_ceshi')->insertAll($data);
+            // $result = db('sys_ceshi')->insertAll($data);
             //var_dump($result);
         }
     }
 
     public function read($filename,$encode,$file_type){
-        $PHPExcel_IOFactory= new \PHPExcel_IOFactory();
         if(strtolower ( $file_type )=='xls')//判断excel表类型为2003还是2007
         {
+
+            $PHPExcel_IOFactory= new \PHPExcel_IOFactory();
             // $objReader = PHPExcel_IOFactory::createReader('Excel5');
             $objReader = $PHPExcel_IOFactory->createReader('Excel5');
 
         }elseif(strtolower ( $file_type )=='xlsx')
         {
-            $objReader = $PHPExcel_IOFactory->createReader('Excel2007');
+            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
         }
         $objReader->setReadDataOnly(true);
         $objPHPExcel = $objReader->load($filename);
