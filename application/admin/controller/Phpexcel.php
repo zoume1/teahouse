@@ -25,7 +25,10 @@ class Phpexcel extends Controller{
         include('../vendor/PHPExcel/Classes/PHPExcel/Cell.php');
     }
 
-
+    /**
+     * lilu
+     * 导入
+     */
     public function import_excel()
     {
          if (!empty ($_FILES ['file_stu'] ['name'])) {
