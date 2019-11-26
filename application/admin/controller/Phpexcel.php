@@ -36,9 +36,9 @@ class Phpexcel extends Controller{
             $file_types = explode(".", $_FILES ['file_stu'] ['name']);
             $file_type = $file_types [count($file_types) - 1];
             /*判别是不是.xls文件，判别是不是excel文件*/
-            if (strtolower($file_type) != "xls") {
-                $this->error('不是Excel文件，重新上传');
-            }
+            // if (strtolower($file_type) != "xls" || strtolower($file_type)!='xlsx') {
+            //     $this->error('不是Excel文件，重新上传');
+            // }
             /*设置上传路径*/
             /*百度有些文章写的上传路径经过编译之后斜杠不对。不对的时候用大写的DS代替，然后用连接符链接就可以拼凑路径了。*/
             $savePath = ROOT_PATH . 'public' . DS . 'upload' . DS;
@@ -75,16 +75,15 @@ class Phpexcel extends Controller{
     }
 
     public function read($filename,$encode,$file_type){
+        $PHPExcel_IOFactory= new \PHPExcel_IOFactory();
         if(strtolower ( $file_type )=='xls')//判断excel表类型为2003还是2007
         {
-
-            $PHPExcel_IOFactory= new \PHPExcel_IOFactory();
             // $objReader = PHPExcel_IOFactory::createReader('Excel5');
             $objReader = $PHPExcel_IOFactory->createReader('Excel5');
 
         }elseif(strtolower ( $file_type )=='xlsx')
         {
-            $objReader = PHPExcel_IOFactory::createReader('Excel2007');
+            $objReader = $PHPExcel_IOFactory->createReader('Excel2007');
         }
         $objReader->setReadDataOnly(true);
         $objPHPExcel = $objReader->load($filename);
