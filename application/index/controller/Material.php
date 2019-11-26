@@ -77,7 +77,7 @@ class Material extends Controller
         {
             $where['create_time']=array('between',array(strtotime($input['stime']),strtotime($input['etime'])));
             $where['store_id']=$input['uniacid'];
-            $res=db('humiture')->where($where)->limit(10)->select();
+            $res=db('humiture')->where($where)->select();
             if($res){
                 return  ajax_success('获取成功',$res);
             }else{
