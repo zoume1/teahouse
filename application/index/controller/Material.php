@@ -49,15 +49,15 @@ class Material extends Controller
         $input=input();
         if($input)
         {
-            $input['store_id']=$input['uniacid'];
-            unset($input['uniacid']);
-            $input['create_time']=time();
-            $res=db('humiture')->insert($input);
-            if($res){
-                return  ajax_success('插入成功');
-            }else{
-                return  ajax_error('插入失败');
-            }
+            // $input['store_id']=$input['uniacid'];
+            // unset($input['uniacid']);
+            // $input['create_time']=time();
+            // $res=db('humiture')->insert($input);
+            // if($res){
+            //     return  ajax_success('插入成功');
+            // }else{
+            //     return  ajax_error('插入失败');
+            // }
         }else{
             return  ajax_error('缺少必要的参数');
         }

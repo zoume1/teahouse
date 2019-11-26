@@ -99,7 +99,7 @@ class Information extends Controller{
     public function analytical_index(){   
         //统计店铺防伪溯源信息
         $store_id=Session::get('store_id');
-        $list=db('anti_fake')->where() 
+        $list=db('anti_fake')->where()->order('') 
         return view("analytical_index");
     }
     /**
