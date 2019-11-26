@@ -580,7 +580,6 @@ class  Material extends  Controller{
             $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
             $res = $this->posturl($url,$data);
             $res=json_decode($res,true);
-            halt($res);
             }else{
                 die;
             }
