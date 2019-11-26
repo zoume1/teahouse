@@ -160,7 +160,6 @@ class Goods extends Controller
             if ($goods_data["goods_standard"] == "0") {
                 $bool = db("goods")->insertGetId($goods_data);
                 $share_code = (new Goodsmodel())->qrcode($bool);
-                db('goods')->where('id','=',$bool)->update(['share_code'=>$share_code]);
                 $restl = new UpdateLine;
                 $update_data = [
                     'goods_line'=>$goods_data['goods_bottom_money'],
@@ -215,8 +214,7 @@ class Goods extends Controller
                 $goods_special["goods_show_image"] = $goods_data["goods_show_image"];
                 $result = implode(",", $goods_data["lv1"]);
                 $goods_id = db('goods')->insertGetId($goods_special);
-                $share_code = (new Goodsmodel())->qrcode($bool);
-                db('goods')->where('id','=',$goods_id)->update(['share_code'=>$share_code]);
+                $share_code = (new Goodsmodel())->qrcode($goods_id);
                 if (!empty($goods_data)) {
                     foreach ($goods_data as $kn => $nl) {
                         if (substr($kn, 0, 3) == "sss") {
