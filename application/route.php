@@ -1194,6 +1194,13 @@ Route::group("admin",[
    "rewards_index_add" => "admin/Bankroll/rewards_index_add" ,          //总控资金管理-资金奖惩添加
    "rewards_index_edit" => "admin/Bankroll/rewards_index_edit" ,        //总控资金管理-资金奖惩编辑
    "adminBankRollExamine" => "admin/Bankroll/adminBankRollExamine" ,    //总控资金管理-资金奖惩确认支付
+   
+   /**phpexcel */
+   "import_excel" => "admin/Phpexcel/import_excel" ,    //总控资金管理-资金奖惩确认支付
+
+
+
+
 ]);
 
 /**
