@@ -244,7 +244,7 @@
                 cursor: 'pointer',
                 dataLabels: {
                     enabled: true,
-                    format: '<b>{point.name}%</b>: {point.percentage:.1f} %',
+                    format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
                     }
@@ -253,22 +253,29 @@
         };
         var series = [{
             type: 'pie',
-            name: 'Browser share',
+            name: '占比',
             data: [
-                ['Firefox', 45.0],
-                ['IE', 26.8],
-                {
-                    name: 'Chrome',
-                    y: 12.8,
-                    sliced: true,
-                    selected: true
-                },
-                ['Safari', 8.5],
-                ['Opera', 6.2],
-                ['Others', 0.7]
+                ['炎柱', 45.0],
+                ['恋柱', 26.8],
+                ['虫柱', 12.8],
+                ['岩柱', 8.5],
+                ['霞柱', 6.2],
+                ['水柱', 0.7]
             ]
         }];
-
+        var series2 = [{
+            type: 'pie',
+            name: '占比',
+            data: [
+                ['香蕉', 45.0],
+                ['苹果', 26.8],
+                ['棒棒糖', 12.8],
+                ['火龙果', 8.5],
+                ['水蜜桃', 6.2],
+                ['橙', 0.7]
+            ]
+        }];
+        
         var json = {};
         json.chart = chart;
         json.title = title;
@@ -276,6 +283,7 @@
         json.series = series;
         json.plotOptions = plotOptions;
         $('#container').highcharts(json);
+        json.series = series2;
         $('#container2').highcharts(json);
         var chart1 = {
             type: 'column'

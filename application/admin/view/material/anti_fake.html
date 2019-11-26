@@ -122,7 +122,7 @@
      * 弹窗
      4*/
 
-    .popup {
+    .popup, .popup2 {
         width: 100%;
         height: 100%;
         position: fixed;
@@ -151,7 +151,7 @@
     }
 
     .popup_doms1 {
-        width: 900px;
+        width: 800px;
         background: #fff;
     }
 
@@ -275,6 +275,13 @@
     /*
      * 弹窗end
 		 */
+         .import-title{font-size: 28px;color: #363636;}
+         .import-main{font-size: 20px;color: #666666;text-align: center;line-height: 48px;margin: 75px;}
+         .import-foot{display: flex;justify-content : space-around;}
+         .import-btn{width: 183px;height: 47px; color: #fff;font-size: 13px;text-align: center;cursor: pointer;}
+         .import-btn-down{background-color: rgba(102, 153, 0, 1);line-height: 47px;}
+         .import-btn-up{background-color: rgba(51,153,255);line-height: 45px;}
+         .import-btn-up img{width: 30px;height: 30px;vertical-align: middle;}
 </style>
 {/block}
 
@@ -282,6 +289,27 @@
 
 <body>
     {block name="content"}
+    <div class="popup2 popup_one noshow">
+        <div class="popup_doms1">
+            <div class="popup_title">
+                <div class="popup_x">
+                    <img src="__STATIC__/admin/index/img/X.png" />
+                </div>
+            </div>
+            <div class="popup_content" style="text-align: center;">
+                <div class="import-title">手动批量导入</div>
+                <div class="import-main">请下载模版后，再上传；务必不能与初始化数据自动同步重复！</div>
+                <div class="import-foot">
+                    <div class="import-btn import-btn-down" id="importDown">下载模板</div>
+                    <div class="import-btn import-btn-up" id="importUp">
+                        <img src="__STATIC__/admin/index/img/u29856.png" alt="">
+                        <span>上传文件</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- <img src="http://zhihuichacang.com/image779166.gif" style="" role="img"> -->
     <div class="popup popup_one noshow">
         <div class="popup_doms">
@@ -294,8 +322,8 @@
             <div class="popup_content">
                 <form class="layui-form layui-form-lists" action="{:url('admin/Material/create_good')}" method="post"
                     enctype="multipart/form-data">
-                    <input type="hidden" name="id" lay-verify="title" autocomplete="off"
-                                placeholder="" class="layui-input">
+                    <input type="hidden" name="id" lay-verify="title" autocomplete="off" placeholder=""
+                        class="layui-input">
                     <div class="form-item">
                         <label class="form-label"> <span class="red">*</span> 商品卖点</label>
                         <div class="form-input">
@@ -361,7 +389,7 @@
                                 value="{$val.member_grade_name}">
                             {/foreach}
                         </div>
-            
+
                     </div>
                     <div class="form-item">
                         <label class="form-label"><span class="red">*</span>商品图</label>
@@ -422,13 +450,15 @@
                         <button class="layui-btn">立即搜索</button>
                     </div>
                 </form>
-                <!-- <form action="{:url('admin/Phpexcel/import_excel')}" enctype="multipart/form-data" method="post">
-                    <input  type="file" name="file_stu" />
+                <form action="{:url('admin/Phpexcel/import_excel')}" enctype="multipart/form-data" method="post">
+                    <input type="file" name="file_stu" />
                     <input type="submit"  value="导入" />
-                </form> -->
+                </form>
             </div>
             <div class="operate-hd">
                 <span style="line-height: 30px;">注：绿色文字，表示该数据来源于芯片</span>
+                <span id="import"
+                    style="display: inline-block; float:right;margin-right: 70px;color: #6699FF;cursor: pointer;">批量导入</span>
             </div>
             <div class="layui-form news_list">
                 <table class="layui-table">
@@ -602,8 +632,12 @@
             //弹窗隐藏
             $(".popup_x").add('.button-qx').click(function () {
                 $(".popup").addClass("noshow");
+                $(".popup2").addClass("noshow");
             });
-            $(".unfinished").click(function() {
+            $('#import').click(function () {
+                $(".popup2").removeClass("noshow");
+            })
+            $(".unfinished").click(function () {
                 let id = $(this).data("id");
                 $('input[name="id"]').val(id);
                 $(".popup").removeClass("noshow");
