@@ -557,11 +557,67 @@ class  Material extends  Controller{
     public function anti_fake()
     {
         //获取商品的list
-        $store_id = Session::get('store_id');
-        $rr=db('anti_goods')->where('store_id',$store_id)->select();
-        //获取会员范围
-        $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
-        return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
+        // $store_id = Session::get('store_id');
+        // $rr=db('anti_goods')->where('store_id',$store_id)->select();
+        // //获取会员范围
+        // $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
+        // return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
+
+            $userName="18510393696";
+            $password="zhcc63268696";
+            $url_login='https://api.dtuip.com/qy/user/login.html';
+            $data_login= '{
+                "userName":"18510393696",
+                "password":"zhcc63268696",
+            }';
+            $login=$this->posturl($url_login,$data_login);
+            $login=json_decode($login,true);
+            if($login['flag']=='00'){
+                $data = '{
+                    "userApiKey": '.$login['userApikey'].',
+                    "flagCode":'.$login['flagCode'].',
+                    }';
+            $url = "https://api.dtuip.com/qy/device/queryDevMoniData.html";
+            $res = $this->posturl($url,$data);
+            $res=json_decode($res,true);
+            }else{
+                die;
+            }
+        //     $userApiKey='';   //zhcc63268696
+        //     $deviceNo='8606S86YL8295C5Y';
+
+            
+    }
+    public function https_post($url,$data)
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        if (!empty($data)){
+            curl_setopt($curl, CURLOPT_POST, 1);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+
+    public function posturl($url,$data){
+        // $data  = json_encode($data); 
+    
+        $headerArray =array("Content-type:application/json;charset='utf-8'","Accept:application/json");
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+        curl_close($curl);
+
+        return $output;
     }
     /**
      **************GY*******************
@@ -672,24 +728,24 @@ class  Material extends  Controller{
             return ajax_success('登录失败',$ret);
         }
     }
-     /*
-        * 发起POST网络提交
-        * @params string $url : 网络地址
-        * @params json $data ： 发送的json格式数据
-        */
-        public function https_post($url,$data)
-        {
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $url);
-            if (!empty($data)){
-                curl_setopt($curl, CURLOPT_POST, 1);
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-            }
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $output = curl_exec($curl);
-            curl_close($curl);
-            return $output;
-        }
+    //  /*
+    //     * 发起POST网络提交
+    //     * @params string $url : 网络地址
+    //     * @params json $data ： 发送的json格式数据
+    //     */
+    //     public function https_post($url,$data)
+    //     {
+    //         $curl = curl_init();
+    //         curl_setopt($curl, CURLOPT_URL, $url);
+    //         if (!empty($data)){
+    //             curl_setopt($curl, CURLOPT_POST, 1);
+    //             curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+    //         }
+    //         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+    //         $output = curl_exec($curl);
+    //         curl_close($curl);
+    //         return $output;
+    //     }
 
     //详情
     public function video_comment(){

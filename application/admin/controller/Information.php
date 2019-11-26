@@ -94,9 +94,12 @@ class Information extends Controller{
     }
     /**
      * [溯源分析]
-     * 郭杨
+     * lilu
      */    
-    public function analytical_index(){     
+    public function analytical_index(){   
+        //统计店铺防伪溯源信息
+        $store_id=Session::get('store_id');
+        $list=db('anti_fake')->where()->order('') 
         return view("analytical_index");
     }
     /**
