@@ -81,7 +81,7 @@ class Material extends Controller
             if($res){
                 return  ajax_success('获取成功',$res);
             }else{
-                return  ajax_error('插入失败');
+                return  ajax_error('选择的时间段内暂无数据');
             }
         }else{
             return  ajax_error('缺少必要的参数');
