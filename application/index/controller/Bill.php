@@ -42,8 +42,13 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-            $order_type = Db::name('order')->where('id','=',3213)->find();
-            $message = (new MessageService)->payment($order_type, 10);
+
+            $goods_data = db('goods')->where('store_id','=',87)->select();
+            foreach($goods_data as $k => $v){
+                $image = (new Goods)->qrcode($goods_data[$k]['id']);
+                db('goods')->where('id',$goods_data[$k]['id'])->update(['share_code'=>$image]);
+            }
+            
 
         }
     }
