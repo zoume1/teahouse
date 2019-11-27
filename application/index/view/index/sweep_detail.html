@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>防伪溯源</title>
+    <style>
+        body {
+            background-color: #fff;
+            padding: 0;
+            margin: 0;
+            font-size: 16px;
+        }
+
+        .title-top {
+            font-size: 16px;
+            color: #000000;
+            text-align: center;
+            background-color: rgb(249, 249, 249);
+            padding: 10px 0;
+        }
+
+        .sweep-top {
+            display: flex;
+            align-items: center;
+            background-color: rgb(249, 249, 249);
+            padding: 20px 0;
+            margin-top: 5px;
+        }
+
+        .tea-img {
+            width: 150px;
+            text-align: center;
+        }
+
+        .tea-img img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .monicker {
+            color: #999999;
+        }
+
+        .line {
+            height: 5px;
+            background-color: rgb(249, 249, 249);
+            margin: 5px 0;
+        }
+
+        .lista {
+            font-size: 16px;
+            height: 55px;
+            line-height: 55px;
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .haiba {
+            text-align: right;
+            line-height: 25px;
+        }
+
+        .title {
+            font-size: 13px;
+            color: #93291E;
+            padding-left: 20px;
+            line-height: 30px;
+            margin-bottom: 10px;
+        }
+
+        /* 物流 */
+        .logith {
+            display: flex;
+
+        }
+
+        .time {
+            font-size: 11px;
+            color: #A1A1A1;
+            text-align: center;
+            line-height: 20px;
+            padding-left: 41px;
+            padding-right: 20px;
+        }
+
+        .log_content {
+            width: 200px;
+            font-size: 14px;
+            color: #A1A1A1;
+            height: 50px;
+            border-left: solid 1px #DEDEDE;
+            position: relative;
+            overflow: visible;
+
+        }
+
+        .new {
+            color: #FFFFFF;
+            background-color: rgba(244, 60, 57, 1);
+            width: 23px;
+            height: 14px;
+            line-height: 14px;
+            font-size: 8px;
+            position: absolute;
+            left: 10px;
+            text-align: center;
+
+        }
+
+        .log_content_text {
+            margin-left: 50px;
+        }
+
+        .new_img {
+            position: absolute;
+            top: 0px;
+            left: -3px;
+            width: 5px;
+            z-index: 99999;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <div class="sweep-top">
+            <div class="tea-img">
+                <img src="https://teahouse.siring.cn/039c820190924175456300.jpg" alt="">
+            </div>
+            <div>
+                <div><span class="monicker">品名：</span>{{sweepData.goods_name}}</div>
+                <div><span class="monicker">类别：</span>{{sweepData.goods_type}}</div>
+                <div><span class="monicker">品牌：</span>{{sweepData.goods_brand}}</div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div>
+            <div class="lista">
+                <div class="monicker">防伪ID：</div>
+                <div>{{sweepData.child_code}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">商品编号：</div>
+                <div>{{sweepData.goods_number}}</div>
+            </div>
+            <div class="line"></div>
+            <div class="lista">
+                <div class="monicker">出品商：</div>
+                <div>{{sweepData.produce}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">品牌：</div>
+                <div>{{sweepData.goods_brand}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">产品名称：</div>
+                <div>{{sweepData.goods_name}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">规格：</div>
+                <div>{{sweepData.pick_size}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">原料日期：</div>
+                <div>{{sweepData.stock_date}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">包装日期：</div>
+                <div>{{sweepData.frement_date}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">加工日期：</div>
+                <div>{{sweepData.date}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">原产地：</div>
+                <div>云南</div>
+            </div>
+            <div class="lista" style="align-items : flex-start;">
+                <div class="monicker">产地定位：</div>
+                <div class="haiba">
+                    <div>海拔1486米</div>
+                    <div>东经108°48′37,北纬26°23′29</div>
+                </div>
+            </div>
+        </div>
+        <div class="line"></div>
+        <div class="list_content">
+            <div class="title">
+                数据来自终端设备采集 ：
+            </div>
+            <div class="logith">
+                <div class="time">
+                    <div class="times">2018年2月18日</div>
+                    <div class="times">00:23:54</div>
+                </div>
+
+                <div class="log_content">
+                    <img class="new_img" src="__STATIC__/admin/index/img/u474.png" mode="widthFix" lazy-load="false" binderror=""
+                        bindload="" />
+
+                    <div class="new">最新</div>
+                    <div class="log_content_text">
+                        <span> 从 </span>
+                        <span class="add"> 普洱一号仓库 </span>
+                        <span>出库 </span>
+                    </div>
+                </div>
+            </div>
+            <div class="logith">
+                <div class="time">
+                    <div class="times">2018年2月18日</div>
+                    <div class="times">00:23:54</div>
+                </div>
+                <div class="log_content">
+                    <img class="new_img" src="__STATIC__/admin/index/img/u482.png" mode="widthFix" lazy-load="false" binderror=""
+                        bindload="" />
+
+                    <div class="new" style="opacity: 0;">最新</div>
+                    <div class="log_content_text">
+                        <span> 从 </span>
+                        <span class="add"> 普洱一号仓库 </span>
+                        <span>出库 </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="__STATIC__/admin/common/js/vue.js"></script>
+<script src="__STATIC__/admin/common/js/vue-resource.js"></script>
+<script src="__STATIC__/admin/common/js/vue-router.js"></script>
+<script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            code: '',
+            sweepData: {
+                category: "",
+                child_code:"",
+                create_time:"",
+                date:"",
+                frement_date:"",
+                goods_brand:"",
+                goods_name:"",
+                goods_number:"",
+                goods_repertory:"",
+                goods_type:"",
+                unit:"",
+                produce:"",
+                pick_size:"",
+                stock_date:"",
+            }
+        },
+        methods: {
+            getData: function () {
+                let vm = this;
+                this.$http.post('get_anti_fake_info', {'code': this.code}).then(function (res) {
+                    if (res.body.status == "1") {
+                        vm.sweepData = res.body.data;
+                    }
+                }, function (res) {
+                    console.log(res);
+                })
+            }
+
+        },
+        mounted: function () {
+            let searchURL = location.search;
+            searchURL = searchURL.substring(1, searchURL.length);
+            this.code = searchURL.split("&")[0].split("=")[1];
+            this.getData();
+        }
+    })
+</script>
+
+</html>

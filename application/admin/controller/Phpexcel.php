@@ -5,10 +5,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Db;
 use think\Session;
-// include('../vendor/PHPExcel/Classes/PHPExcel.php');
-// include('../vendor/PHPExcel/Classes/PHPExcel/IOFactory.php');
-// include('../vendor/PHPExcel/Classes/PHPExcel/Reader/Excel5.php');
-// include('../vendor/PHPExcel/Classes/PHPExcel/Reader/Excel2007.php');
+
 
 /**
  * lilu
@@ -27,81 +24,120 @@ class Phpexcel extends Controller{
 
     /**
      * lilu
-     * 导入
+     * 
      */
     public function import_excel()
     {
          if (!empty ($_FILES ['file_stu'] ['name'])) {
             $tmp_file = $_FILES ['file_stu'] ['tmp_name'];
             $file_types = explode(".", $_FILES ['file_stu'] ['name']);
-            $file_type = $file_types [count($file_types) - 1];
-            /*判别是不是.xls文件，判别是不是excel文件*/
-            // if (strtolower($file_type) != "xls" || strtolower($file_type)!='xlsx') {
-            //     $this->error('不是Excel文件，重新上传');
-            // }
-            /*设置上传路径*/
-            /*百度有些文章写的上传路径经过编译之后斜杠不对。不对的时候用大写的DS代替，然后用连接符链接就可以拼凑路径了。*/
-            $savePath = ROOT_PATH . 'public' . DS . 'upload' . DS;
-
-            /*以时间来命名上传的文件*/
-            $str = date('Ymdhis');
-            $file_name = $str . "." . $file_type;
-            /*是否上传成功*/
-            if (!copy($tmp_file, $savePath . $file_name)) {
-                $this->error('上传失败');
+            $obj_PHPExcel = new \PHPExcel();
+            $objReader =\PHPExcel_IOFactory::createReaderForFile($_FILES["file_stu"]['tmp_name']);
+            $objReader->setReadDataOnly(true);//这段其实也可以不要
+            $obj_PHPExcel =\PHPExcel_IOFactory::load($_FILES["file_stu"]['tmp_name']);
+            //这里是加载文件,千万要注意你导入文件的格式不是文件后缀是文件格式,笔者在这个坑上待了很久,
+            //$fileType=PHPExcel_IOFactory::identify($filename);上面load()500了可以用着个来校验上传的文件格式如果是html格式你就要注意了.
+            $excel_array=$obj_PHPExcel->getsheet(0)->toArray();   //转换为数组格式
+            unset($excel_array[0]);    //去除Excel的表头
+            //获取
+            if(!$excel_array){
+                $this->error('检测到上传文件为空，请重新上传');
             }
-            /*
-            *对上传的Excel数据进行处理生成编程数据,这个函数会在下面第三步的ExcelToArray类中
-            *注意：这里调用执行了第三步类里面的read函数，把Excel转化为数组并返回给$res,再进行数据库写入
-            */
-            // require THINK_PATH.'Library/Org1/Util/ExcelToArrary.class.php';//导入excelToArray类
-          //引入这个类试了百度出来的好几个方法都不行。最后简单粗暴的使用了require方式。这个类想放在哪里放在哪里。只要路径对就行。
-            // $ExcelToArrary=new \ExcelToArrary();//实例化
-
-            $res=$this->read($savePath.$file_name,"UTF-8",$file_type);//传参,判断office2007还是office2003
-
-            /*对生成的数组进行数据库的写入*/
-            foreach ($res as $k => $v) {
-                if ($k > 1) {
-                    $data[$k]['username'] = $v[1];
-                    $data[$k]['phone'] = $v[2];
-//                    $data ['password'] = sha1('111111');
+            $count=count($excel_array[1]);
+            $store_id=Session::get('store_id');
+            if($count==15){  //
+                foreach($excel_array as $k =>$v){
+                    $data['id']=$v[0];
+                    $data['goods_number']=$v[1];
+                    $data['goods_name']=$v[2];
+                    $data['goods_brand']=$v[3];
+                    $data['produce']=$v[4];
+                    $data['category']=$v[5];
+                    $data['goods_type']=$v[6];
+                    $data['unit']=$v[7];
+                    $data['pick_size']=$v[8];
+                    $data['goods_repertory']=$v[9];
+                    $data['stock_date']=$v[10];
+                    $data['frement_date']=$v[11];
+                    $data['date']=$v[12];
+                    $data['origin']=$v[13];
+                    $data['store_id']=$store_id;
+                    $data['produceUid']=$v[14];
+                    $data['create_time']=time();
+                    $data['is_create_good']='0';
+                    $re=db('anti_goods')->insert($data);
                 }
+            }else{
+                    foreach($excel_array as $k =>$v){
+                        $data['id']=$v[0];
+                        $data['goods_name']=$v[1];
+                        $data['parent_code']=$v[2];
+                        $data['child_code']=$v[3];
+                        $data['nfc_num']=$v[4];
+                        $data['qr_num']=$v[5];
+                        $data['pid']=$v[6];
+                        $data['store_id']=$store_id;
+                        $data['create_time']=time();
+                        $data['produceUid']=$v[7];
+                        $re=db('anti_goods')->insert($data);
+                    }
             }
-            //插入的操作最好放在循环外面
-            $result = db('sys_ceshi')->insertAll($data);
-            //var_dump($result);
+            $this->success("导入成功","admin/Material/anti_fake");
+        }else{
+             $this->error('未检测到上传文件，请重新上传');
         }
     }
 
-    public function read($filename,$encode,$file_type){
-        $PHPExcel_IOFactory= new \PHPExcel_IOFactory();
-        if(strtolower ( $file_type )=='xls')//判断excel表类型为2003还是2007
-        {
-            // $objReader = PHPExcel_IOFactory::createReader('Excel5');
-            $objReader = $PHPExcel_IOFactory->createReader('Excel5');
+    /**
+     * lilu
+     * 导出
+     */
 
-        }elseif(strtolower ( $file_type )=='xlsx')
-        {
-            $objReader = $PHPExcel_IOFactory->createReader('Excel2007');
+        public function output_excel(){
+            //phpexcel
+            vendor("PHPExcel.PHPExcel"); //获取PHPExcel类
+            $lists = Db::name('orders')->select();
+            $objectPHPExcel = new \PHPExcel();
+            $objectPHPExcel->setActiveSheetIndex(0);
+            $current_page = 0;
+            $n = 0;
+            foreach ( $lists as $k=>$v )
+            {
+                $current_page = $current_page +1;
+                //表格头的输出
+                $objectPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(30);
+                $objectPHPExcel->setActiveSheetIndex(0)->setCellValue('A1','订单编号');
+                $objectPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+                $objectPHPExcel->setActiveSheetIndex(0)->setCellValue('B1','商品名称');
+                $objectPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(15);
+                $objectPHPExcel->setActiveSheetIndex(0)->setCellValue('C1','商品型号');
+                
+                $objectPHPExcel->getActiveSheet()->getStyle('A')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+                $objectPHPExcel->getActiveSheet()->getStyle('B')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+                $objectPHPExcel->getActiveSheet()->getStyle('C')->getAlignment()->setVertical(\PHPExcel_Style_Alignment::VERTICAL_CENTER);
+            
+                $objectPHPExcel->getActiveSheet()->setCellValue('A'.($n+2) ,$v['order_sn']);
+                $objectPHPExcel->getActiveSheet()->setCellValue('B'.($n+2) ,$v['goods_name']);
+                $objectPHPExcel->getActiveSheet()->setCellValue('C'.($n+2) ,$v['goods_name_en']);
+                //设置边框
+                $n = $n +1;
+            }
+            //设置分页显示
+            //$objectPHPExcel->getActiveSheet()->setBreak( 'I55' , PHPExcel_Worksheet::BREAK_ROW );
+            //$objectPHPExcel->getActiveSheet()->setBreak( 'I10' , PHPExcel_Worksheet::BREAK_COLUMN );
+            $objectPHPExcel->getActiveSheet()->getPageSetup()->setHorizontalCentered(true);
+            $objectPHPExcel->getActiveSheet()->getPageSetup()->setVerticalCentered(false);
+            ob_end_clean();
+            ob_start();
+            $file_name = date('Y-m-d_His').'.xls';
+            header('Content-Disposition: attachment;filename='.$file_name);
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            $objWriter= \PHPExcel_IOFactory::createWriter($objectPHPExcel,'Excel2007');
+            $objWriter->save('php://output');
+            exit;
         }
-        $objReader->setReadDataOnly(true);
-        $objPHPExcel = $objReader->load($filename);
-        $objWorksheet = $objPHPExcel->getActiveSheet();
-        $highestRow = $objWorksheet->getHighestRow();
-        $highestColumn = $objWorksheet->getHighestColumn();
-        $PHPExcel_Cell= new \PHPExcel_Cell();
-        $highestColumnIndex = $PHPExcel_Cell->columnIndexFromString($highestColumn);
-        // $highestColumnIndex = PHPExcel_Cell::columnIndexFromString($highestColumn);
-        $excelData = array();
-        for ($row = 1; $row <= $highestRow; $row++) {
-            for ($col = 0; $col < $highestColumnIndex; $col++) {
-                $excelData[$row][] =(string)$objWorksheet->getCellByColumnAndRow($col, $row)->getValue();
-                }
-        }
-        halt($excelData);
-        return $excelData;
-}
+
+
 
 
     

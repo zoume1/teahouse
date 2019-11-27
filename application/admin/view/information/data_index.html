@@ -504,6 +504,9 @@
 	var title = {
 		text: '本月订单统计'
 	};
+	var title2 = {
+		text: '本月销售统计'
+	};
 	var subtitle = {
 		text: 'Source: runoob.com'
 	};
@@ -607,6 +610,7 @@
 					$("#order_precent").css("color", "red");
 				}
 				$("#order_precent").text(order_precent);
+				json.title = title;
 				$('#container').highcharts(json);
 
 
@@ -684,6 +688,7 @@
 		success: function(res) {
 			var res = JSON.parse(res), sales_precent;
 			json.series = series_two;
+			json.title = title2;
 			if(res.status == 1) {
 				series_two[0].data = res.data.arr;
 				sales_precent = (res.data.precent - 100).toFixed(2);
