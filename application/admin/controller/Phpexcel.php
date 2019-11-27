@@ -40,6 +40,9 @@ class Phpexcel extends Controller{
             $excel_array=$obj_PHPExcel->getsheet(0)->toArray();   //转换为数组格式
             unset($excel_array[0]);    //去除Excel的表头
             //获取
+            if(!$excel_array){
+                $this->error('检测到上传文件为空，请重新上传');
+            }
             $count=count($excel_array[1]);
             $store_id=Session::get('store_id');
             if($count==15){  //
