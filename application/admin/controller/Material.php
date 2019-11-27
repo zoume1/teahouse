@@ -183,6 +183,37 @@ class  Material extends  Controller{
             }
         }
     }
+
+
+        /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:视频直播更新声音设备
+     **************************************
+     */
+    public  function  direct_seeding_statuse(Request $request){
+        if ($request->isPost()) {
+            $status = $request->only(["status"])["status"];
+            if ($status == 0) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("video_frequency")->where("id", $id)->update(["sound" => 0]);
+                if ($bool) {
+                    $this->redirect(url("admin/Material/direct_seeding"));
+                } else {
+                    $this->error("修改失败", url("admin/Material/direct_seeding"));
+                }
+            }
+            if ($status == 1) {
+                $id = $request->only(["id"])["id"];
+                $bool = db("video_frequency")->where("id", $id)->update(["sound" => 1]);
+                if ($bool) {
+                    $this->redirect(url("admin/Material/direct_seeding"));
+                } else {
+                    $this->error("修改失败", url("admin/Material/direct_seeding"));
+                }
+            }
+        }
+    }
     /**
      **************GY*******************
      * @param Request $request

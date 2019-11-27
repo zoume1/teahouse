@@ -89,7 +89,8 @@ class Storehouse extends Controller
                         return ajax_success("传输成功",$depots_names);
                     } else {
                         $store_first = Db::name('store_house')->where("store_id",$store_id)->field('number,name')->find();
-                        return ajax_error("没有存茶订单",$store_first);
+                        $rest[0] = $store_first;
+                        return ajax_error("没有存茶订单",$rest);
                     }
                 } else {
                     return ajax_error("该店铺没有存茶仓库");

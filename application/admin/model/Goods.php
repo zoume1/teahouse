@@ -122,7 +122,7 @@ class Goods extends Model
         $puth = ROOT_PATH . 'public' . DS . 'share'.DS.'D'.time().rand(100000,999999).'.png';
         file_put_contents($puth,$result);
         $file_name = basename($puth,'.png');
-        $image_url = '/share/'.$file_name;
+        $image_url = '/share/'.$file_name.'.png';
         $resultes = db('goods')->where('id','=',$goods_id)->update(['share_code'=>$image_url]);
         return $puth;
     }
