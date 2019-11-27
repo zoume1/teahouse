@@ -182,6 +182,7 @@ class Information extends Controller{
         //获取当月的订单
         $where['order_create_time']=array('between',array(strtotime(date('Y-m-01')),strtotime(date('Y-m-'.$j))+86400));
         $where['status']=array('between',array(2,8));
+        $where['store_id']=$store_id;
         $order_list=db('order')->where($where)->order('order_create_time asc')->group('order_create_time')->select();
         $order_num=round(db('order')->where($where)->sum('order_real_pay'),2);    //当月的订单总金额
         $last_month = date('Y-m', strtotime('last month'));
@@ -189,6 +190,7 @@ class Information extends Controller{
         $last['end'] =strtotime(date('Y-m-d H:i:s', strtotime("$last_month +0 month +$m day +23 hours +59 minutes +59 seconds"))) ;
         $where2['order_create_time']=array('between',array($last['first'],$last['end']));
         $where2['status']=array('between',array(2,8));
+        $where2['store_id']=$store_id;
         $order_num2=db('order')->where($where2)->sum('order_real_pay');    //上月的订单总金额
         if($order_num2==0){
             $pre=0;
