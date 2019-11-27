@@ -295,7 +295,6 @@ class  Order extends  Controller
                     $datas["accounting"] = $account_cost * $numbers[$keys]; //成本
                     $all_moneys[] = $datas["goods_money"] * $numbers[$keys]; //订单金额
                     $datas["order_real_pay"] = $all_money; //订单实际支付的金额(即优惠券抵扣之后的价钱）
-                    // $datas["order_real_pay"] = 0.01;//订单实际支付的金额(即优惠券抵扣之后的价钱）
                     $datas["status"] = 1;
                     $datas["goods_id"] = $values;
                     $datas["parts_order_number"] = $parts_order_number; //时间+4位随机数+用户id构成订单号
