@@ -77,8 +77,12 @@ class Material extends Controller
         {
             $where['create_time']=array('between',array(strtotime($input['stime']),strtotime($input['etime'])));
             $where['store_id']=$input['uniacid'];
-            $data['temperature']=db('humiture')->where($where)->column('temperature');
-            $data['humidity']=db('humiture')->where($where)->column('humidity');
+            $time=db('humiture')->where($where)->column('create_time');
+            foreach($time as $k=>$v){
+                $data[0][]=date('Y/m/d',$v);
+            }
+            $data[1]=db('humiture')->where($where)->column('temperature');
+            $data[2]=db('humiture')->where($where)->column('humidity');
             if($data){
                 return  ajax_success('获取成功',$data);
             }else{
