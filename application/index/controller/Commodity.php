@@ -461,21 +461,29 @@ class Commodity extends Controller
             }else{
                 $where['store_id']=$input['uniacid'];
                 $where['pid']=$input['pid'];    //二级分类id
+                $where['label']=1;    //上下架
+                //获取当前会员的会员级别
+                $member_grade=db('member')->where('member_openid',$input['open_id'])->value('member_grade_name');
                 if($input['order']==1){     //综合排序
-                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
                 }elseif($input['order']==2){    //最新
-                    $goods_list=db('goods')->where($where)->order('date desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                    $goods_list=db('goods')->where($where)->order('date desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
                 }elseif($input['order']==3){     //价格  --升序
-                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
                 }elseif($input['order']==4){     //价格-- 降序
-                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
                 }elseif($input['order']==5){     //销量----升序
-                    $goods_list=db('goods')->where($where)->order('goods_volume asc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                    $goods_list=db('goods')->where($where)->order('goods_volume asc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
                 }elseif($input['order']==6){     //销量----降序
-                    $goods_list=db('goods')->where($where)->order('goods_volume desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money')->select();
+                    $goods_list=db('goods')->where($where)->order('goods_volume desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
                 }
                 if($goods_list){
                     foreach($goods_list as $k=>$v){
+                        $grade=explode(',',$v['scope']);
+                        if(!in_array($member_grade,$grade)){
+                            unset($goods_list[$k]);
+                            continue;
+                        }
                         $member_grade_id = db("member")->where("member_openid", $input['open_id'])->value("member_grade_id");
                         $discount = db("member_grade")->where("member_grade_id", $member_grade_id) ->value("member_consumption_discount");
                         if($v['goods_member']==1){   //参加折扣
