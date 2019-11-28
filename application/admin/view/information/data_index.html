@@ -681,14 +681,21 @@
 		}
 	})
 
+	var json2 = {};
+	json2.title = title2;
+	json2.subtitle = subtitle;
+	json2.xAxis = xAxis;
+	json2.yAxis = yAxis;
+	json2.tooltip = tooltip;
+	json2.legend = legend;
+	json2.series = series;
 	//销售额统计
 	$.ajax({
 		url: "store_money_analyse",
 		data:{},
 		success: function(res) {
 			var res = JSON.parse(res), sales_precent;
-			json.series = series_two;
-			json.title = title2;
+			json2.series = series_two;
 			if(res.status == 1) {
 				series_two[0].data = res.data.arr;
 				sales_precent = (res.data.precent - 100).toFixed(2);
@@ -704,7 +711,7 @@
 					$("#sales_precent").css("color", "red");
 				}
 				$("#sales_precent").text(sales_precent);
-				$('#containerb').highcharts(json);
+				$('#containerb').highcharts(json2);
 
 					$("#data2_refash").click(function () {
 						var data_aaa = [];
@@ -723,15 +730,15 @@
 						series_two[0].data = data_bbb;
 						xAxis.categories = data_aaa;
 
-						var json = {};
-						json.title = title;
-						json.subtitle = subtitle;
-						json.xAxis = xAxis;
-						json.yAxis = yAxis;
-						json.tooltip = tooltip;
-						json.legend = legend;
-						json.series = series_two;
-						$('#containerb').highcharts(json);
+						var json2 = {};
+						json2.title = title2;
+						json2.subtitle = subtitle;
+						json2.xAxis = xAxis;
+						json2.yAxis = yAxis;
+						json2.tooltip = tooltip;
+						json2.legend = legend;
+						json2.series = series_two;
+						$('#containerb').highcharts(json2);
 					})
 
 			} else {
@@ -752,18 +759,18 @@
 						series_two[0].data = data_bbb;
 						xAxis.categories = data_aaa;
 
-						var json = {};
-						json.title = title;
-						json.subtitle = subtitle;
-						json.xAxis = xAxis;
-						json.yAxis = yAxis;
-						json.tooltip = tooltip;
-						json.legend = legend;
-						json.series = series_two;
-						$('#containerb').highcharts(json);
+						var json2 = {};
+						json2.title = title2;
+						json2.subtitle = subtitle;
+						json2.xAxis = xAxis;
+						json2.yAxis = yAxis;
+						json2.tooltip = tooltip;
+						json2.legend = legend;
+						json2.series = series_two;
+						$('#containerb').highcharts(json2);
 					});
 					series_two[0].data = data_bbb;
-				$('#containerb').highcharts(json);
+				$('#containerb').highcharts(json2);
 			}
 		},
 		error: function(e) {
