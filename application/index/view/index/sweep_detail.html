@@ -126,9 +126,12 @@
         }
 
         .qr-img {
-            margin: 30px 20px 20px 20px;
+            margin: 30px 20px;
         }
-
+        .qr-img div{
+            text-align: center;
+            font-size: 12px;
+        }
         .qr-img img {
             width: 80px;
             height: 80px;
@@ -181,6 +184,7 @@
                 <div class="cont">
                     <div class="qr-img">
                         <img :src="sweepData.qr_img" alt="">
+                        <div>{{sweepData.applet_name}}</div>
                     </div>
                     <div class="qr-title">
                         <p>请在小程序中扫码，获取防伪溯源详细信息</p>
@@ -319,7 +323,8 @@
                 produce: "",
                 pick_size: "",
                 stock_date: "",
-                qr_img: ""
+                qr_img: "",
+                applet_name:""
             }
         },
         methods: {
