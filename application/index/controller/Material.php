@@ -4,6 +4,7 @@ namespace app\index\controller;
 use think\Controller;
 use think\Cache;
 use think\Session;
+use think\Db;
 
 /**
  * lilu
@@ -42,6 +43,8 @@ class Material extends Controller
             //     } 
             // }
             $goods_info['qr_img']=$re;
+            $applet_name=Db::table('applet')->where('id',$store_id)->value('name');
+            $goods_info['applet_name']=$applet_name;
             if($goods_info){
                 return ajax_success('获取成功',$goods_info);
             }else{
