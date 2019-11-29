@@ -52,8 +52,8 @@
 
         .lista {
             font-size: 16px;
-            height: 55px;
-            line-height: 55px;
+            height: 45px;
+            line-height: 45px;
             padding-left: 20px;
             padding-right: 20px;
             display: flex;
@@ -131,7 +131,8 @@
     <div id="app">
         <div class="sweep-top">
             <div class="tea-img">
-                <img src="https://teahouse.siring.cn/039c820190924175456300.jpg" alt="">
+                <img :src="sweepData.qr_img" alt="">
+                <!-- <img src="https://teahouse.siring.cn/image1345901.png" alt=""> -->
             </div>
             <div>
                 <div><span class="monicker">品名：</span>{{sweepData.goods_name}}</div>
@@ -231,6 +232,10 @@
                 </div>
             </div>
         </div>
+
+        <div>
+
+        </div>
     </div>
 </body>
 <script src="__STATIC__/admin/common/js/vue.js"></script>
@@ -256,6 +261,7 @@
                 produce:"",
                 pick_size:"",
                 stock_date:"",
+                qr_img:""
             }
         },
         methods: {
@@ -263,6 +269,7 @@
                 let vm = this;
                 this.$http.post('get_anti_fake_info', {'code': this.code}).then(function (res) {
                     if (res.body.status == "1") {
+                        res.body.data.qr_img = 'data:'+res.body.data.qr_img;
                         vm.sweepData = res.body.data;
                     }
                 }, function (res) {
