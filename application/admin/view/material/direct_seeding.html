@@ -21,32 +21,148 @@
 <link rel="stylesheet" type="text/css" href="__STATIC__/admin/index/common/layui/css/layui.css" />
 
 <style>
-    *{margin: 0; padding: 0; list-style: none;}
-    .wrapper{padding: 20px 10px; background-color: #fff;}
-    .title {border-bottom: 1px solid #c9c9c9;padding-bottom: 5px; margin-bottom: 20px;}
-    .title a{font-size: 18px; padding: 0 10px 5px; color: #333;}
-    .title .tit-on {color: #009688;border-bottom: 2px solid #009688;}
-    .search-hd{background-color: #f9f8f7; padding: 12px 0 12px 20px; margin-bottom: 10px; border-left: 5px solid #009688;}
-    .search-box{display: flex; align-items: center; font-size: 14px; color: #333;}
-    .search-box input{border: 1px solid #e4e4e4; background-color: #fff; padding-left: 5px; width: 180px; height: 35px; box-sizing: border-box;}
-    .s-input{margin-right: 20px;}
-    .search-box input::placeholder{color: #b2b2b2;}
-    .my-form-select{margin: 0; width: 220px; display: flex; margin-right: 20px;}
-    .search-hd label{margin-bottom: 0; margin-right: 10px; height: 35px; line-height: 35px;}
-    .bot-operate{ width: 96%; height: 50px; line-height: 50px; border: solid 1px #e2e2e2; padding-left: 50px; background: #fdfdfd;}
-    .bot-operate .opation{float: left}
-    .bot-operate .opation select{color: #c1a5a5; border-color: #e4e4e4; height: 30px;}
-    .bot-operate .operation-btn{width: 60px; background: #fff; color: #333; border:#ccc solid 1px; height: 30px; line-height: 30px; margin-left: 20px;}
-    .noshow {display: none;}
-    .videos_fd {position: relative;}
-    .videos {position: absolute;  left: -170%;bottom:80%;z-index: 500;background: url(http://zhihuichacang.com/nu01.png)no-repeat 0px 0px;}
-    .popup_x > img{ width: 20px;height: 20px; position: absolute;right: 10px;top: 5px;z-index: 1000;}
-    .vk {position: relative;padding:0 10px;width: 380px;height: 240px;}
+    * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
 
+    .wrapper {
+        padding: 20px 10px;
+        background-color: #fff;
+    }
+
+    .title {
+        border-bottom: 1px solid #c9c9c9;
+        padding-bottom: 5px;
+        margin-bottom: 20px;
+    }
+
+    .title a {
+        font-size: 18px;
+        padding: 0 10px 5px;
+        color: #333;
+    }
+
+    .title .tit-on {
+        color: #009688;
+        border-bottom: 2px solid #009688;
+    }
+
+    .search-hd {
+        background-color: #f9f8f7;
+        padding: 12px 0 12px 20px;
+        margin-bottom: 10px;
+        border-left: 5px solid #009688;
+    }
+
+    .search-box {
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        color: #333;
+    }
+
+    .search-box input {
+        border: 1px solid #e4e4e4;
+        background-color: #fff;
+        padding-left: 5px;
+        width: 180px;
+        height: 35px;
+        box-sizing: border-box;
+    }
+
+    .s-input {
+        margin-right: 20px;
+    }
+
+    .search-box input::placeholder {
+        color: #b2b2b2;
+    }
+
+    .my-form-select {
+        margin: 0;
+        width: 220px;
+        display: flex;
+        margin-right: 20px;
+    }
+
+    .search-hd label {
+        margin-bottom: 0;
+        margin-right: 10px;
+        height: 35px;
+        line-height: 35px;
+    }
+
+    .bot-operate {
+        width: 96%;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #e2e2e2;
+        padding-left: 50px;
+        background: #fdfdfd;
+    }
+
+    .bot-operate .opation {
+        float: left
+    }
+
+    .bot-operate .opation select {
+        color: #c1a5a5;
+        border-color: #e4e4e4;
+        height: 30px;
+    }
+
+    .bot-operate .operation-btn {
+        width: 60px;
+        background: #fff;
+        color: #333;
+        border: #ccc solid 1px;
+        height: 30px;
+        line-height: 30px;
+        margin-left: 20px;
+    }
+
+    .noshow {
+        display: none;
+    }
+
+    .videos_fd {
+        position: relative;
+    }
+
+    .videos {
+        position: absolute;
+        right: -160px;
+        bottom: 80%;
+        z-index: 500;
+        background: url(http://zhihuichacang.com/nu01.png)no-repeat 0px 0px;
+    }
+
+    .popup_x>img {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 10px;
+        top: 5px;
+        z-index: 1000;
+    }
+
+    .vk {
+        position: relative;
+        padding: 0 10px;
+        width: 380px;
+        height: 240px;
+    }
+
+    .layui-form-onswitch i {
+        left: 100% !important;
+    }
 </style>
 {/block}
 
 </head>
+
 <body>
     {block name="content"}
 
@@ -57,50 +173,50 @@
                 <a href="direct_seeding_classification" title="直播分类">直播分类</a>
             </div>
             <form class="layui-form" action="{:url('admin/Material/direct_seeding_search')}">
-            <div class="search-hd">
-                <div class="search-box layui-form">
-                    <div class="layui-form-item my-form-select">
-                        <label>状态</label>
-                        <select name="status" lay-filter="zhuagntai">
-                            <option value="">请选择</option>
-                            <option value="1">开启</option>
-                            <option value="2">关闭</option>
-                        </select>
-                    </div>
-                    <div class="layui-form-item my-form-select">
-                        <label>开放</label>
-                        <select name="open_status" lay-filter="kaifang">
-                            <option value="">请选择</option>
-                            <option value="公开">公开</option>
-                            <option value="私有">私有</option>
-                        </select>
-                    </div>
-                    <!-- <div class="s-input"> -->
+                <div class="search-hd">
+                    <div class="search-box layui-form">
+                        <div class="layui-form-item my-form-select">
+                            <label>状态</label>
+                            <select name="status" lay-filter="zhuagntai">
+                                <option value="">请选择</option>
+                                <option value="1">开启</option>
+                                <option value="2">关闭</option>
+                            </select>
+                        </div>
+                        <div class="layui-form-item my-form-select">
+                            <label>开放</label>
+                            <select name="open_status" lay-filter="kaifang">
+                                <option value="">请选择</option>
+                                <option value="公开">公开</option>
+                                <option value="私有">私有</option>
+                            </select>
+                        </div>
+                        <!-- <div class="s-input"> -->
                         <!-- <label>直播类型：</label>
                         <input type="text" placeholder="请输入" id="searchTxt">
                     </div> -->
-            
-                            <div class="seach_laber">直播类型：</div>
-                            <div class="seach_input">
-                                    {if !empty($direct)}
-                                    <select name="classify_name" id="admin_role" class="role_list">
-                                        <option value="">请选择</option>
-                                        {volist name="direct" id="value"}
-                                        <option value="{$value.title}">{$value.title}</option>
-                                        {/volist}
-                                    </select>
-                                    {else}
-                                    <select name="classify_name" class="role_list">
-                                    </select>
-                                    {/if}
-                                    </select>
-                            </div>
-                        
-                    
-                    <button class="layui-btn search-btn">立即搜索</button>
+
+                        <div class="seach_laber">直播类型：</div>
+                        <div class="seach_input">
+                            {if !empty($direct)}
+                            <select name="classify_name" id="admin_role" class="role_list">
+                                <option value="">请选择</option>
+                                {volist name="direct" id="value"}
+                                <option value="{$value.title}">{$value.title}</option>
+                                {/volist}
+                            </select>
+                            {else}
+                            <select name="classify_name" class="role_list">
+                            </select>
+                            {/if}
+                            </select>
+                        </div>
+
+
+                        <button class="layui-btn search-btn">立即搜索</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
             <div class="operate-hd">
                 <a href="direct_seeding_add" class="layui-btn layui-btn-danger">添加设备</a>
             </div>
@@ -132,7 +248,7 @@
                                 <div class="table-cell-div">直播标题</div>
                             </th>
                             <th class="table-cell">
-                                <div class="table-cell-div" id="token" >查看</div>
+                                <div class="table-cell-div" id="token">查看</div>
                             </th>
                             <th class="table-cell">
                                 <div class="table-cell-div">设备序列号</div>
@@ -155,12 +271,13 @@
                         </tr>
                     </thead>
                     <tbody>
-                            {if !empty($data)}
-                            {volist name="data" id="value"}
+                        {if !empty($data)}
+                        {volist name="data" id="value"}
                         <tr>
                             <td class="table-cell">
                                 <div class="table-cell-div">
-                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose" value={$value.id}>
+                                    <input type="checkbox" name="singleChoose" lay-skin="primary" lay-filter="choose"
+                                        value={$value.id}>
                                 </div>
                             </td>
                             <td class="table-cell">
@@ -183,27 +300,19 @@
                             </td>
                             <td class="table-cell videos_fd">
                                 <div class="table-cell-div">
-                                    <button class="layui-btn layui-btn-mini" data-id="{$value.urls}" onclick="look(this,'{$value.series_number}')">查看</button>
+                                    <button class="layui-btn layui-btn-mini" data-id="{$value.urls}"
+                                        onclick="look(this,'{$value.series_number}')">查看</button>
                                 </div>
-                                
+
                                 <div class="videos noshow" id="videos">
                                     <!-- <img width="100%" height="100%" src="http://zhihuichacang.com/u991.png" alt=""> -->
                                     <div class="vk">
-                                        <div class="popup_x stop" >
-                                          <img src="__STATIC__/admin/index/img/X.png" />
-                                      </div>
-                                        <video 
-                                        id="myPlayer"
-                                        autoplay
-                                        height="220px"
-                                        width="340px"
-                                        src="{$value.urls}"
-                                        poster=""
-                                        controls
-                                        playsInline 
-                                        webkit-playsinline
-                                      >
-                                      </video>
+                                        <div class="popup_x stop">
+                                            <img src="__STATIC__/admin/index/img/X.png" />
+                                        </div>
+                                        <video id="myPlayer" autoplay height="220px" width="340px" src="{$value.urls}"
+                                            poster="" controls playsInline webkit-playsinline>
+                                        </video>
                                     </div>
                                 </div>
                             </td>
@@ -215,20 +324,30 @@
                             </td>
                             <td>
                                 {if $value.sound == 0}
-                                <input type="checkbox" class="Status" name="sound" value="{$value.sound}" lay-skin="switch"  lay-filter="isShowe" data-id="{$value.id}"> {else}
-                                <input type="checkbox" class="Status" name="sound" value="{$value.sound}" lay-skin="switch"  lay-filter="isShowe" checked data-id="{$value.id}"> {/if}
-                                </td>
+                                <input type="checkbox" class="Status" name="status" value="{$value.sound}"
+                                    lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                                <input type="checkbox" class="Status" name="status" value="{$value.sound}"
+                                    lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}">
+                                {/if}
+                            </td>
                             <td>
-                            {if $value.status == 0}
-                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch"  lay-filter="isShow" data-id="{$value.id}"> {else}
-                            <input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch"  lay-filter="isShow" checked data-id="{$value.id}"> {/if}
+                                {if $value.status == 0}
+                                <input type="checkbox" class="Status" name="status" value="{$value.status}"
+                                    lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.id}"> {else}
+                                <input type="checkbox" class="Status" name="status" value="{$value.status}"
+                                    lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.id}">
+                                {/if}
                             </td>
                             <td class="table-cell">
                                 <div class="table-cell-div">{$value.open_status}</div>
                             </td>
                             <td>
-                                <a class="layui-btn layui-btn-mini edit" href="{:url('admin/Material/direct_seeding_edit',['id'=>$value.id])}"> 编辑</a>
-                                <a href="{:url('admin/Material/direct_seeding_delete',['id'=>$value.id])}" onclick="if(!confirm('确定要删除吗？')) return false" class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i class="layui-icon"></i> 删除</a>
+                                <a class="layui-btn layui-btn-mini edit"
+                                    href="{:url('admin/Material/direct_seeding_edit',['id'=>$value.id])}"> 编辑</a>
+                                <a href="{:url('admin/Material/direct_seeding_delete',['id'=>$value.id])}"
+                                    onclick="if(!confirm('确定要删除吗？')) return false"
+                                    class="layui-btn layui-btn-danger layui-btn-mini news_del" data-id="undefined"><i
+                                        class="layui-icon"></i> 删除</a>
                             </td>
                         </tr>
                         {/volist}{/if}
@@ -333,12 +452,12 @@
         //     });
         // }
 
-        layui.use(['laydate', 'form'], function(){
+        layui.use(['laydate', 'form'], function () {
             var laydate = layui.laydate,
                 form = layui.form;
             form.render();
 
-                //   修改状态
+            //   修改状态
             form.on('switch(isShow)', function (data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
@@ -392,20 +511,20 @@
             })
 
         })
-        function look(e,series_number){
-            // console.log( $(e).parents('.videos_fd').children('.videos'))
-            $(e).parents('.videos_fd').children('.videos').removeClass('noshow');
+        function look(e, series_number) {
+            $(e).parents('.videos_fd').children('.videos').toggleClass('noshow');
+            showVideo(e)
+        }
+        function showVideo(_this) {
             var player = new EZUIKit.EZUIPlayer('myPlayer');
-            
-            // console.log($('#myPlayer').context)
-            // getCapture(series_number);
             $(".stop").click(function () {
                 player.stop();
                 $(this).parents('.videos').addClass('noshow');
             })
         }
-        
+
     </script>
     {/block}
 </body>
+
 </html>

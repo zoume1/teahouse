@@ -11,13 +11,25 @@
 
     #page {
         width: 97%;
-		height: 50px;
-		line-height: 50px;
-		border: solid 1px #E2E2E2;
-		padding-left: 50px;
-		background: #FDFDFE;
+        height: 50px;
+        line-height: 50px;
+        border: solid 1px #E2E2E2;
+        padding-left: 50px;
+        background: #FDFDFE;
     }
-    .tg-box{position: absolute;top: 40px;left:40px;background-color: #fff;width:170px;height: 170px; text-align: center;display: none;z-index: 99;border: 1px solid rgb(226,226,226);}
+
+    .tg-box {
+        position: absolute;
+        top: 40px;
+        left: 40px;
+        background-color: #fff;
+        width: 170px;
+        height: 170px;
+        text-align: center;
+        display: none;
+        z-index: 99;
+        border: 1px solid rgb(226, 226, 226);
+    }
 </style>
 
 {/block}
@@ -88,7 +100,8 @@
                 <tbody class="news_content">
                     {volist name="goods" id="value"}
                     <tr>
-                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
+                        <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose"
+                                data-id="{$value.id}"></td>
                         <td>{$value.goods_number}</td>
                         <td class="">
                             <div class="tdimg"><img src="{$value.goods_show_image}" /></div>
@@ -117,7 +130,7 @@
                                 lay-text="上架|上架" lay-filter="isShows" data-id="{$value.id}">
                             {/if}
                         </td>
-                        
+
                         <td>{$value.goods_repertory}</td>
                         <td>{$value.goods_volume}</td>
                         <td>{$value.sort_number}</td>
@@ -133,23 +146,24 @@
                             {if $value.distribution_status == 0}
                             <input type="checkbox" class="Status" name="status" value="{$value.distribution_status}"
                                 lay-skin="switch" lay-text="启用|关闭" lay-filter="isShowes" data-id="{$value.id}">{else}
-                                <input type="checkbox" class="Status" name="status" value="{$value.distribution_status}"
-                                lay-skin="switch" lay-text="启用|关闭" lay-filter="isShowes" checked data-id="{$value.id}">{/if}
+                            <input type="checkbox" class="Status" name="status" value="{$value.distribution_status}"
+                                lay-skin="switch" lay-text="启用|关闭" lay-filter="isShowes" checked
+                                data-id="{$value.id}">{/if}
                         </td>
                         <td style="position: relative;">
                             <div class="tg-box">
                                 <img src="{$value.share_code}" alt="" width="150px;" height="150px;">
-                                <a href="{$value.share_code}"  download='{$value.share_code}'>下载二维码</a>                            
+                                <a href="{$value.share_code}" download='{$value.share_code}'>下载二维码</a>
                             </div>
                             <a class="layui-btn layui-btn-mini edit"
                                 href="{:url('admin/Goods/edit',['id'=>$value.id])}"> 编辑
                             </a>
-                            <div class="layui-btn layui-btn-mini share" >推广</div>
+                            <div class="layui-btn layui-btn-mini share">推广</div>
                             {if !empty($value.distribution_id)}
                             <a class="layui-btn layui-btn-mini edit"
                                 href="{:url('admin/Distribution/goods_edit',['id'=>$value.distribution_id])}"> 分销设置
                             </a>
-                            
+
                             {else}
                             <a class="layui-btn layui-btn-mini edit"
                                 href="{:url('admin/Distribution/goods_addtwo',['id'=>$value.id])}"> 分销设置
@@ -191,7 +205,7 @@
 
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
-   
+
     <script type="text/javascript">
         layui.config({
             base: "js/"
@@ -255,7 +269,10 @@
                 }
 
             });
-            $('.share').click(function(){
+            $('.share').click(function () {
+                if ($(this).siblings('.tg-box').css('display') != 'block') {
+                    $('.tg-box').hide();
+                }
                 $(this).siblings('.tg-box').toggle();
             })
             //全选
@@ -269,7 +286,7 @@
             //通过判断文章是否全部选中来确定全选按钮是否选中
             form.on("checkbox(choose)", function (data) {
                 // console.log($(data.elem).parents('table').find('thead input[lay-filter="allChoose"]').get(0))
-                
+
                 var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
                 var childChecked = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"]):checked');
                 if (childChecked.length === child.length) {
@@ -332,8 +349,8 @@
 
             })
 
-                // 分销开关路由
-                form.on('switch(isShowes)', function (data) {
+            // 分销开关路由
+            form.on('switch(isShowes)', function (data) {
                 if ($(this).val() == 0) {
                     $(this).val(1);
                 } else {
@@ -358,9 +375,9 @@
                 });
 
             })
-            
 
-       
+
+
 
 
 
