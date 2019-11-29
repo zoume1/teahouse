@@ -52,8 +52,8 @@
 
         .lista {
             font-size: 16px;
-            height: 55px;
-            line-height: 55px;
+            height: 45px;
+            line-height: 45px;
             padding-left: 20px;
             padding-right: 20px;
             display: flex;
@@ -121,17 +121,78 @@
             top: 0px;
             left: -3px;
             width: 5px;
-            z-index: 99999;
+            z-index: 888;
 
+        }
+
+        .qr-img {
+            margin: 30px 20px 20px 20px;
+        }
+
+        .qr-img img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .qr-title {
+            line-height: 28px;
+            font-size: 16px;
+        }
+
+        .qr-title p {
+            color: red;
+            font-size: 12px;
+        }
+
+        .box-main {
+            position: fixed;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            z-index: 9999;
+        }
+
+        .box-main .box-inbox {
+            background-color: rgba(0, 0, 0, .6);
+            height: 100%;
+            width: 100%;
+            position: relative;
+            z-index: 999;
+        }
+
+        .box-main .box-inbox .cont {
+            display: flex;
+            background-color: #fff;
+            position: absolute;
+            bottom: 0;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
         }
     </style>
 </head>
 
 <body>
     <div id="app">
+        <div class="box-main">
+            <div class="box-inbox">
+                <div class="cont">
+                    <div class="qr-img">
+                        <img :src="sweepData.qr_img" alt="">
+                    </div>
+                    <div class="qr-title">
+                        <p>请在小程序中扫码，获取防伪溯源详细信息</p>
+                        <div>1、长按二维码，关注小程序</div>
+                        <div>2、登录小程序后再扫码</div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="sweep-top">
             <div class="tea-img">
-                <img src="https://teahouse.siring.cn/039c820190924175456300.jpg" alt="">
+                <img src="https://teahouse.siring.cn/image1345901.png" alt="">
             </div>
             <div>
                 <div><span class="monicker">品名：</span>{{sweepData.goods_name}}</div>
@@ -202,8 +263,8 @@
                 </div>
 
                 <div class="log_content">
-                    <img class="new_img" src="__STATIC__/admin/index/img/u474.png" mode="widthFix" lazy-load="false" binderror=""
-                        bindload="" />
+                    <img class="new_img" src="__STATIC__/admin/index/img/u474.png" mode="widthFix" lazy-load="false"
+                        binderror="" bindload="" />
 
                     <div class="new">最新</div>
                     <div class="log_content_text">
@@ -219,8 +280,8 @@
                     <div class="times">00:23:54</div>
                 </div>
                 <div class="log_content">
-                    <img class="new_img" src="__STATIC__/admin/index/img/u482.png" mode="widthFix" lazy-load="false" binderror=""
-                        bindload="" />
+                    <img class="new_img" src="__STATIC__/admin/index/img/u482.png" mode="widthFix" lazy-load="false"
+                        binderror="" bindload="" />
 
                     <div class="new" style="opacity: 0;">最新</div>
                     <div class="log_content_text">
@@ -231,6 +292,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 </body>
 <script src="__STATIC__/admin/common/js/vue.js"></script>
@@ -243,26 +306,28 @@
             code: '',
             sweepData: {
                 category: "",
-                child_code:"",
-                create_time:"",
-                date:"",
-                frement_date:"",
-                goods_brand:"",
-                goods_name:"",
-                goods_number:"",
-                goods_repertory:"",
-                goods_type:"",
-                unit:"",
-                produce:"",
-                pick_size:"",
-                stock_date:"",
+                child_code: "",
+                create_time: "",
+                date: "",
+                frement_date: "",
+                goods_brand: "",
+                goods_name: "",
+                goods_number: "",
+                goods_repertory: "",
+                goods_type: "",
+                unit: "",
+                produce: "",
+                pick_size: "",
+                stock_date: "",
+                qr_img: ""
             }
         },
         methods: {
             getData: function () {
                 let vm = this;
-                this.$http.post('get_anti_fake_info', {'code': this.code}).then(function (res) {
+                this.$http.post('get_anti_fake_info', { 'code': this.code }).then(function (res) {
                     if (res.body.status == "1") {
+                        res.body.data.qr_img = 'data:' + res.body.data.qr_img;
                         vm.sweepData = res.body.data;
                     }
                 }, function (res) {
