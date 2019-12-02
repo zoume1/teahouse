@@ -316,6 +316,23 @@
         margin-left: 20px;
 
     }
+    .sample-btn {
+        color: rgb(51, 158, 215);
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .sample {
+        position: absolute;
+        top: 0;
+        left: 30px;
+        border: 1px solid rgb(212, 212, 212);
+        border-radius: 5px;
+        padding: 5px;
+        background-color: #fff;
+        display: none;
+    }
 </style>
 
 {/block}
@@ -328,8 +345,9 @@
         </div>
 
     </div>
-     
-    <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post" enctype="multipart/form-data">
+
+    <form class="layui-form layui-form-lists" action="{:url('admin/Goods/updata')}" method="post"
+        enctype="multipart/form-data">
         {volist name="goods" id="value"}
         <input type="hidden" name="id" id="ids" value="{$value.id}" />
         <div class="form-title">基础信息 </div>
@@ -399,43 +417,49 @@
             <label class="form-label">卖点标签</label>
             <div class="form-input" style="width:100%;">
                 <div id="hot">
-                        {foreach name="$value.goods_sign" item="vo" key="abc"}
+                    {foreach name="$value.goods_sign" item="vo" key="abc"}
                     <div class="list">
                         {if isset($vo['check'])}
-                        <input type="checkbox"  lay-skin="primary" lay-filter="choose1" title="" name="goods_sign[{$abc}][check]" value="{$vo['check']}" checked="">
+                        <input type="checkbox" lay-skin="primary" lay-filter="choose1" title=""
+                            name="goods_sign[{$abc}][check]" value="{$vo['check']}" checked="">
                         {/if}
                         {if !isset($vo['check'])}
-                        <input type="checkbox"  lay-skin="primary" lay-filter="choose1" title="" name="goods_sign[{$abc}][check]" value="0" >
+                        <input type="checkbox" lay-skin="primary" lay-filter="choose1" title=""
+                            name="goods_sign[{$abc}][check]" value="0">
                         {/if}
                         {if $vo['text']!='可存' && $vo['text']!='HOT' && $vo['text']!='促销' && $vo['text']!='清仓'}
                         <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}">
                         {/if}
                         {if $vo['text']=='可存'}
-                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly
+                            style="display: none">
                         <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/kecun.png" />
                         {/if}
                         {if $vo['text']=='HOT'}
-                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly
+                            style="display: none">
                         <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/hot.png" />
                         {/if}
                         {if $vo['text']=='促销'}
-                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly
+                            style="display: none">
                         <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/chuxiao.png" />
                         {/if}
                         {if $vo['text']=='清仓'}
-                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly style="display: none">
+                        <input class="texts" type="text" name="goods_sign[{$abc}][text]" value="{$vo['text']}" readonly
+                            style="display: none">
                         <img style="width: 38px;height:18px;" src="http://zhihuichacang.com/qingchang.png" />
                         {/if}
                     </div>
                     {/foreach}
-                     
+
                     <div class="add_biao">
                         +添加文字标签
                     </div>
                 </div>
                 <div class="tips">
-                        *如商品勾选了可存，表明此商品可选择仓库存储，没有勾选，表明此商品不能存储
-                    </div>
+                    *如商品勾选了可存，表明此商品可选择仓库存储，没有勾选，表明此商品不能存储
+                </div>
             </div>
         </div>
         <div class="form-item">
@@ -468,8 +492,9 @@
         <div class="form-item">
             <label class="form-label">商品排序</label>
             <div class="form-input">
-                <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="sort_number" value="{$value.sort_number}" lay-verify="title"
-                    autocomplete="off" placeholder="请输入" class="layui-input">
+                <input type="number" step="1" min="0" max="10000000" onkeyup="value=value.replace(/^\\d+$/,'')"
+                    name="sort_number" value="{$value.sort_number}" lay-verify="title" autocomplete="off"
+                    placeholder="请输入" class="layui-input">
                 <div class="tips">
                     *填写正整数，从大到小排序，如不填写数字最小且排序最后(后台商品排序及前端商品展示)
                 </div>
@@ -483,10 +508,12 @@
                     {foreach name="$value.server" item="vo" key="abc"}
                     <div class="list">
                         {if isset($vo['check'])}
-                        <input type="checkbox" name="server[{$abc}][check]" value="{$vo['check']}" lay-skin="primary" lay-filter="choose1"title="" checked="">
+                        <input type="checkbox" name="server[{$abc}][check]" value="{$vo['check']}" lay-skin="primary"
+                            lay-filter="choose1" title="" checked="">
                         {/if}
                         {if !isset($vo['check'])}
-                        <input type="checkbox" name="server[{$abc}][check]" value="" lay-skin="primary" lay-filter="choose1"title="" >
+                        <input type="checkbox" name="server[{$abc}][check]" value="" lay-skin="primary"
+                            lay-filter="choose1" title="">
                         {/if}
                         <input class="texts" type="text" name="server[{$abc}][text]" value="{$vo['text']}">
                     </div>
@@ -519,8 +546,8 @@
                         class="layui-input" value="{$w}">
                     {else}
                     <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
-                    class="layui-input units" value="{$w}" maxlength="2" data-id="0" data-value="{$w}">
-                    
+                        class="layui-input units" value="{$w}" maxlength="2" data-id="0" data-value="{$w}">
+
                     {/if}
                     {/foreach}
                     {/if}
@@ -655,8 +682,8 @@
                     <label class="form-label">商品折扣</label>
                     <div class="form-input line">
                         {if $value.goods_member == 1}
-                        <input type="checkbox" name="goods_member" value="{$value.goods_member}" lay-skin="primary" checked=""
-                            title="参加会员折扣"> {else}
+                        <input type="checkbox" name="goods_member" value="{$value.goods_member}" lay-skin="primary"
+                            checked="" title="参加会员折扣"> {else}
                         <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
                         <a href="index/My/show_grade">管理会员卡</a>
                     </div>
@@ -747,13 +774,11 @@
                                                                             src="http://zhihuichacang.com/a7.png">
                                                                         <!--图片放这里-->
 
-                                                                        <img class="up-img"
-                                                                            src="{$ve.images}">
+                                                                        <img class="up-img" src="{$ve.images}">
                                                                         <!--图片放这里-->
 
                                                                         <p class="img-name-p">u4594.png</p><input
-                                                                            id="taglocation"
-                                                                            value="{$ve.images}"
+                                                                            id="taglocation" value="{$ve.images}"
                                                                             type="hidden">
                                                                         <input id="tags" value="" type="hidden">
                                                                     </section>
@@ -823,9 +848,10 @@
                     <label class="form-label">商品折扣</label>
                     <div class="form-input line">
                         {if $value.goods_member == 1}
-                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked="" lay-filter="choose1"
-                            title="参加会员折扣"> {else}
-                        <input type="checkbox" name="goods_member" value="" lay-skin="primary" lay-filter="choose1" title="参加会员折扣">{/if}
+                        <input type="checkbox" name="goods_member" value="1" lay-skin="primary" checked=""
+                            lay-filter="choose1" title="参加会员折扣"> {else}
+                        <input type="checkbox" name="goods_member" value="" lay-skin="primary" lay-filter="choose1"
+                            title="参加会员折扣">{/if}
                         <a href="{:url('admin/User/grade')}">管理会员卡</a>
                     </div>
                 </div>
@@ -870,8 +896,7 @@
                                         <section class=" img-section">
                                             <div class="z_photo upimg-div clear">
                                                 <section class="z_file fl">
-                                                    <img src="http://zhihuichacang.com/a11.png"
-                                                        class="add-img">
+                                                    <img src="http://zhihuichacang.com/a11.png" class="add-img">
                                                     <input type="file" name="goods_show_images[]" id="file" class="file"
                                                         value="" accept="image/jpg,image/jpeg,image/png,image/bmp"
                                                         multiple data-id="15" />
@@ -906,7 +931,9 @@
                         <div class="form-input">
                             <input type="text" name="video_link" value="{$value.video_link}" lay-verify="title"
                                 autocomplete="off" placeholder="请输入" class="layui-input">
-                                <div class="tips">*<a href="added_service_show?id=233" style="color: orange">购买增值服务-七牛云存储开通此服务</a><a href="https://portal.qiniu.com/" target="_blank" style="margin-left: 20px">上传视频到我的七牛云存储</a></div>
+                            <div class="tips">*<a href="added_service_show?id=233"
+                                    style="color: orange">购买增值服务-七牛云存储开通此服务</a><a href="https://portal.qiniu.com/"
+                                    target="_blank" style="margin-left: 20px">上传视频到我的七牛云存储</a></div>
                         </div>
                     </div>
                     <div class="form-item">
@@ -930,19 +957,22 @@
                             {if isset($value.goods_delivery[0]) && isset($value.goods_delivery[1])}
                             <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送"
                                 checked="">
-                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
+                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提"
+                                checked="">
                             {/if}
                             {if ($value.goods_delivery[0] == 2) && !isset($value.goods_delivery[1])}
                             <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送">
-                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" checked="">
+                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提"
+                                checked="">
                             {/if}
                             {if ($value.goods_delivery[0] == 1) && !isset($value.goods_delivery[1])}
-                            <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送" checked="">
-                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" >
+                            <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送"
+                                checked="">
+                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提">
                             {/if}
                             {if !isset($value.goods_delivery[0]) && !isset($value.goods_delivery[1])}
-                            <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送" >
-                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提" >
+                            <input type="checkbox" name="goods_delivery[0]" value="1" lay-skin="primary" title="商家配送">
+                            <input type="checkbox" name="goods_delivery[1]" value="2" lay-skin="primary" title="到店自提">
                             {/if}
 
                         </div>
@@ -951,18 +981,26 @@
                         <label class="form-label">快递运费</label>
 
                         <div style="display: flex;flex-direction:column" class="yunfei">
-                            {if ($value.goods_franking == 0) && (empty($temp[0]))} 
+                            {if ($value.goods_franking == 0) && (empty($temp[0]))}
                             <div class="form-input line" style="margin-bottom: 4px;">
                                 <input type="radio" title="统一邮费" checked="" name="aaa" value="0">
-                                <input type="number" step="1" min="0" max="10000000"  onkeyup="value=value.replace(/^\\d+$/,'')" name="goods_franking" value="{$value.goods_franking}"
-                                    lay-verify="title" autocomplete="off" placeholder="请输入  元" class="layui-input">
+                                <input type="number" step="1" min="0" max="10000000"
+                                    onkeyup="value=value.replace(/^\\d+$/,'')" name="goods_franking"
+                                    value="{$value.goods_franking}" lay-verify="title" autocomplete="off"
+                                    placeholder="请输入  元" class="layui-input">
                                 </input>
                                 </input>
 
                             </div>
                             <div class="form-input line" style="margin-bottom: 4px;width:1000px;">
                                 <input type="radio" title="运费模板" name="aaa" value="1">
-                                <div class="tips">*运费模版支持按地区，按单位设置运费，已预留各类包装单位及报价，如需添加及修改您可在“设置”-“配送设置”-“快递发货”中操作</div>
+                                <div class="tips">*您在包装规格设置的单位，请添加运费模板时一一对应 <span class="sample-btn">
+                                        示例
+                                        <div class="sample">
+                                            <img src="http://zhihuichacang.com/image1357360.png"
+                                                style="width: 400px;height: 130px;" alt=""></div>
+                                    </span>
+                                </div>
                             </div>
 
                             {else}
@@ -976,7 +1014,13 @@
                             </div>
                             <div class="form-input line" style="margin-bottom: 4px;width:1000px;">
                                 <input type="radio" title="运费模板" name="aaa" value="1" checked="">
-                                <div class="tips">*运费模版支持按地区，按单位设置运费，已预留各类包装单位及报价，如需添加及修改您可在“设置”-“配送设置”-“快递发货”中操作</div>
+                                <div class="tips">*您在包装规格设置的单位，请添加运费模板时一一对应 <span class="sample-btn">
+                                        示例
+                                        <div class="sample">
+                                            <img src="http://zhihuichacang.com/image1357360.png"
+                                                style="width: 400px;height: 130px;" alt=""></div>
+                                    </span>
+                                </div>
                             </div>
                             {/if}
 
@@ -1080,8 +1124,8 @@
                                     if (j == q) {
                                         //  <!-- 单位循环这里 -->
                                         dhtmlss += '<div class="danwei_content packing_s">';
-                                        if( j > 0 ) {
-                                         dhtmlss += '<div class="fuhao">=</div>';
+                                        if (j > 0) {
+                                            dhtmlss += '<div class="fuhao">=</div>';
                                         }
                                         dhtmlss += '<input type="text" name="' + data.data[i].id + '_num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input" value="' + data.data[i].num[j] + '" >';
                                         dhtmlss += '<input type="text" name="' + data.data[i].id + '_unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" value="' + data.data[i].unit[q] + '" maxlength="2" data-id="1" data-value="' + data.data[i].unit[q] + '"> ';
@@ -1123,7 +1167,7 @@
             })
             //去掉包装规格的首个多余的等于号
             $('#packing_specification').children('.fuhao:first-child').remove();
-            
+
             Array.prototype.unique3 = function () {
                 var res = [];
                 var json = {};
@@ -1451,7 +1495,7 @@
                         // add_muban += '<a href="https://www.baidu.com" >新建</a>';
                         // add_muban += '<a href="https://teahouse.siring.com.cn/admin/delivery_goods_add_number" >新建</a>';
 
-                        
+
                         add_muban += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img" style="right:200px">';
                         add_muban += '</div>';
                         $(this).parent().before(add_muban);
@@ -1812,14 +1856,14 @@
 
             // 包装规格
             $(".add_danwei").click(function () {
-                if(keyArr.unitKey < 2){
-                    keyArr.unitKey ++;
+                if (keyArr.unitKey < 2) {
+                    keyArr.unitKey++;
                     var danwei = ''
                     danwei += '<div class="fuhao">=</div>';
                     danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
                     danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="0">';
                     $(this).before(danwei);
-                }else{
+                } else {
                     layer.msg('最多添加三个单位！');
                 }
             });
@@ -1831,7 +1875,7 @@
                 var _this = $(this);
                 // 最多添加三个单位
                 var unitKey2 = $(this).parent().find('.fuhao').length;
-                if(unitKey2 < 2){
+                if (unitKey2 < 2) {
                     if (select != "0") {
                         $.ajax({
                             type: "POST",
@@ -1860,18 +1904,18 @@
                             }
                         });
 
-                    }else {
+                    } else {
                         alert("请选择规格编码");
                     }
                     $(this).data("id", i + 1);
-                }else{
+                } else {
                     layer.msg('最多添加三个单位！');
                 }
             });
 
         });
-        
-        
+
+
         $(".add_danwei2").click(function () {
             if ($(".packings").find("option").length != 1) {
                 var danwei2 = '';
@@ -1987,17 +2031,29 @@
 
         })
         // 包装规格
-        $('.a2').click(function(){
+        $('.a2').click(function () {
             alert(123);
         })
-        function aa1(){
+        function aa1() {
             // console.log(111);
             location.href = 'delivery_goods_add_number';
         }
-        function aa2(){
+        function aa2() {
             // console.log(111);
             location.href = 'delivery_goods_add_number';
         }
+
+        $('.sample-btn').click(function (params) {
+            $('.sample').toggle();
+        })
+        $(function () {
+            $(document).bind("click", function (e) {
+                var target = $(e.target);
+                if (target.closest(".sample-btn").length == 0) {
+                    $(".sample").hide();
+                }
+            })
+        })
     </script>
 
     {/block}
