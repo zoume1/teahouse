@@ -554,7 +554,7 @@ class  Material extends  Controller{
                 }
                 $v['create_time']=time();
                 $v['store_id']=$store_id;
-                $v['produceUid']='';
+                $v['produceUid']='50';
                 $v['goods_number']=get_random();
                 db('anti_goods')->insert($v);
             }
@@ -575,11 +575,10 @@ class  Material extends  Controller{
             }
             return ajax_success('同步成功');
         }
-
     }
 
     /**
-     **************GY*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:防伪溯源
      **************************************
