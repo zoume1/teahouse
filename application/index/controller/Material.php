@@ -121,7 +121,7 @@ class Material extends Controller
     41030    所传page页面不存在，或者小程序没有发布*/
     public function mpcode($page,$cardid,$uniacid){
         //参数----会员id
-        $postdata['scene']=$cardid;
+        $postdata['code']=$cardid;
         // 宽度
         $postdata['width']=430;
         // 页面
