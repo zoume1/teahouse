@@ -542,7 +542,7 @@ class Commodity extends Controller
                 return $franking;              
             }
         }
-        $franking = $goods['franking'];
+        $franking = $goods['goods_franking'];
         return $franking;
     }
     
