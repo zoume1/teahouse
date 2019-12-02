@@ -235,7 +235,9 @@ class Delivery extends  Controller{
                 $bool = db("express")->insert($val);
             }
         }
-        $delivery = db("express")->where("store_id","EQ",$store_id)->paginate(20 ,false, [
+        $delivery = db("express")->where("store_id","EQ",$store_id)
+        ->order('id desc')
+        ->paginate(20 ,false, [
             'query' => request()->param(),
         ]);
         return view("delivery_goods",["delivery"=>$delivery]);
@@ -258,7 +260,7 @@ class Delivery extends  Controller{
                 $this->error("添加失败,请重试");
             }
         }
-        $unit = db("special")->distinct(true)->field("unit")->select();
+        $unit = db("special")->distinct(true)->field("unit,name")->select();
         $list = unit_list($unit);
         return view("delivery_goods_add",["list"=>$list]);
     }
@@ -278,10 +280,10 @@ class Delivery extends  Controller{
      */
     public function delivery_goods_edit($id)
     {
-        $unit = db("special")->distinct(true)->field("unit")->select();
+        $unit = db("special")->distinct(true)->field("unit,name")->select();
         $delivery_edit = db("express")->where("id",$id)->select();
-        $delivery_edit[0]["are"]= explode(",",$delivery_edit[0]["are"]); 
-        $list = unit_list($unit);           
+        $delivery_edit[0]["are"]= explode(",",$delivery_edit[0]["are"]);
+        $list = unit_list($unit);   
         return view("delivery_goods_edit",["delivery_edit"=>$delivery_edit,"list"=>$list]);
     }
 

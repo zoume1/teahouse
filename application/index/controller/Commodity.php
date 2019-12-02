@@ -234,6 +234,8 @@ class Commodity extends Controller
             foreach ($goods_standard as $key => $value) {
                 $goods_standard[$key]["price"] = $goods_standard[$key]["price"] * $discount;
             }
+            $goods_franking = $this->get_goods_franking($goods_id);
+            $goods[0]['goods_franking'] = $goods_franking;
             if ($goods[0]["goods_standard"] == 1) {      //多规格商品
                 $goods[0]["goods_standard"] = $goods_standard;
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
@@ -507,5 +509,41 @@ class Commodity extends Controller
         }
 
 
+    /**
+     * 获取当前商品邮费
+     * @param $goods_id 商品id
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+
+    public function get_goods_franking($goods_id){
+
+        //判断该用户是否有运费模板
+        //是否多规格
+        //有则通过单位找到对应运费模板计算价格
+        //无则显示用户设置的运费价格
+        //包邮则为0
+
+        $goods = Db::name('goods')->where('id',$goods_id)->find();
+        if(empty($goods['templet_name']) && $goods['templet_id']){
+            $templet_name = explode(',',$$goods['templet_name']);
+            $templet_id  = explode(',',$goods['templet_id']);
+            //普通
+            if($goods['goods_standard'] == 0){
+                $key = array_search($goods['monomer'],$templet_name);
+                $franking = Db::name('express')->where('id',$templet_id[$key])->value('price');
+                return $franking;
+            } else {
+                //特殊
+                $offer = Db::name('special')->where('goods_id',$goods_id)->value('offer');
+                $key = array_search($offer,$templet_name);
+                $franking = Db::name('express')->where('id',$templet_id[$key])->value('price');
+                return $franking;              
+            }
+        }
+        $franking = $goods['goods_franking'];
+        return $franking;
+    }
     
 }
