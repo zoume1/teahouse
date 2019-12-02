@@ -414,6 +414,24 @@
     }
 
     /* 包装规格 */
+
+    .sample-btn {
+        color: rgb(51, 158, 215);
+        display: inline-block;
+        position: relative;
+        cursor: pointer;
+    }
+
+    .sample {
+        position: absolute;
+        top: 0;
+        left: 30px;
+        border: 1px solid rgb(212, 212, 212);
+        border-radius: 5px;
+        padding: 5px;
+        background-color: #fff;
+        display: none;
+    }
 </style>
 
 {/block}
@@ -908,7 +926,13 @@
                 </div>
                 <div class="form-input line" style="margin-bottom: 4px;">
                     <input type="radio" title="运费模板" name="aaa" value="1">
-                    <div class="tips">*运费模版支持按地区设置运费，按购买件数计算运费，按重量计算运费等</div>
+                    <div class="tips">*您在包装规格设置的单位，请添加运费模板时一一对应 <span class="sample-btn">
+                            示例
+                            <div class="sample">
+                                <img src="http://zhihuichacang.com/image1357360.png" style="width: 400px;height: 130px;"
+                                    alt=""></div>
+                        </span>
+                    </div>
                 </div>
 
                 <div class="form-input line" style="margin-bottom: 4px;">
@@ -1862,6 +1886,17 @@
         })
 
 
+        $('.sample-btn').click(function (params) {
+            $('.sample').toggle();
+        })
+        $(function () {
+            $(document).bind("click", function (e) {
+                var target = $(e.target);
+                if (target.closest(".sample-btn").length == 0) {
+                    $(".sample").hide();
+                }
+            })
+        })
     </script>
 
     {/block}
