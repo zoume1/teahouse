@@ -554,7 +554,7 @@ class  Material extends  Controller{
                 }
                 $v['create_time']=time();
                 $v['store_id']=$store_id;
-                $v['produceUid']='50';
+                $v['produceUid']='';
                 $v['goods_number']=get_random();
                 db('anti_goods')->insert($v);
             }

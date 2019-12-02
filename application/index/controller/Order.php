@@ -1944,7 +1944,7 @@ class  Order extends  Controller
     /**
      **************李火生*******************
      * @param Request $request
-     * Notes:订单状态修改（买家确认收货）
+     * Notes:订单状态修改（买家）
      **************************************
      * @param Request $request
      */
