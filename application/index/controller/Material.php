@@ -44,6 +44,7 @@ class Material extends Controller
                     return ajax_success('获取失败');
                 }
             }
+            return $re;
             //获取新用户注册奖励的积分
             $register_integral = db('recommend_integral')->where("store_id",$store_id)->value('register_integral');
             $goods_info['register_integral']=$register_integral;
