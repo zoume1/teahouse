@@ -31,6 +31,7 @@ class Material extends Controller
             $input['store_id']=$store_id;
             $my=new My();
             $re=$my->create_goods_code($input);
+            halt($re);
             //获取新用户注册奖励的积分
             $register_integral = db('recommend_integral')->where("store_id",$store_id)->value('register_integral');
             $goods_info['register_integral']=$register_integral;
