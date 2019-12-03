@@ -624,5 +624,32 @@ class My extends Controller
 
     }
 
+    /**
+     * lilu
+     * 生成商品菊花码
+     */
+    public function create_goods_code($input)
+    {
+        if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.$input['code'].'.txt')) {
+            //检查是否有该文件夹，如果没有就创建，并给予最高权限
+            $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$input['code'].'.txt');
+            return $re;
+        }else{
+             //获取用户的信息
+            //获取携带参数的小程序的二维码
+            $page='pages/logs/logs';
+            $qrcode=$this->mpcode($page,$input['code'],$input['store_id']);
+            //把qrcode文件写进文件中，使用的时候拿出来
+            // $dateFile =$store_id . "/";  //创建目录
+            $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$input['code'].'.txt';
+            if (file_put_contents($new_file, $qrcode)) {
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.$input['code'].'.txt');
+                return $re;
+            } else {
+                return false;
+            }
+        }
+    }
+
 
 }
