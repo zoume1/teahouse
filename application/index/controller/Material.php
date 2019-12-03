@@ -205,14 +205,8 @@ class Material extends Controller
         curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($curl);
-         if (curl_errno($curl)) {
-            return false;
-        }else{
-            return $output;
-        }
         curl_close($curl);
-    
-        // return $output;
+        return $output;
     }
 
 
