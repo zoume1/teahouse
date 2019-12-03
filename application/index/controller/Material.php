@@ -141,6 +141,7 @@ class Material extends Controller
         $access_token=$this->getAccesstoken($uniacid);
         $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
         $result=$this->api_notice_increment($url,$post_data);
+        halt($result);
         $data='image/png;base64,'.base64_encode($result);
         // echo '<img src="data:'.$data.'">';
         return $data;
@@ -176,24 +177,42 @@ class Material extends Controller
         return $result;
     }
     public function api_notice_increment($url, $data){
-        $ch = curl_init();
-        $header=array('Accept-Language:zh-CN','x-appkey:114816004000028','x-apsignature:933931F9124593865313864503D477035C0F6A0C551804320036A2A1C5DF38297C9A4D30BB1714EC53214BD92112FB31B4A6FAB466EEF245710CC83D840D410A7592D262B09D0A5D0FE3A2295A81F32D4C75EBD65FA846004A42248B096EDE2FEE84EDEBEBEC321C237D99483AB51235FCB900AD501C07A9CAD2F415C36DED82','x-apversion:1.0','Content-Type:application/x-www-form-urlencoded','Accept-Charset: utf-8','Accept:application/json','X-APFormat:json');
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $tmpInfo = curl_exec($ch);
-        if (curl_errno($ch)) {
+        // $ch = curl_init();
+        // $header=array('Accept-Language:zh-CN','x-appkey:114816004000028','x-apsignature:933931F9124593865313864503D477035C0F6A0C551804320036A2A1C5DF38297C9A4D30BB1714EC53214BD92112FB31B4A6FAB466EEF245710CC83D840D410A7592D262B09D0A5D0FE3A2295A81F32D4C75EBD65FA846004A42248B096EDE2FEE84EDEBEBEC321C237D99483AB51235FCB900AD501C07A9CAD2F415C36DED82','x-apversion:1.0','Content-Type:application/x-www-form-urlencoded','Accept-Charset: utf-8','Accept:application/json','X-APFormat:json');
+        // curl_setopt($ch, CURLOPT_URL, $url);
+        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        // curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+        // curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; MSIE 5.01; Windows NT 5.0)');
+        // curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+        // curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        // curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // $tmpInfo = curl_exec($ch);
+        // if (curl_errno($ch)) {
+        //     return false;
+        // }else{
+        //     return $tmpInfo;
+        // }
+        $headerArray =array("Content-type:application/json;charset='utf-8'","Accept:application/json");
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,FALSE);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curl,CURLOPT_HTTPHEADER,$headerArray);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($curl);
+         if (curl_errno($curl)) {
             return false;
         }else{
-            return $tmpInfo;
+            return $output;
         }
+        curl_close($curl);
+    
+        // return $output;
     }
 
 
