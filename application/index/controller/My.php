@@ -530,6 +530,34 @@ class My extends Controller
         return $data;
 //        echo '<img src="data:'.$data.'">';
     }
+    /*上面生成的是数量限制10万的二维码，下面重写数量不限制的码*/
+    /*getWXACodeUnlimit*/
+    /*码一，圆形的小程序二维码，数量限制一分钟五千条*/
+    /*45009    调用分钟频率受限(目前5000次/分钟，会调整)，如需大量小程序码，建议预生成。
+    41030    所传page页面不存在，或者小程序没有发布*/
+    public function mpcode2($page,$cardid,$uniacid){
+        //参数----会员id
+        $postdata['code']=$cardid;
+        // 宽度
+        $postdata['width']=430;
+        // 页面
+        $postdata['page']=$page;     //扫码后进入的小程序页面
+//        $postdata['page']="pages/postcard/postcard";
+        // 线条颜色
+        $postdata['auto_color']=false;
+        //auto_color 为 false 时生效
+        $postdata['line_color']=['r'=>'0','g'=>'0','b'=>'0'];
+        // 是否有底色为true时是透明的
+        $postdata['is_hyaline']=true;
+        $post_data = json_encode($postdata);
+        $access_token=$this->getAccesstoken($uniacid);
+        $url="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
+        $result=$this->api_notice_increment($url,$post_data);
+        $data='image/png;base64,'.base64_encode($result);
+       
+        return $data;
+//        echo '<img src="data:'.$data.'">';
+    }
     /*码二，正方形的二维码，数量限制调用十万条*/
     public function qrcodes(){
         $path="pages/logs/logs";
@@ -638,7 +666,7 @@ class My extends Controller
              //获取用户的信息
             //获取携带参数的小程序的二维码
             $page='pages/logs/logs';
-            $qrcode=$this->mpcode($page,$input['code'],$input['store_id']);
+            $qrcode=$this->mpcode2($page,$input['code'],$input['store_id']);
             //把qrcode文件写进文件中，使用的时候拿出来
             // $dateFile =$store_id . "/";  //创建目录
             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.$input['code'].'.txt';
