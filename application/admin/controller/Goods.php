@@ -369,6 +369,9 @@ class Goods extends Controller
             $image = db("goods")->where("id", $tid['pid'])->field("goods_show_images")->find();
             if (!empty($image["goods_show_images"])) {
                 $se = explode(",", $image["goods_show_images"]);
+                if(count($se)<2){
+                    return ajax_error('图片至少保留一张，请上传其他新的图片再进行删除');
+                }
                 foreach ($se as $key => $value) {
                     if ($value == $id) {
                         // unlink($value);
@@ -478,34 +481,6 @@ class Goods extends Controller
             }
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
-            // $list = [];
-            // if (!empty($show_images)) {
-            //     foreach ($show_images as $k => $v) {
-            //         $show = $v->move(ROOT_PATH . 'public' . DS . 'uploads');
-            //         $list[] = str_replace("\\", "/", $show->getSaveName());
-            //     }               
-            //         $liste = implode(',', $list);
-            //         $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
-            //     if(!empty($image["goods_show_images"]))
-            //     {
-            //         $exper = $image["goods_show_images"];
-            //         $montage = $exper . "," . $liste;
-            //         $goods_data["goods_show_images"] = $montage;
-            //     } else {                   
-            //         $montage = $liste;
-            //         $goods_data["goods_show_image"] = $list[0];
-            //         $goods_data["goods_show_images"] = $montage;
-            //     }
-            // } else {
-            //     $image = db("goods")->where("id", $id)->field("goods_show_images")->find();
-            //     if(!empty($image["goods_show_images"])){
-            //         $goods_data["goods_show_images"] = $image["goods_show_images"];
-            //     } else {
-            //         $goods_data["goods_show_images"] = null;
-            //         $goods_data["goods_show_image"] = null;
-            //     }
-                   
-            // } 
             if($goods_data["goods_standard"] == 1){
                 $special_id = db("special")->where("goods_id",$id)->field("id")->select();
                 foreach($special_id as $pp => $qq){
