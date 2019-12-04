@@ -69,6 +69,9 @@ class Login extends Controller{
                     ->where("store_id",$user_data['store_id'])
                     ->where('member_openid',$errCode['openId'])
                     ->find();
+                if(!empty($is_register) && $is_register['member_status'] == -1){
+                    return ajax_error('已被禁用',['status'=>0]);
+                }
                 $grade_id = db("member_grade")->where("store_id",$user_data['store_id'])->where("introduction_display",1)->value('member_grade_id');
                 if(empty($is_register)){
                     //首次登录

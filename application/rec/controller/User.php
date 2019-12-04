@@ -145,6 +145,9 @@ class User extends Controller{
         }
         // 查询
         $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
+        if ($user['status'] = -1){
+             return json(['code'=>0,'msg'=>'账号被冻结，请联系管理员']);
+        }
         //pp($user);die;
         if (!$user) {
             // 手机号不存在
