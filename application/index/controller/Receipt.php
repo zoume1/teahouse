@@ -50,17 +50,18 @@ class Receipt extends Controller
     /**
      * [所有发票状态]
      * 郭杨
+     * uniacid
      */
     public function receipt_status(Request $request){
         if($request->isPost()){
-            $status = db("receipt")->where("id",1)->field("status")->find();
+            $data=$request->param();
+            $status = db("receipt")->where("store_id",$data['uniacid'])->field("status")->find();
             if(!empty($status)){
                 return ajax_success('发送成功',$status);
             } else {
                 return ajax_error("发送失败");
             }
         }
-
     }
 
     /**
