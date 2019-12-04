@@ -275,6 +275,14 @@
                 }
                 $(this).siblings('.tg-box').toggle();
             })
+            $(function () {
+                $(document).bind("click", function (e) {
+                    var target = $(e.target);
+                    if (target.closest(".share").length == 0) {
+                        $(".tg-box").hide();
+                    }
+                })
+            })
             //全选
             form.on('checkbox(allChoose)', function (data) {
                 var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');

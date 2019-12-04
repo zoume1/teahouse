@@ -575,11 +575,10 @@ class  Material extends  Controller{
             }
             return ajax_success('同步成功');
         }
-
     }
 
     /**
-     **************GY*******************
+     **************lilu*******************
      * @param Request $request
      * Notes:防伪溯源
      **************************************

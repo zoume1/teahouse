@@ -5,6 +5,7 @@ use think\Controller;
 use think\Cache;
 use think\Session;
 use think\Db;
+use app\index\controller\My;
 
 /**
  * lilu
@@ -27,21 +28,12 @@ class Material extends Controller
             $goods_info=db('anti_parent_code')->alias('a')->join('tb_anti_goods w','a.pid = w.id')->where('child_code|parent_code',$input['code'])
             ->field('*')->find();
             $store_id=$goods_info['store_id'];
-            //获取小程序二维码
-            if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
-                //检查是否有该文件夹，如果没有就创建，并给予最高权限
-                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
-            }
-            // else{
-            //     //获取携带参数的小程序的二维码
-            //     $page='pages/logs/logs';
-            //     $qrcode=$this->getwxacode($store_id);
-            //     //把qrcode文件写进文件中，使用的时候拿出来
-            //     $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
-            //     if (file_put_contents($new_file, $qrcode)) {
-            //         $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
-            //     } 
-            // }
+            $input['store_id']=$store_id;
+            $my=new My();
+            $re=$my->create_goods_code($input);
+            //获取新用户注册奖励的积分
+            $register_integral = db('recommend_integral')->where("store_id",$store_id)->value('register_integral');
+            $goods_info['register_integral']=$register_integral;
             $goods_info['qr_img']=$re;
             $applet_name=Db::table('applet')->where('id',$store_id)->value('name');
             $goods_info['applet_name']=$applet_name;
@@ -112,6 +104,7 @@ class Material extends Controller
             return  ajax_error('缺少必要的参数');
         }
     }
+    
 
 
 
