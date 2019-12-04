@@ -337,11 +337,13 @@ class Goods extends Controller
             $goods[$key]["server"] = json_decode($goods[$key]["server"],true);
         }
      }
-        $team = isset($goods[0]["templet_id"])?$goods[0]["templet_id"]:null;
+        $team = $goods[0]["templet_id"] ? $goods[0]["templet_id"]:null;
         if(!empty($team)){
             foreach($team as $ke => $val){
                 $temp[$ke] = db("express")->where("id",$team[$ke])->field("name,id")->find();
             }
+        } else {
+            $temp = null;
         }
         foreach ($goods_standard as $k => $v) {
             $goods_standard[$k]["title"] = explode('_', $v["name"]);
