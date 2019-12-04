@@ -190,7 +190,7 @@
                         <p>请在小程序中扫码，获取防伪溯源详细信息</p>
                         <div>1、长按二维码，关注小程序</div>
                         <div>2、登录小程序后再扫码</div>
-                        <div>3、新用户关注小程序立即赠送<span style="color: red;">100</span>积分</div>
+                        <div>3、新用户关注小程序立即赠送<span style="color: red;">{{sweepData.register_integral}}</span>积分</div>
                     </div>
                 </div>
             </div>
@@ -325,7 +325,8 @@
                 pick_size: "",
                 stock_date: "",
                 qr_img: "",
-                applet_name:""
+                applet_name:"",
+                sweepData:""
             }
         },
         methods: {

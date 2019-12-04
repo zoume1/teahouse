@@ -39,7 +39,7 @@ class Setting extends Controller{
         $store_id = Session::get('store_id');
         $data = input();
         $bool = Db::name("setting")->where("store_id",$store_id)->update($data);
-        if ($bool) {
+        if ($bool !==false) {
             $this->success("编辑成功", url("admin/Setting/setting_index"));
         } else {
             $this->error("编辑失败", url("admin/Setting/setting_index"));
