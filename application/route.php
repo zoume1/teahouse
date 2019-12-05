@@ -228,9 +228,6 @@ Route::group("",[
     "approve_address"=>"index/Commodity/approve_address",        //默认上门自提地址
     "getSearchGood"=>"index/Commodity/getSearchGood",            //小程序前端搜索框（商品）
     "get_second_type_list"=>"index/Commodity/get_second_type_list",   //小程序前端二级分类下的商品
-
-
-
     "get_coinquotation"=>"index/Commodity/get_coinquotation",        //默认上门自提地址
 
     /*优惠券*/
@@ -425,12 +422,14 @@ Route::group("",[
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
     "callback"=>"index/WxTest/callback",                    //微信小程序--授权成功后，获取回调信息
+
+
+    
     /**  分享 */
     "qr_back_points"=>"index/My/qr_back_points",        //微信小程序--分享返积分
 
     /***资金明细 */
     "serial_index"=>"index/Serial/serial_index",        //分销明细显示
-    
     
     /**物联 */
     "get_anti_fake_info"=>"index/Material/get_anti_fake_info",        //分销明细显示
@@ -439,7 +438,6 @@ Route::group("",[
     
     /**测试 */
     "sweep_detail"=>"index/Index/sweep_detail",         //获取温湿度历史记录
-     
 
 ]);
 
