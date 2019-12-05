@@ -328,6 +328,7 @@ class Goods extends Controller
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
+            $scope2=count(explode(',', $goods[$key]["scope"]));
             $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
             $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
             $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);
@@ -434,6 +435,7 @@ class Goods extends Controller
             $store_id = Session :: get("store_id");
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
+            halt($goods_data);
             unset($goods_data["aaa"]);
             if(!empty($goods_data["goods_sign"])){
                 $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
