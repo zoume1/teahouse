@@ -387,6 +387,10 @@ class  Wxapps extends  Controller{
                                         // }
                                         $list2[$kk]['thumb']=$goods_images;
                                         $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
+                                        if($info['goods_standard'] == 1){
+                                            $info['goods_bottom_money'] = db('special')->where('goods_id',$vv['goods_id'])->value('price');
+                                        }
+                                        
                                         $list2[$kk]['price']=$info['limit_price'];    //商品价格
                                         $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
                                         $list2[$kk]['video_link']=$info['video_link'];    //商品视频
