@@ -841,8 +841,8 @@
             <label class="form-label">面向范围</label>
             <div class="form-input" style="display: flex; align-items: center;flex-wrap:wrap;">
                 {foreach name="scope" item="val" key="key"}
-                <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val.member_grade_name}" lay-filter="chooseScope"
-                    value="0">
+                <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val.member_grade_name}"
+                    value="{$val.member_grade_name}">
                 {/foreach}
             </div>
 
@@ -1509,18 +1509,6 @@
 
                 //修改复选框的val值
                 form.on("checkbox(choose1)", function (data) {
-
-                    if (data.value == "1") {
-                        $(this).val('0');
-                        data.value = "0";
-                    } else {
-                        $(this).val('1');
-                        data.value = "1";
-                    }
-                    form.render('checkbox');
-                })
-                //修改面向会员的val值
-                form.on("checkbox(chooseScope)", function (data) {
 
                     if (data.value == "1") {
                         $(this).val('0');
