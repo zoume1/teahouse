@@ -760,7 +760,7 @@ class  Wxapps extends  Controller{
                                         $list[$kks]["member_grade_img"] =$member_grade_img;
                                         $list[$kks]['sale_num'] = db('special')->where('goods_id',$vvs['id'])->sum('volume'); //销量
                                         $list[$kks]["price"] =round($min[$kks] * $discount2,2) ; //价钱
-                                        $list[$kks]["goods_new_money"] = db('special')->where('goods_id',$vvs['id'])->value('line'); //多规格
+                                        $list[$kks]["line"] = db('special')->where('goods_id',$vvs['id'])->value('line'); //多规格
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
