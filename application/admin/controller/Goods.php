@@ -435,7 +435,6 @@ class Goods extends Controller
             $store_id = Session :: get("store_id");
             $id = $request->only(["id"])["id"];
             $goods_data = $request->param();
-            halt($goods_data);
             unset($goods_data["aaa"]);
             if(!empty($goods_data["goods_sign"])){
                 $goods_data["goods_sign"] = json_encode($goods_data["goods_sign"]);
