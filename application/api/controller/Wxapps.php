@@ -387,6 +387,10 @@ class  Wxapps extends  Controller{
                                         // }
                                         $list2[$kk]['thumb']=$goods_images;
                                         $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
+                                        if($info['goods_standard'] == 1){
+                                            $info['goods_bottom_money'] = db('special')->where('goods_id',$vv['goods_id'])->value('price');
+                                        }
+                                        
                                         $list2[$kk]['price']=$info['limit_price'];    //商品价格
                                         $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
                                         $list2[$kk]['video_link']=$info['video_link'];    //商品视频
@@ -754,8 +758,9 @@ class  Wxapps extends  Controller{
                                         $list[$kks]["goods_standard"] = $standard[$kks];
                                         $list[$kks]["thumb"] = $se[0]; //图片
                                         $list[$kks]["member_grade_img"] =$member_grade_img;
-                                        $list[$kks]['sale_num'] = db('special')->where('goods_id',$vvs['id'])->sum('volume');; //销量
+                                        $list[$kks]['sale_num'] = db('special')->where('goods_id',$vvs['id'])->sum('volume'); //销量
                                         $list[$kks]["price"] =round($min[$kks] * $discount2,2) ; //价钱
+                                        $list[$kks]["goods_bottom_money"] = db('special')->where('goods_id',$vvs['id'])->value('line'); //多规格
                                         if (!empty($list[$kks]["scope"])) {
                                             if (!in_array($member_grade_name, $list[$kks]["scope"])) {
                                                 unset($list[$kks]);
@@ -1268,6 +1273,9 @@ class  Wxapps extends  Controller{
                             //     $list2[$kk]['thumb'] = remote($uniacid, $goods_images, 1);
                             // }
                             $info=db('goods')->where(['id'=>$vv['goods_id'],'store_id'=>$uniacid])->find();
+                            if($info['goods_standard'] == 1){
+                                $info['goods_bottom_money'] = db('special')->where('goods_id',$vv['goods_id'])->value('line');
+                            }
                             $list2[$kk]['price']=$info['limit_price'];    //商品价格
                             $list2[$kk]['market_price']=$info['goods_bottom_money'];    //划线价
                             $list2[$kk]['video_link']=$info['video_link'];    //商品视频字段
