@@ -5,6 +5,7 @@ use think\Controller;
 use think\Cache;
 use think\Session;
 use think\Db;
+use think\View;
 use app\index\controller\My;
 
 /**
