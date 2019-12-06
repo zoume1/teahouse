@@ -1246,7 +1246,7 @@ Route::group("api",[
     "get_uniacid_by_appid" =>"api/Wxapps/get_uniacid_by_appid",//进入首页获取uniacids
 
 
-]);
+]);  //app\admin\behavior
 
 /**
  * 城市合伙人
@@ -1343,8 +1343,12 @@ Route::group("rec",[
 
     //重新支付
     "shop_wxpay" => "rec/Order/shop_wxpay",
-
-]);
+    
+    ]);
+    
+    Route::group('nfc',[
+        "check.do" => "index/Material/get_anti_fake_info",   //get_anti_fake_info"=>"index/Material/get_anti_fake_info
+    ],['before_behavior'=>'\app\admin\behavior\checkNfc']);
 
 Route::miss("public/miss");
 
