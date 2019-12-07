@@ -26,7 +26,7 @@ class Commodity extends Controller
                 $child=count($value['child']);
                 if($child==0){
                     //没有二级分类
-                    $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->where('limit_goods','0')->field('id,goods_name,goods_show_image')->select();
+                    $goods_type[$key]['child'] = db("goods")->where("pid",$goods_type[$key]['id'])->where("store_id","EQ",$store_id)->where("label",1)->where('limit_goods','0')->field('id,goods_name,goods_show_image,scope')->select();
                     foreach($goods_type[$key]['child'] as $k => $v){
                         if(!empty($goods_type[$key]['child'][$k]["scope"])){
                             $goods_type[$key]['child'][$k]["scope"] = explode(",",$goods_type[$key]['child'][$k]["scope"]);
