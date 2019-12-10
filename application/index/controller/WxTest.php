@@ -613,7 +613,6 @@ class WxTest extends Controller
         );
         $this->sendMessages($post_data, $access_token);
     } 
-    
     /**
      * 发送消息-客服消息
      */
