@@ -403,6 +403,17 @@ class  Order extends  Controller
                     $datase["is_limit"] = $limit;
 
                     $rest_id = Db::name('order')->insertGetId($datase);
+                    //下单成功，冻结库存
+                    if($rest_id){
+                        //下单成功，冻结库存
+                        if ($goods_standard_id[$keys] == '0') {
+                            //单规格商品扣除库存
+                            $rest_putong = Db::name('goods')->where('id', $values)->setDec('goods_repertory', $numbers[$keys]);
+                        } else {
+                            //多规格商品扣除库存
+                            $rest_special = db('special')->where('id', $goods_standard_id[$keys])->setDec('stock', $numbers[$keys]);
+                        }
+                    }
                     unset($datase['is_limit']);
                     $datas = $datase;
                     $datas["store_house_id"] = $store_house_id;
