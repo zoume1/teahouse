@@ -188,8 +188,7 @@ class Index extends Controller
      * 商品防伪溯源-h5页面
      */
     public  function sweep_detail(){
-
-        return  view('sweep_detail');
+        return  view('index@index/sweep_detail');
     }
 
 }

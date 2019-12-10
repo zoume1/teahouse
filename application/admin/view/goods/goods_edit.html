@@ -683,7 +683,7 @@
                     <div class="form-input line">
                         {if $value.goods_member == 1}
                         <input type="checkbox" name="goods_member" value="{$value.goods_member}" lay-skin="primary"
-                            checked="" title="参加会员折扣"> {else}
+                             title="参加会员折扣"> {else}
                         <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
                         <a href="index/My/show_grade">管理会员卡</a>
                     </div>
@@ -695,7 +695,7 @@
                         {volist name="scope" id="val" }
                         <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}"
                             value="{$val['member_grade_name']}" {if
-                            condition="in_array($val['member_grade_name'],$value.scope)" } checked='checked'
+                            condition="in_array($val['member_grade_name'],$value.scope)" }
                             type="checkbox" name="scope[]" lay-skin="primary" {else} type="checkbox" name="scope[]"
                             lay-skin="primary" {/if}> {/volist} </div> </div> {/if} </div> <div
                             class="form-item general">

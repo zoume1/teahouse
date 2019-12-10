@@ -42,10 +42,7 @@ class Receipt extends Controller
                 return ajax_error("请检查参数是否正确");
             }
         }
-
     }
-
-
 
     /**
      * [所有发票状态]

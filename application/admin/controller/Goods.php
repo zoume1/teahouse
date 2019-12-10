@@ -328,6 +328,7 @@ class Goods extends Controller
         foreach ($goods as $key => $value) {
             if(!empty($goods[$key]["goods_show_images"])){
             $goods[$key]["goods_show_images"] = explode(',', $goods[$key]["goods_show_images"]);
+            $scope2=count(explode(',', $goods[$key]["scope"]));
             $goods[$key]["scope"] = explode(',', $goods[$key]["scope"]);
             $goods[$key]["unit"] = explode(',', $goods[$key]["element"]);
             $goods[$key]["templet_name"] = explode(',', $goods[$key]["templet_name"]);

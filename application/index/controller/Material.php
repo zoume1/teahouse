@@ -5,6 +5,7 @@ use think\Controller;
 use think\Cache;
 use think\Session;
 use think\Db;
+use think\View;
 use app\index\controller\My;
 
 /**
@@ -27,6 +28,9 @@ class Material extends Controller
             //获取商品的信息
             $goods_info=db('anti_parent_code')->alias('a')->join('tb_anti_goods w','a.pid = w.id')->where('child_code|parent_code',$input['code'])
             ->field('*')->find();
+            if(!$goods_info){
+                return ajax_error('获取失败，未发现商品信息');
+            }
             $store_id=$goods_info['store_id'];
             $input['store_id']=$store_id;
             $my=new My();
