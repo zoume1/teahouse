@@ -36,9 +36,11 @@ class Login extends Controller{
             if(!empty($user_data)){
                 Session::set("store_id",$user_data['store_id']);
             }
-       
-        $inviter_id = $get['shareID'];
-
+        if(isset($get['shareID']) && !empty($get['shareID']) ){
+            $inviter_id = $get['shareID'];
+        } else {
+            $inviter_id = 0;
+        }
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
         $params['appid'] = $get["appid"];//客户公司
