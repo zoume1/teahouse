@@ -36,8 +36,8 @@ class Login extends Controller{
             if(!empty($user_data)){
                 Session::set("store_id",$user_data['store_id']);
             }
-        if(isset($get["appid"]) && !empty($get["appid"]) ){
-            $inviter_id = $get["appid"];
+        if(isset($get["shareID"]) && !empty($get["shareID"]) ){
+            $inviter_id = $get["shareID"];
         } else {
             $inviter_id = 0;
         }
