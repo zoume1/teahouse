@@ -431,6 +431,7 @@ class  Order extends  Controller
                         }
                     }
                     unset($datase['is_limit']);
+                    unset($datase["unit"]);
                     $datas = $datase;
                     $datas["store_house_id"] = $store_house_id;
                     $datas["store_name"] = $store_name;
