@@ -404,6 +404,7 @@ class  Order extends  Controller
                     $all_moneys[] = $datas["goods_money"] * $numbers[$keys]; //订单金额
                     $datase["order_real_pay"] = $all_money; //订单实际支付的金额(即优惠券抵扣之后的价钱）
                     $datase["status"] = 1;
+                    $datase["unit"] = $unit[$keys];
                     $datase["goods_id"] = $values;
                     $datase["buy_message"] = $buy_message; //买家留言
                     $datase["normal_future_time"] = $normal_future_time; //未来时间
