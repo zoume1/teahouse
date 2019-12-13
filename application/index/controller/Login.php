@@ -109,6 +109,7 @@ class Login extends Controller{
                             $member_data = Db::name("member")->where('member_id','=',$bool)->find();
                             $apply = new Apply;
                             $rest = $apply->submit($member_data);
+                            RefereeModel::createRelation($bool, $inviter_id,$member_data['store_id']);
                         }
 
                 if($register_login > 0){
