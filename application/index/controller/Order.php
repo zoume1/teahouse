@@ -137,6 +137,7 @@ class  Order extends  Controller
     public function order_places(Request $request)
     {
         if ($request->isPost()) {
+            $order_rest = input();
             $store_id = $request->only(['uniacid'])['uniacid'];
             $user_id = $request->only("member_id")["member_id"]; //member_id
             $address_id = $request->param("address_id"); //address_id
@@ -153,6 +154,12 @@ class  Order extends  Controller
             $receipt_price = $request->only("receipt_price")["receipt_price"]; //发票金额--税费
             $freight = $request->only("freight")["freight"]; //发票金额
             $storage = $request->only("storage")["storage"]; //发票金额
+            
+            if(isset($order_rest['goods_price']) && !empty($order_rest['goods_price'])){
+                $goods_price = $order_rest['goods_price'];
+            } else {
+                $goods_price = null;
+            }
             if (empty($user_id)) {
                 return ajax_error("未登录", ['status' => 0]);
             }
@@ -217,7 +224,11 @@ class  Order extends  Controller
                 if ($goods_data["goods_standard"] == 0) {
                     //普通商品
                     $datas['goods_image'] = $goods_data['goods_show_image']; //图片
-                    $datas["goods_money"] = $goods_data['goods_new_money'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    if(!empty($goods_price)){
+                        $datas["goods_money"] = $goods_price[$keys];
+                    } else {
+                        $datas["goods_money"] = $goods_data['goods_new_money'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    }
                     $data['unit'] = explode(",", $goods_data['unit']);
                     $data['num'] = explode(",", $goods_data['num']);
                     $account_cost = $goods_data['goods_cost']; //成本价 
@@ -233,7 +244,11 @@ class  Order extends  Controller
                         ->where("id", $goods_standard_id[$keys])
                         ->find();
                     $datas['goods_image'] = $special_data['images'];   //图片
-                    $datas["goods_money"] = $special_data['price'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    if(!empty($goods_price)){
+                        $datas["goods_money"] = $goods_price[$keys];
+                    } else {
+                        $datas["goods_money"] = $special_data['price'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    }
                     $datas['goods_standard'] = $special_data["name"]; //商品规格  
                     $account_cost = $special_data["cost"]; //成本价 
                     $data['unit'] = explode(",", $special_data['unit']);
@@ -389,6 +404,7 @@ class  Order extends  Controller
                     $all_moneys[] = $datas["goods_money"] * $numbers[$keys]; //订单金额
                     $datase["order_real_pay"] = $all_money; //订单实际支付的金额(即优惠券抵扣之后的价钱）
                     $datase["status"] = 1;
+                    $datase["unit"] = $unit[$keys];
                     $datase["goods_id"] = $values;
                     $datase["buy_message"] = $buy_message; //买家留言
                     $datase["normal_future_time"] = $normal_future_time; //未来时间
@@ -415,6 +431,7 @@ class  Order extends  Controller
                         }
                     }
                     unset($datase['is_limit']);
+                    unset($datase["unit"]);
                     $datas = $datase;
                     $datas["store_house_id"] = $store_house_id;
                     $datas["store_name"] = $store_name;
