@@ -2920,8 +2920,16 @@ class  Order extends  Controller
         $input = input();
         //判断是否有记录
         if ($input['coupon_type'] == 1) {
+            $goods_order =  db('order')->where('parts_order_number', $input['parts_order_number'])->selete();
             $re =  db('order')->where('parts_order_number', $input['parts_order_number'])->delete();
             $res = db('house_order')->where('parts_order_number', $input['parts_order_number'])->delete();
+            foreach ($goods_order as $k => $v) {
+                if ($goods_order[$k]['special_id'] != 0) {
+                    $boolw = Db::name('special')->where('id', $goods_order[$k]['special_id'])->setInc('stock', $goods_order[$k]['order_quantity']);
+                } else {
+                    $booltt = Db::name('goods')->where('id', $goods_order[$k]['goods_id'])->setInc('goods_repertory', $goods_order[$k]['order_quantity']);
+                }
+            }
         } elseif ($input['coupon_type'] == 2) {
             $re = db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->delete();
         } elseif ($input['coupon_type'] == '3') {
