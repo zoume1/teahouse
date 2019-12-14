@@ -998,14 +998,14 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录", "data" => ["status" => 0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity,coupon_id,goods_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantitcoy,upon_id,goods_id')
                 ->where('member_id', $member_id)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key => $value) {
                 //判断未支付订单
-                if ($value['status'] == '1') {   //未支付订单
+                if ($value['status'] == '1') {  //未支付订单
                     $time = time() - $value['order_create_time'] - 30 * 60;
                     if ($time > 0) {
                         //返回优惠券
@@ -1027,7 +1027,6 @@ class  Order extends  Controller
                         continue;
                     }
                 }
-
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k => $v) {
@@ -1077,7 +1076,6 @@ class  Order extends  Controller
                 }
             }
             if (!empty($order_data)) {
-
                 //所有信息
                 foreach ($order_data["info"] as $i => $j) {
                     if (!empty($j)) {
@@ -2079,6 +2077,8 @@ class  Order extends  Controller
                             $pp['msg'] = '111';
                             db('test')->insert($pp);
                         }
+                        //返库存
+                        db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
                         $data = [
                             "status" => 9,
                             "coupon_id" => 0,
@@ -2919,6 +2919,7 @@ class  Order extends  Controller
         //获取参数
         $input = input();
         //判断是否有记录
+        $re=false;
         if ($input['coupon_type'] == 1) {
             $goods_order =  db('order')->where('parts_order_number', $input['parts_order_number'])->select();
             $re =  db('order')->where('parts_order_number', $input['parts_order_number'])->delete();
@@ -2931,9 +2932,21 @@ class  Order extends  Controller
                 }
             }
         } elseif ($input['coupon_type'] == 2) {
-            $re = db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->delete();
-        } elseif ($input['coupon_type'] == '3') {
-            $re = db('reward')->where('order_number', $input['parts_order_number'])->delete();
+            $list =  db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->select();
+            foreach($list as $k=>$v){
+                db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
+                db('crowd_order')->where('id',$v['id'])->delete();
+            }
+            $re=true;
+            // $re = db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->delete();
+        } elseif ($input['coupon_type'] == '3'){
+            $list =  db('reward')->where('parts_order_number', $input['parts_order_number'])->select();
+            foreach($list as $k=>$v){
+                db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
+                db('reward')->where('id',$v['id'])->delete();
+            }
+            $re=true;
+            // $re = db('reward')->where('order_number', $input['parts_order_number'])->delete();
         }
         if ($re) {
             return ajax_success('删除成功');
