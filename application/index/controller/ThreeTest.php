@@ -223,12 +223,12 @@ class ThreeTest extends Controller
             return false;
         }
     }
+
     /*
      * 设置小程序业务域名，无需加https前缀，但域名必须可以通过https访问
      * @params string / array $domains : 域名地址。只接收一维数组。
      * */
     public function setBusinessDomain($authorizer_access_token)
-
     {
         $domain = 'www.zhihuichacang.com';
         $url = "https://api.weixin.qq.com/wxa/setwebviewdomain?access_token=".$authorizer_access_token;
@@ -268,7 +268,6 @@ class ThreeTest extends Controller
                     "authorization_code": "'.$auth_code.'"
                 }';
                 $info = json_decode($this->https_post ( $url, $param ),true);
-               
                 return $info; 
             }
         /*

@@ -438,6 +438,7 @@ Route::group("",[
     
     /**测试 */
     "sweep_detail"=>"index/Index/sweep_detail",         //获取温湿度历史记录
+    "synchro_account"=>"index/Index/synchro_account",   //同步用户数据
 
 ]);
 
@@ -1350,7 +1351,7 @@ Route::group("rec",[
     // Route::group('nfc',[
     //     "check.do" => "index/Index/sweep_detail",   
     //     "get_anti_fake_info" => "index/Material/get_anti_fake_info",   
-    // ],['before_behavior'=>'\app\admin\behavior\checkNfc']);
+    // ],['before_behavior'=>'\app\admin\behavior\checkNfc']);      //          04039792AE4F81    
 
 Route::miss("public/miss");
 

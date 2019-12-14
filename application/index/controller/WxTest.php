@@ -257,7 +257,7 @@ class WxTest extends Controller
             //获取回调的信息
             $data2=input();
             if(!is_array($data2)){
-                $ppp['msg']=$data;
+                $ppp['msg']=$data2;
                 db('test')->insert($ppp);
             }
             $auth_code=$data2['auth_code'];     //授权码
@@ -613,7 +613,6 @@ class WxTest extends Controller
         );
         $this->sendMessages($post_data, $access_token);
     } 
-    
     /**
      * 发送消息-客服消息
      */
