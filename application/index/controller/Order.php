@@ -2921,14 +2921,16 @@ class  Order extends  Controller
         //判断是否有记录
         $re=false;
         if ($input['coupon_type'] == 1) {
-            $list =  db('order')->where('parts_order_number', $input['parts_order_number'])->select();
-            foreach($list as $k=>$v){
-                db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
-                db('order')->where('id',$v['id'])->delete();
-            }
-            // $re =  db('order')->where('parts_order_number', $input['parts_order_number'])->delete();
+            $goods_order =  db('order')->where('parts_order_number', $input['parts_order_number'])->select();
+            $re =  db('order')->where('parts_order_number', $input['parts_order_number'])->delete();
             $res = db('house_order')->where('parts_order_number', $input['parts_order_number'])->delete();
-            $re=true;
+            foreach ($goods_order as $k => $v) {
+                if ($goods_order[$k]['special_id'] != 0) {
+                    $boolw = Db::name('special')->where('id', $goods_order[$k]['special_id'])->setInc('stock', $goods_order[$k]['order_quantity']);
+                } else {
+                    $booltt = Db::name('goods')->where('id', $goods_order[$k]['goods_id'])->setInc('goods_repertory', $goods_order[$k]['order_quantity']);
+                }
+            }
         } elseif ($input['coupon_type'] == 2) {
             $list =  db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->select();
             foreach($list as $k=>$v){
