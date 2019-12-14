@@ -1354,7 +1354,7 @@ Route::group("rec",[
     Route::group('nfc',[
         "check.do" => "index/Index/sweep_detail",   
         "get_anti_fake_info" => "index/Material/get_anti_fake_info",   
-    ],['before_behavior'=>'\app\admin\behavior\checkNfc']);      //2200BA70
+    ],['before_behavior'=>'\app\admin\behavior\checkNfc']);      //2200BA70             
 
 Route::miss("public/miss");
 
