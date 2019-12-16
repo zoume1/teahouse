@@ -249,20 +249,37 @@ class User extends Controller{
             return json(['code' => 0,'msg' => $validate->getError()]);
         }
 
-        if (Session::get('mobileCode') != $param['new_code']) {
-            return json(['code'=>0,'msg'=>$param['new_code']."验证码不正确"]);
-        }
+        // if (Session::get('mobileCode') != $param['new_code']) {
+        //     return json(['code'=>0,'msg'=>$param['new_code']."验证码不正确"]);
+        // }
         $user = db('pc_user') ->where('id',$param['user_id']) ->find();
         if ($user['phone_number'] === $param['new_phone']) {
             return json(['code'=>0,'msg'=>$param['new_phone']."该手机已注册"]);
         }
         if (password_verify($param['password'] ,$user['password'])) {
-            // 储存
-            $user = new UserAll();
-            $result = $user->edit_tel($param['user_id'],$param['new_phone']);
+            //同时修改店铺手机号
+            $store = Store::where('user_id',$param['user_id'])->find();
+            if($store){
+                 // 储存
+                $data = Db::transaction(function()use ( $param ){
+                $user = new UserAll();
+                $result = $user->edit_tel($param['user_id'],$param['new_phone']);
 
-            $res = $result ? ['code' => 1,'msg' => '修改手机号成功'] : ['code' => 0,'msg' => '修改手机号失败'];
-            return json($res);
+                $store_data = Store::update(['phone_number' => $param['new_phone']],['user_id' => $param['user_id']]);
+
+                return $result && $store_data  ? true : false;
+
+                });
+
+                $data ? returnJson(1,'修改手机号成功') : returnJson(0,'修改手机号失败');
+                   
+            }else{
+                $user = new UserAll();
+                $result = $user->edit_tel($param['user_id'],$param['new_phone']);
+
+                $result ? returnJson(1,'修改手机号成功') : returnJson(0,'修改手机号失败');
+            }
+           
 
         }else {
             return json(['code'=>0,'msg'=>'密码错误']);
