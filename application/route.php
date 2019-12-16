@@ -1350,11 +1350,11 @@ Route::group("rec",[
 
 ]);
     
-    /**lilu测试 */
+    /**防伪溯源旧标处理地址勿删 */
     // Route::group('nfc',[
     //     "check.do" => "index/Index/sweep_detail",   
     //     "get_anti_fake_info" => "index/Material/get_anti_fake_info",   
-    // ],['before_behavior'=>'\app\admin\behavior\checkNfc']);      //          04039792AE4F81    
+    // ],['before_behavior'=>'\app\admin\behavior\checkNfc']);      //04039792AE4F81    
 
 Route::miss("public/miss");
 
