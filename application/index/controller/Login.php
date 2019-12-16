@@ -36,6 +36,11 @@ class Login extends Controller{
             if(!empty($user_data)){
                 Session::set("store_id",$user_data['store_id']);
             }
+        if(isset($get['shareID']) && !empty($get['shareID']) ){
+            $inviter_id = $get['shareID'];
+        } else {
+            $inviter_id = 0;
+        }
         //获取session_key
 //      $params['appid'] = 'wxaa091b014a6fa464';//公司
         $params['appid'] = $get["appid"];//客户公司
@@ -82,6 +87,7 @@ class Login extends Controller{
                     $data['member_grade_create_time'] =time();
                     $data['member_grade_id'] = $grade_id;
                     $data['member_status']=1;
+                    $data['inviter_id'] = $inviter_id;
                     $data['dimension'] = $this->memberCode();
                     if($get['gender'] ==2){
                         $data["member_sex"] ="女";
@@ -103,6 +109,7 @@ class Login extends Controller{
                             $member_data = Db::name("member")->where('member_id','=',$bool)->find();
                             $apply = new Apply;
                             $rest = $apply->submit($member_data);
+                            RefereeModel::createRelation($bool, $inviter_id,$member_data['store_id']);
                         }
 
                 if($register_login > 0){

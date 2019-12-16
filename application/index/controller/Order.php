@@ -137,6 +137,7 @@ class  Order extends  Controller
     public function order_places(Request $request)
     {
         if ($request->isPost()) {
+            $order_rest = input();
             $store_id = $request->only(['uniacid'])['uniacid'];
             $user_id = $request->only("member_id")["member_id"]; //member_id
             $address_id = $request->param("address_id"); //address_id
@@ -153,6 +154,12 @@ class  Order extends  Controller
             $receipt_price = $request->only("receipt_price")["receipt_price"]; //发票金额--税费
             $freight = $request->only("freight")["freight"]; //发票金额
             $storage = $request->only("storage")["storage"]; //发票金额
+            
+            if(isset($order_rest['goods_price']) && !empty($order_rest['goods_price'])){
+                $goods_price = $order_rest['goods_price'];
+            } else {
+                $goods_price = null;
+            }
             if (empty($user_id)) {
                 return ajax_error("未登录", ['status' => 0]);
             }
@@ -217,7 +224,11 @@ class  Order extends  Controller
                 if ($goods_data["goods_standard"] == 0) {
                     //普通商品
                     $datas['goods_image'] = $goods_data['goods_show_image']; //图片
-                    $datas["goods_money"] = $goods_data['goods_new_money'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    if(!empty($goods_price)){
+                        $datas["goods_money"] = $goods_price[$keys];
+                    } else {
+                        $datas["goods_money"] = $goods_data['goods_new_money'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    }
                     $data['unit'] = explode(",", $goods_data['unit']);
                     $data['num'] = explode(",", $goods_data['num']);
                     $account_cost = $goods_data['goods_cost']; //成本价 
@@ -233,7 +244,11 @@ class  Order extends  Controller
                         ->where("id", $goods_standard_id[$keys])
                         ->find();
                     $datas['goods_image'] = $special_data['images'];   //图片
-                    $datas["goods_money"] = $special_data['price'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    if(!empty($goods_price)){
+                        $datas["goods_money"] = $goods_price[$keys];
+                    } else {
+                        $datas["goods_money"] = $special_data['price'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
+                    }
                     $datas['goods_standard'] = $special_data["name"]; //商品规格  
                     $account_cost = $special_data["cost"]; //成本价 
                     $data['unit'] = explode(",", $special_data['unit']);
@@ -389,6 +404,7 @@ class  Order extends  Controller
                     $all_moneys[] = $datas["goods_money"] * $numbers[$keys]; //订单金额
                     $datase["order_real_pay"] = $all_money; //订单实际支付的金额(即优惠券抵扣之后的价钱）
                     $datase["status"] = 1;
+                    $datase["unit"] = $unit[$keys];
                     $datase["goods_id"] = $values;
                     $datase["buy_message"] = $buy_message; //买家留言
                     $datase["normal_future_time"] = $normal_future_time; //未来时间
@@ -415,6 +431,7 @@ class  Order extends  Controller
                         }
                     }
                     unset($datase['is_limit']);
+                    unset($datase["unit"]);
                     $datas = $datase;
                     $datas["store_house_id"] = $store_house_id;
                     $datas["store_name"] = $store_name;
@@ -981,14 +998,14 @@ class  Order extends  Controller
                 exit(json_encode(array("status" => 2, "info" => "请重新登录", "data" => ["status" => 0])));
             }
             $data = Db::name('order')
-                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity,coupon_id,goods_id')
+                ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantitcoy,upon_id,goods_id')
                 ->where('member_id', $member_id)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
             foreach ($data as $key => $value) {
                 //判断未支付订单
-                if ($value['status'] == '1') {   //未支付订单
+                if ($value['status'] == '1') {  //未支付订单
                     $time = time() - $value['order_create_time'] - 30 * 60;
                     if ($time > 0) {
                         //返回优惠券
@@ -1010,7 +1027,6 @@ class  Order extends  Controller
                         continue;
                     }
                 }
-
                 if (strpos($value["order_id"], ",")) {
                     $order_id = explode(',', $value["order_id"]);
                     foreach ($order_id as $k => $v) {
@@ -1060,7 +1076,6 @@ class  Order extends  Controller
                 }
             }
             if (!empty($order_data)) {
-
                 //所有信息
                 foreach ($order_data["info"] as $i => $j) {
                     if (!empty($j)) {
@@ -2062,6 +2077,8 @@ class  Order extends  Controller
                             $pp['msg'] = '111';
                             db('test')->insert($pp);
                         }
+                        //返库存
+                        db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
                         $data = [
                             "status" => 9,
                             "coupon_id" => 0,
@@ -2902,13 +2919,34 @@ class  Order extends  Controller
         //获取参数
         $input = input();
         //判断是否有记录
+        $re=false;
         if ($input['coupon_type'] == 1) {
+            $goods_order =  db('order')->where('parts_order_number', $input['parts_order_number'])->select();
             $re =  db('order')->where('parts_order_number', $input['parts_order_number'])->delete();
             $res = db('house_order')->where('parts_order_number', $input['parts_order_number'])->delete();
+            foreach ($goods_order as $k => $v) {
+                if ($goods_order[$k]['special_id'] != 0) {
+                    $boolw = Db::name('special')->where('id', $goods_order[$k]['special_id'])->setInc('stock', $goods_order[$k]['order_quantity']);
+                } else {
+                    $booltt = Db::name('goods')->where('id', $goods_order[$k]['goods_id'])->setInc('goods_repertory', $goods_order[$k]['order_quantity']);
+                }
+            }
         } elseif ($input['coupon_type'] == 2) {
-            $re = db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->delete();
-        } elseif ($input['coupon_type'] == '3') {
-            $re = db('reward')->where('order_number', $input['parts_order_number'])->delete();
+            $list =  db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->select();
+            foreach($list as $k=>$v){
+                db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
+                db('crowd_order')->where('id',$v['id'])->delete();
+            }
+            $re=true;
+            // $re = db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->delete();
+        } elseif ($input['coupon_type'] == '3'){
+            $list =  db('reward')->where('parts_order_number', $input['parts_order_number'])->select();
+            foreach($list as $k=>$v){
+                db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
+                db('reward')->where('id',$v['id'])->delete();
+            }
+            $re=true;
+            // $re = db('reward')->where('order_number', $input['parts_order_number'])->delete();
         }
         if ($re) {
             return ajax_success('删除成功');

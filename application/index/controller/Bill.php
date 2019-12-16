@@ -43,12 +43,12 @@ class Bill extends Controller{
     public function ceshi12(Request $request){
         if($request->isPost()){
 
-            $goods_data = db('goods')->where('store_id','=',87)->select();
-            foreach($goods_data as $k => $v){
-                $image = (new Goods)->qrcode($goods_data[$k]['id']);
-                db('goods')->where('id',$goods_data[$k]['id'])->update(['share_code'=>$image]);
-            }
-            
+            $order_info = Db::name("order")
+            ->where("parts_order_number", $order_num)
+            ->find();
+        $order = GoodsOrder::getOrderInforMation($order_info);
+        $model = OrderModel::grantMoney($order);
+        halt($model);
 
         }
     }

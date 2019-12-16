@@ -1,9 +1,11 @@
 <?php
+
 namespace app\index\controller;
 
 use think\Controller;
 use think\Cache;
 use think\Session;
+use think\Db;
 
 class Index extends Controller
 {
@@ -11,128 +13,149 @@ class Index extends Controller
     public function index()
     {
         $phone_num =  $this->commons();
-        return view("index",["phone_num"=>$phone_num]);
+        return view("index", ["phone_num" => $phone_num]);
     }
-    public function home(){
+    public function home()
+    {
         $phone_num =  $this->commons();
-        return view("home",["phone_num"=>$phone_num]);
+        return view("home", ["phone_num" => $phone_num]);
     }
 
-    public function text(){
+    public function text()
+    {
         $phone_num =  $this->commons();
-        return view("text",["phone_num"=>$phone_num]);
+        return view("text", ["phone_num" => $phone_num]);
     }
 
     // 茶厂
-    public function tea_factory(){
+    public function tea_factory()
+    {
         $phone_num =  $this->commons();
-        return view("teafactory",["phone_num"=>$phone_num]);
+        return view("teafactory", ["phone_num" => $phone_num]);
     }
     // 茶商
-    public function tea_merchant(){
+    public function tea_merchant()
+    {
         $phone_num =  $this->commons();
-        return view("teamerchant",["phone_num"=>$phone_num]);
+        return view("teamerchant", ["phone_num" => $phone_num]);
     }
     // 茶圈
-    public function tea_moment(){
+    public function tea_moment()
+    {
         $phone_num =  $this->commons();
-        return view("teamoment",["phone_num"=>$phone_num]);
+        return view("teamoment", ["phone_num" => $phone_num]);
     }
     // 用户
-    public function consumer(){
+    public function consumer()
+    {
         $phone_num =  $this->commons();
-        return view("consumer",["phone_num"=>$phone_num]);
+        return view("consumer", ["phone_num" => $phone_num]);
     }
     // 智慧茶仓  源头厂家
-    public function wisdom(){
+    public function wisdom()
+    {
         $phone_num =  $this->commons();
-        return view("wisdom",["phone_num"=>$phone_num]);
+        return view("wisdom", ["phone_num" => $phone_num]);
     }
     // 实力商家
-    public function merchant(){
+    public function merchant()
+    {
         $phone_num =  $this->commons();
-        return view("merchant",["phone_num"=>$phone_num]);
+        return view("merchant", ["phone_num" => $phone_num]);
     }
     // 更多服务
-    public function more_server(){
+    public function more_server()
+    {
         $phone_num =  $this->commons();
-        return view("more_server",["phone_num"=>$phone_num]);
+        return view("more_server", ["phone_num" => $phone_num]);
     }
     // 自有茶园
-    public function zycy(){
+    public function zycy()
+    {
         $phone_num =  $this->commons();
-        return view("zycy",["phone_num"=>$phone_num]);
+        return view("zycy", ["phone_num" => $phone_num]);
     }
     // 自有工厂
-    public function zygc(){
+    public function zygc()
+    {
         $phone_num =  $this->commons();
-        return view("zygc",["phone_num"=>$phone_num]);
+        return view("zygc", ["phone_num" => $phone_num]);
     }
     // 自有仓库
-    public function zyck(){
+    public function zyck()
+    {
         $phone_num =  $this->commons();
-        return view("zyck",["phone_num"=>$phone_num]);
+        return view("zyck", ["phone_num" => $phone_num]);
     }
     // 万用版
-    public function wyb(){
+    public function wyb()
+    {
         $phone_num =  $this->commons();
-        return view("wyb",["phone_num"=>$phone_num]);
+        return view("wyb", ["phone_num" => $phone_num]);
     }
     // 专业版
-    public function zyb(){
+    public function zyb()
+    {
         $phone_num =  $this->commons();
-        return view("zyb",["phone_num"=>$phone_num]);
+        return view("zyb", ["phone_num" => $phone_num]);
     }
     // 高级版
-    public function gjb(){
+    public function gjb()
+    {
         $phone_num =  $this->commons();
-        return view("gjb",["phone_num"=>$phone_num]);
+        return view("gjb", ["phone_num" => $phone_num]);
     }
     // 招募合伙人
-    public function partner(){
+    public function partner()
+    {
         $phone_num =  $this->commons();
-        return view("partner",["phone_num"=>$phone_num]);
+        return view("partner", ["phone_num" => $phone_num]);
     }
     // 关于我们
-    public function about(){
+    public function about()
+    {
         $phone_num =  $this->commons();
-        return view("about",["phone_num"=>$phone_num]);
+        return view("about", ["phone_num" => $phone_num]);
     }
     // 注册
-    public function sign_up(){
+    public function sign_up()
+    {
         $shar_code = input('share_code');
-        if(!empty($shar_code))
-        {
-            return view("signup",['share_code'=>$shar_code]);
+        if (!empty($shar_code)) {
+            return view("signup", ['share_code' => $shar_code]);
         }
         return view("signup");
-
     }
     // 登录
-    public function sign_in(){
+    public function sign_in()
+    {
 
         return view("signin");
     }
     // 微信登录
-    public function sign_weixin(){
+    public function sign_weixin()
+    {
         return view("signweixin");
     }
     // 忘记密码
-    public function forget_pw(){
+    public function forget_pw()
+    {
         return view("forgetpw");
     }
     // 我的店铺
-    public function my_shop(){
+    public function my_shop()
+    {
         $phone_num =  $this->commons();
-        return view("myshop",["phone_num"=>$phone_num]);
+        return view("myshop", ["phone_num" => $phone_num]);
     }
 
-    protected  function  commons(){
-        $data =Session::get("member");
-        if(!empty($data)){
-            $phone_num =$data["phone_number"];
-        }else{
-          $phone_num =null;
+    protected  function  commons()
+    {
+        $data = Session::get("member");
+        if (!empty($data)) {
+            $phone_num = $data["phone_number"];
+        } else {
+            $phone_num = null;
         }
         return $phone_num;
     }
@@ -145,16 +168,17 @@ class Index extends Controller
      * shidu
      * uniacid
      */
-    public function get_wenshidu(){
+    public function get_wenshidu()
+    {
         //获取参数
-        $input=input();
-        if($input){
-            $data['wendu']=$input['wendu'];
-            $data['shidu']=$input['shidu'];
-            $data['update_time']=time();
-            $re=db('instrument')->where(['instrument_number'=>'8606S86YL8295C5Y','store_id'=>$input['uniacid']])->update($data);
+        $input = input();
+        if ($input) {
+            $data['wendu'] = $input['wendu'];
+            $data['shidu'] = $input['shidu'];
+            $data['update_time'] = time();
+            $re = db('instrument')->where(['instrument_number' => '8606S86YL8295C5Y', 'store_id' => $input['uniacid']])->update($data);
             return ajax_success('获取成功');
-        }else{
+        } else {
             return ajax_error('获取失败');
         }
     }
@@ -163,7 +187,8 @@ class Index extends Controller
      * gy
      * 城市合伙人忘记密码
      */
-    public function city_forget(){
+    public function city_forget()
+    {
         return view("city_forget");
     }
 
@@ -171,7 +196,8 @@ class Index extends Controller
      * gy
      * 合伙人后台登陆
      */
-    public function city_login(){
+    public function city_login()
+    {
         return view("city_login");
     }
 
@@ -179,7 +205,8 @@ class Index extends Controller
      * gy
      * 合伙人后台退出
      */
-    public function city_out(){
+    public function city_out()
+    {
         return view("city_login");
     }
 
@@ -187,8 +214,44 @@ class Index extends Controller
      * lilu
      * 商品防伪溯源-h5页面
      */
-    public  function sweep_detail(){
+    public  function sweep_detail()
+    {
         return  view('index@index/sweep_detail');
     }
+
+    /**
+     * lilu
+     * 同步用户数据
+     */
+    public function synchro_account()
+    {
+        //获取店铺列表
+        // $where['store_use'] = 1;
+        $where['status'] = 1;
+        $phone_number = db('store')->where($where)->field('phone_number,contact_name')->select();
+        //连接进销存数据库
+        $con = mysqli_connect("39.97.124.73:50306", "root", "Lingtian2118", 'lingtian_wms_xm');
+        if ($con) {
+            //1.获取用户列表，导入自己的数据库（It_users）
+            $sql = 'SELECT Lname  FROM  lt_users';
+            $res = mysqli_query($con, $sql);
+            $rr = $res->fetch_all(MYSQLI_ASSOC);
+            $arr=[];
+            foreach($rr as $k =>$v){
+                $arr[$k]=$v['Lname'];
+            }
+            foreach ($phone_number as $k => $v) {
+                if (!in_array($v['phone_number'], $arr)) {
+                   //进销存系统插入数据
+                   $sql3='INSERT INTO lt_users (Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("0","0","'.$v['phone_number'].'","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","'.$v['contact_name'].'","","","","","","",1)';
+                   mysqli_query($con,$sql3);   //新插入记录
+                }
+            }
+        }
+    }
+
+   
+   
+
 
 }
