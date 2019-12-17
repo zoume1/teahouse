@@ -206,12 +206,14 @@ class  Control extends  Controller{
      * @return \think\response\View
      */
     public function control_order_index(){
+        
         $order =Db::table('tb_meal_orders')
             ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
             ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
             ->where("is_del",1)
             ->where("tb_store.status",1)
             ->where("tb_meal_orders.pay_type","NEQ","NULL")
+            ->where("tb_meal_orders.start_time","<",time("+10 day", 'tb_meal_orders.create_time'))
             ->order("tb_meal_orders.create_time","desc")
             ->paginate(20 ,false, [
                 'query' => request()->param(),
