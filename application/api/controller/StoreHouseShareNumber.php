@@ -39,14 +39,14 @@ class StoreHouseShareNumber extends Controller
                 'parts_goods_name' => $order_data['parts_goods_name'],//商品名称
                 'order_quantity' => $order_data['order_quantity'],//订单数量
                 'member_id' => $order_data['order_quantity'],//会员id
-                'store_name' => Store::getStoreName($order_data['store_id']),
+                'store_name' => (new Store())->getStoreName($order_data['store_id']),
                 'end_time' => strtotime("+3 days"),
                 'store_id' =>$order_data['store_id']
             );
         
         $return_url = Goods::share_qrcode($order_id,$order_data['store_id']);
         return jsonSuccess('发送成功',$return_url);
-        
+
         }
 
     }
