@@ -498,7 +498,9 @@ class  Material extends  Controller{
             $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript GROUP BY child_code';
             $res2= mysqli_query($con,$sql2);
             //2.统计茶仓里子标的总数
-            $count=db('anti_parent_code')->where('store_id',$store_id)->count();
+            $where['store_id']=$store_id;
+            $where['is_upload']=0;
+            $count=db('anti_parent_code')->where($where)->count();
             if($count==$res2->num_rows)
             {
                 //无需更新数据，已同步
