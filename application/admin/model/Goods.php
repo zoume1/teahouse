@@ -141,7 +141,7 @@ class Goods extends Model
     }
 
     //生成存茶分享码
-    public static function share_qrcode($order_id,$store_id)
+    public function share_qrcode($order_id,$store_id)
     {
         $ACCESS_TOKEN = $this->gettokenes($store_id);
         $puthc = 'pages/logs/logs';//小程序的路径 可以带参数

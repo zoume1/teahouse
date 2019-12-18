@@ -44,7 +44,7 @@ class StoreHouseShareNumber extends Controller
                 'store_id' =>$order_data['store_id']
             );
         
-        $return_url = Goods::share_qrcode($order_id,$order_data['store_id']);
+        $return_url = (new Goods())->share_qrcode($order_id,$order_data['store_id']);
         return jsonSuccess('发送成功',$return_url);
 
         }
