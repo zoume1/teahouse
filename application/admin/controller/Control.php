@@ -211,6 +211,7 @@ class  Control extends  Controller{
             ->field("tb_meal_orders.*,tb_store.phone_number,tb_store.contact_name,tb_store.is_business,tb_store.address_real_data,tb_store.status store_status")
             ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
             ->where("is_del",1)
+            ->where("false_data",1)
             ->where("tb_store.status",1)
             ->where("tb_meal_orders.pay_type","NEQ","NULL")
             ->where("tb_meal_orders.start_time","<",time("+10 day", 'tb_meal_orders.create_time'))
@@ -223,9 +224,6 @@ class  Control extends  Controller{
         $type_meal['0']['audit_status']='入驻审核不通过';
         $type_meal['1']['audit_status']='入驻审核';
         $type_meal['2']['audit_status']='入驻审核通过';
-        
-
-             
         return view("control_order_index",["order"=>$order,"enter_meal"=>$enter_meal,"type_meal"=>$type_meal]);
     }
 
