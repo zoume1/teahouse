@@ -111,19 +111,61 @@ class Goods extends Model
     }
 
 
-        //生成二维码
+    //生成二维码
     public  function qrcode($goods_id)
     {
         $ACCESS_TOKEN = $this->gettoken();
         $puthc = 'pages/logs/logs?goods=share&title='.$goods_id;//小程序的路径 可以带参数
         $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
         $param = json_encode(array("path"=>$puthc,"width"=> 150));
-        $result = $this->httpRequest( $qcode,$param,"POST");
+        $result = $this->httpRequest($qcode,$param,"POST");
         $puth = ROOT_PATH . 'public' . DS . 'share'.DS.'D'.time().rand(100000,999999).'.png';
         file_put_contents($puth,$result);
         $file_name = basename($puth,'.png');
         $image_url = '/share/'.$file_name.'.png';
         $resultes = db('goods')->where('id','=',$goods_id)->update(['share_code'=>$image_url]);
+        return $puth;
+    }
+
+    public function gettokenes($store_id)
+    {
+        $applet = Db::table('applet')
+                ->where('id','=',$store_id)
+                ->find();
+                
+        $APPID = $applet['appID'];
+        $APPSECRET =  $applet['appSecret'];
+        $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
+        $json = $this->httpRequest($access_token);
+        return  json_decode($json,true);
+    }
+
+    //生成存茶分享码
+    public  function share_qrcode($order_id,$store_id)
+    {
+        $ACCESS_TOKEN = $this->gettokenes($store_id);
+        $puthc = 'pages/logs/logs';//小程序的路径 可以带参数
+        $qcode ="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$ACCESS_TOKEN['access_token'];
+        
+        $color = [
+            'r' => 0,
+            'g' => 0,
+            'b' => 0,
+        ];
+        $qrcode_data = [
+            'scene' => 'order_id=' . $order_id ,
+            'page' => $puthc,
+            'width' => '200',
+            'auto_color' => false,  //自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调，默认 false
+            'line_color' => json_decode(json_encode($color)),   //auto_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"} 十进制表示
+            'is_hyaline' => true,   //是否需要透明底色，为 true 时，生成透明底色的小程序
+        ];
+        $param = json_encode($qrcode_data);
+        $result = $this->httpRequest($qcode,$param,"POST");
+        $puth = ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.png';
+        file_put_contents($puth,$result);
+        $file_name = basename($puth,'.png');
+        $image_url = '/shareorder/'.$file_name.'.png';
         return $puth;
     }
  

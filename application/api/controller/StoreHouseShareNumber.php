@@ -8,6 +8,7 @@ use think\Controller;
 use think\Db;
 use think\Request;
 use \think\Exception;
+use app\admin\model\Goods;
 
 
 /**
@@ -42,9 +43,10 @@ class StoreHouseShareNumber extends Controller
                 'end_time' => strtotime("+3 days"),
                 'store_id' =>$order_data['store_id']
             );
-            
-
-
+        
+        $return_url = Goods::share_qrcode($order_id,$order_data['store_id']);
+        return jsonSuccess('发送成功',$return_url);
+        
         }
 
     }
