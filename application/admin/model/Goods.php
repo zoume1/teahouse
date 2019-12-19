@@ -182,9 +182,10 @@ class Goods extends Model
         // $image_url = '/shareorder/'.$file_name.'.png';
         // return $puth;
         $datas='image/png;base64,'.base64_encode($result);
-        $new_file = ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.txt';
+        $title = 'D'.time().rand(100000,999999);
+        $new_file = ROOT_PATH . 'public' . DS .$title.'.txt';
         if (file_put_contents($new_file, $datas)) {
-            $re = file_get_contents(ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.txt');
+            $re = file_get_contents(ROOT_PATH . 'public' . DS . 'shareorder'.DS.$title.'.txt');
             return $re;
         } else {
             return false;
