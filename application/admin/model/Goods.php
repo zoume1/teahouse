@@ -176,11 +176,19 @@ class Goods extends Model
         $qrcode_data['is_hyaline']=true;
         $param = json_encode($qrcode_data);
         $result = (new My()) -> api_notice_increment($qcode,$param);
-        $puth = ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.png';
-        file_put_contents($puth,$result);
-        $file_name = basename($puth,'.png');
-        $image_url = '/shareorder/'.$file_name.'.png';
-        return $puth;
+        // $puth = ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.png';
+        // file_put_contents($puth,$result);
+        // $file_name = basename($puth,'.png');
+        // $image_url = '/shareorder/'.$file_name.'.png';
+        // return $puth;
+        $datas='image/png;base64,'.base64_encode($result);
+        $new_file = ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.txt';
+        if (file_put_contents($new_file, $datas)) {
+            $re = file_get_contents(ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.txt');
+            return $re;
+        } else {
+            return false;
+        }
     }
  
 }
