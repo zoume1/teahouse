@@ -8,6 +8,8 @@ use Qiniu\Auth as Auth;
 use Qiniu\Storage\UploadManager;
 use think\Controller;
 use app\city\controller\Picture;
+use app\index\controller\My;
+
 class Goods extends Model
 {
     protected $table = "tb_goods";
@@ -161,7 +163,7 @@ class Goods extends Model
             'is_hyaline' => true,   //是否需要透明底色，为 true 时，生成透明底色的小程序
         ];
         $param = json_encode($qrcode_data);
-        $result = $this->httpRequest($qcode,$param,"POST");
+        $result = (new My()) -> api_notice_increment($qcode,$param);
         $puth = ROOT_PATH . 'public' . DS . 'shareorder'.DS.'D'.time().rand(100000,999999).'.png';
         file_put_contents($puth,$result);
         $file_name = basename($puth,'.png');
