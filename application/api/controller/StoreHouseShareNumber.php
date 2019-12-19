@@ -11,6 +11,7 @@ use \think\Exception;
 use app\admin\model\Goods;
 
 
+
 /**
  * 茶仓分享存茶
  * Class Message
