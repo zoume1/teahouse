@@ -13,7 +13,7 @@ class ShareOrder extends Model
      * @return \think\Paginator
      * @throws \think\exception\DbException
      */
-    public function getHouseOrder($order_id)
+    public function getShareOrder($order_id)
     {
         $data = self::get($order_id);
         return $data ? $data : false;
@@ -21,6 +21,34 @@ class ShareOrder extends Model
     }
 
 
+    /**gy
+     *  赠送记录添加
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function share_add($data)
+    {
+        $model = new static;
+        $rest = $model->save($data);
+        return $rest ? $rest->id : false;
+        
+    }
+
+       /**
+     * 计算分享存茶数量
+     * @param $parts_order_number
+     * @return \think\Paginator
+     * @throws \think\exception\DbException
+     */
+    public static function countOrderNumber($order_id)
+    {
+        $data = self::where('order_id','=',$order_id)->where('status','=',2)->count();
+        return $data;
+
+    }
 
  
 }
