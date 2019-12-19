@@ -155,9 +155,9 @@ class Goods extends Model
         $qrcode_data = [
             'scene' => 'order_id=' . $order_id ,
             'page' => $puthc,
-            'width' => '200',
+            'width' => 430, 
             'auto_color' => false,  //自动配置线条颜色，如果颜色依然是黑色，则说明不建议配置主色调，默认 false
-            'line_color' => json_decode(json_encode($color)),   //auto_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"} 十进制表示
+            'line_color' => $color,   //auto_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"} 十进制表示
             'is_hyaline' => true,   //是否需要透明底色，为 true 时，生成透明底色的小程序
         ];
         $param = json_encode($qrcode_data);
