@@ -41,7 +41,6 @@ class  Store extends  Controller{
             $business_name =$request->only(["business_name"])["business_name"];
             $licence_no =$request->only(["licence_no"])["licence_no"];
             $store_name =$request->only(["store_name"])["store_name"];
-        
             if(empty($id_card) || empty($contact_name) || empty($address_data) ||empty($address_real_data) ||empty($store_introduction || empty($store_name)) ){
                     return ajax_error("请注意填写完所有资料");
             }
@@ -82,7 +81,23 @@ class  Store extends  Controller{
             ];
 
             $bool = Db::name("store")->insertGetId($data);
+           
             if($bool > 0){
+                 //绑定进销存的jxc_id
+                    $con = mysqli_connect("39.97.124.73:50306", "root", "Lingtian2118", 'lingtian_wms_xm');
+                    if ($con) {
+                        //获取users表最后一条记录的id
+                        $sql2 = 'SELECT  Luid  FROM  lt_users';
+                        $res2 = mysqli_query($con, $sql2);
+                        $rr2 = $res2->fetch_all(MYSQLI_ASSOC);
+                        $num=count($rr2);
+                        $Luid=$rr2[$num-1]['Luid']+1;
+                        //更新用户的进销存id
+                        db('store')->where('id',$bool)->update(['jxc_id'=>$Luid]);
+                        //进销存系统插入数据
+                        $sql3 = 'INSERT INTO lt_users (Luid,Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("'.$Luid.'","0","0","' . $phone_number['phone_number'] . '","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","' . $phone_number['contact_name'] . '","","","","","","",1)';
+                        mysqli_query($con, $sql3);   //新插入记录
+                    }
                     $user_data =Db::table("tb_pc_user")
                         ->field("phone_number,password")
                         ->where("id",$user_id)

@@ -488,7 +488,8 @@ class  Material extends  Controller{
      **************************************
      * @return \think\response\View
      */
-    public function anti_fake_judge(){
+    public function anti_fake_judge()
+    {
         $store_id=Session::get('store_id');
         // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
         $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
@@ -545,8 +546,11 @@ class  Material extends  Controller{
         $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
         if($con)
         {
+            //获取当前店铺的jxc_id
+            $jxc_id=db('store')->where('id',$store_id)->value('jxc_id');
             //1.获取商品列表，导入自己的数据库
             $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = 47 GROUP by id  ';
+            // $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = '.$jxc_id.' GROUP by id  ';
             $res= mysqli_query($con,$sql);
             $rr=$res->fetch_all(MYSQLI_ASSOC);
             foreach($rr as $k =>$v){
@@ -558,10 +562,26 @@ class  Material extends  Controller{
                 $v['store_id']=$store_id;
                 $v['produceUid']='50';
                 $v['goods_number']=get_random();
-                db('anti_goods')->insert($v);
+                //获取对应的子标
+                $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript where pid = '.$v['id'];
+                $res2= mysqli_query($con,$sql2);
+                $rr2=$res2->fetch_all(MYSQLI_ASSOC);
+                $pid=db('anti_goods')->insertGetId($v);
+                foreach($rr2 as $k2 =>$v2){
+                    //获取子母标的id序列
+                    $ids2=db('anti_parent_code')->where('store_id',$store_id)->column('child_code');
+                    if(in_array($v2['child_code'],$ids2)){
+                        continue;
+                    }
+                    $v2['pid']=$pid;
+                    $v2['create_time']=time();
+                    $v2['store_id']=$store_id;
+                    $v2['produceUid']='50';
+                    db('anti_parent_code')->insert($v2);
+                }
             }
             //2.获取母标，子标记录列表
-            $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript  ';
+            $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript';
             $res2= mysqli_query($con,$sql2);
             $rr2=$res2->fetch_all(MYSQLI_ASSOC);
             foreach($rr2 as $k2 =>$v2){

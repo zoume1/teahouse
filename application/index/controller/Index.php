@@ -236,22 +236,25 @@ class Index extends Controller
             $sql = 'SELECT Lname  FROM  lt_users';
             $res = mysqli_query($con, $sql);
             $rr = $res->fetch_all(MYSQLI_ASSOC);
-            $arr=[];
-            foreach($rr as $k =>$v){
-                $arr[$k]=$v['Lname'];
+            $arr = [];
+            foreach ($rr as $k => $v) {
+                $arr[$k] = $v['Lname'];
             }
             foreach ($phone_number as $k => $v) {
                 if (!in_array($v['phone_number'], $arr)) {
-                   //进销存系统插入数据
-                   $sql3='INSERT INTO lt_users (Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("0","0","'.$v['phone_number'].'","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","'.$v['contact_name'].'","","","","","","",1)';
-                   mysqli_query($con,$sql3);   //新插入记录
+                    //获取users表最后一条记录的id
+                    $sql2 = 'SELECT  Luid  FROM  lt_users';
+                    $res2 = mysqli_query($con, $sql2);
+                    $rr2 = $res2->fetch_all(MYSQLI_ASSOC);
+                    $num=count($rr2);
+                    $Luid=$rr2[$num-1]['Luid']+1;
+                    //更新用户的进销存id
+                    db('store')->where('phone_number',$v['phone_number'])->update(['jxc_id'=>$Luid]);
+                    //进销存系统插入数据
+                    $sql3 = 'INSERT INTO lt_users (Luid,Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("'.$Luid.'","0","0","' . $v['phone_number'] . '","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","' . $v['contact_name'] . '","","","","","","",1)';
+                    mysqli_query($con, $sql3);   //新插入记录
                 }
             }
         }
     }
-
-   
-   
-
-
 }
