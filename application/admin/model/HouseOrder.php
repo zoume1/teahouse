@@ -13,12 +13,15 @@ class HouseOrder extends Model
      * @return \think\Paginator
      * @throws \think\exception\DbException
      */
-    public function getHouseOrder($order_id)
+    public static function getHouseOrder($order_id)
     {
         $data = self::get($order_id);
         return $data ? $data : false;
 
     }
+
+
+ 
 
 
 

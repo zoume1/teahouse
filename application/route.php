@@ -830,6 +830,8 @@ Route::group("admin",[
    
     "operate_receipt_index"=>"admin/operate/operate_receipt_index",  //发票显示状态
     "operate_receipt_update"=>"admin/operate/operate_receipt_update",  //发票显示状态编辑
+    "admin_operate_receipt_index"=>"admin/operate/admin_operate_receipt_index",  //admin发票显示状态
+    "admin_operate_receipt_update"=>"admin/operate/admin_operate_receipt_update",  //admin发票显示状态编辑
 
 
 
@@ -1241,6 +1243,7 @@ Route::group("api",[
     "video_comment" =>"api/Live/video_comment",//视频直播评论接口
     "video_reply" => "api/Live/video_reply",//视频直播回复接口
     "video_index" =>"api/Live/video_index",//评论显示接口
+    "SharePictureData" => "api/StoreHouseShareNumber/SharePictureData",//茶仓分享存茶页面
     /**
      * 根据appid获取uniacid
      */
@@ -1348,10 +1351,10 @@ Route::group("rec",[
     ]);
     
     /**防伪溯源旧标处理地址勿删 */
-    // Route::group('nfc',[
-    //     "check.do" => "index/Index/sweep_detail",   
-    //     "get_anti_fake_info" => "index/Material/get_anti_fake_info",   
-    // ],['before_behavior'=>'\app\admin\behavior\checkNfc']);      //04039792AE4F81    
+    Route::group('nfc',[
+        "check.do" => "index/Index/sweep_detail",   
+        "get_anti_fake_info" => "index/Material/get_anti_fake_info",   
+    ],['before_behavior'=>'\app\admin\behavior\checkNfc']);      //04039792AE4F81    
 
 Route::miss("public/miss");
 
