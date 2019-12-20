@@ -902,12 +902,18 @@ class  Order extends  Controller
         if ($request->isPost()) {
             $status = $request->only(["status"])["status"]; //订单状态
             $order_id = $request->only(["id"])["id"];
-            $parts_order_number = Db::name("order")->where("id", 'EQ', $order_id)->value("parts_order_number");
+            $order_data = Db::name("order")->where("id", 'EQ', $order_id)->find();
             $price = $request->only(["order_real_pay"])["order_real_pay"]; //更改价格
             if ($status != 1) {
                 return ajax_error("该订单不支持改价");
             } else {
-                $bool = db("order")->where("parts_order_number", $parts_order_number)->update(["order_real_pay" => $price]);
+                $restul = substr($order_data['parts_order_number'], 0, 2);
+                $time = date("Y-m-d", time());
+                $v = explode('-', $time);
+                $time_second = date("H:i:s", time());
+                $vs = explode(':', $time_second);
+                $new_ordernumber = $restul . $v[0] . $v[1] . $v[2] . $vs[0] . $vs[1] . $vs[2] . ($order_data['member_id'] + 1001); //订单编号 
+                $bool = db("order")->where("parts_order_number",$order_data['parts_order_number'])->update(["order_real_pay" => $price,"parts_order_number"=>$new_ordernumber]);
                 if ($bool) {
                     return ajax_success("改价成功");
                 } else {
