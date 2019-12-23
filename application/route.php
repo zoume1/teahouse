@@ -1208,6 +1208,7 @@ Route::group("admin",[
    "accompany_index" => "admin/Accompany/accompany_index" ,    //送存商品页面
    "accompany_add" => "admin/Accompany/accompany_add" ,  //送存商品添加
    "accompany_edit" => "admin/Accompany/accompany_edit" ,//送存商品编辑
+   "serach_accompany" => "admin/Accompany/serach_accompany" ,//送存商品搜索
 
 
 

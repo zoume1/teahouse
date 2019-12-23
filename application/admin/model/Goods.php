@@ -191,4 +191,16 @@ class Goods extends Model
         }
     }
  
+    /**
+     * 销商申请记录详情
+     * @param $where
+     * @return Apply|static
+     * @throws \think\exception\DbException
+     */
+    public static function accompany_goods($goods_number)
+    {
+        if(!iseet($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
+        $accompany_data = self::get(['goods_number',$goods_number]);
+        return $accompany_data ? $accompany_data->toArray():jsonError('没有该商品编码，请仔细核对再搜索');
+    }
 }
