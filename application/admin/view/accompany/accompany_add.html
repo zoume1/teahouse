@@ -100,7 +100,7 @@
             <div class="form-input">
                 {if !empty($store_name)}
                 <select name="store_house_name" id="admin_role" class="role_list">
-                    <option value="">请选择</option>
+                    <!-- <option value="">请选择</option> -->
                     {volist name="store_name" id="value"}
                     <option value="{$value.name}">{$value.name}</option>
                     {/volist}
@@ -160,6 +160,7 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
+    var isSearch = false;
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage'], function () {
@@ -177,6 +178,8 @@
                         "goods_number": val,
                     },
                     success: function (data) {
+                        if(data.code == 1)  isSearch = true;
+                        else isSearch = false;
                         layer.msg(data.msg)
                     },
                     error: function (data) {
@@ -204,6 +207,9 @@
                         return false;
                     } else if(!datetimepicker3) {
                         layer.msg("结束时间不能为空");
+                        return false;
+                    } else if(!isSearch) {
+                        layer.msg("请确认搜索相关商品");
                         return false;
                     }
 

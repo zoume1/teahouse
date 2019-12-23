@@ -6,7 +6,8 @@ use think\Model;
 use think\Db;
 use think\Validate;
 use app\city\controller;
-use app\admin\model\Goods;  
+use app\admin\model\Goods;
+use app\admin\model\AccompanySetting;
 
 use app\common\exception\BaseException;
 
@@ -32,14 +33,37 @@ class Accompany extends Model
     public static function accompany_add($data)
     {
         $model = new static;
+        
         $goods_data = Goods::accompany_goods($data['goods_number']);
-        halt($goods_data);
+        
+        if(isset($data['scope']) && !empty($data['scope'])) 
+        {
+            $scope = json_encode($data['scope'],true);
+        } else {
+            $scope = null;
+        }
         $rest_data = [
             'choose_status' => $data['choose_status'],
             'goods_number' => $data['goods_number'],
             'goods_id' => $goods_data['id'],
+            'goods_show_image' => $goods_data['goods_show_image'],
+            'goods_name' => $goods_data['goods_name'],
+            'scope' => $scope,
+            'accompany_number' => $data['accompany_number'],
+            'single_number' => $data['single_number'],
+            'start_time' => strtotime($data['start_time']),
+            'end_time' =>  strtotime($data['end_time']),
+            'store_house_name' => $data['store_house_name'],
+            'label' => $data['label'],
+            'blessing' => $data['blessing'],
         ];
+        
         $rest = $model->save($rest_data);
+        if($rest){
+            $data['accompany_id'] = $rest->id;
+            $setting = AccompanySetting::setting_add($data);
+            return $setting;
+        }
         return $rest ? $rest : false;
         
     }

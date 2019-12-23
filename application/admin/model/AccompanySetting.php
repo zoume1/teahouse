@@ -14,7 +14,7 @@ use app\common\exception\BaseException;
  * Class StoreSetting
  * @package app\city\model
  */
-class Accompany extends Model
+class AccompanySetting extends Model
 {
     protected $table = "tb_accompany_setting";
 
@@ -43,9 +43,10 @@ class Accompany extends Model
             'min_price' => $data['min_price'],
             'min_number' => $data['min_number'],
             'status' => $rest,
+            'accompany_id' => $data['accompany_id'],
         ];
         $rest = $model->save($rest_data);
-        return $rest ? $rest->id : false;
+        return $rest ? true : false;
         
     }
 
