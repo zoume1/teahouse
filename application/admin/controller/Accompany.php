@@ -31,6 +31,7 @@ class  Accompany extends  Controller{
 
         if($request -> isPost()){
             $data =  Request::instance()->param();
+            halt($data);
         }
         //送存仓储
         $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); 
