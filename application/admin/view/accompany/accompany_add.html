@@ -150,6 +150,7 @@
     <!--请在下方写此页面业务相关的脚本-->
     {block name="bottom"}
     <script type="text/javascript">
+    var isSearch = false;
         layui.config({
             base: "js/"
         }).use(['form', 'layer', 'jquery', 'laypage'], function () {
@@ -167,6 +168,7 @@
                         "goods_number": val,
                     },
                     success: function (data) {
+                        if(data.code == 1)  isSearch = true;
                         layer.msg(data.msg)
                     },
                     error: function (data) {
@@ -175,6 +177,7 @@
                 });
             })
             $("form").submit(function (e) {
+                alert(isSearch);
                 let goods_number = $("#goods_number").val(),
                     accompany_number = $("#accompany_number").val(),
                     single_number = $("#single_number").val(),
