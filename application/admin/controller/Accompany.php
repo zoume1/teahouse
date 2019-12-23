@@ -28,7 +28,6 @@ class  Accompany extends  Controller{
      */    
     public function accompany_add(Request $request){
         $store_id =  Session :: get('store_id');
-
         if($request -> isPost()){
             $data =  Request::instance()->param();
             halt($data);

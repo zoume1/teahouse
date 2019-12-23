@@ -30,8 +30,22 @@ class Accompany extends Model
     public static function setting_add($data)
     {
         $model = new static;
-        $rest = $model->save($data);
-        return $rest ? $rest : false;
+        if(isset($data['one']) && isset($data['two'])){
+            $rest = 3;
+        } elseif(!isset($data['one']) && isset($data['two'])){
+            $rest = 2;
+        } elseif(isset($data['one']) && !isset($data['two'])){
+            $rest = 1;
+        } else {
+            $rest = 0;
+        }
+        $rest_data = [
+            'min_price' => $data['min_price'],
+            'min_number' => $data['min_number'],
+            'status' => $rest,
+        ];
+        $rest = $model->save($rest_data);
+        return $rest ? $rest->id : false;
         
     }
 
