@@ -19,6 +19,16 @@
         font-weight: 700;
         cursor: pointer;
     }
+
+    .seach {
+        display: inline-block;
+        background-color: rgb(255, 153, 0);
+        color: #fff;
+        line-height: 38px;
+        width: 80px;
+        text-align: center;
+        cursor: pointer;
+    }
 </style>
 
 {/block}
@@ -41,8 +51,7 @@
             <div class="form-input">
                 <input type="text" name="account" value="" placeholder="请输入商品/编号" style="width: 300px;"
                     class="layui-input" id="account">
-                <span
-                    style="display: inline-block;background-color: rgb(255,153,0);color:#fff;line-height: 38px;width: 80px;text-align: center;">搜索</span>
+                <span class="seach">搜索</span>
                 <p class="tips">*输入商品或编码后，此处需点击检索排查，只搜索可存单规格商品</p>
             </div>
         </div>
@@ -148,7 +157,7 @@
                 $ = layui.jquery;
             form.render();
         });
-
+        $()
 
 
     </script>
