@@ -50,7 +50,7 @@
             <label class="form-label">送存商品</label>
             <div class="form-input">
                 <input type="text" name="account" value="" placeholder="请输入商品/编号" style="width: 300px;"
-                    class="layui-input" id="account">
+                    class="layui-input" id="seachs">
                 <span class="seach">搜索</span>
                 <p class="tips">*输入商品或编码后，此处需点击检索排查，只搜索可存单规格商品</p>
             </div>
@@ -71,7 +71,8 @@
                 <span style="margin: 0 20px;">每人送存数量</span>
                 <input type="number" name="aa" value="" placeholder="1" max="100" min="0" class="layui-input"
                     style="width: 200px;" id="name">
-                <p class="tips" style="padding-left: 350px;">*每人最多送存数量</p>
+                <p class="tips" style="width: 330px;display: inline-block;margin-left: 15px;">*每人最多送存商品总量为100</p>
+                <p class="tips" style="display: inline-block;">*每人最多送存商品数量</p>
             </div>
         </div>
         <div class="form-item">
@@ -157,7 +158,22 @@
                 $ = layui.jquery;
             form.render();
         });
-        $()
+        $('.seach').click(function () {
+            let val = $('#seachs').val();
+            $.ajax({
+                type: "POST",
+                url: "{:url('admin/Accompanyrach_accompany')}",
+                data: {
+                    "goods_number": val,
+                },
+                success: function (data) {
+                    console.log(data)
+                },
+                error: function (data) {
+                    console.log("错误")
+                }
+            });
+        })
 
 
     </script>
