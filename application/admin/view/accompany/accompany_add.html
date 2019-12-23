@@ -100,7 +100,7 @@
             <div class="form-input">
                 {if !empty($store_name)}
                 <select name="store_house_id" id="admin_role" class="role_list">
-                    <option value="">请选择</option>
+                    <!-- <option value="">请选择</option> -->
                     {volist name="store_name" id="value"}
                     <option value="{$value.id}">{$value.name}</option>
                     {/volist}
@@ -179,6 +179,7 @@
                     },
                     success: function (data) {
                         if(data.code == 1)  isSearch = true;
+                        else isSearch = false;
                         layer.msg(data.msg)
                     },
                     error: function (data) {
@@ -187,7 +188,6 @@
                 });
             })
             $("form").submit(function (e) {
-                alert(isSearch);
                 let goods_number = $("#goods_number").val(),
                     accompany_number = $("#accompany_number").val(),
                     single_number = $("#single_number").val(),
@@ -207,6 +207,9 @@
                         return false;
                     } else if(!datetimepicker3) {
                         layer.msg("结束时间不能为空");
+                        return false;
+                    } else if(!isSearch) {
+                        layer.msg("请确认搜索相关商品");
                         return false;
                     }
 
