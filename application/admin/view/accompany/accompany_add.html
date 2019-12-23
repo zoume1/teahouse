@@ -156,24 +156,25 @@
                 layer = parent.layer === undefined ? layui.layer : parent.layer,
                 laypage = layui.laypage,
                 $ = layui.jquery;
+
+            $('.seach').click(function () {
+                let val = $('#seachs').val();
+                $.ajax({
+                    type: "POST",
+                    url: "serach_accompany",
+                    data: {
+                        "goods_number": val,
+                    },
+                    success: function (data) {
+                        layer.msg(data.msg)
+                    },
+                    error: function (data) {
+                        console.log("错误")
+                    }
+                });
+            })
             form.render();
         });
-        $('.seach').click(function () {
-            let val = $('#seachs').val();
-            $.ajax({
-                type: "POST",
-                url: "serach_accompany",
-                data: {
-                    "goods_number": val,
-                },
-                success: function (data) {
-                    console.log(data)
-                },
-                error: function (data) {
-                    console.log("错误")
-                }
-            });
-        })
 
 
     </script>
