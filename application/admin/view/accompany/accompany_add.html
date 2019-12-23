@@ -50,7 +50,7 @@
             <label class="form-label">送存商品</label>
             <div class="form-input">
                 <input type="text" name="goods_number" value="" placeholder="请输入商品/编号" style="width: 300px;"
-                    class="layui-input" id="seachs">
+                    class="layui-input" id="goods_number">
                 <span class="seach">搜索</span>
                 <p class="tips">*输入商品或编码后，此处需点击检索排查，只搜索可存单规格商品</p>
             </div>
@@ -66,11 +66,11 @@
             <label class="form-label">送存设置</label>
             <div class="form-input">
                 <span style="margin: 0 20px;">活动送存总量</span>
-                <input type="number" name="accompany_number" value="" placeholder="100" max="100" min="0" class="layui-input"
-                    style="width: 200px;" id="name">
+                <input type="number" name="accompany_number" value="" placeholder="100" max="100" min="0"
+                    class="layui-input" style="width: 200px;" id="accompany_number">
                 <span style="margin: 0 20px;">每人送存数量</span>
                 <input type="number" name="single_number" value="" placeholder="1" max="100" min="0" class="layui-input"
-                    style="width: 200px;" id="name">
+                    style="width: 200px;" id="single_number">
                 <p class="tips" style="width: 330px;display: inline-block;margin-left: 15px;">*每人最多送存商品总量为100</p>
                 <p class="tips" style="display: inline-block;">*每人最多送存商品数量</p>
             </div>
@@ -95,8 +95,9 @@
         <div class="form-item">
             <label class="form-label">送存仓库</label>
             <div class="form-input">
-                <select name="role_id" id="admin_role" class="role_list">
-                    <option value="">1</option>
+                <select name="role_id" id="role_id" class="role_list">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
                 </select>
             </div>
         </div>
@@ -105,19 +106,19 @@
             <div class="form-input">
                 <input type="checkbox" name="one" lay-skin="primary" value="1">
                 <span>最低消费满金额</span>
-                <input type="number" name="min_price" placeholder="1000" min="0" class="layui-input" style="width: 100px;"
-                    id="password"><span style="margin-right: 30px;">元</span>
+                <input type="number" name="min_price" placeholder="1000" min="0" class="layui-input"
+                    style="width: 100px;" id="min_price"><span style="margin-right: 30px;">元</span>
                 <input type="checkbox" name="two" lay-skin="primary" value="2">
                 <span>最少消费次数</span>
                 <input type="number" name="min_number" placeholder="2" min="0" class="layui-input" style="width: 100px;"
-                    id="password">次
+                    id="min_number">次
                 <p class="tips">*获得送存之后，出仓时需满足的条件</p>
             </div>
         </div>
         <div class="form-item">
             <label class="form-label">活动标签</label>
             <div class="form-input">
-                <input type="text" name="label" placeholder="例如：送存" class="layui-input" id="password">
+                <input type="text" name="label" placeholder="例如：送存" class="layui-input" id="label">
                 <p class="tips" style="width: 400px;display: inline-block;">*活动期间展示于商品详情的价格下方，2至5字</p>
                 <span class="sample">查看示例</span>
             </div>
@@ -125,7 +126,7 @@
         <div class="form-item">
             <label class="form-label">祝福语</label>
             <div class="form-input">
-                <input type="text" name="blessing" placeholder="例如：某某茶业，祝您身体健康，万事如意" class="layui-input" id="password">
+                <input type="text" name="blessing" placeholder="例如：某某茶业，祝您身体健康，万事如意" class="layui-input" id="blessing">
                 <p class="tips">*活动期间展示于商品详情的价格下方，2至5字</p>
             </div>
         </div>
@@ -173,10 +174,41 @@
                     }
                 });
             })
+            $("form").submit(function (e) {
+                let goods_number = $("#goods_number").val(),
+                    accompany_number = $("#accompany_number").val(),
+                    single_number = $("#single_number").val(),
+                    datetimepicker2 = $("#datetimepicker2").val(),
+                    datetimepicker3 = $("#datetimepicker3").val();
+                    if(!goods_number) {
+                        layer.msg("送存商品不能为空");
+                        return false;
+                    } else if(!accompany_number) {
+                        layer.msg("活动送存总量不能为空");
+                        return false;
+                    } else if(!single_number) {
+                        layer.msg("每人送存数量不能为空");
+                        return false;
+                    } else if(!datetimepicker2) {
+                        layer.msg("开始时间不能为空");
+                        return false;
+                    } else if(!datetimepicker3) {
+                        layer.msg("结束时间不能为空");
+                        return false;
+                    }
+
+            })
             form.render();
         });
 
-
+        $('#datetimepicker2').datetimepicker({
+            format: 'Y/m/d H:i:s',
+            step: 1,
+        });
+        $('#datetimepicker3').datetimepicker({
+            format: 'Y/m/d H:i:s',
+            step: 1,
+        });
     </script>
     {/block}
 
