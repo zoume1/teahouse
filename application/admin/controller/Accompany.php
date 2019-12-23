@@ -35,7 +35,7 @@ class  Accompany extends  Controller{
         //送存仓储
         $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); 
         //面向会员
-        $scope = Db::name("member_grade")->where("store_id","EQ",$store_id)->field("id,member_grade_name")->select();
+        $scope = Db::name("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_id,member_grade_name")->select();
 
         return view("accompany_add",['store_name'=>$store_name,'scope' =>$scope]);
     }
