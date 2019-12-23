@@ -48,19 +48,9 @@ class Accompany extends Model
     }
 
 
-    /**获取所有市场反馈
-     * gy
-     * @param $useid
-     * @return false|static[]
-     * @throws \think\exception\DbException
-     */
-    public static function getList()
-    {
-        return self::all();
-    }
 
     /**gy
-     *  市场反馈更新
+     *  设置更新
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException

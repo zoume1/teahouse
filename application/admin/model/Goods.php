@@ -199,7 +199,7 @@ class Goods extends Model
      */
     public static function accompany_goods($goods_number)
     {
-        if(!iseet($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
+        if(!isset($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
         $accompany_data = self::get(['goods_number',$goods_number]);
         return $accompany_data ? jsonSuccess($accompany_data->toArray()):jsonError('没有该商品编码，请仔细核对再搜索');
     }
