@@ -10,7 +10,7 @@ use app\common\exception\BaseException;
 
 
 /**
- * 市场反馈
+ * 赠茶商品
  * Class StoreSetting
  * @package app\city\model
  */
@@ -20,14 +20,14 @@ class Accompany extends Model
 
 
     /**gy
-     *  市场反馈添加
+     *  赠茶商品添加
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function city_back_add($data)
+    public static function accompany_add($data)
     {
         $model = new static;
         $rest = $model->save($data);
