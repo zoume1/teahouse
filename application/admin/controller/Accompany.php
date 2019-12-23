@@ -10,6 +10,7 @@ use think\paginator\driver\Bootstrap;
 use think\Session;
 use think\Request;
 use app\admin\model\Goods;  
+use app\admin\model\Accompany as Accompanyes;
 
 
 class  Accompany extends  Controller{
@@ -30,6 +31,7 @@ class  Accompany extends  Controller{
         $store_id =  Session :: get('store_id');
         if($request -> isPost()){
             $data =  Request::instance()->param();
+            $rest = Accompanyes::accompany_add($data);
             halt($data);
         }
         //送存仓储

@@ -202,7 +202,7 @@ class Goods extends Model
         if(!isset($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
         $accompany_data = self::where('goods_number|goods_name', 'like', '%' . trim($goods_number) . '%')->find();
         if(!empty($accompany_data)){
-            if($accompany_data['goods_standard'] == 0)  return jsonSuccess('搜索成功');
+            if($accompany_data['goods_standard'] == 0)  return jsonSuccess('搜索成功',$accompany_data);
             return jsonError('该商品为多规格商品，请输入单规格商品编码');
         } 
         return jsonError('没有该商品编码，请仔细核对再搜索');

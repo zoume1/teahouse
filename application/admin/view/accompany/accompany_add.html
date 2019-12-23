@@ -99,14 +99,14 @@
             <label class="form-label">送存仓库</label>
             <div class="form-input">
                 {if !empty($store_name)}
-                <select name="store_house_id" id="admin_role" class="role_list">
+                <select name="store_house_name" id="admin_role" class="role_list">
                     <option value="">请选择</option>
                     {volist name="store_name" id="value"}
-                    <option value="{$value.id}">{$value.name}</option>
+                    <option value="{$value.name}">{$value.name}</option>
                     {/volist}
                 </select>
                 {else}
-                <select name="store_house_id" class="role_list">
+                <select name="store_house_name" class="role_list">
                 </select>
                 {/if}
             </div>

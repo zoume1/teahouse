@@ -1,11 +1,13 @@
 <?php
 
-namespace app\admin\model\model;
+namespace app\admin\model;
 use think\Session;
 use think\Model;
 use think\Db;
 use think\Validate;
 use app\city\controller;
+use app\admin\model\Goods;  
+
 use app\common\exception\BaseException;
 
 
@@ -30,7 +32,14 @@ class Accompany extends Model
     public static function accompany_add($data)
     {
         $model = new static;
-        $rest = $model->save($data);
+        $goods_data = Goods::accompany_goods($data['goods_number']);
+        halt($goods_data);
+        $rest_data = [
+            'choose_status' => $data['choose_status'],
+            'goods_number' => $data['goods_number'],
+            'goods_id' => $goods_data['id'],
+        ];
+        $rest = $model->save($rest_data);
         return $rest ? $rest : false;
         
     }
