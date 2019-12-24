@@ -101,8 +101,10 @@ class Accompany extends Model
                     $res = (new Goods())->unique_qrcode($code_id,$this->id);
                     break;
                 case 2:
+                    $method = ROOT_PATH . 'public' . DS . 'directional'. DS . $this->id;
+                    $mkdir = mkdir($method, 0777, true);
                     for($i = 0 ; $i < $data['accompany_number'] ; $i++){
-                        $code_id = AccompanyCode::code_add($restul);
+                        $code_id = (new AccompanyCode())->code_add($restul);
                         $res = (new Goods())->directional_qrcode($code_id);
                     }
                     break;
@@ -114,6 +116,7 @@ class Accompany extends Model
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
+            halt($this->error);
             $this->rollback();
             return false;
         }
