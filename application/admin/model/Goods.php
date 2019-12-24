@@ -211,4 +211,34 @@ class Goods extends Model
         } 
         return jsonError('没有该商品编码，请仔细核对再搜索');
     }
+
+
+        //生成送存商品全向码
+        public  function unique_qrcode($id,$accompany_id)
+        {
+            $ACCESS_TOKEN = $this->gettoken();
+            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
+            $param = json_encode(array("path"=>$puthc,"width"=> 150));
+            $result = $this->httpRequest($qcode,$param,"POST");
+            $puth = ROOT_PATH . 'public' . DS . 'uniquecode'.DS.'D'.time().rand(100000,999999).'.png';
+            file_put_contents($puth,$result);
+            $file_name = basename($puth,'.png');
+            $image_url = '/uniquecode/'.$file_name.'.png';
+            $bool  = Db::name('accompany')->where('id','=',$accompany_id)->update(['image_url'=> $image_url]);
+            return $bool ? $bool : false; 
+        }
+
+        //生成送存商品定向码
+        public  function directional_qrcode($id)
+        {
+            $ACCESS_TOKEN = $this->gettoken();
+            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
+            $param = json_encode(array("path"=>$puthc,"width"=> 150));
+            $result = $this->httpRequest($qcode,$param,"POST");
+            $puth = ROOT_PATH . 'public' . DS . 'directional'. DS . $id .DS.'D'.time().rand(100000,999999).'.png';
+            $bool = file_put_contents($puth,$result);
+            return $bool ? $bool : false; 
+        }
 }
