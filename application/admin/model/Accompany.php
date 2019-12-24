@@ -86,17 +86,17 @@ class Accompany extends Model
                 $data['accompany_id'] = $this->id;
                 $setting = AccompanySetting::setting_add($data);
             }
+            $restul = [
+                'accompany_id' => $this->id,
+                'code_status' => $data['choose_status'],
+                'start_time' => strtotime($data['start_time']),
+                'end_time' =>  strtotime($data['end_time']),
+                'accompany_number' => $data['accompany_number'],
+                'single_number' => $data['single_number'],
+            ];
             switch($data['choose_status'])
             {
                 case 1 :
-                    $restul = [
-                        'accompany_id' => $this->id,
-                        'code_status' => $data['choose_status'],
-                        'start_time' => strtotime($data['start_time']),
-                        'end_time' =>  strtotime($data['end_time']),
-                        'accompany_number' => $data['accompany_number'],
-                        'single_number' => $data['single_number'],
-                    ];
                     $code_id = (new AccompanyCode())->code_add($restul);
                     $res = (new Goods())->unique_qrcode($code_id,$this->id);
                     break;
