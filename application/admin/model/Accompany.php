@@ -97,7 +97,7 @@ class Accompany extends Model
                         'accompany_number' => $data['accompany_number'],
                         'single_number' => $data['single_number'],
                     ];
-                    $code_id = AccompanyCode::code_add($restul);
+                    $code_id = (new AccompanyCode())->code_add($restul);
                     $res = (new Goods())->unique_qrcode($code_id,$this->id);
                     break;
                 case 2:

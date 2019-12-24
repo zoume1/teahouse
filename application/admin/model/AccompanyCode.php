@@ -32,11 +32,11 @@ class AccompanyCode extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function code_add($data)
+    public  function code_add($data)
     {
-        $model = new static;
-        $rest = $model->save($data);
-        return $rest ? $rest->id : false;
+        
+        $rest = $this->save($data);
+        return $rest ? $this->id : false;
     
     }
 
