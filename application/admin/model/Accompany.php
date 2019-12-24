@@ -8,6 +8,7 @@ use think\Validate;
 use app\city\controller;
 use app\admin\model\Goods;
 use app\admin\model\AccompanySetting;
+use app\admin\model\AccompanyCode;
 
 use app\common\exception\BaseException;
 
@@ -53,6 +54,7 @@ class Accompany extends Model
      */
     public  function accompany_add($data)
     {
+        $store_id =  Session :: get('store_id');
         $this->startTrans();
         try {
             $goods_data = Goods::accompany_goods($data['goods_number'],1);
@@ -77,11 +79,36 @@ class Accompany extends Model
                 'label' => $data['label'],
                 'blessing' => $data['blessing'],
                 'create_time' => time(),
+                'store_id' => $store_id,
             ];
             $rest = $this->save($rest_data);
             if($rest){
                 $data['accompany_id'] = $this->id;
                 $setting = AccompanySetting::setting_add($data);
+            }
+            switch($data['choose_status'])
+            {
+                case 1 :
+                    $restul = [
+                        'accompany_id' => $this->id,
+                        'code_status' => $data['choose_status'],
+                        'start_time' => strtotime($data['start_time']),
+                        'end_time' =>  strtotime($data['end_time']),
+                        'accompany_number' => $data['accompany_number'],
+                        'single_number' => $data['single_number'],
+                    ];
+                    $code_id = (new AccompanyCode())->code_add($restul);
+                    $res = (new Goods())->unique_qrcode($code_id,$this->id);
+                    break;
+                case 2:
+                    for($i = 0 ; $i < $data['accompany_number'] ; $i++){
+                        $code_id = AccompanyCode::code_add($restul);
+                        $res = (new Goods())->directional_qrcode($code_id);
+                    }
+                    break;
+                default :
+                    break;
+
             }
             $this->commit();
             return true;
