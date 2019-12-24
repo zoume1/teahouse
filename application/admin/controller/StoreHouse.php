@@ -636,5 +636,16 @@ class StoreHouse extends Controller{
     }
 
 
+    /**
+     **************GY*******************
+     * @param Request $request
+     * Notes:赠送出仓
+     **************************************
+     * @param Request $request
+     */
+    public function store_accompany_index(){
+        return view("store_accompany_index");
+    }
+
     
  }

@@ -880,6 +880,7 @@ Route::group("admin",[
     "stores_series_index" =>"admin/StoreHouse/stores_series_index",     //仓储续费
     "stores_series_search" =>"admin/StoreHouse/stores_series_search",   //仓储续费订单搜索
     "stores_order_confirm_shipment" =>"admin/StoreHouse/stores_order_confirm_shipment",//订单出仓订单发货
+    "store_accompany_index" =>"admin/StoreHouse/store_accompany_index", //赠送入仓
 
     /*资产*/
     "property_day" =>"admin/Property/property_day",     //对账单日汇报
@@ -1055,7 +1056,7 @@ Route::group("admin",[
     "control_index"=>"admin/Control/control_index",                //总控店铺
     "control_meal_index"=>"admin/Control/control_meal_index",      //入驻套餐
     "control_store_user"=>"admin/Control/control_store_user",      //注册用户
-    "control_user_search"=>"admin/Control/control_user_search",      //注册用户搜索
+    "control_user_search"=>"admin/Control/control_user_search",    //注册用户搜索
     "control_meal_add"=>"admin/Control/control_meal_add",          //添加入驻套餐
     "control_meal_status"=>"admin/Control/control_meal_status",    //入驻套餐首页显示
     "control_meal_edit"=>"admin/Control/control_meal_edit",        //入驻套餐编辑
@@ -1202,6 +1203,14 @@ Route::group("admin",[
    
    /**phpexcel */
    "import_excel" => "admin/Phpexcel/import_excel" ,    //总控资金管理-资金奖惩确认支付
+
+   /*送存*/
+   "accompany_index" => "admin/Accompany/accompany_index" ,    //送存商品页面
+   "accompany_add" => "admin/Accompany/accompany_add" ,  //送存商品添加
+   "accompany_edit" => "admin/Accompany/accompany_edit" ,//送存商品编辑
+   "serach_accompany" => "admin/Accompany/serach_accompany" ,//送存商品搜索
+   "accompany_del" => "admin/Accompany/accompany_del" ,//送存商品删除
+
 
 
 
