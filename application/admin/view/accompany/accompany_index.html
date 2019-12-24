@@ -57,20 +57,20 @@
     {block name="content"}
     <div class="childrenBody">
         <blockquote class="layui-elem-quote news_search">
-            <form class="layui-form" action="{:url('admin/Goods/goods_search')}">
+            <form class="layui-form" action="{:url('admin/Accompany/accompany_index')}">
                 <div class="seach">
                     <div class="seach_list">
                         <div class="seach_laber">输入搜索：</div>
                         <div class="seach_input">
-                            <input type="text" name="goods_number" lay-verify="title" autocomplete="off"
-                                placeholder="订单编号/商品名称/商品名称" class="layui-input">
+                            <input type="text" name="name" lay-verify="title" autocomplete="off"
+                                placeholder="商品名称/商品编号" class="layui-input">
                         </div>
                     </div>
                     <div class="seach_list">
                         <div class="seach_laber">开始时间</div>
                         <div class="seach_input">
                             <span class="time">
-                                <input name="date_min" type="text" class="text datetimepicker layui-input"
+                                <input name="start_time" type="text" class="text datetimepicker layui-input"
                                     readonly="readonly" id="beginTime" value="">
                             </span>
                         </div>
@@ -79,7 +79,7 @@
                         <div class="seach_laber">结束时间</div>
                         <div class="seach_input">
                             <span class="time">
-                                <input name="date_max" type="text" class=" text datetimepicker layui-input"
+                                <input name="end_time" type="text" class=" text datetimepicker layui-input"
                                     readonly="readonly" id="endTime" value="">
                             </span>
                         </div>
@@ -111,44 +111,51 @@
                     </tr>
                 </thead>
                 <tbody class="news_content">
+                        {if !empty($data)}{volist name="data" id="value"}
                     <tr>
                         <td><input type="checkbox" name="" lay-skin="primary" lay-filter="choose" data-id="1">
                         </td>
-                        <td>32</td>
-                        <td><div class="tdimg"><img src="" /></div></td>
-                        <td>12</td>
-                        <td>12</td>
-                        <td>21</td>
-                        <td>21</td>
-                        <td>12</td>
+                        <td>{$value.goods_number}</td>
+                        <td><div class="tdimg"><img src="{$value.goods_show_image}" /></div></td>
+                        <td>{$value.goods_name}</td>
+                        <td>{$value.accompany_number}</td>
+                        <td>{$value.start_time |date="Y-m-d H:i",###}</td>
+                        <td>{$value.end_time |date="Y-m-d H:i",###}</td>
+                        <td>{$value.store_house_name}</td>
                         <td>
                             <div class="btns">
+                                {if $value.choose_status == 1}
                                 <a href="#">唯一码</a>
-                                <!-- <a href="#">批量码</a> -->
-                                <a href="accompany_edit">编辑</a>
-                                <a href="#">删除</a>
+                                {else}
+                                <a href="#">批量码</a>
+                                {/if}
+                                <a href="{:url('admin/Accompany/accompany_edit',['id'=>$value.id])}">编辑</a>
+                                <a href="{:url('admin/Accompany/accompany_del',['id'=>$value.id])}">删除</a>
                             </div>
                         </td>
                     </tr>
                 </tbody>
+                {/volist}
+                {/if}
             </table>
-            <div id="page">
-                <div class="opation" style="width: 200px; float: left;">
+            <!-- <div id="page"> -->
+                <!-- <div class="opation" style="width: 200px; float: left;">
                     <select name="" style="color: #C1A5A5; border-color: #E4E4E4;height: 30px;">
                         <option check="" value="0">请选择</option>
                         <option value="1">商品上架</option>
                         <option value="2">批量下架</option>
                         <option value="3">移入回收站</option>
                     </select>
-                </div>
-                <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
+                </div> -->
+                <!-- <div style="float: left; height: 52px;line-height: 52px; margin-left: 20px;">
                     <button type="button" id="opration_btu"
                         style="width: 60px; background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
                     </button>
-                </div>
-            </div>
-
+                </div> -->
+            <!-- </div> -->
+            {if !empty($data)}{$data->render()}{/if}
         </div>
+        
 
     </div>
     {/block}

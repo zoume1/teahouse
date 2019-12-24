@@ -23,6 +23,27 @@ class Accompany extends Model
 
 
     /**gy
+     *  城市入驻费用显示
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function accompany_index($search)
+    {
+        $model = new static;
+        !empty($search) && $model->setWhere($search);
+        $rest = $model->order(['create_time' => 'desc'])
+        ->where('is_del','=',0)
+        ->paginate(20, false, [
+            'query' => \request()->request()
+        ]);
+        return $rest;
+        
+    }
+
+    /**gy
      *  赠茶商品添加
      * @param $data
      * @return bool
@@ -30,58 +51,85 @@ class Accompany extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function accompany_add($data)
+    public  function accompany_add($data)
     {
-        $model = new static;
-        
-        $goods_data = Goods::accompany_goods($data['goods_number']);
-        
-        if(isset($data['scope']) && !empty($data['scope'])) 
-        {
-            $scope = json_encode($data['scope'],true);
-        } else {
-            $scope = null;
+        $this->startTrans();
+        try {
+            $goods_data = Goods::accompany_goods($data['goods_number'],1);
+            if(isset($data['scope']) && !empty($data['scope'])) 
+            {
+                $scope = json_encode($data['scope'],true);
+            } else {
+                $scope = null;
+            }
+            $rest_data = [
+                'choose_status' => $data['choose_status'],
+                'goods_number' => $data['goods_number'],
+                'goods_id' => $goods_data['id'],
+                'goods_show_image' => $goods_data['goods_show_image'],
+                'goods_name' => $goods_data['goods_name'],
+                'scope' => $scope,
+                'accompany_number' => $data['accompany_number'],
+                'single_number' => $data['single_number'],
+                'start_time' => strtotime($data['start_time']),
+                'end_time' =>  strtotime($data['end_time']),
+                'store_house_name' => $data['store_house_name'],
+                'label' => $data['label'],
+                'blessing' => $data['blessing'],
+                'create_time' => time(),
+            ];
+            $rest = $this->save($rest_data);
+            if($rest){
+                $data['accompany_id'] = $this->id;
+                $setting = AccompanySetting::setting_add($data);
+            }
+            $this->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->error = $e->getMessage();
+            $this->rollback();
+            return false;
         }
-        $rest_data = [
-            'choose_status' => $data['choose_status'],
-            'goods_number' => $data['goods_number'],
-            'goods_id' => $goods_data['id'],
-            'goods_show_image' => $goods_data['goods_show_image'],
-            'goods_name' => $goods_data['goods_name'],
-            'scope' => $scope,
-            'accompany_number' => $data['accompany_number'],
-            'single_number' => $data['single_number'],
-            'start_time' => strtotime($data['start_time']),
-            'end_time' =>  strtotime($data['end_time']),
-            'store_house_name' => $data['store_house_name'],
-            'label' => $data['label'],
-            'blessing' => $data['blessing'],
-        ];
-        
-        $rest = $model->save($rest_data);
-        if($rest){
-            $data['accompany_id'] = $rest->id;
-            $setting = AccompanySetting::setting_add($data);
-            return $setting;
+    
+    }
+
+        /**
+     * 设置检索查询条件
+     * @param $query
+     */
+    private function setWhere($query)
+    {
+
+        if (isset($query['name']) && !empty($query['name'])) {
+            $this->where('goods_number|goods_name', 'like', '%' . trim($query['name']) . '%');
         }
-        return $rest ? $rest : false;
-        
+        if (isset($query['start_time']) && !empty($query['start_time'])) {
+            $start_time = strtotime($query['start_time']);
+            $time_condition  = "create_time > {$start_time} ";
+            $this->where($time_condition);
+        }
+        if (isset($query['end_time']) && !empty($query['end_time'])) {
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time < {$end_time} ";
+            $this->where($time_condition);
+        }
+        if(isset($query['end_time']) && !empty($query['end_time']) && isset($query['start_time']) && !empty($query['start_time'])){
+            $start_time = strtotime($query['start_time']);
+            $end_time = strtotime($query['end_time']);
+            $time_condition  = "create_time > {$start_time} and create_time< {$end_time} ";
+            $this->where($time_condition);
+        }
     }
 
     /**gy
-     * 获取市场反馈信息
+     *获取赠茶商品
      * @param $meal_id
      * @return null|static
      * @throws \think\exception\DbException
      */
-    public static function detail($user_id)
+    public static function detail($id)
     {
-        $data = Db::name('city_back')
-        ->where('user_id','=',$user_id['user_id'])
-        ->where('return_time','>',0)
-        ->order("create_time desc")
-        ->select();
-        return $data;
+        return self::get($id)->toArray();
     }
 
 

@@ -39,9 +39,11 @@ class AccompanySetting extends Model
         } else {
             $rest = 0;
         }
+        $min_price = isset($data['min_price']) ? $data['min_price'] : null;
+        $min_number = isset($data['min_number']) ? $data['min_number'] : null;
         $rest_data = [
-            'min_price' => $data['min_price'],
-            'min_number' => $data['min_number'],
+            'min_price' => $min_price,
+            'min_number' => $min_number,
             'status' => $rest,
             'accompany_id' => $data['accompany_id'],
         ];
@@ -58,7 +60,8 @@ class AccompanySetting extends Model
      */
     public static function detail($id)
     {
-        return self::get($id)->toArray();
+        $data =  self::get($id);
+        return $data ? $data->toArray() : null;
    
     }
 

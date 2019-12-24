@@ -197,11 +197,15 @@ class Goods extends Model
      * @return Apply|static
      * @throws \think\exception\DbException
      */
-    public static function accompany_goods($goods_number)
+    public static function accompany_goods($goods_number,$status=0)
     {
         if(!isset($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
         $accompany_data = Db::name('goods')->where('goods_number|goods_name', 'like', '%' . trim($goods_number) . '%')->find();
+
         if(!empty($accompany_data)){
+            if($status == 1){
+                return $accompany_data;
+            }
             if($accompany_data['goods_standard'] == 0)  return jsonSuccess('搜索成功',$accompany_data);
             return jsonError('该商品为多规格商品，请输入单规格商品编码');
         } 
