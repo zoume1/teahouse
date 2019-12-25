@@ -1,7 +1,10 @@
 <?php
+
 namespace app\admin\model;
 use think\Controller;
-class MakeZip  extends Model
+use think\Model;
+
+class MakeZip extends Model
 {
 
     /**
@@ -96,4 +99,5 @@ class MakeZip  extends Model
             }
         }
     }
+
 }
