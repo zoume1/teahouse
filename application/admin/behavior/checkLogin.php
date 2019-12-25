@@ -19,14 +19,20 @@ class checkLogin extends Controller {
             $user_info = Session::get("user_info");
             $store_id = Session::get('store_id');
             $store = [77,296];
-            if(in_array($store_id,$store)){
-                $menu_list = db("menu")->where('status','<>',0)->select();
-            } else {
-                $menu_list = db("menu")->where('status','=',1)->select();
-            }
+            $menu_id = [256,257];
+            $menu_list = db("menu")->where('status','<>',0)->select();
             $role = db("role")->where("id",$user_info[0]['role_id'])->field("menu_role_id")->select();
             $role = explode(",",$role[0]["menu_role_id"]);
             //在控制台获取当前的url地址
+ 
+
+            if(!in_array($store_id,$store)){
+                foreach($role as $k => $v){
+                    if (in_array($v['id'], $menu_id)){
+                        unset($role[$k]);
+                    }
+                }
+            }
             $url = isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : $_SERVER['REQUEST_URI'];
             //var_dump($url);
 
