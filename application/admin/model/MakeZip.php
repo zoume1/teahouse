@@ -14,7 +14,7 @@ class MakeZip extends Model
      * @param $zipName   压缩后的文件名：如 './folder/demo.zip'
      * @return string
      */
-    public function zip($dir_path, $zipName)
+    public function zip($dir_path, $zipName,$id)
     { 
         $relationArr = array(
             $dir_path => array(
@@ -31,13 +31,13 @@ class MakeZip extends Model
         $zip = new \ZipArchive();
         //ZIPARCHIVE::CREATE没有即是创建
         $zip->open($zipName, \ZipArchive::CREATE);
-        $this->zipDir($key[0], $zipName, $zip, $val[0]['children']);
+        $this->zipDir($key[0], $zipName, $zip, $val[0]['children'],$id);
         $zip->close();
         // $this->restoreFileName($key[0], $val[0]['children']);
         return true;
     }
 
-    public function zipDir($real_path, $zip_path, &$zip, $relationArr)
+    public function zipDir($real_path, $zip_path, &$zip, $relationArr,$id)
     {
         $sub_zip_path = empty($zip_path) ? '' : $zip_path . '\\';
         if (is_dir($real_path)) {
@@ -46,8 +46,7 @@ class MakeZip extends Model
                  if ($filename != "." && $filename != "..") {  
                     $pathFilename = $real_path.$filename; 
                     $rest = str_replace($real_path,'',$pathFilename);
-                    $w = 20;
-                    $restuler = $w.'/'.$rest;
+                    $restuler = $id.'/'.$rest;
                     $zip->addFile($pathFilename,$restuler);
                     }
                 }

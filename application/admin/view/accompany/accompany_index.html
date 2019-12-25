@@ -127,7 +127,7 @@
                                 {if $value.choose_status == 1}
                                 <a href="{$value.image_url}" download='{$value.image_url}'>唯一码</a>
                                 {else}
-                                <a href="#" class="batch" data-id="{$value.id}">批量码</a>
+                                <a href="/directional/{$value.id}/test.zip" download='/directional/{$value.id}/test.zip'>唯一码</a>
                                 {/if}
                                 <a href="{:url('admin/Accompany/accompany_edit',['id'=>$value.id])}">编辑</a>
                                 <a href="{:url('admin/Accompany/accompany_del',['id'=>$value.id])}">删除</a>

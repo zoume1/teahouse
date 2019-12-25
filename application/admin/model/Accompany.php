@@ -116,12 +116,12 @@ class Accompany extends Model
             }
             $this->commit();
             //压缩文件
-            $dir_path = ROOT_PATH . 'public' . DS . 'directional'. DS . 20 . DS ; //想要压缩的目录
-            $zipName = ROOT_PATH . 'public' . DS . 'directional'. DS . 20 . DS.'test.zip';
+            $dir_path = ROOT_PATH . 'public' . DS . 'directional'. DS . $this->id . DS ; //想要压缩的目录
+            $zipName = ROOT_PATH . 'public' . DS . 'directional'. DS . $this->id . DS.'test.zip';
 
             $makeZip = new MakeZip();
             //重复压缩，则会自动覆盖
-            $res = $makeZip->zip($dir_path,$zipName);
+            $res = $makeZip->zip($dir_path,$zipName,$this->id);
             if(!$res){
                 throw new Exception('压缩失败');
             } 
