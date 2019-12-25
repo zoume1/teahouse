@@ -199,8 +199,9 @@ class Goods extends Model
      */
     public static function accompany_goods($goods_number,$status=0)
     {
+        $store_id = Session :: get('store_id');
         if(!isset($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
-        $accompany_data = Db::name('goods')->where('goods_number|goods_name', 'like', '%' . trim($goods_number) . '%')->find();
+        $accompany_data = Db::name('goods')->where('goods_number|goods_name', 'like', '%' . trim($goods_number) . '%')->where('store_id',$store_id)->find();
 
         if(!empty($accompany_data)){
             if($status == 1){
