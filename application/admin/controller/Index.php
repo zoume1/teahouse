@@ -101,6 +101,7 @@ class Index extends Controller
                             $menu_lists[] =$val_data;
                         }
                     }
+                    
                     return ajax_success("成功获取", $menu_lists);
                 } else {
                     return ajax_error("没有获取到id");
