@@ -127,7 +127,7 @@
                                 {if $value.choose_status == 1}
                                 <a href="{$value.image_url}" download='{$value.image_url}'>唯一码</a>
                                 {else}
-                                <a href="#">批量码</a>
+                                <a href="#" class="batch" data-id="{$value.id}">批量码</a>
                                 {/if}
                                 <a href="{:url('admin/Accompany/accompany_edit',['id'=>$value.id])}">编辑</a>
                                 <a href="{:url('admin/Accompany/accompany_del',['id'=>$value.id])}">删除</a>
@@ -230,7 +230,20 @@
                 }
 
             });
+            $('.batch').click(function () {
+                let id = $(this).data('id');
+                $.ajax({
+                    url:'accompany_download',
+                    type:'POST',
+                    data:{
+                        id: id
+                    },
+                    success:function(data){
+                        console.log(data)
+                    }
 
+                })
+            })
             //全选
             form.on('checkbox(allChoose)', function (data) {
                 var child = $(data.elem).parents('table').find('tbody input[lay-skin="primary"]:not([name="show"])');
@@ -256,7 +269,7 @@
             
         })
         //测试
-
+        
     </script>
 
     {/block}
