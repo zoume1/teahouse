@@ -12,6 +12,7 @@ use think\Request;
 use app\admin\model\Goods;  
 use app\admin\model\Accompany as Accompanyes;
 use app\admin\model\AccompanySetting ;
+use app\admin\model\MakeZip;
 
 
 class  Accompany extends  Controller{
@@ -102,8 +103,19 @@ class  Accompany extends  Controller{
     public function accompany_download(Request $request){
         if($request -> isPost()) {
             $id = $request->only(['id'])['id'];
-            $zip = (new Goods())->addFileToZip($id);
-            return jsonSuccess('发送成功',$zip);
+            $dir_path = './directional/19/'; //想要压缩的目录
+            $zipName = './directional/19/test.zip';
+            $makeZip = new MakeZip();
+            try{
+                //重复压缩，则会自动覆盖
+                $res = $makeZip->zip( $dir_path,$zipName);
+                if(!$res){
+                    throw new Exception('压缩失败');
+                }
+                return jsonSuccess('ok',$zipName);
+            }catch (Exception $e){
+                echo $e->getMessage();
+            }
         }
 
     }
