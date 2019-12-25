@@ -43,7 +43,7 @@ class Bill extends Controller{
     public function ceshi12(Request $request){
         if($request->isPost()){
         $id = 19;
-        $zip = Goods::addFileToZip($id);
+        $zip = (new Goods())->addFileToZip($id);
         halt($zip);
         //     $order_info = Db::name("order")
         //     ->where("parts_order_number", $order_num)
