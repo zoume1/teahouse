@@ -242,7 +242,7 @@ class Goods extends Model
             return $bool ? $bool : false; 
         }
 
-        public static function addFileToZip($id) {
+        public  function addFileToZip($id) {
             $zip_name = $id.'.zip';
             $path = ROOT_PATH . 'public' . DS . 'directional'. DS . $id; //打开文件夹路径
             try {
