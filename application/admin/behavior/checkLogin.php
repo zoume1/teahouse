@@ -28,7 +28,7 @@ class checkLogin extends Controller {
 
             if(!in_array($store_id,$store)){
                 foreach($role as $k => $v){
-                    if (in_array($v['menu_role_id'], $menu_id)){
+                    if (in_array($v, $menu_id)){
                         unset($role[$k]);
                     }
                 }
