@@ -94,5 +94,19 @@ class  Accompany extends  Controller{
         $this->success("删除失败", url('admin/Accompany/accompany_index'));
     }
 
+
+    /**
+     * [送存商品批量码下载]
+     * 郭杨
+     */    
+    public function accompany_download(Request $request){
+        if($request -> isPost()) {
+            $id = $request->only(['id'])['id'];
+            $zip = Goods::addFileToZip($id);
+            return jsonSuccess('发送成功',$zip);
+        }
+
+    }
+
     
 }

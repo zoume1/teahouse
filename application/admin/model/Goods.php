@@ -241,4 +241,31 @@ class Goods extends Model
             $bool = file_put_contents($puth,$result);
             return $bool ? $bool : false; 
         }
+
+        public static function addFileToZip($id) {
+            $zip_name = $id.'.zip';
+            $path = ROOT_PATH . 'public' . DS . 'directional'. DS . $id; //打开文件夹路径
+            try {
+                $zip = new \ZipArchive();
+                if ($zip->open($zip_name, ZipArchive::OVERWRITE) === TRUE) {
+                    $handler = opendir($path); 
+                    while (($filename = readdir($handler)) !== false){
+                        if ($filename != "." && $filename != "..") {   
+                                $zip->addFile($path . "/" . $filename);
+                            }
+                        }
+                    }
+                    closedir($path);
+                $zip->close(); //关闭处理的zip文件
+                return $zip;
+            } catch (\Exception $e) {
+                $this->error = $e->getMessage();
+                halt($this->error);
+                return false;
+            }
+        }
+
+        
+
+
 }

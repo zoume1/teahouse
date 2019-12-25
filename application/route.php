@@ -1210,6 +1210,7 @@ Route::group("admin",[
    "accompany_edit" => "admin/Accompany/accompany_edit" ,//送存商品编辑
    "serach_accompany" => "admin/Accompany/serach_accompany" ,//送存商品搜索
    "accompany_del" => "admin/Accompany/accompany_del" ,//送存商品删除
+   "accompany_download" => "admin/Accompany/accompany_download" ,//送存商品批量码下载
 
 
 
