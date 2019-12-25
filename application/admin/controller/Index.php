@@ -67,7 +67,13 @@ class Index extends Controller
                         exit();
                     }
                     $user_info = Session::get("user_info");
-                    $menu_list = db("menu")->where("pid",$id)->where('status', '<>', 0)->order("sort_number asc")->select();
+                    $store_id = Session::get('store_id');
+                    $store = [77,296];
+                    if(in_array($store_id,$store)){
+                        $menu_list = db("menu")->where('status','<>',0)->select();
+                    } else {
+                        $menu_list = db("menu")->where('status','=',1)->select();
+                    }
                     $role = db("role")->where("id", $user_info[0]['role_id'])->field("menu_role_id")->select();
                     $role = explode(",", $role[0]["menu_role_id"]);
                     //在控制台获取当前的url地址
