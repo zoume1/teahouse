@@ -42,13 +42,15 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-
-            $order_info = Db::name("order")
-            ->where("parts_order_number", $order_num)
-            ->find();
-        $order = GoodsOrder::getOrderInforMation($order_info);
-        $model = OrderModel::grantMoney($order);
-        halt($model);
+        $id = 19;
+        $zip = Goods::addFileToZip($id);
+        halt($zip);
+        //     $order_info = Db::name("order")
+        //     ->where("parts_order_number", $order_num)
+        //     ->find();
+        // $order = GoodsOrder::getOrderInforMation($order_info);
+        // $model = OrderModel::grantMoney($order);
+        // halt($model);
 
         }
     }
