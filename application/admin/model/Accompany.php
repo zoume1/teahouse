@@ -9,6 +9,8 @@ use app\city\controller;
 use app\admin\model\Goods;
 use app\admin\model\AccompanySetting;
 use app\admin\model\AccompanyCode;
+use app\admin\model\MakeZip;
+
 
 use app\common\exception\BaseException;
 
@@ -113,10 +115,19 @@ class Accompany extends Model
 
             }
             $this->commit();
+            //压缩文件
+            $dir_path = ROOT_PATH . 'public' . DS . 'directional'. DS . 20 . DS ; //想要压缩的目录
+            $zipName = ROOT_PATH . 'public' . DS . 'directional'. DS . 20 . DS.'test.zip';
+
+            $makeZip = new MakeZip();
+            //重复压缩，则会自动覆盖
+            $res = $makeZip->zip($dir_path,$zipName);
+            if(!$res){
+                throw new Exception('压缩失败');
+            } 
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
-            halt($this->error);
             $this->rollback();
             return false;
         }
