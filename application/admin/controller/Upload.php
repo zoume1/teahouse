@@ -649,14 +649,19 @@ class Upload extends Controller
             }';
             $pp=$this->https_post($url,$data);
             $ret = json_decode($pp,true);
-            $pp2['msg']=$pp;
+            $pp2['msg']=$pp.'11';
             db('test')->insert($pp2);
             $this->thirdAccessToken=$ret['component_access_token'];
             if($ret['component_access_token']) {
             $miniprogram = Db::name('miniprogram')->where('appid',$appid)
-                ->field('access_token,authorizer_refresh_token')->find();
+                ->field('access_token,authorizer_refresh_token,out_time')->find();
             //重新获取小程序的authorizer_access_token
-            $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
+            if($miniprogram['out_time']<time()){
+                $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
+            }else{
+                $access['access_token']=$miniprogram['access_token'];
+                $access['authorizer_refresh_token']=$miniprogram['authorizer_refresh_token'];
+            }
             $access['thirdAccessToken']=$ret['component_access_token'];
             return $access;
         } else {
@@ -675,8 +680,9 @@ class Upload extends Controller
         $url = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token?component_access_token='.$thirdAccessToken;
         $data = '{"component_appid":"' . $this->appid . '","authorizer_appid":"' . $appid . '","authorizer_refresh_token":"' . $refresh_token . '"}';
         $ret = json_decode($this->https_post($url, $data),true);
+        halt($ret);
         if (isset($ret['authorizer_access_token'])) {
-            Db::name('miniprogram')->where(['appid' => $appid])->update(['access_token' => $ret['authorizer_access_token'], 'authorizer_refresh_token' => $ret['authorizer_refresh_token']]);
+            Db::name('miniprogram')->where(['appid' => $appid])->update(['access_token' => $ret['authorizer_access_token'], 'authorizer_refresh_token' => $ret['authorizer_refresh_token'],'out_time'=>$ret['expires_in']+time()]);
             return $ret;
         } else {
             $this->errorLog("更新授权小程序的authorizer_access_token操作失败,appid:".$appid,$ret);
