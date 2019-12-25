@@ -247,7 +247,7 @@ class Goods extends Model
             $path = ROOT_PATH . 'public' . DS . 'directional'. DS . $id; //打开文件夹路径
             try {
                 $zip = new \ZipArchive();
-                if ($zip->open($zip_name, ZipArchive::OVERWRITE) === TRUE) {
+                if ($zip->open($zip_name, $zip::OVERWRITE) === TRUE) {
                     $handler = opendir($path); 
                     while (($filename = readdir($handler)) !== false){
                         if ($filename != "." && $filename != "..") {   
