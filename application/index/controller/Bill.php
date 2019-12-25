@@ -13,7 +13,7 @@ namespace  app\index\controller;
 use think\Controller;
 use think\Request;
 use think\Db;
-use app\admin\model\Goods;
+use app\admin\model\MakeZip;
 use app\admin\model\MemberGrade;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
@@ -27,6 +27,8 @@ use app\index\model\Serial as Serials;
 use app\api\controller\Message as MessageService;
 use app\admin\model\TempletMessage;
 use think\Validate;
+use app\common\exception\BaseException;
+
 
 
 
@@ -42,13 +44,20 @@ class Bill extends Controller{
      */
     public function ceshi12(Request $request){
         if($request->isPost()){
-
-            $order_info = Db::name("order")
-            ->where("parts_order_number", $order_num)
-            ->find();
-        $order = GoodsOrder::getOrderInforMation($order_info);
-        $model = OrderModel::grantMoney($order);
-        halt($model);
+            $id = $request->only(['id'])['id'];
+            $dir_path = ROOT_PATH . 'public' . DS . 'directional'. DS . 19 . DS ; //想要压缩的目录
+            $zipName = ROOT_PATH . 'public' . DS . 'directional'. DS . 19 . DS .'test.zip';
+            $makeZip = new MakeZip();
+            try{
+                //重复压缩，则会自动覆盖
+                $res = $makeZip->zip( $dir_path,$zipName);
+                if(!$res){
+                    throw new Exception('压缩失败');
+                }
+                return jsonSuccess('ok',$zipName);
+            }catch (Exception $e){
+                echo $e->getMessage();
+            }
 
         }
     }

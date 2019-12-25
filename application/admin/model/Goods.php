@@ -191,4 +191,81 @@ class Goods extends Model
         }
     }
  
+    /**
+     * 送存商品编码搜索
+     * @param $goods_number
+     * @return Apply|static
+     * @throws \think\exception\DbException
+     */
+    public static function accompany_goods($goods_number,$status=0)
+    {
+        if(!isset($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
+        $accompany_data = Db::name('goods')->where('goods_number|goods_name', 'like', '%' . trim($goods_number) . '%')->find();
+
+        if(!empty($accompany_data)){
+            if($status == 1){
+                return $accompany_data;
+            }
+            if($accompany_data['goods_standard'] == 0)  return jsonSuccess('搜索成功',$accompany_data);
+            return jsonError('该商品为多规格商品，请输入单规格商品编码');
+        } 
+        return jsonError('没有该商品编码，请仔细核对再搜索');
+    }
+
+
+        //生成送存商品全向码
+        public  function unique_qrcode($id,$accompany_id)
+        {
+            $ACCESS_TOKEN = $this->gettoken();
+            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
+            $param = json_encode(array("path"=>$puthc,"width"=> 150));
+            $result = $this->httpRequest($qcode,$param,"POST");
+            $puth = ROOT_PATH . 'public' . DS . 'uniquecode'.DS.'D'.time().rand(100000,999999).'.png';
+            file_put_contents($puth,$result);
+            $file_name = basename($puth,'.png');
+            $image_url = '/uniquecode/'.$file_name.'.png';
+            $bool  = Db::name('accompany')->where('id','=',$accompany_id)->update(['image_url'=> $image_url]);
+            return $bool ? $bool : false; 
+        }
+
+        //生成送存商品定向码
+        public  function directional_qrcode($id)
+        {
+            $ACCESS_TOKEN = $this->gettoken();
+            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
+            $param = json_encode(array("path"=>$puthc,"width"=> 150));
+            $result = $this->httpRequest($qcode,$param,"POST");
+            $puth = ROOT_PATH . 'public' . DS . 'directional'. DS . $id .DS.'D'.time().rand(100000,999999).'.png';
+            $bool = file_put_contents($puth,$result);
+            return $bool ? $bool : false; 
+        }
+
+        public  function addFileToZip($id) {
+            $zip_name = $id.'.zip';
+            $path = ROOT_PATH . 'public' . DS . 'directional'. DS . $id; //打开文件夹路径
+            try {
+                $zip = new \ZipArchive();
+                if ($zip->open($zip_name, $zip::OVERWRITE) === TRUE) {
+                    $handler = opendir($path); 
+                    while (($filename = readdir($handler)) !== false){
+                        if ($filename != "." && $filename != "..") {   
+                                $zip->addFile($path . "/" . $filename);
+                            }
+                        }
+                    }
+                    @closedir($path);
+                $zip->close(); //关闭处理的zip文件
+                return $zip;
+            } catch (\Exception $e) {
+                $this->error = $e->getMessage();
+                halt($this->error);
+                return false;
+            }
+        }
+
+        
+
+
 }
