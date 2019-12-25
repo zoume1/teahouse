@@ -53,13 +53,11 @@ class MakeZip extends Model
             $handler = opendir($real_path); 
             while (($filename = readdir($handler)) !== false){
                 if ($filename != "." && $filename != "..") {   
-                        // $zip->addFile($real_path . $filename);
-                        $rest[] = $filename;
+                    $zip->addFile($real_path.$filename);
                     }
                 }
             }
 
-        halt($rest);
     }
 
     public function modifiyFileName($path, &$relationArr)
