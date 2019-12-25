@@ -45,8 +45,8 @@ class Bill extends Controller{
     public function ceshi12(Request $request){
         if($request->isPost()){
             $id = $request->only(['id'])['id'];
-            $dir_path = './directional/19/'; //想要压缩的目录
-            $zipName = './directional/19/test.zip';
+            $dir_path = '/www/wwwroot/teahouse/public/directional/19/'; //想要压缩的目录
+            $zipName = '/www/wwwroot/teahouse/public/directional/19/test.zip';
             $makeZip = new MakeZip();
             try{
                 //重复压缩，则会自动覆盖
