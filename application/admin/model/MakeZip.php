@@ -27,18 +27,19 @@ class MakeZip extends Model
         $key = array_keys($relationArr);
         $val = array_values($relationArr);
 
-        $this->modifiyFileName($dir_path, $relationArr[$dir_path]['children']);
+        // $this->modifiyFileName($dir_path, $relationArr[$dir_path]['children']);
         $zip = new \ZipArchive();
         //ZIPARCHIVE::CREATE没有即是创建
         $zip->open($zipName, \ZipArchive::CREATE);
-        $this->zipDir($key[0], '', $zip, $val[0]['children']);
+        $this->zipDir($key[0], $zipName, $zip, $val[0]['children']);
         $zip->close();
-        $this->restoreFileName($key[0], $val[0]['children']);
+        // $this->restoreFileName($key[0], $val[0]['children']);
         return true;
     }
 
     public function zipDir($real_path, $zip_path, &$zip, $relationArr)
     {
+        $sub_zip_path = empty($zip_path) ? '' : $zip_path . '\\';
         if (is_dir($real_path)) {
             // foreach ($relationArr as $k => $v) {
             //     if ($v['is_dir']) {  //是文件夹
@@ -51,10 +52,10 @@ class MakeZip extends Model
             //     }
             // }
             $handler = opendir($real_path); 
-            while (($filename = readdir($handler)) !== false){
-                if ($filename != "." && $filename != "..") {   
-                    $zip->addFile($real_path.$filename);
-                    }
+             while (($filename = readdir($handler)) !== false){
+                 if ($filename != "." && $filename != "..") {   
+                     $zip->addFile($real_path.$filename);
+                     }
                 }
             }
 

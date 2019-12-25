@@ -50,7 +50,7 @@ class Bill extends Controller{
             $makeZip = new MakeZip();
             try{
                 //重复压缩，则会自动覆盖
-                $res = $makeZip->zip( $dir_path,$zipName);
+                $res = $makeZip->zip($dir_path,$zipName);
                 if(!$res){
                     throw new Exception('压缩失败');
                 }
