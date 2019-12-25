@@ -41,21 +41,15 @@ class MakeZip extends Model
     {
         $sub_zip_path = empty($zip_path) ? '' : $zip_path . '\\';
         if (is_dir($real_path)) {
-            // foreach ($relationArr as $k => $v) {
-            //     if ($v['is_dir']) {  //是文件夹
-            //         $zip->addEmptyDir($sub_zip_path . $v['originName']);
-            //         $this->zipDir($real_path . '\\' . $k, $sub_zip_path . $v['originName'], $zip, $v['children']);
-            //     } else { //不是文件夹
-            //         $zip->addFile($real_path . '\\' . $k, $sub_zip_path . $k);
-            //         $zip->deleteName($sub_zip_path . $v['originName']);
-            //         $zip->renameName($sub_zip_path . $k, $sub_zip_path . $v['originName']);
-            //     }
-            // }
             $handler = opendir($real_path); 
              while (($filename = readdir($handler)) !== false){
-                 if ($filename != "." && $filename != "..") {   
-                     $zip->addFile($real_path.$filename);
-                     }
+                 if ($filename != "." && $filename != "..") {  
+                    $pathFilename = $real_path.$filename; 
+                    $rest = str_replace($real_path,'',$pathFilename);
+                    $w = 20;
+                    $restuler = $w.'/'.$rest;
+                    $zip->addFile($pathFilename,$restuler);
+                    }
                 }
             }
 
