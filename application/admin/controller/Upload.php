@@ -387,7 +387,7 @@ class Upload extends Controller
             // // //获取体验码的url
             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
             $timeout=$this->is_timeout($appid);
-            $pp = $timeout['authorizer_access_token'];
+            $pp = $timeout['access_token'];
             //判断是否已上传店铺代码
             $is_chuan=Db::table('applet')->where('id',$store_id)->value('is_chuan');
             if($is_chuan=='0'){   //没有上传
@@ -658,13 +658,11 @@ class Upload extends Controller
             //重新获取小程序的authorizer_access_token
             if($miniprogram['out_time']<time()){
                 $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
-                dump($access);
             }else{
                 $access['access_token']=$miniprogram['access_token'];
                 $access['authorizer_refresh_token']=$miniprogram['authorizer_refresh_token'];
             }
             $access['thirdAccessToken']=$ret['component_access_token'];
-            halt($access);
             return $access;
         } else {
             $this->errorLog("请增加微信第三方公众号平台账户信息",'');
