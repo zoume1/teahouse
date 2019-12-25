@@ -102,7 +102,7 @@ class  Accompany extends  Controller{
     public function accompany_download(Request $request){
         if($request -> isPost()) {
             $id = $request->only(['id'])['id'];
-            $zip = Goods::addFileToZip($id);
+            $zip = (new Goods())->addFileToZip($id);
             return jsonSuccess('发送成功',$zip);
         }
 
