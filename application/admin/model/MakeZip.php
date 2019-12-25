@@ -81,7 +81,7 @@ class MakeZip extends Model
                         'is_dir' => false,
                         'children' => array()
                     );
-                    rename($path . '\\' . $file, $path . '\\' . $newName . $extension);
+                    rename($path .$file, $path . $newName . $extension);
                     $count++;
                 }
             }
