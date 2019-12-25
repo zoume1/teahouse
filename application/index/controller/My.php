@@ -578,6 +578,7 @@ class My extends Controller
      * uniacid   店铺id
      */
     public function qr_back_points(){
+        $input=input();
         if($input['member_id']==$input['inviter_id']){
             return ajax_error('操作失败,非法操作');
         }
