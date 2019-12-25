@@ -255,7 +255,7 @@ class Goods extends Model
                             }
                         }
                     }
-                    closedir($path);
+                    @closedir($path);
                 $zip->close(); //关闭处理的zip文件
                 return $zip;
             } catch (\Exception $e) {
