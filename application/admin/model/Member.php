@@ -73,6 +73,26 @@ class Member extends Model
         $member_grade_id = self::where(['member_id'=>$member_id])->value('member_grade_id');
         return $member_grade_id;
     }
+
+
+    /**
+     * 判断
+     * @param $user_id
+     * @return null|static
+     * @throws \think\exception\DbException
+     */
+    public static function is_scope($member_id,$member_data)
+    {
+        $member_grade_name = self::where(['member_id'=>$member_id])->value('member_grade_name');
+        if(!empty($member_data)){
+            $member_data = json_decode($member_data,true);
+            if(in_array($member_grade_name,$member_data)){
+                return true;
+            }
+            return false;
+        }
+        return false;
+    }
  
  
 }

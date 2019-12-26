@@ -108,10 +108,10 @@ class  Accompany extends  Controller{
             $makeZip = new MakeZip();
             try{
                 //重复压缩，则会自动覆盖
-                $res = $makeZip->zip( $dir_path,$zipName);
-                if(!$res){
-                    throw new Exception('压缩失败');
-                }
+                // $res = $makeZip->zip($dir_path,$zipName);
+                // if(!$res){
+                //     throw new Exception('压缩失败');
+                // }
                 return jsonSuccess('ok',$zipName);
             }catch (Exception $e){
                 echo $e->getMessage();
