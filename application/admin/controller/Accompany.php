@@ -37,9 +37,9 @@ class  Accompany extends  Controller{
             $data =  Request::instance()->param();
             $rest =(new Accompanyes())->accompany_add($data);
             if($rest){
-                $this->success("添加成功", url("admin/Accompany/accompany_index"));
+                return jsonSuccess('添加成功');
             }
-            $this->success("添加失败", url('admin/Accompany/accompany_index'));
+            return jsonSuccess('添加失败');
         }
         //送存仓储
         $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); 

@@ -70,9 +70,9 @@ class Index extends Controller
                     $store_id = Session::get('store_id');
                     $store = [77,296];
                     if(in_array($store_id,$store)){
-                        $menu_list = db("menu")->where('status','<>',0)->select();
+                        $menu_list = db("menu")->where("pid",$id)->where('status','<>',0)->select();
                     } else {
-                        $menu_list = db("menu")->where('status','=',1)->select();
+                        $menu_list = db("menu")->where("pid",$id)->where('status','=',1)->select();
                     }
                     $role = db("role")->where("id", $user_info[0]['role_id'])->field("menu_role_id")->select();
                     $role = explode(",", $role[0]["menu_role_id"]);
@@ -101,7 +101,6 @@ class Index extends Controller
                             $menu_lists[] =$val_data;
                         }
                     }
-                    
                     return ajax_success("成功获取", $menu_lists);
                 } else {
                     return ajax_error("没有获取到id");
