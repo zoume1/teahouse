@@ -1258,6 +1258,7 @@ Route::group("api",[
      * 根据appid获取uniacid
      */
     "get_uniacid_by_appid" =>"api/Wxapps/get_uniacid_by_appid",//进入首页获取uniacids
+    "getAccompanyStatus" =>"api/Accompany/getAccompanyStatus",//用户获取赠茶商品 
 
 
 ]);  //app\admin\behavior

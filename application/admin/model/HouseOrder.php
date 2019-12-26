@@ -58,6 +58,7 @@ class HouseOrder extends Model
                 'goods_describe' => $goods_data['goods_describe'], //分享描述
                 'order_quantity' => $data['single_number'], //送存数量
                 'member_id' => $member_id,
+                'goods_money' => $goods_data['goods_new_money'], //商品价格
                 'user_account_name' => $member['member_name'],
                 'user_phone_number' => $member['member_phone_num'],
                 'order_create_time' => time(),
@@ -100,7 +101,6 @@ class HouseOrder extends Model
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
-            halt($this->error);
             $this->rollback();
             return false;
         }
