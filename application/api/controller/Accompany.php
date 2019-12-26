@@ -1,69 +1,91 @@
 <?php
 
-namespace app\admin\model;
+namespace app\api\controller;
 use think\Session;
 use think\Model;
 use think\Db;
 use think\Validate;
 use app\city\controller;
 use app\admin\model\Goods;
+use app\admin\model\Accompany as AccompanyGoods;
 use app\admin\model\AccompanySetting;
 use app\admin\model\AccompanyCode;
+use app\admin\model\Member;
+use app\admin\model\AaccompanyShare;
 use app\admin\model\MakeZip;
-
-
 use app\common\exception\BaseException;
 
 
 /**
  * 赠茶商品
- * Class StoreSetting
- * @package app\city\model
+ * Class Accompany
+ * @package app\api\controller
  */
-class Accompany extends Model
+class Accompany extends controller
 {
-    protected $table = "tb_accompany";
 
 
     /**gy
-     *  城市入驻费用显示
+     * 用户获取赠茶商品 
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function accompany_index($search)
+    public function getAccompanyStatus(Request $request)
     {
-        $model = new static;
-        !empty($search) && $model->setWhere($search);
-        $rest = $model->order(['create_time' => 'desc'])
-        ->where('is_del','=',0)
-        ->paginate(20, false, [
-            'query' => \request()->request()
-        ]);
-        return $rest;
-        
+        if($request->isPost()){
+            $data = input();
+            $time = time();
+            $validate  = new Validate([
+                ['code_id', 'require', 'code_id不能为空'],
+                ['member_id', 'require', '会员id不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } 
+            
+            //1.赠茶商品是否下架(已删除) 201
+            $is_del = AccompanyCode::goods_detail($data['code_id']);
+            if(!$is_del) return jsonSuccess('赠茶商品已下架', array(), ERROR_201);
+            //商品是否下架(已删除)
+            $goods_data = (new Goods())->where('id','=',$is_del['goods_id'])->find();
+            if(!$goods_data) return jsonSuccess('商品已下架', array(), ERROR_200);
+            //2.判断该用户是否已经领取过 202
+            $is_scanf = AaccompanyShare::detail(['accompany_code_id' => $data['code_id'] , 'member_id' => $data['member_id']]);
+            if($is_scanf) return jsonSuccess('您已经领取过该商品', array(), ERROR_202);
+            //3.扫描的是什么码
+            //4.是否过期 203
+            if($time > $is_del['end_time']) return jsonSuccess('领取活动已过期', array(), ERROR_203);
+            //5.是否满足会员范围 204
+            $is_scope = Member::is_scope($data['member_id'],$is_del['scope']);
+            if(!$is_scope) return jsonSuccess('您不在赠送的会员范围内', array(), ERROR_204);
+            //6.如果是全向码扫描数是否已满 205
+            $is_full = $this->is_full($data['code_id']);
+            if(!$is_full) return jsonSuccess('商品已赠送完', array(), ERROR_205);
+            //7.生成赠茶数据、用户扫码记录、修改code表数据
+            
+            
+        }   
     }
 
     /**gy
      *  赠茶商品添加
-     * @param $data
+     * @param $data //赠茶商品详情
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public  function accompany_add($data)
+    public  function accompany_add_order($data)
     {
         $store_id =  Session :: get('store_id');
         $this->startTrans();
         try {
             $goods_data = Goods::accompany_goods($data['goods_number'],1);
-            $store_house_id = Db::name('store_house')
-                            ->where('store_id','=',$store_id)
-                            ->where('name','=',$data['store_house_name'])
-                            ->value('id');
             if(isset($data['scope']) && !empty($data['scope'])) 
             {
                 $scope = json_encode($data['scope'],true);
@@ -86,7 +108,6 @@ class Accompany extends Model
                 'blessing' => $data['blessing'],
                 'create_time' => time(),
                 'store_id' => $store_id,
-                'store_house_id' => $store_house_id
             ];
             $rest = $this->save($rest_data);
             if($rest){
@@ -133,7 +154,6 @@ class Accompany extends Model
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
-            halt($this->error);
             $this->rollback();
             return false;
         }
@@ -205,6 +225,23 @@ class Accompany extends Model
         $model = new static;
         $rest = $model -> allowField(true)->save($data,['id'=>$data['id']]);
         return $rest ? $rest : false;
+        
+    }
+    /**gy
+     *  判断全向码扫描数是否已满
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public function is_full($code_id)
+    {
+        $code = AccompanyCode::detail($code_id);
+        if(($code['scan_number'] >= $code['accompany_number']) && $code['code_status'] == 1){
+            return false;
+        }
+        return true;
         
     }
 

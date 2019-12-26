@@ -37,9 +37,9 @@ class  Accompany extends  Controller{
             $data =  Request::instance()->param();
             $rest =(new Accompanyes())->accompany_add($data);
             if($rest){
-                $this->success("添加成功", url("admin/Accompany/accompany_index"));
+                return jsonSuccess('添加成功');
             }
-            $this->success("添加失败", url('admin/Accompany/accompany_index'));
+            return jsonSuccess('添加失败');
         }
         //送存仓储
         $store_name = Db::name("store_house")->where("store_id",$store_id)->select(); 
@@ -108,10 +108,10 @@ class  Accompany extends  Controller{
             $makeZip = new MakeZip();
             try{
                 //重复压缩，则会自动覆盖
-                $res = $makeZip->zip( $dir_path,$zipName);
-                if(!$res){
-                    throw new Exception('压缩失败');
-                }
+                // $res = $makeZip->zip($dir_path,$zipName);
+                // if(!$res){
+                //     throw new Exception('压缩失败');
+                // }
                 return jsonSuccess('ok',$zipName);
             }catch (Exception $e){
                 echo $e->getMessage();

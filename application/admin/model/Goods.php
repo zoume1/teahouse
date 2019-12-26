@@ -217,8 +217,9 @@ class Goods extends Model
         //生成送存商品全向码
         public  function unique_qrcode($id,$accompany_id)
         {
+            //$id 为生成的全向码id
             $ACCESS_TOKEN = $this->gettoken();
-            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $puthc = 'pages/logs/logs?code_id='.$id;//小程序的路径 可以带参数
             $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
             $param = json_encode(array("path"=>$puthc,"width"=> 150));
             $result = $this->httpRequest($qcode,$param,"POST");
@@ -234,7 +235,7 @@ class Goods extends Model
         public  function directional_qrcode($id)
         {
             $ACCESS_TOKEN = $this->gettoken();
-            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $puthc = 'pages/logs/logs?code_id='.$id;//小程序的路径 可以带参数
             $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
             $param = json_encode(array("path"=>$puthc,"width"=> 150));
             $result = $this->httpRequest($qcode,$param,"POST");
