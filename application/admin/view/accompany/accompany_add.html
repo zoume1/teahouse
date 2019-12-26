@@ -29,6 +29,10 @@
         text-align: center;
         cursor: pointer;
     }
+
+    .layui-flow-more {
+        margin: 0;
+    }
 </style>
 
 {/block}
@@ -144,13 +148,15 @@
 
         <div class="layui-form-item">
             <div class="layui-input-block">
-                <div class="layui-btn layui-btn-normal" id="sub">保存</div>
+
+                <button class="layui-btn layui-btn-normal" id="sub">
+                    <div class="flow-default" id="LAY_demo1" style="display: inline-block;margin-right: 5px;">
+                    </div>保存
+                </button>
                 <button type="button" class="layui-btn layui-btn-primary"
                     onClick="javascript :history.back(-1);">返回</button>
             </div>
         </div>
-
-
 
     </form>
     {/block}
@@ -164,11 +170,12 @@
         var isSearch = false;
         layui.config({
             base: "js/"
-        }).use(['form', 'layer', 'jquery', 'laypage'], function () {
+        }).use(['form', 'layer', 'jquery', 'laypage', 'flow'], function () {
             var form = layui.form(),
                 layer = parent.layer === undefined ? layui.layer : parent.layer,
                 laypage = layui.laypage,
-                $ = layui.jquery;
+                $ = layui.jquery,
+                flow = layui.flow;
 
             $('.seach').click(function () {
                 let val = $('#goods_number').val();
@@ -188,35 +195,10 @@
                     }
                 });
             })
-            // $("form").submit(function (e) {
-            //     let goods_number = $("#goods_number").val(),
-            //         accompany_number = $("#accompany_number").val(),
-            //         single_number = $("#single_number").val(),
-            //         datetimepicker2 = $("#datetimepicker2").val(),
-            //         datetimepicker3 = $("#datetimepicker3").val();
-            //     if (!goods_number) {
-            //         layer.msg("送存商品不能为空");
-            //         return false;
-            //     } else if (!accompany_number) {
-            //         layer.msg("活动送存总量不能为空");
-            //         return false;
-            //     } else if (!single_number) {
-            //         layer.msg("每人送存数量不能为空");
-            //         return false;
-            //     } else if (!datetimepicker2) {
-            //         layer.msg("开始时间不能为空");
-            //         return false;
-            //     } else if (!datetimepicker3) {
-            //         layer.msg("结束时间不能为空");
-            //         return false;
-            //     } else if (!isSearch) {
-            //         layer.msg("请确认搜索相关商品");
-            //         return false;
-            //     }
-            //     // return false;
-            // })
+
             $('#sub').click(function () {
                 form.render();
+                $('#sub').attr('disabled',true); 
                 var datas = new FormData(document.getElementById("form1"));
                 let goods_number = $("#goods_number").val(),
                     accompany_number = $("#accompany_number").val(),
@@ -225,35 +207,56 @@
                     datetimepicker3 = $("#datetimepicker3").val();
                 if (!goods_number) {
                     layer.msg("送存商品不能为空");
+                    $('#sub').attr('disabled',false); 
                     return false;
                 } else if (!accompany_number) {
                     layer.msg("活动送存总量不能为空");
+                    $('#sub').attr('disabled',false); 
                     return false;
                 } else if (!single_number) {
                     layer.msg("每人送存数量不能为空");
+                    $('#sub').attr('disabled',false); 
                     return false;
                 } else if (!datetimepicker2) {
                     layer.msg("开始时间不能为空");
+                    $('#sub').attr('disabled',false); 
                     return false;
                 } else if (!datetimepicker3) {
                     layer.msg("结束时间不能为空");
+                    $('#sub').attr('disabled',false); 
                     return false;
                 } else if (!isSearch) {
                     layer.msg("请确认搜索相关商品");
+                    $('#sub').attr('disabled',false); 
                     return false;
                 }
-                $.ajax({
-                    url: 'accompany_add',
-                    type: 'POST',
-                    cache: false, //上传文件不需要缓存
-                    data: datas,
-                    processData: false, // 告诉jQuery不要去处理发送的数据
-                    contentType: false, // 告诉jQuery不要去设置Content-Type请求头
-                    success: function (data) {
-                        console.log(data)
+                $('#sub').attr('disabled',true); 
+                flow.load({
+                    elem: '#LAY_demo1' //流加载容器
+                    , scrollElem: '#LAY_demo1' //滚动条所在元素，一般不用填，此处只是演示需要。
+                    , done: function (page, next) { //执行下一页的回调
+                        $.ajax({
+                            url: 'accompany_add',
+                            type: 'POST',
+                            cache: false, //上传文件不需要缓存
+                            data: datas,
+                            processData: false, // 告诉jQuery不要去处理发送的数据
+                            contentType: false, // 告诉jQuery不要去设置Content-Type请求头
+                            success: function (data) {
+                                if (data.code == 1) {
+                                    next();
+                                    layer.msg(data.msg);
+                                    $('#sub').attr('disabled',false); 
+                                }
+                            }
+                        })
                     }
-                })
+                });
+
             })
+            var flow = layui.flow;
+
+
 
             form.render();
         });
