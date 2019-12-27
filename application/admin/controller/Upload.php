@@ -620,7 +620,7 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['authorizer_access_token'];
+        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['access_token'];
         $data = '{"wechatid":"'.$input['wx'].'"}';
         $ret = json_decode($this->https_post($url,$data),true);
         if($ret['errcode'] == 0) {
