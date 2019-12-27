@@ -618,8 +618,10 @@ class Upload extends Controller
         $input=input();
         //判断access_token是否过期，重新获取
         $store_id=Session::get('store_id');
+        dump($store_id);
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
+        halt($timeout);
         $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['authorizer_access_token'];
         $data = '{"wechatid":"'.$input['wx'].'"}';
         $ret = json_decode($this->https_post($url,$data),true);
