@@ -201,6 +201,7 @@ class StoreHouse extends Controller{
         $store_order = db("house_order")
                     ->where("store_id","EQ",$store_id)
                     ->where("status",">",1)
+                    ->where("accompany_code_id","=",0)
                     ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
                     ->select();
 
@@ -644,8 +645,127 @@ class StoreHouse extends Controller{
      * @param Request $request
      */
     public function store_accompany_index(){
-        return view("store_accompany_index");
+        $store_id = Session::get("store_id");
+        $store_order = db("house_order")
+                    ->where("store_id","EQ",$store_id)
+                    ->where("status",">",1)
+                    ->where("accompany_code_id","<>",0)
+                    ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                    ->select();
+
+        foreach($store_order as $key => $value){
+            $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+            $store_order[$key]["store_name"] = db("store_house")->where("id",$store_order[$key]["store_house_id"])->value('name');
+        }    
+
+        $url = 'admin/StoreHouse/stores_divergence';
+        $pag_number = 20;
+        $stores_divergence = paging_data($store_order,$url,$pag_number);
+        return view("store_accompany_index",["stores_divergence"=>$stores_divergence]);
     }
+
+    /**
+     * [仓库入仓订单搜索]
+     * 郭杨
+     */    
+    public function store_accompany_search()
+    { 
+        $search_a = input('search_name')?input('search_name'):null;
+        $timemin = input('date_min')?strtotime(input('date_min')):null;
+        $timemax = input('date_max')?strtotime(date('Y-m-d H:i:s',strtotime(input('date_max'))+1*24*60*60)):null; 
+        $store_id = Session::get("store_id");
+        if(!empty($search_a)){
+            $condition =" `parts_order_number` like '%{$search_a}%' or `parts_goods_name` like '%{$search_a}%' or `user_account_name` like '%{$search_a}%' or `user_phone_number` like '%{$search_a}%'";
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time>{$timemin} and order_create_time< {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where("accompany_code_id","<>",0)
+                ->where($condition)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time < {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("status",">",1)
+                ->where("accompany_code_id","<>",0)
+                ->where($condition)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "order_create_time > {$timemin}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("accompany_code_id","<>",0)
+                ->where("status",">",1)
+                ->where($condition)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("accompany_code_id","<>",0)
+                ->where("status",">",1)
+                ->where($condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }
+
+        } else {
+            if(!empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time>{$timemin} and order_create_time< {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("accompany_code_id","<>",0)
+                ->where("status",">",1)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+               
+            } elseif(empty($timemin) && !empty($timemax)){
+                $time_condition  = "order_create_time < {$timemax}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("accompany_code_id","<>",0)
+                ->where("status",">",1)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }  elseif(!empty($timemin) && empty($timemax)){
+                $time_condition  = "order_create_time > {$timemin}";
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("accompany_code_id","<>",0)
+                ->where("status",">",1)
+                ->where($time_condition)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            } elseif(empty($timemin) && empty($timemax)){
+                $store_order = db("house_order")
+                ->where("store_id","EQ",$store_id)
+                ->where("accompany_code_id","<>",0)
+                ->where("status",">",1)
+                ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                ->select();
+            }
+        }
+
+        foreach($store_order as $key => $value){
+            $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
+            $store_order[$key]["store_name"] = db("store_house")->where("id",$store_order[$key]["store_house_id"])->value('name');
+        }    
+
+        $url = 'admin/StoreHouse/store_accompany_index';
+        $pag_number = 20;
+        $stores_divergence = paging_data($store_order,$url,$pag_number);
+        return view("store_accompany_index",["stores_divergence"=>$stores_divergence]);
+    }
+
 
     
  }

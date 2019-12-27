@@ -2687,40 +2687,78 @@ class  Order extends  Controller
                     }
                     break;
                 case 2:
-                    $number_two = $unit[$key];               //当前单位
-                    $num_two = intval($num[$key]);           //当前数量
-                    $number_one = $unit[$key - 1];             //上一级等级单位
-                    $num_one = intval($num[$key - 1]);         //上一级等级数量
-                    $number_zero = $unit[$key - 2];            //上上一级等级单位
-                    $num_zero = intval($num[$key - 2]);        //上上一级等级数量
-                    $num_among = intval($num_two / $num_one);  //当前数量与上一级数量换算量
-
-
-                    $rest_zero = $order_quantity / $num_two;    //第一级数量
-                    if ($rest_zero > 1) {
-                        //第一级余数
-                        $rest_one = fmod($order_quantity, $num_two);
-                        //判断是否还能再取上一等级
-                        $rest_two = $rest_one / $num_among;
-                        if ($rest_two > 1) {
-                            $two = fmod($rest_one, $num_among);
-                            $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($two) . ',' . $number_two;
-                        } else if ($rest_two == 1) {
+                    $number_two = $unit[$key];                  //当前单位
+                    $num_two = intval($num[$key]);              //当前数量
+                    $number_one = $unit[$key - 1];              //上一级等级单位
+                    $num_one = intval($num[$key - 1]);          //上一级等级数量
+                    $number_zero = $unit[$key - 2];             //上上一级等级单位
+                    $num_zero = intval($num[$key - 2]);         //上上一级等级数量
+                    $max_number = intval($num_one * $num_two); //当前数量与上上一级数量换算量
+                    //首先判断当前单位数量能否装换为最高单位
+                    if($order_quantity > $max_number){
+                        $rest_one = $order_quantity / $max_number; //最高单位除数
+                        $rest_two = fmod($order_quantity, $max_number); //余数
+                        $one = $rest_two / $num_two;
+                        if($one == 1){
                             $two = 0;
-                            $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($two) . ',' . $number_two;
+                            $store_number = intval($rest_one) . ',' . $number_zero . ',' . $one . ',' . $number_one . ',' . $two . ',' . $number_two;
+                        } elseif($one > 1){
+                            $two = fmod($rest_two, $num_two); //余数
+                            $store_number = intval($rest_one) . ',' . $number_zero . ',' . intval($one) . ',' . $number_one . ',' . $two . ',' . $number_two;
                         } else {
-                            $rest_two = 0;
-                            $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($rest_one) . ',' . $number_two;
-                        }
-                    } else if ($rest_zero == 1) {
+                            $one = 0;
+                            $store_number = intval($rest_one) . ',' . $number_zero . ',' . $one . ',' . $number_one . ',' . intval($rest_two) . ',' . $number_two;
+                        }      
+                                                
+                    } elseif($order_quantity == $max_number){
+                        $rest_one = 1;
+                        $one = 0;
                         $rest_two = 0;
-                        $two = 0;
-                        $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($two) . ',' . $number_two;
+                        $store_number = intval($rest_one) . ',' . $number_zero . ',' . $one . ',' . $number_one . ',' . $rest_two . ',' . $number_two;
                     } else {
-                        $rest_zero = 0;
-                        $rest_two = 0;
-                        $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . $order_quantity . ',' . $number_two;
+                            if($order_quantity > $num_two){
+                                $one = $order_quantity / $num_two;
+                                $rest_one = 0;
+                                $two = fmod($order_quantity, $num_two); //余数
+                                $store_number = $rest_one . ',' . $number_zero . ',' . intval($one) . ',' . $number_one . ',' . $two . ',' . $number_two;
+                                
+                            } elseif ($order_quantity == $num_two){
+                                $rest_one = 0;
+                                $one = 1;
+                                $two = 0;
+                                $store_number = $rest_one . ',' . $number_zero . ',' . $one . ',' . $number_one . ',' . $two . ',' . $number_two;
+                            } else {
+                                $rest_one = 0;
+                                $one = 0;
+                                $store_number = $rest_one . ',' . $number_zero . ',' . $one . ',' . $number_one . ',' . $order_quantity . ',' . $number_two;
+                            }
                     }
+                    halt($store_number);
+                    // $rest_zero = $order_quantity / $num_among;    //第一级数量
+                    // if ($rest_zero > 1) {
+                    //     //第一级余数
+                    //     $rest_one = fmod($order_quantity, $num_two);
+                    //     //判断是否还能再取上一等级
+                    //     $rest_two = $rest_one / $num_among;
+                    //     if ($rest_two > 1) {
+                    //         $two = fmod($rest_one, $num_among);
+                    //         $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($two) . ',' . $number_two;
+                    //     } else if ($rest_two == 1) {
+                    //         $two = 0;
+                    //         $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($two) . ',' . $number_two;
+                    //     } else {
+                    //         $rest_two = 0;
+                    //         $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($rest_one) . ',' . $number_two;
+                    //     }
+                    // } else if ($rest_zero == 1) {
+                    //     $rest_two = 0;
+                    //     $two = 0;
+                    //     $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . intval($two) . ',' . $number_two;
+                    // } else {
+                    //     $rest_zero = 0;
+                    //     $rest_two = 0;
+                    //     $store_number = intval($rest_zero) . ',' . $number_zero . ',' . intval($rest_two) . ',' . $number_one . ',' . $order_quantity . ',' . $number_two;
+                    // }
                     break;
             }
         }

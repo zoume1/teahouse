@@ -72,7 +72,7 @@ class Accompany extends Controller{
             if($is_add){
                 return jsonSuccess('领取成功');
             }
-            return jsonSuccess('领取失败',ERROR_206);  
+            return jsonSuccess('领取失败',array(),ERROR_206);  
             
         }   
     }
