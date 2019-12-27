@@ -133,7 +133,6 @@ class Accompany extends Model
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
-            halt($this->error);
             $this->rollback();
             return false;
         }

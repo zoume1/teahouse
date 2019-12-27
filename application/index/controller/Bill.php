@@ -15,11 +15,13 @@ use think\Controller;
 use think\Request;
 use think\Db;
 use app\admin\model\MakeZip;
+use app\index\controller\Order;
 use app\admin\model\MemberGrade;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\common\model\dealer\Setting;
 use app\city\model\User;
+use app\admin\model\Goods;
 use app\city\controller\Picture;
 use app\admin\model\Store;
 use app\city\model\CityDetail;
@@ -48,22 +50,13 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
-            // $id = $request->only(['id'])['id'];
-            $dir_path = ROOT_PATH . 'public' . DS . 'directional'. DS . 20 . DS ; //想要压缩的目录
-            $zipName = ROOT_PATH . 'public' . DS . 'directional'. DS . 20 . DS.'test.zip';
+        //查询商品详情
+        $goods_data = (new Goods())->where('id','=',422)->find();
+        $key = array_search($goods_data['monomer'], explode(',',$goods_data['unit']));
+        
 
-            $makeZip = new MakeZip();
-            try{
-                //重复压缩，则会自动覆盖
-                $res = $makeZip->zip($dir_path,$zipName);
-                if(!$res){
-                    throw new Exception('压缩失败');
-                }
-                return jsonSuccess('ok',$zipName);
-            }catch (Exception $e){
-                echo $e->getMessage();
-            }
-    
+        //先判断有多少位数量等级
+        $store_number = (new Order())->unit_calculate(explode(',',$goods_data['unit']), explode(',',$goods_data['num']), $key, 253);
         }
     }
 

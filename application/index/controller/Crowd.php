@@ -455,7 +455,7 @@ class Crowd extends Controller
                     if($goods['goods_franking'] != 0){
                         $data["collect"] = $goods["goods_franking"]; //统一邮费
                         $data["markup"] = 0; //统一邮费
-                    }else{
+                    } elseif ($goods['goods_franking'] == 0 && !empty($goods["templet_name"])  && !empty($goods["templet_id"]) ){
                         $templet_name = explode(",",$goods["templet_name"]);
                         $templet_id = explode(",",$goods["templet_id"]);
                         $monomer = $goods["monomer"];
@@ -474,6 +474,9 @@ class Crowd extends Controller
                         } else {
                             return ajax_error("没有运费模板");
                         }
+                    } else {
+                        $data["collect"] = $goods["goods_franking"]; //统一邮费
+                        $data["markup"] = 0; //统一邮费
                     }
                     array_push($res,$data);                    
                 }
