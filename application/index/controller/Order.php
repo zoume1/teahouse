@@ -2733,7 +2733,6 @@ class  Order extends  Controller
                                 $store_number = $rest_one . ',' . $number_zero . ',' . $one . ',' . $number_one . ',' . $order_quantity . ',' . $number_two;
                             }
                     }
-                    halt($store_number);
                     // $rest_zero = $order_quantity / $num_among;    //第一级数量
                     // if ($rest_zero > 1) {
                     //     //第一级余数
