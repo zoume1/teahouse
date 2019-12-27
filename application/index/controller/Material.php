@@ -31,7 +31,8 @@ class Material extends Controller
             if(!$goods_info){
                 return ajax_error('获取失败，未发现商品信息');
             }
-            $input['store_id']=db('anti_parent_code')->where('pid',$goods_info['id'])->value('store_id');
+            $store_id=db('anti_parent_code')->where('pid',$goods_info['id'])->value('store_id');
+            $input['store_id']=$store_id;
             $my=new My();
             $re=$my->create_goods_code($input);
             //获取新用户注册奖励的积分
