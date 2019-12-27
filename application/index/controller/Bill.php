@@ -56,7 +56,8 @@ class Bill extends Controller
         
 
         //先判断有多少位数量等级
-        $store_number = (new Order())->unit_calculate(explode(',',$goods_data['unit']), explode(',',$goods_data['num']), $key,93 );
+        $store_number = (new Order())->unit_calculate(explode(',',$goods_data['unit']), explode(',',$goods_data['num']), $key,15 );
+        halt($store_number);
         }
     }
 
