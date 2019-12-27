@@ -332,9 +332,10 @@ class Storehouse extends Controller
                 if(empty($goods_data)){
                     return ajax_error("商品参数id不正确");
                 }
-                $templet_id = explode(",",$goods_data['templet_id']);
+                
                 $goods_franking = $goods_data['goods_franking'];
-                if($goods_franking == 0){
+                if($goods_franking == 0 && !empty($goods_data["templet_name"])  && !empty($goods_data["templet_id"])){
+                    $templet_id = explode(",",$goods_data['templet_id']);
                     foreach($templet_id as $kk => $yy){
                         $rest[$kk] =  db("express")->where("id",$templet_id[$kk])->find();
                         $rest[$kk]["are"] = explode(",",$rest[$kk]["are"]);
