@@ -14,7 +14,7 @@ class MakeZip extends Model
      * @param $zipName   压缩后的文件名：如 './folder/demo.zip'
      * @return string
      */
-    public function zip($dir_path, $zipName)
+    public function zip($dir_path, $zipName,$id)
     { 
         $relationArr = array(
             $dir_path => array(
@@ -27,31 +27,31 @@ class MakeZip extends Model
         $key = array_keys($relationArr);
         $val = array_values($relationArr);
 
-        $this->modifiyFileName($dir_path, $relationArr[$dir_path]['children']);
+        // $this->modifiyFileName($dir_path, $relationArr[$dir_path]['children']);
         $zip = new \ZipArchive();
         //ZIPARCHIVE::CREATE没有即是创建
         $zip->open($zipName, \ZipArchive::CREATE);
-        $this->zipDir($key[0], '', $zip, $val[0]['children']);
+        $this->zipDir($key[0], $zipName, $zip, $val[0]['children'],$id);
         $zip->close();
-        $this->restoreFileName($key[0], $val[0]['children']);
+        // $this->restoreFileName($key[0], $val[0]['children']);
         return true;
     }
 
-    public function zipDir($real_path, $zip_path, &$zip, $relationArr)
+    public function zipDir($real_path, $zip_path, &$zip, $relationArr,$id)
     {
         $sub_zip_path = empty($zip_path) ? '' : $zip_path . '\\';
         if (is_dir($real_path)) {
-            foreach ($relationArr as $k => $v) {
-                if ($v['is_dir']) {  //是文件夹
-                    $zip->addEmptyDir($sub_zip_path . $v['originName']);
-                    $this->zipDir($real_path . '\\' . $k, $sub_zip_path . $v['originName'], $zip, $v['children']);
-                } else { //不是文件夹
-                    $zip->addFile($real_path . '\\' . $k, $sub_zip_path . $k);
-                    $zip->deleteName($sub_zip_path . $v['originName']);
-                    $zip->renameName($sub_zip_path . $k, $sub_zip_path . $v['originName']);
+            $handler = opendir($real_path); 
+             while (($filename = readdir($handler)) !== false){
+                 if ($filename != "." && $filename != "..") {  
+                    $pathFilename = $real_path.$filename; 
+                    $rest = str_replace($real_path,'',$pathFilename);
+                    $restuler = $id.'/'.$rest;
+                    $zip->addFile($pathFilename,$restuler);
+                    }
                 }
             }
-        }
+
     }
 
     public function modifiyFileName($path, &$relationArr)

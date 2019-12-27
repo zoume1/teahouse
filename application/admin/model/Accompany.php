@@ -9,6 +9,8 @@ use app\city\controller;
 use app\admin\model\Goods;
 use app\admin\model\AccompanySetting;
 use app\admin\model\AccompanyCode;
+use app\admin\model\MakeZip;
+
 
 use app\common\exception\BaseException;
 
@@ -58,6 +60,10 @@ class Accompany extends Model
         $this->startTrans();
         try {
             $goods_data = Goods::accompany_goods($data['goods_number'],1);
+            $store_house_id = Db::name('store_house')
+                            ->where('store_id','=',$store_id)
+                            ->where('name','=',$data['store_house_name'])
+                            ->value('id');
             if(isset($data['scope']) && !empty($data['scope'])) 
             {
                 $scope = json_encode($data['scope'],true);
@@ -80,6 +86,7 @@ class Accompany extends Model
                 'blessing' => $data['blessing'],
                 'create_time' => time(),
                 'store_id' => $store_id,
+                'store_house_id' => $store_house_id
             ];
             $rest = $this->save($rest_data);
             if($rest){
@@ -105,7 +112,7 @@ class Accompany extends Model
                     $mkdir = mkdir($method, 0777, true);
                     for($i = 0 ; $i < $data['accompany_number'] ; $i++){
                         $code_id = (new AccompanyCode())->code_add($restul);
-                        $res = (new Goods())->directional_qrcode($this->id);
+                        $res = (new Goods())->directional_qrcode($code_id,$this->id);
                     }
                     break;
                 default :
@@ -113,6 +120,16 @@ class Accompany extends Model
 
             }
             $this->commit();
+            //压缩文件
+            $dir_path = ROOT_PATH . 'public' . DS . 'directional'. DS . $this->id . DS ; //想要压缩的目录
+            $zipName = ROOT_PATH . 'public' . DS . 'directional'. DS . $this->id . DS.'test.zip';
+
+            $makeZip = new MakeZip();
+            //重复压缩，则会自动覆盖
+            $res = $makeZip->zip($dir_path,$zipName,$this->id);
+            if(!$res){
+                throw new Exception('压缩失败');
+            } 
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();

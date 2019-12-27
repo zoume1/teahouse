@@ -13,26 +13,26 @@ use app\common\exception\BaseException;
 
 
 /**
- * 赠茶商品二维码
- * Class StoreSetting
+ * 二维码扫描记录
+ * Class AaccompanyShare
  * @package app\city\model
  */
-class AccompanyCode extends Model
+class AaccompanyShare extends Model
 {
-    protected $table = "tb_accompany_code";
+    protected $table = "tb_accompany_share";
 
 
 
 
     /**gy
-     *  赠茶商品赠茶商品二维码添加
+     *  二维码扫描记录添加
      * @param $data
      * @return bool
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public  function code_add($data)
+    public  function share_add($data)
     {
         
         $rest = $this->save($data);
@@ -43,30 +43,18 @@ class AccompanyCode extends Model
  
 
     /**gy
-     *获取赠茶商品二维码
+     *获取二维码扫描记录
      * @param $meal_id
      * @return null|static
      * @throws \think\exception\DbException
      */
     public static function detail($id)
     {
-        return self::get($id)->toArray();
+        $data = self::get($id);
+        return $data ? $data->toArray() : false;
     }
 
-    /**gy
-     *获取赠茶商品信息
-     * @param $meal_id
-     * @return null|static
-     * @throws \think\exception\DbException
-     */
-    public static function goods_detail($code_id)
-    {
-        $code_data = self::detail($code_id);
-        $goods_data = Db :: name('accompany') 
-            -> where('id','=',$code_data['accompany_id'])
-            ->where('is_del','=',0)->find();
-        return $goods_data ? $goods_data : false;
-    }
+
 
 
 
@@ -78,7 +66,7 @@ class AccompanyCode extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function meal_update($data)
+    public static function share_update($data)
     {
 
         $model = new static;
@@ -86,7 +74,5 @@ class AccompanyCode extends Model
         return $rest ? $rest : false;
         
     }
-
-
 
 }

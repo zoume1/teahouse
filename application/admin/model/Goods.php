@@ -199,8 +199,9 @@ class Goods extends Model
      */
     public static function accompany_goods($goods_number,$status=0)
     {
+        $store_id = Session :: get('store_id');
         if(!isset($goods_number) || empty($goods_number)) return jsonError('商品编码不能为空');
-        $accompany_data = Db::name('goods')->where('goods_number|goods_name', 'like', '%' . trim($goods_number) . '%')->find();
+        $accompany_data = Db::name('goods')->where('goods_number|goods_name', 'like', '%' . trim($goods_number) . '%')->where('store_id',$store_id)->find();
 
         if(!empty($accompany_data)){
             if($status == 1){
@@ -216,8 +217,9 @@ class Goods extends Model
         //生成送存商品全向码
         public  function unique_qrcode($id,$accompany_id)
         {
+            //$id 为生成的全向码id
             $ACCESS_TOKEN = $this->gettoken();
-            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $puthc = 'pages/logs/logs?code_id='.$id;//小程序的路径 可以带参数
             $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
             $param = json_encode(array("path"=>$puthc,"width"=> 150));
             $result = $this->httpRequest($qcode,$param,"POST");
@@ -230,14 +232,14 @@ class Goods extends Model
         }
 
         //生成送存商品定向码
-        public  function directional_qrcode($id)
+        public  function directional_qrcode($id,$rest_id)
         {
             $ACCESS_TOKEN = $this->gettoken();
-            $puthc = 'pages/logs/logs?accompany_id='.$id;//小程序的路径 可以带参数
+            $puthc = 'pages/logs/logs?code_id='.$id;//小程序的路径 可以带参数
             $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
             $param = json_encode(array("path"=>$puthc,"width"=> 150));
             $result = $this->httpRequest($qcode,$param,"POST");
-            $puth = ROOT_PATH . 'public' . DS . 'directional'. DS . $id .DS.'D'.time().rand(100000,999999).'.png';
+            $puth = ROOT_PATH . 'public' . DS . 'directional'. DS . $rest_id .DS.'D'.time().rand(100000,999999).'.png';
             $bool = file_put_contents($puth,$result);
             return $bool ? $bool : false; 
         }
