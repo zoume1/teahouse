@@ -2715,7 +2715,7 @@ class  Order extends  Controller
                         $rest_one = 0;
                         if($order_quantity > $num_among){
                             $rest_three = $order_quantity / $num_among;   //第二单位除数
-                            $rest_four = fmod($rest_three , $num_among);   //第二单位余数
+                            $rest_four = fmod($order_quantity , $num_among);   //第二单位余数
                             $store_number = $rest_one . ',' . $number_zero . ',' . intval($rest_three) . ',' . $number_one . ',' . intval($rest_four) . ',' . $number_two;
                         } elseif($order_quantity < $num_among){
                             $rest_three = 0;   //第二单位除数
