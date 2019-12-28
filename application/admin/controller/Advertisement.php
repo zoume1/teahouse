@@ -180,16 +180,7 @@ class Advertisement extends Controller
             $data["start_time"] = isset($data["start_time"])?strtotime($data["start_time"]):null;
             $data["end_time"] = isset($data["end_time"])?strtotime($data["end_time"]):null;
             
-            //如果需要预约,且有人数限制
-            if(!empty($data["start_time"]) && !empty($data["end_time"]) ){
-                $day_number = diffBetweenTwoDays($data["start_time"],$data["end_time"]);
-                $data["day_number"] = $day_number;
-                for($i = 0;$i <= $day_number;$i++){
-                    $day_array[$i] = $participats;
-                }
-                $data["day_array"] = implode(",",$day_array);
-                
-            }
+
 
             $show_images = $request->file("classify_image");
             if ($show_images) {
