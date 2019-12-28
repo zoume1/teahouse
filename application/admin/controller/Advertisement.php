@@ -174,19 +174,37 @@ class Advertisement extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
+            $store_id = Session::get("store_id");
+
 
             $participats = isset($data["participats"])?$data["participats"]:0;//活动人数
             //活动日期
-            $data["start_time"] = isset($data["start_time"])?strtotime($data["start_time"]):null;
-            $data["end_time"] = isset($data["end_time"])?strtotime($data["end_time"]):null;
+            $start_time = isset($data["start_time"])?$data["start_time"]:null;
+            $end_time = isset($data["end_time"])?$data["end_time"]:null;
+            $day_start_time = isset($data["day_start_time"])?$data["day_start_time"]:'00:00';
+            $day_end_time = isset($data["day_end_time"])?$data["day_end_time"]:'00:00';
             
 
-
-            $show_images = $request->file("classify_image");
-            if ($show_images) {
-                $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            $day_start_time = $day_start_time.':00';
+            $day_end_time = $day_end_time.':00';
+            $one_time = $data["start_time"] . $day_start_time;
+            $two_time = $data["end_time"] . $day_end_time;
+            $data["start_time"] = strtotime($data["start_time"]);
+            $data["end_time"] = strtotime($data["end_time"]);
+            $data["one_time"] = strtotime($one_time);
+            $data["two_time"] = strtotime($two_time);
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+            $images='classify_image';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if(empty($rr)){
+              
+            }else{
+             $data["classify_image"] =  $rr[0];
             }
+
+
             
             $address = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
             $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
