@@ -276,6 +276,7 @@ Route::group("",[
     "pay_password_add" =>"index/PassWord/pay_password_add",//支付密码添加编辑
     "pay_password_return" =>"index/PassWord/pay_password_return",//支付密码返回（判断是否存在支付密码）
     "balance_payment"=>"index/Balance/balance_payment",//商品余额支付
+    "payment_out_order"=>"index/Balance/payment_out_order",//出仓商品余额支付
     "check_password"=>"index/Balance/check_password",//校验支付密码
     "remainder_pay"=>"index/Balance/remainder_pay",//众筹商品余额打赏支付
     "crowd_payment"=>"index/Balance/crowd_payment",//众筹商品订单余额支付
@@ -881,6 +882,7 @@ Route::group("admin",[
     "stores_series_search" =>"admin/StoreHouse/stores_series_search",   //仓储续费订单搜索
     "stores_order_confirm_shipment" =>"admin/StoreHouse/stores_order_confirm_shipment",//订单出仓订单发货
     "store_accompany_index" =>"admin/StoreHouse/store_accompany_index", //赠送入仓
+    "store_accompany_search" =>"admin/StoreHouse/store_accompany_search", //赠送入仓搜索
 
     /*资产*/
     "property_day" =>"admin/Property/property_day",     //对账单日汇报
@@ -1258,6 +1260,7 @@ Route::group("api",[
      * 根据appid获取uniacid
      */
     "get_uniacid_by_appid" =>"api/Wxapps/get_uniacid_by_appid",//进入首页获取uniacids
+    "getAccompanyStatus" =>"api/Accompany/getAccompanyStatus",//用户获取赠茶商品 
 
 
 ]);  //app\admin\behavior

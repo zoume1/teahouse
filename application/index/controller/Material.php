@@ -27,11 +27,11 @@ class Material extends Controller
         if($input){
             //获取商品的信息
             $goods_info=db('anti_parent_code')->alias('a')->join('tb_anti_goods w','a.pid = w.id')->where('child_code|parent_code',$input['code'])
-            ->field('*')->find();
+            ->field('*,a.store_id')->find();
             if(!$goods_info){
                 return ajax_error('获取失败，未发现商品信息');
             }
-            $store_id=$goods_info['store_id'];
+            $store_id=db('anti_parent_code')->where('pid',$goods_info['id'])->value('store_id');
             $input['store_id']=$store_id;
             $my=new My();
             $re=$my->create_goods_code($input);
