@@ -160,10 +160,10 @@
 						<div class="line">
 							<div class="names">开始日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							<input type="text" name="start_time" value="{$value.start_time}" class="layui-input"
-								placeholder="请选择活动开始时间" id="datetimepicker2" />
+								placeholder="请选择活动开始时间" id="datetimepicker2" disabled/>
 							<div class="names">结束日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
 							<input type="text" name="end_time" value="{$value.end_time}" class="layui-input"
-								placeholder="请选择活动开始时间" id="datetimepicker3" />
+								placeholder="请选择活动开始时间" id="datetimepicker3" disabled/>
 						</div>
 						<div class="tips">不选择表示该活动长期有效</div>
 					</div>
@@ -173,10 +173,10 @@
 					<div class="form-input line">
 						<div class="names">开始日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
 						<input type="text" name="day_start_time" value="{$value.day_start_time}" class="layui-input"
-							placeholder="请选择活动开始时间" id="datetimepicker" />
+							placeholder="请选择活动开始时间" id="datetimepicker" disabled/>
 						<div class="names">结束日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
 						<input type="text" name="day_end_time" value="{$value.day_end_time}" class="layui-input"
-							placeholder="请选择活动开始时间" id="datetimepicker1" />
+							placeholder="请选择活动开始时间" id="datetimepicker1" disabled/>
 					</div>
 				</div>
 			</div>
@@ -291,7 +291,7 @@
 			<label class="form-label"><span class="red">*</span>每日活动上限人数</label>
 			<div class="form-input">
 				<input type="number" name="participats" lay-verify="title" autocomplete="off" placeholder=""
-					class="layui-input" id="sort_number" value="{$value.participats}">
+					class="layui-input" id="sort_number" value="{$value.participats}" disabled>
 				<div class="tips">
 					*不填写，表示不限制人数
 				</div>
