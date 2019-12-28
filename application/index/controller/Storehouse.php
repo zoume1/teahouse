@@ -250,7 +250,7 @@ class Storehouse extends Controller
                         $house_order["scale"] = 0;
                     }
                     if($house_order['goods_member'] == 1 ){
-                        $scope = Db::name("special")->where("id",$house_order['goods_id'])->value('scope');
+                        $scope = Db::name("goods")->where("id",$house_order['goods_id'])->value('scope');
                         if(!empty($scope)){
                             $scope = explode(',',$scope);
                             if(!in_array($member_grade_id['$member_grade_name'],$scope)){
