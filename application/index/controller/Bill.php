@@ -51,6 +51,9 @@ class Bill extends Controller
     {
         if ($request->isPost()) {
         //查询商品详情
+        $time1 = "22:00";
+        $time2 = $time1.':00';
+        halt($time2);
         $goods_data = (new Goods())->where('id','=',422)->find();
         $key = array_search($goods_data['monomer'], explode(',',$goods_data['unit']));
         

@@ -16,6 +16,8 @@ use think\Request;
 use think\Image;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use app\admin\controller\Qiniu;
+
 
 class Category extends Controller
 {
@@ -88,14 +90,18 @@ class Category extends Controller
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
             $data = $request->param();
-            $show_images = $request->file("icon_image");
             $data["store_id"] = $store_id;
 
-            if ($show_images) {
-                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi = Db::table('applet')->where('store_id',$store_id)->find();
+            $images='icon_image';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if(empty($rr)){
+              
+            }else{
+                $data["icon_image"] =  $rr[0];
             }
-
             $bool = db("goods_type")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Category/index"));
@@ -133,9 +139,6 @@ class Category extends Controller
         if ($request->isPost()) {
             $id = $request->only(['id'])['id'];
             $image_url = db("goods_type")->where("id", $id)->field("icon_image")->find();
-            if ($image_url['icon_image'] != null) {
-                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['icon_image']);
-            }
             $bool = db("goods_type")->where("id", $id)->field("icon_image")->update(["icon_image" => null]);
             if ($bool) {
                 return ajax_success("删除成功");
@@ -155,11 +158,17 @@ class Category extends Controller
     {
         if ($request->isPost()) {
             $data = $request->param();
+            $store_id = Session::get("store_id");
             $data["pid"] = db("goods_type")->where("id",$data["id"])->value("pid");
-            $show_images = $request->file("icon_image");
-            if ($show_images) {
-                $show_images = $request->file("icon_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-                $data["icon_image"] = str_replace("\\", "/", $show_images->getSaveName());
+            $qiniu=new Qiniu();
+            //获取店铺七牛云的配置项
+            $peizhi = Db::table('applet')->where('store_id',$store_id)->find();
+            $images='icon_image';
+            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            if(empty($rr)){
+              
+            }else{
+                $data["icon_image"] =  $rr[0];
             }
             $bool = db("goods_type")->where('id', $request->only(["id"])["id"])->update($data);
 

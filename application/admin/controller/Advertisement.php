@@ -15,6 +15,7 @@ use think\Db;
 use think\Request;
 use think\Image;
 use think\Session;
+use app\admin\controller\Qiniu;
 use think\paginator\driver\Bootstrap;
 
 class Advertisement extends Controller
@@ -83,13 +84,23 @@ class Advertisement extends Controller
             $store_id = Session::get("store_id");
             $participats = isset($data["participats"])?$data["participats"]:0;//活动人数
             //活动日期
-            $data["start_time"] = isset($data["start_time"])?strtotime($data["start_time"]):null;
-            $data["end_time"] = isset($data["end_time"])?strtotime($data["end_time"]):null;
+            $start_time = isset($data["start_time"])?$data["start_time"]:null;
+            $end_time = isset($data["end_time"])?$data["end_time"]:null;
+            $day_start_time = isset($data["day_start_time"])?$data["day_start_time"]:'00:00';
+            $day_end_time = isset($data["day_end_time"])?$data["day_end_time"]:'00:00';
             $data["store_id"] = $store_id;
             
             //如果需要预约,且有人数限制
 
-            if(!empty($data["start_time"]) && !empty($data["end_time"]) ){
+            if(!empty($start_time) && !empty($end_time) ){
+                $day_start_time = $day_start_time.':00';
+                $day_end_time = $day_end_time.':00';
+                $one_time = $data["start_time"] . $day_start_time;
+                $two_time = $data["end_time"] . $day_end_time;
+                $data["start_time"] = strtotime($data["start_time"]);
+                $data["end_time"] = strtotime($data["end_time"]);
+                $data["one_time"] = strtotime($one_time);
+                $data["two_time"] = strtotime($two_time);
                 $day_number = diffBetweenTwoDays($data["start_time"],$data["end_time"]);
                 $data["day_number"] = $day_number;
                 for($i = 0;$i <= $day_number;$i++){
@@ -97,8 +108,9 @@ class Advertisement extends Controller
                 }
                 $data["day_array"] = implode(",",$day_array);
                 
+            } else {
+                $this->error("活动时间不能为空", url("admin/Advertisement/accessories_business_add"));
             }
-
             $address = [$data["address_city2"], $data["address_city3"], $data["address_street"]];
             $addressed = [$data["address_city1"], $data["address_city2"], $data["address_city3"], $data["address_street"]];
             $data["addressed"] = implode(",", $addressed);
@@ -110,8 +122,17 @@ class Advertisement extends Controller
                 }
             }
             
-            $show_images = $request->file("classify_image")->move(ROOT_PATH . 'public' . DS . 'uploads');
-            $data["classify_image"] = str_replace("\\", "/", $show_images->getSaveName());
+           $qiniu=new Qiniu();
+           //获取店铺七牛云的配置项
+           $peizhi=Db::table('applet')->where('store_id',$store_id)->find();
+           $images='classify_image';
+           $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+           if(empty($rr)){
+             
+           }else{
+            $data["classify_image"] =  $rr[0];
+           }
+
             $bool = db("teahost")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Advertisement/index"));
@@ -237,9 +258,6 @@ class Advertisement extends Controller
         if ($request->isPost()) {
             $id = $request->only(['id'])['id'];
             $image_url = db("teahost")->where("id", $id)->field("classify_image")->find();
-            if ($image_url['classify_image'] != null) {
-                unlink(ROOT_PATH . 'public' . DS . 'uploads/' . $image_url['classify_image']);
-            }
             $bool = db("teahost")->where("id", $id)->field("classify_image")->update(["classify_image" => null]);
             if ($bool) {
                 return ajax_success("删除成功");
