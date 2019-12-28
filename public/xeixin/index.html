@@ -56,22 +56,9 @@
 <script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.2.js"></script>
 <script>
 	// $('.HYPE_element').on('click', function () {
-	// setTimeout(function () {
-
-		var ua = window.navigator.userAgent.toLowerCase();
-		console.log(ua)
-		if (ua.match(/MicroMessenger/i) == 'micromessenger') {
-			wx.miniProgram.getEnv(function (res) {
-				console.log(res)
-				if (res.miniprogram) {
-					//转跳到小程序
-					wx.miniProgram.navigateTo({
-						url: '/pages/diy/index/index'
-					});
-				}
-			});
-		}
-	// }, 1000)
+		wx.miniProgram.switchTab({
+            url: '/pages/storage/view/view?isto=1'
+        });
 		// wx.miniProgram.navigateTo({ url: 'pages/logs/logs' });
 	// })
 </script>
