@@ -253,7 +253,7 @@ class Storehouse extends Controller
                         $scope = Db::name("goods")->where("id",$house_order['goods_id'])->value('scope');
                         if(!empty($scope)){
                             $scope = explode(',',$scope);
-                            if(!in_array($member_grade_id['$member_grade_name'],$scope)){
+                            if(!in_array($member_grade_id['member_grade_name'],$scope)){
                                 $rank = 1;
                             }
                         } else {
