@@ -222,7 +222,7 @@ class Advertisement extends Controller
             if ($bool) {
                 $this->success("编辑成功", url("admin/Advertisement/index"));
             } else {
-                $this->error("编辑失败", url("admin/Advertisement/accessories_business_add"));
+                $this->error("编辑成功", url("admin/Advertisement/index"));
             }
         }
     }
