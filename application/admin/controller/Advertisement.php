@@ -89,14 +89,13 @@ class Advertisement extends Controller
             $day_start_time = isset($data["day_start_time"])?$data["day_start_time"]:'00:00';
             $day_end_time = isset($data["day_end_time"])?$data["day_end_time"]:'00:00';
             $data["store_id"] = $store_id;
-            
             //如果需要预约,且有人数限制
 
             if(!empty($start_time) && !empty($end_time) ){
                 $day_start_time = $day_start_time.':00';
                 $day_end_time = $day_end_time.':00';
-                $one_time = $data["start_time"] . $day_start_time;
-                $two_time = $data["end_time"] . $day_end_time;
+                $one_time = $data["start_time"] .''. $day_start_time;
+                $two_time = $data["end_time"] .''. $day_end_time;
                 $data["start_time"] = strtotime($data["start_time"]);
                 $data["end_time"] = strtotime($data["end_time"]);
                 $data["one_time"] = strtotime($one_time);
