@@ -186,22 +186,22 @@
 			<label class="form-label">卖点标签</label>
 			<div class="form-input" style="display: flex; align-items: center;">
 				<div id="hot">
-					<div class="list">
+					<!-- <div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="" checked="">
 						<img src="http://zhihuichacang.com/kecun.png" />
-					</div>
+					</div> -->
 					<div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<img src="http://zhihuichacang.com/hot.png" />
 					</div>
-					<div class="list">
+					<!-- <div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<img src="http://zhihuichacang.com/chuxiao.png" />
 					</div>
 					<div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<img src="http://zhihuichacang.com/qingchang.png" />
-					</div>
+					</div> -->
 					<div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<span class="texts">古色生香</span>
@@ -322,8 +322,8 @@
 			<div class="form-input">
 				<div class="imgcontent">
 					<span class="img">
-						<img src="__UPLOADS__/{$value.classify_image}" width="100%">
-						<i class="remove-img" name="classify_image" value="__UPLOADS__/{$value.classify_image}"
+						<img src="{$value.classify_image}" width="100%">
+						<i class="remove-img" name="classify_image" value="{$value.classify_image}"
 							data-id="{$value.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
 				</div>
@@ -345,7 +345,7 @@
 					</div>
 				</aside>
 				<div class="tips">
-					建议尺寸：？*？像素
+					建议尺寸：750*380像素
 				</div>
 			</div>
 
