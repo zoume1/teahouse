@@ -139,10 +139,10 @@
 
                         <td>
                             <div>
-                                {if $value.end_time > time()}未过期{else}过期{/if}
+                                {if $value.two_time > time()}未过期{else}过期{/if}
                             </div>
                             <div>
-                                {$value.start_time|date="Y-m-d H:i",###}
+                                {$value.one_time|date="Y-m-d H:i",###}
                             </div>
 
                         </td>
