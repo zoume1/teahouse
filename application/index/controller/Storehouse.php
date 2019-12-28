@@ -245,7 +245,7 @@ class Storehouse extends Controller
                     $house_order['num'] = explode(",",$house_order['num']);
                     $house_order["store_number"] = explode(',', $house_order["store_number"]);
                     if($house_order["goods_money"] > 0){
-                        $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
+                        $house_order["scale"] =sprintf("%.2f", (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]));
                     } else {
                         $house_order["scale"] = 0;
                     }
@@ -265,11 +265,11 @@ class Storehouse extends Controller
                         if(!empty($house_order['special_id'])){
                             $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
                             $house_order['goods_bottom_money'] = $goods['line'];
-                            $house_order['goods_new_money'] = $goods['price'] * $rank;
+                            $house_order['goods_new_money'] = $house_order['goods_money'];
                             $house_order['discount_price'] = $goods['price'] * $rank;
                         } else {
                             $goods = Db::name("goods")->where("id",$house_order['goods_id'])->find();
-                            $house_order['goods_new_money'] = $house_order['goods_new_money'] * $rank;
+                            $house_order['goods_new_money'] = $house_order['goods_money'];
                             $house_order['discount_price'] = $goods['goods_new_money'] * $rank;
                         }
                      
