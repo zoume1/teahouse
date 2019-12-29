@@ -92,16 +92,16 @@ class Category extends Controller
             $data = $request->param();
             $data["store_id"] = $store_id;
 
-            $qiniu=new Qiniu();
-            //获取店铺七牛云的配置项
-            $peizhi = Db::table('applet')->where('store_id',$store_id)->find();
-            $images='icon_image';
-            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
-            if(empty($rr)){
+            // $qiniu=new Qiniu();
+            // //获取店铺七牛云的配置项
+            // $peizhi = Db::table('applet')->where('store_id',$store_id)->find();
+            // $images='icon_image';
+            // $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            // if(empty($rr)){
               
-            }else{
-                $data["icon_image"] =  $rr[0];
-            }
+            // }else{
+            //     $data["icon_image"] =  $rr[0];
+            // }
             $bool = db("goods_type")->insert($data);
             if ($bool) {
                 $this->success("添加成功", url("admin/Category/index"));
@@ -160,16 +160,16 @@ class Category extends Controller
             $data = $request->param();
             $store_id = Session::get("store_id");
             $data["pid"] = db("goods_type")->where("id",$data["id"])->value("pid");
-            $qiniu=new Qiniu();
-            //获取店铺七牛云的配置项
-            $peizhi = Db::table('applet')->where('store_id',$store_id)->find();
-            $images='icon_image';
-            $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
-            if(empty($rr)){
+            // $qiniu=new Qiniu();
+            // //获取店铺七牛云的配置项
+            // $peizhi = Db::table('applet')->where('store_id',$store_id)->find();
+            // $images='icon_image';
+            // $rr=$qiniu->uploadimg($peizhi['accesskey'],$peizhi['secretkey'],$peizhi['bucket'],$peizhi['domain'],$images);
+            // if(empty($rr)){
               
-            }else{
-                $data["icon_image"] =  $rr[0];
-            }
+            // }else{
+            //     $data["icon_image"] =  $rr[0];
+            // }
             $bool = db("goods_type")->where('id', $request->only(["id"])["id"])->update($data);
 
             if ($bool) {

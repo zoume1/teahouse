@@ -154,8 +154,8 @@ class TeaCenter extends Controller
                 'classify_image'=>$actdata['classify_image'],
                 'address'=>$actdata['address'],
                 'cost_moneny'=>$actdata['cost_moneny'],
-                'start_time'=>$actdata['start_time'],
-                'end_time'=>$actdata['end_time'],
+                'start_time'=>$actdata['one_time'],
+                'end_time'=>$actdata['two_time'],
                 'day_start_time'=>$actdata['day_start_time'],
                 'day_end_time'=>$actdata['day_end_time'],
                 'participats'=>$actdata['participats'],
@@ -189,7 +189,7 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $data = Db::name("teahost")
-            ->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid')
+            ->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,one_time')
             ->where("label", 1)
             ->where("store_id","EQ",$store_id)	
             ->order("start_time")
@@ -209,7 +209,7 @@ class TeaCenter extends Controller
                     $data[$key]["names"] = $rest["name"];
                     $data[$key]["named"] = $retsd["name"];
                     $data[$key]["color"] = $retsd["color"];
-                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
+                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["one_time"]);
                 }
             }
            
