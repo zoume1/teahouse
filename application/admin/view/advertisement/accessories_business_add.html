@@ -137,13 +137,11 @@
 					<div class="form-input">
 						<div class="line">
 							<div class="names">开始日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-							<input type="text" name="start_time" value="" class="layui-input datetimepicker" placeholder="请选择活动开始时间"
-								id="beginTime1" />
-								<!-- id="datetimepicker2" /> -->
+							<input type="text" name="start_time" value="" class="layui-input" placeholder="请选择活动开始时间"
+								id="datetimepicker2" />
 							<div class="names">结束日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-							<input type="text" name="end_time" value="" class="layui-input datetimepicker" placeholder="请选择活动开始时间"
-								id="endTime1" />
-								<!-- id="datetimepicker3" /> -->
+							<input type="text" name="end_time" value="" class="layui-input" placeholder="请选择活动开始时间"
+								id="datetimepicker3" />
 						</div>
 						<div class="tips">不选择表示该活动长期有效</div>
 					</div>
@@ -152,13 +150,11 @@
 					<label class="form-label" style="width:120px">*每日时间段选择&nbsp;&nbsp;&nbsp;&nbsp;</label>
 					<div class="form-input line">
 						<div class="names">开始日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-						<input type="text" name="day_start_time" value="" class="layui-input datetimepicker" placeholder="请选择活动开始时间"
-							id="beginTime2" />
-							<!-- id="datetimepicker" /> -->
+						<input type="text" name="day_start_time" value="" class="layui-input" placeholder="请选择活动开始时间"
+							id="datetimepicker" />
 						<div class="names">结束日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-						<input type="text" name="day_end_time" value="" class="layui-input datetimepicker" placeholder="请选择活动开始时间"
-							id="endTime2" />
-							<!-- id="datetimepicker1" /> -->
+						<input type="text" name="day_end_time" value="" class="layui-input" placeholder="请选择活动开始时间"
+							id="datetimepicker1" />
 					</div>
 				</div>
 			</div>
@@ -293,7 +289,7 @@
 							<section class="z_file fl">
 								<img src="http://zhihuichacang.com/a11.png" class="add-img">
 								<input type="file" name="classify_image" id="file" class="file" value=""
-									accept="image/jpg,image/jpeg,image/png,image/bmp"  data-id="1" />
+									accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="10" />
 							</section>
 						</div>
 					</section>
@@ -401,70 +397,23 @@
 		//建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
 		var ue = UE.getEditor('editor');
 
-		// $('#datetimepicker').datetimepicker({
-		// 	datepicker: false,
-		// 	format: 'H:i',
-		// 	step: 5
-		// });
-		// $('#datetimepicker1').datetimepicker({
-		// 	datepicker: false,
-		// 	format: 'H:i',
-		// 	step: 5
-		// });
-		// $('#datetimepicker2').datetimepicker({
-		// 	format: 'Y/m/d',
-		// 	step: 1,
-		// });
-		// $('#datetimepicker3').datetimepicker({
-		// 	format: 'Y/m/d',
-		// 	step: 1,
-		// });
-		var datenow = new Date();
-		datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
-		var date = $("#beginTime1").val();
-		var date1 = $("#endTime1").val();
-		//时间控件
-		$('#beginTime1').datetimepicker({
-			timepicker: false,
-			minDate: datenow,
-			scrollMonth: false,
-			onClose: function (ct, $i) {
-				$('#beginTime1').datetimepicker({
-					minDate: $('#beginTime1').val(),
-				});
-			}
+		$('#datetimepicker').datetimepicker({
+			datepicker: false,
+			format: 'H:i',
+			step: 5
 		});
-
-		$('#endTime1').datetimepicker({
-			timepicker: false,
-			minDate: datenow,
-			scrollMonth: false,
-			onClose: function (ct, $i) {
-				$('#endTime1').datetimepicker({
-					minDate: $('#endTime1').val(),
-				});
-			}
+		$('#datetimepicker1').datetimepicker({
+			datepicker: false,
+			format: 'H:i',
+			step: 5
 		});
-		$('#beginTime2').datetimepicker({
-			timepicker: false,
-			minDate: datenow,
-			scrollMonth: false,
-			onClose: function (ct, $i) {
-				$('#beginTime1').datetimepicker({
-					minDate: $('#beginTime1').val(),
-				});
-			}
+		$('#datetimepicker2').datetimepicker({
+			format: 'Y/m/d',
+			step: 1,
 		});
-
-		$('#endTime2').datetimepicker({
-			timepicker: false,
-			minDate: datenow,
-			scrollMonth: false,
-			onClose: function (ct, $i) {
-				$('#endTime1').datetimepicker({
-					minDate: $('#endTime1').val(),
-				});
-			}
+		$('#datetimepicker3').datetimepicker({
+			format: 'Y/m/d',
+			step: 1,
 		});
 	</script>
 

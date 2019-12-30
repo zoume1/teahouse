@@ -24,7 +24,8 @@ class WechatPay extends Controller{
         $url = 'https://www.zhihuichacang.com/set_meal_notify';
         $order = db('set_meal_order') -> getById($id);
 
-        $pay = $order['pay_money'];//先测试1分钱
+        //$pay = $order['pay_money'];//先测试1分钱
+        $pay = 0.01;//先测试1分钱
         if(!$order)returnJson(0,'当前订单不存在');
         if($order['status'] != -1)returnJson(0,'当前订单状态异常');
         if($order['openid'] === null)returnJson(0,'当前订单openid异常');
