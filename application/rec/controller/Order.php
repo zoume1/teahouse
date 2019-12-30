@@ -50,11 +50,12 @@ Class Order extends Controller{
         $request = Request::instance();
         $param = $request->param();
         $ifout = $param['ifout'];//判断是过期订单还是正常订单 1正常 2过期
+        $oreder_no =  'TC'.date('YmdHi').rand(100000, 999999);
         switch($ifout) {
             case 1:
-                
+
                 $order_all = MealOrder::where('store_id', $param['store_id'])->find();
-            
+
                 if ($order_all) {
 
                     $pay = new WechatPay();
@@ -67,11 +68,11 @@ Class Order extends Controller{
                 } else {
                     //验证
                     $param = $this->Verification($param);
-                        
+
                     //查询个人信息
                     $user = new \app\rec\model\User();
                     $user_all = $user->user_index($param['user_id']);
-                
+
                     //查询店铺信息
                     $store_all = Store::where('id', $param['store_id'])->find()->toArray();
                     //print_r($store_all);die;
@@ -83,14 +84,14 @@ Class Order extends Controller{
                         //是否开发票
                         if($param['invoice'] == 2){
                             //生成不开发票订单
-                            
+
                             $order = new MealOrder();
-                            $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
                             $order_id = $order_list->id;
-                                       
+
                             //另一个订单表
                             $meal_orders = new OrdersMeal();
-                            $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
 
                             $pay = new WechatPay();
                             $data = $pay->get_pay($order_id);
@@ -102,14 +103,14 @@ Class Order extends Controller{
                         }
                         //生成开发票订单
                         $order = new MealOrder();
-                        
-                        $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
+
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
                         $no = $order_list->order_number;
                         $order_id = $order_list->id;
                         //            print_r($order_id);die;
                         //另一个订单表
                         $meal_orders = new OrdersMeal();
-                        $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
 
                         // 提交事务
                         // Db::commit();
@@ -167,33 +168,33 @@ Class Order extends Controller{
             case 2: //过期订单
                 //验证
                 $param = $this->Verification($param);
-              
+
                 //查询个人信息
                 $user = new \app\rec\model\User();
                 $user_all = $user->user_index($param['user_id']);
-                 
+
                 //查询店铺信息
                 $store_all = Store::where('id', $param['store_id'])->find()->toArray();
-                
+
                 if(!$store_all)returnJson(0,'店铺有误');
                 // 启动事务
                 // Db::startTrans();
                 // try {
                     //店铺logo
                     $img = $this->imgurl($param['enter_all_id']);
-               
+
                     //是否开发票
                     if($param['invoice'] ==  2){
-                    
+
                         //生成不开发票订单
                         $order = new MealOrder();
-                        $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
                         $order_id = $order_list->id;
-                                    
+
                         //另一个订单表
                         $meal_orders = new OrdersMeal();
-                        $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
-                        
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
+
                         $pay = new WechatPay();
                         $data = $pay->get_pay($order_id);
 
@@ -203,15 +204,15 @@ Class Order extends Controller{
                         $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
                     }
                     //生成开发票订单
-                    
+
                     $order = new MealOrder();
-                    $order_list = $order->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
+                    $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
                     $no = $order_list->order_number;
                     $order_id = $order_list->id;
                     //            print_r($order_id);die;
                     //另一个订单表
                     $meal_orders = new OrdersMeal();
-                    $meal_orders ->add($param['user_id'], $param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
+                    $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
 
                     // 提交事务
                     // Db::commit();
@@ -286,7 +287,7 @@ Class Order extends Controller{
         $data = MealOrder::where(['store_id'=>$param['store_id'],'store_name'=>$param['store_name']])->field('wx_pay')->find();
          //判断
         returnArray($data);
-        
+
         $res = $data['wx_pay'];
         $res ? returnJson(1,'支付信息获取成功',$res) : returnJson(0,'支付信息获取失败',$res);
 

@@ -16,12 +16,12 @@ class MealOrder extends Model{
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid,$img,$invoice)
+    public function add($uid,$no,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$openid,$img,$invoice)
     {
         $data = new MealOrder;
         $data->save([
             'user_id' => $uid,
-            'order_number' => $this->get_sn(),
+            'order_number' => $no,
             'goods_name' => $name,
             'goods_quantity' => $quantity,
             'amount_money' => $money,
@@ -84,9 +84,6 @@ class MealOrder extends Model{
 
     }
 
-    //生成发票订单号
-    function get_sn() {
-        return 'TC'.date('YmdHi').rand(100000, 999999);
-    }
+    
 
 }
