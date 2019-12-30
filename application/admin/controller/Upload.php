@@ -448,10 +448,14 @@ class Upload extends Controller
             //检查是否有该文件夹，如果没有就创建，并给予最高权限
             $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
         }else{
-            //获取携带参数的小程序的二维码
-            // $page='pages/logs/logs';
-            $qr=new My();
-            $re=$qr->create_qrcode($store_id);
+             //获取携带参数的小程序的二维码
+             $page='pages/logs/logs';
+             $qrcode=$this->getwxacode($store_id);
+             //把qrcode文件写进文件中，使用的时候拿出来
+             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+             if (file_put_contents($new_file, $qrcode)) {
+                 $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+             } 
         }
          //判断是否已授权
          $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
@@ -967,7 +971,7 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$timeout['authorizer_access_token'];
+        $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$timeout['access_token'];
         $ret = json_decode($this->https_get($url),true);
         if($ret['errcode'] == 0) {
             return ajax_success('获取成功',$ret['category_list']);
