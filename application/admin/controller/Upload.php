@@ -967,7 +967,7 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$timeout['authorizer_access_token'];
+        $url = "https://api.weixin.qq.com/wxa/get_category?access_token=".$timeout['access_token'];
         $ret = json_decode($this->https_get($url),true);
         if($ret['errcode'] == 0) {
             return ajax_success('获取成功',$ret['category_list']);
