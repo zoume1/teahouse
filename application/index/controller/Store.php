@@ -95,11 +95,7 @@ class  Store extends  Controller{
                         //更新用户的进销存id
                         db('store')->where('id',$bool)->update(['jxc_id'=>$Luid]);
                         //进销存系统插入数据
-<<<<<<< HEAD
-                        $sql3 = 'INSERT INTO lt_users (Luid,Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("'.$Luid.'","0","0","' . $phone_number['phone_number'] . '","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","' . $contact_name . '","","","","","","",1)';
-=======
                         $sql3 = 'INSERT INTO lt_users (Luid,Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("'.$Luid.'","0","0","' . $phone_number['phone_number'] . '","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","' .$contact_name . '","","","","","","",1)';
->>>>>>> f16a310f8f8af52ebacc0c010bef155b5ac81ac1
                         mysqli_query($con, $sql3);   //新插入记录
                     }
                     $user_data =Db::table("tb_pc_user")
