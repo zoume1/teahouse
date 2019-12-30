@@ -227,8 +227,11 @@ class Storehouse extends Controller
         if ($request->isPost()){
             $data = input();
             if(isset($data['uniacid']) && isset($data['member_id']) && isset($data['id'])){
-                $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->value("member_grade_id");
-                $rank = Db::name("member_grade")->where("member_grade_id",$member_grade_id)->value("member_consumption_discount");
+                $member_grade_id = Db::name("member")->where("member_id",$data['member_id'])->find();
+                $rank = Db::name("member_grade")
+                ->where("member_grade_id",$member_grade_id['member_grade_id'])
+                ->where('store_id','=',$data['uniacid'])
+                ->value("member_consumption_discount");
                 $house_order = Db::table("tb_house_order")
                                     ->field("tb_house_order.id,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name,tb_store_house.name store_name")
                                     ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left') 
@@ -242,21 +245,32 @@ class Storehouse extends Controller
                     $house_order['num'] = explode(",",$house_order['num']);
                     $house_order["store_number"] = explode(',', $house_order["store_number"]);
                     if($house_order["goods_money"] > 0){
-                        $house_order["scale"] = (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]);
+                        $house_order["scale"] =sprintf("%.2f", (($house_order["goods_new_money"] - $house_order["goods_money"]))*100/($house_order["goods_money"]));
                     } else {
                         $house_order["scale"] = 0;
                     }
-                    if($house_order['goods_member'] != 1){
+                    if($house_order['goods_member'] == 1 ){
+                        $scope = Db::name("goods")->where("id",$house_order['goods_id'])->value('scope');
+                        if(!empty($scope)){
+                            $scope = explode(',',$scope);
+                            if(!in_array($member_grade_id['member_grade_name'],$scope)){
+                                $rank = 1;
+                            }
+                        } else {
+                            $rank = 1;
+                        }                       
+                    } else {
                         $rank = 1;
                     }
                         if(!empty($house_order['special_id'])){
                             $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
                             $house_order['goods_bottom_money'] = $goods['line'];
-                            $house_order['goods_new_money'] = $goods['price'] * $rank;
-
+                            $house_order['goods_new_money'] = $house_order['goods_money'];
+                            $house_order['discount_price'] = $goods['price'] * $rank;
                         } else {
-                            $house_order['goods_bottom_money'] = $house_order['goods_bottom_money'];
-                            $house_order['goods_new_money'] = $house_order['goods_new_money'] * $rank;
+                            $goods = Db::name("goods")->where("id",$house_order['goods_id'])->find();
+                            $house_order['goods_new_money'] = $house_order['goods_money'];
+                            $house_order['discount_price'] = $goods['goods_new_money'] * $rank;
                         }
                      
                     return ajax_success("获取成功",$house_order);

@@ -55,8 +55,8 @@
                 {if $vo.icon_image}
                 <div class="imgcontent">
                     <span class="img">
-						<img src="__UPLOADS__/{$vo.icon_image}" width="100%">
-						<i class="remove-img" name="icon_image" value="__UPLOADS__/{$vo.icon_image}" data-id="{$vo.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
+						<img src="{$vo.icon_image}" width="100%">
+						<i class="remove-img" name="icon_image" value="{$vo.icon_image}" data-id="{$vo.id}" data-value="1"><img src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
                 </div>
                 {/if}
@@ -65,7 +65,7 @@
                         <div class="z_photo upimg-div clear">
                             <section class="z_file fl">
                                 <img src="http://zhihuichacang.com/a11.png" class="add-img">
-                                <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="1" />
+                                <input type="file" name="icon_image" id="file" class="file" value="" accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" />
                             </section>
                         </div>
                     </section>

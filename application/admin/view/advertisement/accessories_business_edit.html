@@ -159,11 +159,11 @@
 					<div class="form-input">
 						<div class="line">
 							<div class="names">开始日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-							<input type="text" name="start_time" value="{$value.start_time}" class="layui-input"
-								placeholder="请选择活动开始时间" id="datetimepicker2" />
+							<input type="text"  value="{$value.start_time}" class="layui-input"
+								placeholder="请选择活动开始时间" id="datetimepicker2" disabled/>
 							<div class="names">结束日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-							<input type="text" name="end_time" value="{$value.end_time}" class="layui-input"
-								placeholder="请选择活动开始时间" id="datetimepicker3" />
+							<input type="text"  value="{$value.end_time}" class="layui-input"
+								placeholder="请选择活动开始时间" id="datetimepicker3" disabled/>
 						</div>
 						<div class="tips">不选择表示该活动长期有效</div>
 					</div>
@@ -172,11 +172,11 @@
 					<label class="form-label" style="width:120px">*每日时间段选择&nbsp;&nbsp;&nbsp;&nbsp;</label>
 					<div class="form-input line">
 						<div class="names">开始日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-						<input type="text" name="day_start_time" value="{$value.day_start_time}" class="layui-input"
-							placeholder="请选择活动开始时间" id="datetimepicker" />
+						<input type="text"  value="{$value.day_start_time}" class="layui-input"
+							placeholder="请选择活动开始时间" id="datetimepicker" disabled/>
 						<div class="names">结束日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-						<input type="text" name="day_end_time" value="{$value.day_end_time}" class="layui-input"
-							placeholder="请选择活动开始时间" id="datetimepicker1" />
+						<input type="text"  value="{$value.day_end_time}" class="layui-input"
+							placeholder="请选择活动开始时间" id="datetimepicker1" disabled/>
 					</div>
 				</div>
 			</div>
@@ -186,22 +186,22 @@
 			<label class="form-label">卖点标签</label>
 			<div class="form-input" style="display: flex; align-items: center;">
 				<div id="hot">
-					<div class="list">
+					<!-- <div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="" checked="">
 						<img src="http://zhihuichacang.com/kecun.png" />
-					</div>
+					</div> -->
 					<div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<img src="http://zhihuichacang.com/hot.png" />
 					</div>
-					<div class="list">
+					<!-- <div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<img src="http://zhihuichacang.com/chuxiao.png" />
 					</div>
 					<div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<img src="http://zhihuichacang.com/qingchang.png" />
-					</div>
+					</div> -->
 					<div class="list">
 						<input type="checkbox" name="marker" lay-skin="primary" title="">
 						<span class="texts">古色生香</span>
@@ -291,7 +291,7 @@
 			<label class="form-label"><span class="red">*</span>每日活动上限人数</label>
 			<div class="form-input">
 				<input type="number" name="participats" lay-verify="title" autocomplete="off" placeholder=""
-					class="layui-input" id="sort_number" value="{$value.participats}">
+					class="layui-input" id="sort_number" value="{$value.participats}" disabled>
 				<div class="tips">
 					*不填写，表示不限制人数
 				</div>
@@ -322,8 +322,8 @@
 			<div class="form-input">
 				<div class="imgcontent">
 					<span class="img">
-						<img src="__UPLOADS__/{$value.classify_image}" width="100%">
-						<i class="remove-img" name="classify_image" value="__UPLOADS__/{$value.classify_image}"
+						<img src="{$value.classify_image}" width="100%">
+						<i class="remove-img" name="classify_image" value="{$value.classify_image}"
 							data-id="{$value.id}" data-value="2"><img src="__STATIC__/admin/common/img/a7.png"></i>
 					</span>
 				</div>
@@ -333,7 +333,7 @@
 							<section class="z_file fl">
 								<img src="http://zhihuichacang.com/a11.png" class="add-img">
 								<input type="file" name="classify_image" id="file" class="file" value=""
-									accept="image/jpg,image/jpeg,image/png,image/bmp" multiple data-id="10" />
+									accept="image/jpg,image/jpeg,image/png,image/bmp" data-id="1" />
 							</section>
 						</div>
 					</section>
@@ -345,7 +345,7 @@
 					</div>
 				</aside>
 				<div class="tips">
-					建议尺寸：？*？像素
+					建议尺寸：750*380像素
 				</div>
 			</div>
 

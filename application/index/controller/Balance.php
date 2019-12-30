@@ -404,7 +404,7 @@ class Balance extends Controller
             if ($data['house_charges'] > $user_info['member_wallet']) jsonError('账户余额不足，请充值');
             $house_order = Db::name("house_order")->where("id", 'EQ', $data['id'])->find();
             if (!empty($house_order)) {
-                $this->startTrans();
+                Db::startTrans();
                 try {
                     //生成定单号
                     $time = date("Y-m-d", time());
@@ -455,6 +455,9 @@ class Balance extends Controller
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
                     if ($bool) {
+                        if($data['house_charges'] > 0){
+                            $is_money = Db::name('member_id')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
+                        }
                         $is_money = Db::name('member_id')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         $boole = Db::name("house_order")->where("id", $data['id'])->update(['order_quantity' => $new_quantity, 'store_number' => $new_store_number]);
                         $is_address_status =  Db::name("user_address")->where("id", $out_order['address_id'])->find();
@@ -494,11 +497,11 @@ class Balance extends Controller
                         ];
                         $restel = Db::name("order")->insert($order_data);
                     }
-                    $this->commit();
+                    Db::commit();
                     return jsonSuccess('出仓成功');
                 } catch (\Exception $e) {
                     $this->error = $e->getMessage();
-                    $this->rollback();
+                    Db::rollback();
                     halt($this->error);
                     return jsonError('出仓失败');
                 }
