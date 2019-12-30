@@ -189,7 +189,7 @@ class TeaCenter extends Controller
         if ($request->isPost()){
             $store_id = $request->only(['uniacid'])['uniacid'];
             $data = Db::name("teahost")
-            ->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid')
+            ->field('id,activity_name,classify_image,cost_moneny,start_time,commodity,label,marker,participats,requirements,peoples,address,pid,one_time')
             ->where("label", 1)
             ->where("store_id","EQ",$store_id)	
             ->order("start_time")
@@ -209,7 +209,7 @@ class TeaCenter extends Controller
                     $data[$key]["names"] = $rest["name"];
                     $data[$key]["named"] = $retsd["name"];
                     $data[$key]["color"] = $retsd["color"];
-                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["start_time"]);
+                    $data[$key]["start_time"] = date('Y-m-d H:i',$data[$key]["one_time"]);
                 }
             }
            
