@@ -16,12 +16,12 @@ class OrdersMeal extends Model{
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($uid,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$img)
+    public function add($uid,$no,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$img)
     {
         $data = new OrdersMeal;
         $data->save([
             'user_id' => $uid,
-            'order_number' => $this->get_sn(),
+            'order_number' => $no,
             'goods_name' => $name,
             'goods_quantity' => $quantity,
             'amount_money' => $money,
