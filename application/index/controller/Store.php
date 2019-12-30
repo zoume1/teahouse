@@ -95,7 +95,11 @@ class  Store extends  Controller{
                         //更新用户的进销存id
                         db('store')->where('id',$bool)->update(['jxc_id'=>$Luid]);
                         //进销存系统插入数据
+<<<<<<< HEAD
                         $sql3 = 'INSERT INTO lt_users (Luid,Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("'.$Luid.'","0","0","' . $phone_number['phone_number'] . '","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","' . $contact_name . '","","","","","","",1)';
+=======
+                        $sql3 = 'INSERT INTO lt_users (Luid,Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("'.$Luid.'","0","0","' . $phone_number['phone_number'] . '","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","' .$contact_name . '","","","","","","",1)';
+>>>>>>> f16a310f8f8af52ebacc0c010bef155b5ac81ac1
                         mysqli_query($con, $sql3);   //新插入记录
                     }
                     $user_data =Db::table("tb_pc_user")
@@ -472,6 +476,21 @@ class  Store extends  Controller{
 
             $bool = Db::name("store")->insertGetId($data);
             if($bool > 0){
+                 //绑定进销存的jxc_id
+                 $con = mysqli_connect("39.97.124.73:50306", "root", "Lingtian2118", 'lingtian_wms_xm');
+                 if ($con) {
+                     //获取users表最后一条记录的id
+                     $sql2 = 'SELECT  Luid  FROM  lt_users';
+                     $res2 = mysqli_query($con, $sql2);
+                     $rr2 = $res2->fetch_all(MYSQLI_ASSOC);
+                     $num=count($rr2);
+                     $Luid=$rr2[$num-1]['Luid']+1;
+                     //更新用户的进销存id
+                     db('store')->where('id',$bool)->update(['jxc_id'=>$Luid]);
+                     //进销存系统插入数据
+                     $sql3 = 'INSERT INTO lt_users (Luid,Lno,Lrose,Lname,Lpwd,LRemark,Lip,LDLdate,LNewUser,LNewDate,LUpdateUser,LUpdateDate,LStatus) VALUES ("'.$Luid.'","0","0","' . $phone_number['phone_number'] . '","1NhcQSgkRIiX%g6/skEH8QF4BbU3XQT8","' .$contact_name . '","","","","","","",1)';
+                     mysqli_query($con, $sql3);   //新插入记录
+                 }
                     $user_data =Db::table("tb_pc_user")
                         ->field("phone_number,password")
                         ->where("id",$user_id)

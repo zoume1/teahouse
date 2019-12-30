@@ -220,7 +220,6 @@ class  Control extends  Controller{
                 'query' => request()->param(),
             ]);
         $enter_meal = db("enter_meal")->field("name")->select();
-        
         $type_meal['0']['audit_status']='入驻审核不通过';
         $type_meal['1']['audit_status']='入驻审核';
         $type_meal['2']['audit_status']='入驻审核通过';
