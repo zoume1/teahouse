@@ -389,7 +389,6 @@ class Balance extends Controller
                 ['house_charges', 'require', '出仓费用不能为空'],
                 ['order_quantity', 'require', '出仓数量不能为空'],
                 ['address_id', 'require', '地址id不能为空'],
-                ['passwords', 'require', '密码不能为空'],
             ]);
             //验证部分数据合法性
             if (!$validate->check($data)) {
@@ -400,7 +399,6 @@ class Balance extends Controller
                 ->field("pay_password,member_wallet,member_recharge_money")
                 ->where("member_id", $data['member_id'])
                 ->find(); //用户信息 
-            if (!password_verify($data['password'], $user_info["pay_password"])) jsonError('密码错误，请重试');
             if ($data['house_charges'] > $user_info['member_wallet']) jsonError('账户余额不足，请充值');
             $house_order = Db::name("house_order")->where("id", 'EQ', $data['id'])->find();
             if (!empty($house_order)) {
@@ -456,9 +454,9 @@ class Balance extends Controller
                     $bool = Db::name('out_house_order')->insert($out_order);
                     if ($bool) {
                         if($data['house_charges'] > 0){
-                            $is_money = Db::name('member_id')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
+                            $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         }
-                        $is_money = Db::name('member_id')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
+                        $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         $boole = Db::name("house_order")->where("id", $data['id'])->update(['order_quantity' => $new_quantity, 'store_number' => $new_store_number]);
                         $is_address_status =  Db::name("user_address")->where("id", $out_order['address_id'])->find();
                         $harvest_address_city = str_replace(',', '', $is_address_status['address_name']);

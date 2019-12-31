@@ -233,7 +233,7 @@ class Storehouse extends Controller
                 ->where('store_id','=',$data['uniacid'])
                 ->value("member_consumption_discount");
                 $house_order = Db::table("tb_house_order")
-                                    ->field("tb_house_order.id,pay_time,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name,tb_store_house.name store_name")
+                                    ->field("tb_house_order.id,pay_time,accompany_code_id,goods_image,special_id,goods_id,parts_order_number,end_time,order_quantity,goods_money,order_amount,store_number,store_unit,tb_store_house.number,tb_store_house.adress,tb_goods.goods_name,date,goods_new_money,goods_member,goods_bottom_money,brand,num,tb_goods.unit,tb_wares.name,tb_store_house.name store_name")
                                     ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left') 
                                     ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                     ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
@@ -249,6 +249,11 @@ class Storehouse extends Controller
                     } else {
                         $house_order["scale"] = 0;
                     }
+                    $give_sataus = 0;
+                    if($house_order['accompany_code_id'] != 0 ){
+                        $give_sataus = 1; 
+                    }
+                    $house_order['give_sataus'] = $give_sataus;
                     if($house_order['goods_member'] == 1 ){
                         $scope = Db::name("goods")->where("id",$house_order['goods_id'])->value('scope');
                         if(!empty($scope)){
