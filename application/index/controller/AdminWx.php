@@ -38,7 +38,7 @@ class  AdminWx extends Controller{
             $val = json_decode(json_encode($xml_data), true);
             if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){
                 $enter_all_data = Db::name("set_meal_order")
-                    ->where("order_number",$val["out_trade_no"])->where("false_data",1)
+                    ->where(["order_number"=>$val["out_trade_no"],'false_data'=>1])
                     ->find();
                 //开电子发票
                 if($enter_all_data['invoice'] ==1){
