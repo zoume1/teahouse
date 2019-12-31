@@ -389,7 +389,6 @@ class Balance extends Controller
                 ['house_charges', 'require', '出仓费用不能为空'],
                 ['order_quantity', 'require', '出仓数量不能为空'],
                 ['address_id', 'require', '地址id不能为空'],
-                ['passwords', 'require', '密码不能为空'],
             ]);
             //验证部分数据合法性
             if (!$validate->check($data)) {
