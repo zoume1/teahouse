@@ -89,11 +89,11 @@ Class Order extends Controller{
                             $pay = new WechatPay();
                             if($param['enter_all_id'] == 5){   //万用版
                                 //真实数据
-                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
                                 $order_id = $order_list->id;
 
                                 //另一个订单表
-                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
                                 //调起微信支付
                                 $data = $pay->get_pay($order_id);
@@ -104,10 +104,10 @@ Class Order extends Controller{
 
                             }elseif($param['enter_all_id'] == 7){   //行业版
                                 //真实数据
-                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                                 $order_id = $order_list->id;
                                 //另一个订单表
-                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
                                 //调起微信支付
                                 $data = $pay->get_pay($order_id);
@@ -124,10 +124,10 @@ Class Order extends Controller{
 
                             }elseif($param['enter_all_id'] == 8){   //进阶版
                                 //真实数据
-                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                                 $order_id = $order_list->id;
                                 //另一个订单表
-                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
                                 //调起微信支付
                                 $data = $pay->get_pay($order_id);
@@ -155,21 +155,21 @@ Class Order extends Controller{
                         $meal_orders = new OrdersMeal();
                         if($param['enter_all_id'] == 5){   //万用版
                             //真实数据
-                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
                             $order_id = $order_list->id;
                             $no = $order_list->order_number;
                             //另一个订单表
-                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
 
 
                         }elseif($param['enter_all_id'] == 7){   //行业版
                             //真实数据
-                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                             $order_id = $order_list->id;
                             $no = $order_list->order_number;
                             //另一个订单表
-                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
 
                             //伪造数据-万用版
@@ -180,11 +180,11 @@ Class Order extends Controller{
 
                         }elseif($param['enter_all_id'] == 8){   //进阶版
                             //真实数据
-                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                             $order_id = $order_list->id;
                             $no = $order_list->order_number;
                             //另一个订单表
-                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
 
                             //伪造数据-行业版
@@ -277,11 +277,11 @@ Class Order extends Controller{
                         $pay = new WechatPay();
                         if($param['enter_all_id'] == 5){   //万用版
                             //真实数据
-                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
                             $order_id = $order_list->id;
 
                             //另一个订单表
-                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
                             //调起微信支付
                             $data = $pay->get_pay($order_id);
@@ -292,10 +292,10 @@ Class Order extends Controller{
 
                         }elseif($param['enter_all_id'] == 7){   //行业版
                             //真实数据
-                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                             $order_id = $order_list->id;
                             //另一个订单表
-                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
                             //调起微信支付
                             $data = $pay->get_pay($order_id);
@@ -312,10 +312,10 @@ Class Order extends Controller{
 
                         }elseif($param['enter_all_id'] == 8){   //进阶版
                             //真实数据
-                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                             $order_id = $order_list->id;
                             //另一个订单表
-                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
                             //调起微信支付
                             $data = $pay->get_pay($order_id);
@@ -341,21 +341,21 @@ Class Order extends Controller{
                     $meal_orders = new OrdersMeal();
                     if($param['enter_all_id'] == 5){   //万用版
                         //真实数据
-                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
                         $order_id = $order_list->id;
                         $no = $order_list->order_number;
                         //另一个订单表
-                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
 
 
                     }elseif($param['enter_all_id'] == 7){   //行业版
                         //真实数据
-                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                         $order_id = $order_list->id;
                         $no = $order_list->order_number;
                         //另一个订单表
-                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
 
                         //伪造数据-万用版
@@ -366,11 +366,11 @@ Class Order extends Controller{
 
                     }elseif($param['enter_all_id'] == 8){   //进阶版
                         //真实数据
-                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
                         $order_id = $order_list->id;
                         $no = $order_list->order_number;
                         //另一个订单表
-                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
 
 
                         //伪造数据-行业版
