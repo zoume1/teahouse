@@ -128,10 +128,12 @@
         .qr-img {
             margin: 40px 20px 30px 20px;
         }
-        .qr-img div{
+
+        .qr-img div {
             text-align: center;
             font-size: 12px;
         }
+
         .qr-img img {
             width: 80px;
             height: 80px;
@@ -238,12 +240,12 @@
                 <div>{{sweepData.stock_date}}</div>
             </div>
             <div class="lista">
-                <div class="monicker">包装日期：</div>
-                <div>{{sweepData.frement_date}}</div>
-            </div>
-            <div class="lista">
                 <div class="monicker">加工日期：</div>
                 <div>{{sweepData.date}}</div>
+            </div>
+            <div class="lista">
+                <div class="monicker">包装日期：</div>
+                <div>{{sweepData.frement_date}}</div>
             </div>
             <div class="lista">
                 <div class="monicker">原产地：</div>
@@ -310,6 +312,7 @@
         el: '#app',
         data: {
             code: '',
+            nfc_num: 0,
             sweepData: {
                 category: "",
                 child_code: "",
@@ -326,14 +329,19 @@
                 pick_size: "",
                 stock_date: "",
                 qr_img: "",
-                applet_name:"",
-                sweepData:""
+                applet_name: "",
+                sweepData: ""
             }
         },
         methods: {
             getData: function () {
-                let vm = this;
-                this.$http.post('get_anti_fake_info', { 'code': this.code }).then(function (res) {
+                let vm = this, params;
+                if (this.nfc_num > 0) {
+                    params = { 'code': this.code, 'nfc_num': this.nfc_num };
+                } else {
+                    params = { 'code': this.code, 'qr_num': 1 };
+                }
+                this.$http.post('get_anti_fake_info', params).then(function (res) {
                     if (res.body.status == "1") {
                         res.body.data.qr_img = 'data:' + res.body.data.qr_img;
                         vm.sweepData = res.body.data;
@@ -345,9 +353,14 @@
 
         },
         mounted: function () {
-            let searchURL = location.search;
+            let searchURL = location.search, nfc_is;
             searchURL = searchURL.substring(1, searchURL.length);
             this.code = searchURL.split("&")[0].split("=")[1];
+            nfc_is = this.code.split("x");
+            if (nfc_is) {
+                this.code = nfc_is[0];
+                this.nfc_num = Number(nfc_is[1]);
+            }
             this.getData();
         }
     })

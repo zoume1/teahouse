@@ -75,7 +75,7 @@
                         <th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
                         <th>分类名称</th>
                         <th>上级分类</th>
-                        <th>一级图标</th>
+                        <!-- <th>一级图标</th> -->
                         <th>主调色</th>
                         <th>级别</th>
                         <th>排序</th>
@@ -89,9 +89,9 @@
                         <td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$value.id}"></td>
                         <td align="left">{$value.name} </td>
                         <td>{if $value.pid !=0}{$value.names} {else} 顶级 {/if}</td>
-                        <td>
+                        <!-- <td>
                             <div style="width: 50px; height: 50px; margin: 0 auto;"><img src="{$value.icon_image}" /></div>
-                        </td>
+                        </td> -->
                         <td><input type="color" name="color" id="" value="{$value.color}" disabled="disabled" /></td>
                         <td>{$value.rank}</td>
                         <td>{$value.sort_number}</td>

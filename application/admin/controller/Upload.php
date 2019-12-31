@@ -387,7 +387,7 @@ class Upload extends Controller
             // // //获取体验码的url
             $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
             $timeout=$this->is_timeout($appid);
-            $pp = $timeout['access_token'];
+            $pp = $timeout['authorizer_access_token'];
             //判断是否已上传店铺代码
             $is_chuan=Db::table('applet')->where('id',$store_id)->value('is_chuan');
             if($is_chuan=='0'){   //没有上传
@@ -448,10 +448,14 @@ class Upload extends Controller
             //检查是否有该文件夹，如果没有就创建，并给予最高权限
             $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
         }else{
-            //获取携带参数的小程序的二维码
-            // $page='pages/logs/logs';
-            $qr=new My();
-            $re=$qr->create_qrcode($store_id);
+             //获取携带参数的小程序的二维码
+             $page='pages/logs/logs';
+             $qrcode=$this->getwxacode($store_id);
+             //把qrcode文件写进文件中，使用的时候拿出来
+             $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+             if (file_put_contents($new_file, $qrcode)) {
+                 $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+             } 
         }
          //判断是否已授权
          $is_shou=db('miniprogram')->where('store_id',$store_id)->find();
@@ -620,7 +624,7 @@ class Upload extends Controller
         $store_id=Session::get('store_id');
         $appid=db('miniprogram')->where('store_id',$store_id)->value('appid');
         $timeout=$this->is_timeout($appid);
-        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['access_token'];
+        $url = "https://api.weixin.qq.com/wxa/bind_tester?access_token=".$timeout['authorizer_access_token'];
         $data = '{"wechatid":"'.$input['wx'].'"}';
         $ret = json_decode($this->https_post($url,$data),true);
         if($ret['errcode'] == 0) {
@@ -659,7 +663,7 @@ class Upload extends Controller
             if($miniprogram['out_time']<time()){
                 $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
             }else{
-                $access['access_token']=$miniprogram['access_token'];
+                $access['authorizer_access_token']=$miniprogram['access_token'];
                 $access['authorizer_refresh_token']=$miniprogram['authorizer_refresh_token'];
             }
             $access['thirdAccessToken']=$ret['component_access_token'];

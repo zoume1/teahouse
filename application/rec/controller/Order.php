@@ -84,8 +84,20 @@ Class Order extends Controller{
                         //是否开发票
                         if($param['invoice'] == 2){
                             //生成不开发票订单
+<<<<<<< HEAD
                             $order = new MealOrder();
                             $meal_orders = new OrdersMeal();
+=======
+
+                            $order = new MealOrder();     //set_meal__order
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
+                            $order_id = $order_list->id;
+
+                            //另一个订单表
+                            $meal_orders = new OrdersMeal();     //meal_orders
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
+
+>>>>>>> 70abaf98c4eba297af89c90cd529396ba03a6643
                             $pay = new WechatPay();
                             if($param['enter_all_id'] == 5){   //万用版
                                 //真实数据
