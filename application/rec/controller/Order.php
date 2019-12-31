@@ -85,12 +85,12 @@ Class Order extends Controller{
                         if($param['invoice'] == 2){
                             //生成不开发票订单
 
-                            $order = new MealOrder();
+                            $order = new MealOrder();     //set_meal__order
                             $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
                             $order_id = $order_list->id;
 
                             //另一个订单表
-                            $meal_orders = new OrdersMeal();
+                            $meal_orders = new OrdersMeal();     //meal_orders
                             $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
 
                             $pay = new WechatPay();
