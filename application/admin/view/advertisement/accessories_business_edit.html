@@ -159,11 +159,11 @@
 					<div class="form-input">
 						<div class="line">
 							<div class="names">开始日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-							<input type="text"  value="{$value.start_time}" class="layui-input"
-								placeholder="请选择活动开始时间" id="datetimepicker2" disabled/>
+							<input type="text"  value="{$value.start_time}" class="layui-input datetimepicker"
+								placeholder="请选择活动开始时间" id="beginTime1" disabled/>
 							<div class="names">结束日期&nbsp;&nbsp;&nbsp;&nbsp;</div>
-							<input type="text"  value="{$value.end_time}" class="layui-input"
-								placeholder="请选择活动开始时间" id="datetimepicker3" disabled/>
+							<input type="text"  value="{$value.end_time}" class="layui-input datetimepicker"
+								placeholder="请选择活动开始时间" id="endTime1" disabled/>
 						</div>
 						<div class="tips">不选择表示该活动长期有效</div>
 					</div>
@@ -486,14 +486,41 @@
 			format: 'H:i',
 			step: 5
 		});
-		$('#datetimepicker2').datetimepicker({
-			format: 'Y/m/d',
-			step: 1,
+		// $('#datetimepicker2').datetimepicker({
+		// 	format: 'Y/m/d',
+		// 	step: 1,
+		// });
+		// $('#datetimepicker3').datetimepicker({
+		// 	format: 'Y/m/d',
+		// 	step: 1,
+		// });
+		var datenow = new Date();
+		datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
+		var date = $("#beginTime1").val(),
+			date1 = $("#endTime1").val();
+		//时间控件
+		$('#beginTime1').datetimepicker({
+			timepicker: false,
+			scrollMonth: false,
+			minDate: datenow,
+			onClose: function (ct, $i) {
+				$('#endTime1').datetimepicker({
+					minDate: $('#beginTime1').val(),
+				});
+			}
 		});
-		$('#datetimepicker3').datetimepicker({
-			format: 'Y/m/d',
-			step: 1,
+
+		$('#endTime1').datetimepicker({
+			timepicker: false,
+			scrollMonth: false,
+			minDate: datenow,
+			onClose: function (ct, $i) {
+				$('#beginTime1').datetimepicker({
+					maxDate: $('#endTime1').val(),
+				});
+			}
 		});
+		
 	</script>
 
 	{/block}
