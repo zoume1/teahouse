@@ -663,7 +663,7 @@ class Upload extends Controller
             if($miniprogram['out_time']<time()){
                 $access=$this->update_authorizer_access_token($appid,$miniprogram['authorizer_refresh_token'],$this->thirdAccessToken);
             }else{
-                $access['access_token']=$miniprogram['access_token'];
+                $access['authorizer_access_token']=$miniprogram['access_token'];
                 $access['authorizer_refresh_token']=$miniprogram['authorizer_refresh_token'];
             }
             $access['thirdAccessToken']=$ret['component_access_token'];
