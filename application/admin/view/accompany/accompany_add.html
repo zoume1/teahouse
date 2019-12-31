@@ -257,14 +257,18 @@
 
             form.render();
         });
-
+        var datenow = new Date();
+        datenow = datenow.getFullYear() + "/" + (datenow.getMonth() + 1) + "/" + (datenow.getDate());
         $('#datetimepicker2').datetimepicker({
             format: 'Y/m/d H:i:s',
+            minDate: datenow,
             step: 1,
         });
         $('#datetimepicker3').datetimepicker({
             format: 'Y/m/d H:i:s',
+            minDate: datenow,
             step: 1,
+           
         });
     </script>
     {/block}
