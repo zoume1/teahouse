@@ -467,17 +467,17 @@ class Commodity extends Controller
                 //获取当前会员的会员级别
                 $member_grade=db('member')->where('member_openid',$input['open_id'])->value('member_grade_name');
                 if($input['order']==1){     //综合排序
-                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope,goods_standard')->select();
                 }elseif($input['order']==2){    //最新
-                    $goods_list=db('goods')->where($where)->order('date desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
+                    $goods_list=db('goods')->where($where)->order('date desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scop,goods_standarde')->select();
                 }elseif($input['order']==3){     //价格  --升序
-                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope,goods_standard')->select();
                 }elseif($input['order']==4){     //价格-- 降序
-                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
+                    $goods_list=db('goods')->where($where)->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope,goods_standard')->select();
                 }elseif($input['order']==5){     //销量----升序
-                    $goods_list=db('goods')->where($where)->order('goods_volume asc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
+                    $goods_list=db('goods')->where($where)->order('goods_volume asc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope,goods_standard')->select();
                 }elseif($input['order']==6){     //销量----降序
-                    $goods_list=db('goods')->where($where)->order('goods_volume desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope')->select();
+                    $goods_list=db('goods')->where($where)->order('goods_volume desc')->field('goods_selling,id,goods_name,goods_show_image,goods_member,goods_new_money,scope,goods_standard')->select();
                 }
                 if($goods_list){
                     foreach($goods_list as $k=>$v){
@@ -493,7 +493,11 @@ class Commodity extends Controller
                         }else{
                             $discount=1;
                         }
-                        $goods_list[$k]['price']=round($v['goods_new_money']*$discount,2);
+                        if($v['goods_standard']==1){
+                            $goods_list[$k]['price']=round(db('special')->where('goods_id',$v['id'])->limit('1')->value('price')*$discount,2);
+                        }else{
+                            $goods_list[$k]['price']=round($v['goods_new_money']*$discount,2);
+                        }
                     }
                     if($input['order']==3){
                         array_multisort(array_column($goods_list,'price'),SORT_ASC,$goods_list);

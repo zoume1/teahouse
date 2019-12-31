@@ -1825,7 +1825,7 @@ class  General extends  Base {
                     "amount_money"=>$enter_data["favourable_cost"],//金额
                     "cost" =>$enter_data["cost"],//原价
                     "store_id"=>$store_id,//店铺id
-                    "enter_all_id"=>'6',//套餐id
+                    "enter_all_id"=>'13',//套餐id
                     "status"=>-1,//订单状态（-1为未付款，1为已付款）
                     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
                     "status_type"=>0,//版本开启状态状态（1为正常状态，0为关闭状态）
