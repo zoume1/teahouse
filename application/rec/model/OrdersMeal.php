@@ -16,7 +16,7 @@ class OrdersMeal extends Model{
     protected $resultSetType = 'collection';
 
     //新增
-    public function add($uid,$no,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$img)
+    public function add($uid,$no,$name,$quantity,$money,$store_id,$enter_all_id,$store_name,$pay,$img,$invoice,$false_data)
     {
         $data = new OrdersMeal;
         $data->save([
@@ -35,7 +35,8 @@ class OrdersMeal extends Model{
             'images_url'=>$img,
             "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
             "status_type"=>1,//版本开启状态状态（1为正常状态，0为关闭状态）
-            "false_data"=>1,//记录
+            "invoice"=>$invoice,
+            "false_data"=>$false_data,
             'create_time'=>time()
         ]);
 
