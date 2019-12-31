@@ -456,7 +456,7 @@ class Balance extends Controller
                         if($data['house_charges'] > 0){
                             $is_money = Db::name('member_id')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         }
-                        $is_money = Db::name('member_id')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
+                        $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         $boole = Db::name("house_order")->where("id", $data['id'])->update(['order_quantity' => $new_quantity, 'store_number' => $new_store_number]);
                         $is_address_status =  Db::name("user_address")->where("id", $out_order['address_id'])->find();
                         $harvest_address_city = str_replace(',', '', $is_address_status['address_name']);
