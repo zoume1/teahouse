@@ -491,8 +491,13 @@ class  Material extends  Controller{
     public function anti_fake_judge()
     {
         $store_id=Session::get('store_id');
+         //获取店铺主的phone_number
+         $phone=db('store')->where('id',$store_id)->value('phone_number');
+         if(!$phone){
+             return ajax_error('未获取用户同步信息');
+         }
         // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
-        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
+        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_'.$phone);
         if($con)
         {
             //1.统计子标表里的总数
@@ -510,28 +515,6 @@ class  Material extends  Controller{
                 //同步数据
                 return ajax_error('需同步数据');
             }
-            //1.获取商品列表，导入自己的数据库
-            // $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = 47 limit 1 ';
-            // $res= mysqli_query($con,$sql);
-            // $rr=$res->fetch_all(MYSQLI_ASSOC);
-            // halt($res);
-            // foreach($rr as $k =>$v){
-            //     $v['create_time']=time();
-            //     $v['store_id']=$store_id;
-            //     $v['produceUid']='50';
-            //     db('anti_goods')->insert($v);
-            // }
-            // //2.获取目标列表，导入自己的数据库
-            // $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript  ';
-            // $res2= mysqli_query($con,$sql2);
-            // $rr2=$res2->fetch_all(MYSQLI_ASSOC);
-            // foreach($rr2 as $k2 =>$v2){
-            //     $v2['create_time']=time();
-            //     $v2['store_id']=$store_id;
-            //     $v2['produceUid']='50';
-            //     db('anti_parent_code')->insert($v2);
-            // }
-            // halt($rr);
         }
     }
 
@@ -542,26 +525,31 @@ class  Material extends  Controller{
     public function anti_fake_dts()
     {
         $store_id=Session::get('store_id');
+        //获取店铺主的phone_number
+        $phone=db('store')->where('id',$store_id)->value('phone_number');
+        if($phone){
+            return ajax_error('未获取用户同步信息');
+        }
         // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
-        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_xm');
+        $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_'.$phone);
         if($con)
         {
             //获取当前店铺的jxc_id
             $jxc_id=db('store')->where('id',$store_id)->value('jxc_id');
             //1.获取商品列表，导入自己的数据库
-            $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = 47 GROUP by id  ';
+            $sql='SELECT v_traceability.* FROM  v_traceability where GROUP by goods_number';
             // $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = '.$jxc_id.' GROUP by id  ';
             $res= mysqli_query($con,$sql);
             $rr=$res->fetch_all(MYSQLI_ASSOC);
+            halt($rr);
             foreach($rr as $k =>$v){
-                $ids=db('anti_goods')->where('store_id',$store_id)->column('id');
-                if(in_array($v['id'],$ids)){
+                $ids=db('anti_goods')->where('store_id',$store_id)->column('goods_number');
+                if(in_array($v['goods_number'],$ids)){
                     continue;
                 }
                 $v['create_time']=time();
                 $v['store_id']=$store_id;
-                $v['produceUid']='50';
-                $v['goods_number']=get_random();
+                $v['produceUid']=$jxc_id;
                 //获取对应的子标
                 $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript where pid = '.$v['id'];
                 $res2= mysqli_query($con,$sql2);
