@@ -598,7 +598,6 @@
             var laydate = layui.laydate,
                 form = layui.form;
             laydate.render({ elem: '#searchDate' });
-
             $.ajax({
                 url: "anti_fake_judge",
                 type: "POST",
@@ -616,8 +615,9 @@
                             type: "POST",
                             data: "",
                             success: (res) => {
-                                console.log(res)
-                                window.location.reload();
+                                if(res.status == 1) {
+                                    window.location.reload();
+                                }
                             },
                             error: (e) => {
                                 console.log(e)
