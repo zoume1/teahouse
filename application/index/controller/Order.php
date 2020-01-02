@@ -2678,7 +2678,7 @@ class  Order extends  Controller
 
                     $number = $order_quantity / $num_one;     //单位换算
                     if ($number > 1) {
-                        $remainder = fmod($ord`````````````````````````````````````er_quantity, $num_one); //余下的值
+                        $remainder = fmod($order_quantity, $num_one); //余下的值
                         $store_number = intval($number) . ',' . $number_zero . ',' . intval($remainder) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];
                     } else if ($number == 1) {
                         $store_number = intval($number) . ',' . $number_zero . ',' . ($key - 1) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];
