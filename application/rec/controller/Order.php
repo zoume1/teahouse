@@ -84,34 +84,120 @@ Class Order extends Controller{
                         //是否开发票
                         if($param['invoice'] == 2){
                             //生成不开发票订单
-
-                            $order = new MealOrder();     //set_meal__order
-                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
-                            $order_id = $order_list->id;
-
-                            //另一个订单表
-                            $meal_orders = new OrdersMeal();     //meal_orders
-                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
-
+                            $order = new MealOrder();
+                            $meal_orders = new OrdersMeal();
                             $pay = new WechatPay();
-                            $data = $pay->get_pay($order_id);
+                            if($param['enter_all_id'] == 5){   //万用版
+                                //真实数据
+                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                                $order_id = $order_list->id;
 
-                            //存入微信支付返回参数
-                            $order->where('id', $order_id)->update(['wx_pay' => $data]);
+                                //另一个订单表
+                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
-                            $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+                                //调起微信支付
+                                $data = $pay->get_pay($order_id);
+                                //存入微信支付返回参数
+                                $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                                $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+
+                            }elseif($param['enter_all_id'] == 7){   //行业版
+                                //真实数据
+                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                                $order_id = $order_list->id;
+                                //另一个订单表
+                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+                                //调起微信支付
+                                $data = $pay->get_pay($order_id);
+                                //存入微信支付返回参数
+                                $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                                //伪造数据-万用版
+                                $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                                //另一个订单表
+                                $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+                                //调起微信支付
+                                $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+
+                            }elseif($param['enter_all_id'] == 8){   //进阶版
+                                //真实数据
+                                $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                                $order_id = $order_list->id;
+                                //另一个订单表
+                                $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+                                //调起微信支付
+                                $data = $pay->get_pay($order_id);
+                                //存入微信支付返回参数
+                                $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                                //伪造数据-行业版
+                                $order->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/hangye.png',$param['invoice'],0);
+                                //另一个订单表
+                                $meal_orders ->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], '/static/admin/common/img/hangye.png',$param['invoice'],0);
+
+                                //伪造数据-万用版
+                                $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                                //另一个订单表
+                                $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+                                //调起微信支付
+                                $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+                            }
+
+
                         }
                         //生成开发票订单
                         $order = new MealOrder();
-
-                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
-                        $no = $order_list->order_number;
-                        $order_id = $order_list->id;
-                        //            print_r($order_id);die;
-                        //另一个订单表
                         $meal_orders = new OrdersMeal();
-                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
+                        if($param['enter_all_id'] == 5){   //万用版
+                            //真实数据
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                            $order_id = $order_list->id;
+                            $no = $order_list->order_number;
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
+
+
+                        }elseif($param['enter_all_id'] == 7){   //行业版
+                            //真实数据
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_id = $order_list->id;
+                            $no = $order_list->order_number;
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+
+                            //伪造数据-万用版
+                            $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+
+                        }elseif($param['enter_all_id'] == 8){   //进阶版
+                            //真实数据
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_id = $order_list->id;
+                            $no = $order_list->order_number;
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+
+                            //伪造数据-行业版
+                            $order->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/hangye.png',$param['invoice'],0);
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], '/static/admin/common/img/hangye.png',$param['invoice'],0);
+
+                            //伪造数据-万用版
+                            $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+                        }
                         // 提交事务
                         // Db::commit();
                         $type = $param['type'];
@@ -185,35 +271,119 @@ Class Order extends Controller{
 
                     //是否开发票
                     if($param['invoice'] ==  2){
-
                         //生成不开发票订单
                         $order = new MealOrder();
-                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
-                        $order_id = $order_list->id;
-
-                        //另一个订单表
                         $meal_orders = new OrdersMeal();
-                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
-
                         $pay = new WechatPay();
-                        $data = $pay->get_pay($order_id);
+                        if($param['enter_all_id'] == 5){   //万用版
+                            //真实数据
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                            $order_id = $order_list->id;
 
-                        //存入微信支付返回参数
-                        $order->where('id', $order_id)->update(['wx_pay' => $data]);
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
-                        $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+                            //调起微信支付
+                            $data = $pay->get_pay($order_id);
+                            //存入微信支付返回参数
+                            $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                            $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+
+                        }elseif($param['enter_all_id'] == 7){   //行业版
+                            //真实数据
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_id = $order_list->id;
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+                            //调起微信支付
+                            $data = $pay->get_pay($order_id);
+                            //存入微信支付返回参数
+                            $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                            //伪造数据-万用版
+                            $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+                            //调起微信支付
+                            $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+
+                        }elseif($param['enter_all_id'] == 8){   //进阶版
+                            //真实数据
+                            $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                            $order_id = $order_list->id;
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+                            //调起微信支付
+                            $data = $pay->get_pay($order_id);
+                            //存入微信支付返回参数
+                            $order->where('id', $order_id)->update(['wx_pay' => $data]);
+
+                            //伪造数据-行业版
+                            $order->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/hangye.png',$param['invoice'],0);
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], '/static/admin/common/img/hangye.png',$param['invoice'],0);
+
+                            //伪造数据-万用版
+                            $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                            //另一个订单表
+                            $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+                            //调起微信支付
+                            $data ? returnJson(1, '成功', $data) : returnJson(0, '失败');
+                        }
                     }
                     //生成开发票订单
-
                     $order = new MealOrder();
-                    $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice']);
-                    $no = $order_list->order_number;
-                    $order_id = $order_list->id;
-                    //            print_r($order_id);die;
-                    //另一个订单表
                     $meal_orders = new OrdersMeal();
-                    $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['enter_all_id'], $store_all['store_name'], $param['price'], $img,$param['invoice']);
+                    if($param['enter_all_id'] == 5){   //万用版
+                        //真实数据
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],1);
+                        $order_id = $order_list->id;
+                        $no = $order_list->order_number;
+                        //另一个订单表
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],1);
 
+
+
+                    }elseif($param['enter_all_id'] == 7){   //行业版
+                        //真实数据
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                        $order_id = $order_list->id;
+                        $no = $order_list->order_number;
+                        //另一个订单表
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+
+                        //伪造数据-万用版
+                        $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                        //另一个订单表
+                        $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 6, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+
+                    }elseif($param['enter_all_id'] == 8){   //进阶版
+                        //真实数据
+                        $order_list = $order->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $user_all['openid'],$img,$param['invoice'],1);
+                        $order_id = $order_list->id;
+                        $no = $order_list->order_number;
+                        //另一个订单表
+                        $meal_orders ->add($param['user_id'], $oreder_no,$param['goods_name'], $param['goods_quantity'], $param['amount_money'], $param['store_id'], $param['tid'], $store_all['store_name'], $param['price'], $img,$param['invoice'],1);
+
+
+                        //伪造数据-行业版
+                        $order->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/hangye.png',$param['invoice'],0);
+                        //另一个订单表
+                        $meal_orders ->add($param['user_id'], $oreder_no,'行业版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 13, $store_all['store_name'], $param['price'], '/static/admin/common/img/hangye.png',$param['invoice'],0);
+
+                        //伪造数据-万用版
+                        $order->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], $user_all['openid'],'/static/admin/common/img/wanyong.png',$param['invoice'],0);
+                        //另一个订单表
+                        $meal_orders ->add($param['user_id'], $oreder_no,'万用版', $param['goods_quantity'], $param['amount_money'], $param['store_id'], 1, $store_all['store_name'], $param['price'], '/static/admin/common/img/wanyong.png',$param['invoice'],0);
+
+                    }
                     // 提交事务
                     // Db::commit();
                     $type = $param['type'];

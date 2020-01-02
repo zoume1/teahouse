@@ -47,7 +47,7 @@ class HouseOrder extends Model
 
         $key = array_search($goods_data['monomer'], explode(',',$goods_data['unit']));
         //先判断有多少位数量等级
-        $store_number = (new Order())->unit_calculate($goods_data['unit'], $goods_data['num'], $key, $data['single_number']);
+        $store_number = (new Order())->unit_calculate(explode(',',$goods_data['unit']), explode(',',$goods_data['num']), $key, $data['single_number']);
         $this->startTrans();
         try {
             $add_ata = [

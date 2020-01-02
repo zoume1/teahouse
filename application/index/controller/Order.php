@@ -2183,8 +2183,9 @@ class  Order extends  Controller
     {
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $pp = json_encode($xml_data);
-        $val = json_decode($pp, true);
+        // $pp = json_encode($xml_data);
+        // $val = json_decode($pp, true);
+        $val = json_decode(json_encode($xml_data), true);
         if ($val["result_code"] == "SUCCESS") {
 
             $order_type = Db::name("order")->where("parts_order_number", $val["out_trade_no"])->find();
@@ -2207,8 +2208,8 @@ class  Order extends  Controller
                 if ($res) {
                     $order = GoodsOrder::getOrderInforMation($order_type);
                     $model = OrderModel::grantMoney($order);
-                    // 发送消息通知
-                    $message = (new MessageService)->payment($order_type, 10);
+                    // // 发送消息通知
+                    // $message = (new MessageService)->payment($order_type, 10);
                     $serial_data = array(
                         'serial_number' => $val["out_trade_no"],
                         'money' => $order_type['order_real_pay'],
@@ -2217,13 +2218,13 @@ class  Order extends  Controller
                         'type' => 1,
                         'status' => '普通订单',
                         'store_id' => $order_type['store_id'],
+                        'member_id' => $order_type['member_id'],
                         'prime' => $order_type['accounting']
                     );
                     Serial::serial_add($serial_data);
                     //商品库存减少、销量增加
                     $goods_order = Db::name("order")
                         ->where("parts_order_number", $val["out_trade_no"])
-                        ->field("goods_id,order_quantity,special_id")
                         ->select();
 
                     foreach ($goods_order as $k => $v) {
@@ -2231,17 +2232,17 @@ class  Order extends  Controller
                             db('limited')->where('goods_id', $v['goods_id'])->setDec('goods_repertory', $v['order_quantity']);
                         }
                         if ($goods_order[$k]['special_id'] != 0) {
-                            $boolw = Db::name('special')->where('id', $goods_order[$k]['special_id'])->setInc('volume', $goods_order[$k]['order_quantity']);
+                            $boolw = Db::name('special')->where('id', $goods_order[$k]['special_id'])->setInc('volume', intval($goods_order[$k]['order_quantity']));
                             // //按照需求下单即减库存,付款时间超过30分钟恢复库存
                             // $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
                         } else {
                             //按照需求下单即减库存,付款时间超过30分钟恢复库存
                             // $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
-                            $booltt = Db::name('goods')->where('id', $goods_order[$k]['goods_id'])->setInc('goods_volume', $goods_order[$k]['order_quantity']);
+                            $booltt = Db::name('goods')->where('id', $goods_order[$k]['goods_id'])->setInc('goods_volume', intval($goods_order[$k]['order_quantity']));
                         }
                     }
                     //做消费记录
-                    $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number", $val["out_trade_no"])->find();
+                    $information = Db::name("order")->where("parts_order_number", $val["out_trade_no"])->find();
                     $user_information = Db::name("member")
                         ->field("member_wallet,member_recharge_money")
                         ->where("member_id", $information["member_id"])
@@ -2264,8 +2265,8 @@ class  Order extends  Controller
 
 
 
-                    $all_money = db("order")->where("parts_order_number", $val["out_trade_no"])->value("order_real_pay"); //实际支付的金额
-                    $member_id = db("order")->where("parts_order_number", $val["out_trade_no"])->value("member_id"); //会员id
+                    $all_money = $information['order_real_pay']; //实际支付的金额
+                    $member_id = $information["member_id"]; //会员id
                     $coin = db("recommend_integral")->where("id", 1)->value("coin"); //消费满多少送积分金额条件
                     $integral = db("recommend_integral")->where("id", 1)->value("consume_integral"); //消费满多少送多少积分
                     //消费满多少金额赠送多少积分
@@ -2677,7 +2678,7 @@ class  Order extends  Controller
 
                     $number = $order_quantity / $num_one;     //单位换算
                     if ($number > 1) {
-                        $remainder = fmod($order_quantity, $num_one); //余下的值
+                        $remainder = fmod($ord`````````````````````````````````````er_quantity, $num_one); //余下的值
                         $store_number = intval($number) . ',' . $number_zero . ',' . intval($remainder) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];
                     } else if ($number == 1) {
                         $store_number = intval($number) . ',' . $number_zero . ',' . ($key - 1) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];
