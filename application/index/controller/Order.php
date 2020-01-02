@@ -2206,8 +2206,8 @@ class  Order extends  Controller
                     ->where("parts_order_number", $val["out_trade_no"])
                     ->update(["status" => 3, "pay_time" => $order_pay_time, "si_pay_type" => 2]);
                 if ($res) {
-                    $order = GoodsOrder::getOrderInforMation($order_type);
-                    if(!empty($order)) $model = OrderModel::grantMoney($order);
+                    // $order = GoodsOrder::getOrderInforMation($order_type);
+                    // if(!empty($order)) $model = OrderModel::grantMoney($order);
                     
                     // // 发送消息通知
                     // $message = (new MessageService)->payment($order_type, 10);
