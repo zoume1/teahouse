@@ -2207,7 +2207,8 @@ class  Order extends  Controller
                     ->update(["status" => 3, "pay_time" => $order_pay_time, "si_pay_type" => 2]);
                 if ($res) {
                     $order = GoodsOrder::getOrderInforMation($order_type);
-                    $model = OrderModel::grantMoney($order);
+                    if(!empty($order)) $model = OrderModel::grantMoney($order);
+                    
                     // // 发送消息通知
                     // $message = (new MessageService)->payment($order_type, 10);
                     $serial_data = array(
