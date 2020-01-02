@@ -41,13 +41,14 @@
     <div class="childrenBody">
         <blockquote class="layui-elem-quote">
             <div class="layui-form" action="{:url('admin/User/search')}">
-                {if !empty($data_status)}
+                <!-- {if !empty($data_status)}
                     {if $data_status["is_show"] ==1}
                     <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" value="1" lay-filter="isShow" checked>
                     {else}
                     <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" value="-1" lay-filter="isShow">
                     {/if}
-                {/if}
+                {/if} -->
+                <input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF" value="1" lay-filter="isShow" >
                 <span style="font-weight: bold;margin-left: 10px;">评论审核</span>
                 <p style="margin-left: 70px; font-size: 12px;">启用关闭功能后，所有用户评价内容隐藏</p>
             </div>

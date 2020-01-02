@@ -38,7 +38,7 @@ class  AdminWx extends Controller{
             $val = json_decode(json_encode($xml_data), true);
             if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){
                 $enter_all_data = Db::name("set_meal_order")
-                    ->where("order_number",$val["out_trade_no"])
+                    ->where(["order_number"=>$val["out_trade_no"],'false_data'=>1])
                     ->find();
                 //开电子发票
                 if($enter_all_data['invoice'] ==1){
@@ -50,7 +50,7 @@ class  AdminWx extends Controller{
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
-                
+
                 $is_set_order = Db::name("set_meal_order")
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",'eq',1)
@@ -72,7 +72,7 @@ class  AdminWx extends Controller{
                     );
                 Serial::serial_add($serial_data);
 
-                db('store')->where('id',$enter_all_data['store_id'])->update(['store_use'=>1]);                   
+                db('store')->where('id',$enter_all_data['store_id'])->update(['store_use'=>1]);
                 if($is_set_order){
                     //这是套餐升级的情况
                     $data["pay_time"] = time();//支付时间
@@ -100,8 +100,8 @@ class  AdminWx extends Controller{
                         ->where("order_number",$val["out_trade_no"])
                         ->update($data);
                     $delete_new_order = Db::name('set_meal_order')->where('order_number',$val["out_trade_no"])->delete();
-                    
-                    if($res){                           
+
+                    if($res){
                       //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         if($enter_all_data['enter_all_id'] <= 6){
                             $role_id = 13;
@@ -143,7 +143,7 @@ class  AdminWx extends Controller{
                     $resultet = Db::name("meal_orders")
                     ->where("order_number",$val["out_trade_no"])
                     ->update($data);
-                    
+
                     if($result){
                         //审核通过则对店铺进行开放，修改店铺的权限（普通访客）为商家店铺
                         if($enter_all_data['enter_all_id'] <= 6){
@@ -159,14 +159,14 @@ class  AdminWx extends Controller{
                             ->where("store_id",$enter_all_data["store_id"])
                             ->where("is_own",1)
                             ->update(["role_id"=>$role_id]);
-                        
+
                         $member_bool = MemberFristAdd($enter_all_data["store_id"]);
                         //审核通过的时候先判断是否有小程序模板，没有的话则进行添加，有的话则不需要
                         $is_set = Db::table("ims_sudu8_page_diypageset")
                             ->where("store_id",$enter_all_data["store_id"])
                             ->find();
 
-                            
+
                            if(!$is_set){
                             $is_uniacid =Db::table("ims_sudu8_page_base")
                                 ->where("uniacid",$enter_all_data["store_id"])
@@ -253,7 +253,7 @@ class  AdminWx extends Controller{
                 $map['status']=2;   //已支付成功
                 $bool  = Db::name("offline_recharge")->where('serial_number',$val['out_trade_no'])->update($map);      //插入充值记录
                 $bool2  = Db::name("offline_recharge")->where('serial_number',$val['out_trade_no'])->find();      //插入充值记录
-                    if($bool && $bool2){                           
+                    if($bool && $bool2){
                       //给客户余额增加金额
                         Db::table("tb_store")
                             ->where("id",$bool2["store_id"])
@@ -302,7 +302,7 @@ class  AdminWx extends Controller{
                 //进行逻辑处理
                 //1、先判断是否上一单是否到期和是否存在
                 //2、判断如果是升级过来的话需要进行删除已付款的订单
-                
+
                 $is_set_order = Db::name("set_meal_order")
                     ->where("store_id",$enter_all_data["store_id"])
                     ->where("audit_status",'eq',1)
@@ -354,7 +354,7 @@ class  AdminWx extends Controller{
                     $rest = Db::name("meal_orders")
                     ->where("order_number",$out_trade_no)
                     ->update($data);
-                
+
                     if ($res){
                         //把刚下套餐订单删掉
                            $result= Db::name("set_meal_order")->where($condition)->delete();
@@ -510,7 +510,7 @@ class  AdminWx extends Controller{
             //验证未通过
             echo "fail";
             exit();
-        } else {    
+        } else {
             //这里可以做一下你自己的订单逻辑处理
             $pay_time = time();
             $data['pay_time'] = $pay_time;
@@ -547,7 +547,7 @@ class  AdminWx extends Controller{
             $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $val = json_decode(json_encode($xml_data), true);
-            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   
+            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){
                 //回调成功
                 //更新订单状态
                 //逻辑处理
@@ -588,7 +588,7 @@ class  AdminWx extends Controller{
                         $two = Db::name("analyse_goods")->where("id",$data['goods_id'])->setDec('goods_repertory',$data['order_quantity']);
                     }
                     echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
-                }       
+                }
             }else {
                 return "fail";
             }
@@ -609,7 +609,7 @@ class  AdminWx extends Controller{
             //验证未通过
             echo "fail";
             exit();
-        } else {    
+        } else {
             //这里可以做一下你自己的订单逻辑处理
             $pay_time = time();
             $data['pay_time'] = $pay_time;
@@ -634,7 +634,7 @@ class  AdminWx extends Controller{
                 ];
 
                 $bool = Db::name("adder_order")->where("parts_order_number",$out_trade_no)->update($rest);
-                
+
                 if($bool){
 
                     $serial_data = array(
@@ -656,14 +656,14 @@ class  AdminWx extends Controller{
                         $two = Db::name("analyse_goods")->where("id",$data['goods_id'])->setDec('goods_repertory',$data['order_quantity']);
                     }
                     return "success";
-                }   
+                }
             }else{
                 return "fail";
             }
         }
 
     }
-    
+
 
 
     /**
@@ -679,11 +679,11 @@ class  AdminWx extends Controller{
             $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
             $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
             $val = json_decode(json_encode($xml_data), true);
-            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){   
+            if($val["result_code"] == "SUCCESS" && $val["return_code"] =="SUCCESS" ){
                 //回调成功
                 //找到订单
                 //更新订单状态
-                $model = new Order; 
+                $model = new Order;
                 $user_object = new User;
                 $order_detail = new CityDetail;
                 $user_data = $model->detail(['order_number'=>$val['out_trade_no']]);
@@ -696,11 +696,11 @@ class  AdminWx extends Controller{
                 $rest = $model->save($data,['order_number'=>$val['out_trade_no']]);
                 $restul = $user_object->save(['judge_status'=>WX_PAY],['user_id'=>$user_data['city_user_id']]);
                 $detail  = $order_detail->city_store_update($user_data['city_address'],$user_data['city_user_id']);
-                if($rest && $restul && $detail){                           
+                if($rest && $restul && $detail){
                       echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } exit();
             }
-            return "fail";     
+            return "fail";
         }
 
     }
@@ -723,8 +723,8 @@ class  AdminWx extends Controller{
             //验证未通过
             echo "fail";
             exit();
-        } else {  
-            //支付状态  
+        } else {
+            //支付状态
             $trade_status = input('trade_status');
             //原始订单号
             $out_trade_no = input('out_trade_no');
@@ -750,8 +750,8 @@ class  AdminWx extends Controller{
                 return "success";
             } else {
                 return "fail";
-            } 
-                return "fail"; 
+            }
+                return "fail";
             }
         }
     }
