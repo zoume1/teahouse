@@ -2225,7 +2225,6 @@ class  Order extends  Controller
                     //商品库存减少、销量增加
                     $goods_order = Db::name("order")
                         ->where("parts_order_number", $val["out_trade_no"])
-                        ->field("goods_id,order_quantity,special_id,is_limit")
                         ->select();
 
                     foreach ($goods_order as $k => $v) {
@@ -2243,7 +2242,7 @@ class  Order extends  Controller
                         }
                     }
                     //做消费记录
-                    $information = Db::name("order")->field("member_id,order_real_pay,parts_goods_name")->where("parts_order_number", $val["out_trade_no"])->find();
+                    $information = Db::name("order")->where("parts_order_number", $val["out_trade_no"])->find();
                     $user_information = Db::name("member")
                         ->field("member_wallet,member_recharge_money")
                         ->where("member_id", $information["member_id"])
@@ -2679,7 +2678,7 @@ class  Order extends  Controller
 
                     $number = $order_quantity / $num_one;     //单位换算
                     if ($number > 1) {
-                        $remainder = fmod($order_quantity, $num_one); //余下的值
+                        $remainder = fmod($ord`````````````````````````````````````er_quantity, $num_one); //余下的值
                         $store_number = intval($number) . ',' . $number_zero . ',' . intval($remainder) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];
                     } else if ($number == 1) {
                         $store_number = intval($number) . ',' . $number_zero . ',' . ($key - 1) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];
