@@ -2207,8 +2207,8 @@ class  Order extends  Controller
                 if ($res) {
                     $order = GoodsOrder::getOrderInforMation($order_type);
                     $model = OrderModel::grantMoney($order);
-                    // 发送消息通知
-                    $message = (new MessageService)->payment($order_type, 10);
+                    // // 发送消息通知
+                    // $message = (new MessageService)->payment($order_type, 10);
                     $serial_data = array(
                         'serial_number' => $val["out_trade_no"],
                         'money' => $order_type['order_real_pay'],
