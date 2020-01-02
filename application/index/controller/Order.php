@@ -2183,8 +2183,9 @@ class  Order extends  Controller
     {
         $xml = $GLOBALS['HTTP_RAW_POST_DATA'];
         $xml_data = simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $pp = json_encode($xml_data);
-        $val = json_decode($pp, true);
+        // $pp = json_encode($xml_data);
+        // $val = json_decode($pp, true);
+        $val = json_decode(json_encode($xml_data), true);
         if ($val["result_code"] == "SUCCESS") {
 
             $order_type = Db::name("order")->where("parts_order_number", $val["out_trade_no"])->find();
@@ -2231,13 +2232,13 @@ class  Order extends  Controller
                             db('limited')->where('goods_id', $v['goods_id'])->setDec('goods_repertory', $v['order_quantity']);
                         }
                         if ($goods_order[$k]['special_id'] != 0) {
-                            $boolw = Db::name('special')->where('id', $goods_order[$k]['special_id'])->setInc('volume', $goods_order[$k]['order_quantity']);
+                            $boolw = Db::name('special')->where('id', $goods_order[$k]['special_id'])->setInc('volume', intval($goods_order[$k]['order_quantity']));
                             // //按照需求下单即减库存,付款时间超过30分钟恢复库存
                             // $booles = Db::name('special')->where('id',$goods_order[$k]['special_id'])->setDec('stock',$goods_order[$k]['order_quantity']);
                         } else {
                             //按照需求下单即减库存,付款时间超过30分钟恢复库存
                             // $boolwtt = Db::name('goods')->where('id',$goods_order[$k]['goods_id'])->setDec('goods_repertory',$goods_order[$k]['order_quantity']);
-                            $booltt = Db::name('goods')->where('id', $goods_order[$k]['goods_id'])->setInc('goods_volume', $goods_order[$k]['order_quantity']);
+                            $booltt = Db::name('goods')->where('id', $goods_order[$k]['goods_id'])->setInc('goods_volume', intval($goods_order[$k]['order_quantity']));
                         }
                     }
                     //做消费记录
@@ -2264,8 +2265,8 @@ class  Order extends  Controller
 
 
 
-                    $all_money = db("order")->where("parts_order_number", $val["out_trade_no"])->value("order_real_pay"); //实际支付的金额
-                    $member_id = db("order")->where("parts_order_number", $val["out_trade_no"])->value("member_id"); //会员id
+                    $all_money = $information['order_real_pay']; //实际支付的金额
+                    $member_id = $information["member_id"]; //会员id
                     $coin = db("recommend_integral")->where("id", 1)->value("coin"); //消费满多少送积分金额条件
                     $integral = db("recommend_integral")->where("id", 1)->value("consume_integral"); //消费满多少送多少积分
                     //消费满多少金额赠送多少积分
