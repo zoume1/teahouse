@@ -2218,13 +2218,14 @@ class  Order extends  Controller
                         'type' => 1,
                         'status' => '普通订单',
                         'store_id' => $order_type['store_id'],
+                        'member_id' => $order_type['member_id'],
                         'prime' => $order_type['accounting']
                     );
                     Serial::serial_add($serial_data);
                     //商品库存减少、销量增加
                     $goods_order = Db::name("order")
                         ->where("parts_order_number", $val["out_trade_no"])
-                        ->field("goods_id,order_quantity,special_id")
+                        ->field("goods_id,order_quantity,special_id,is_limit")
                         ->select();
 
                     foreach ($goods_order as $k => $v) {
