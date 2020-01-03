@@ -1685,6 +1685,7 @@ class  General extends  Base {
         if($request->isPost()){
             $store_id = $this->store_ids; //店铺id
             $enter_all_id =$request->only(['id'])['id'];//套餐id
+            $time  = date("YmdHis",time());
             if(empty($store_id)){
                 return ajax_error("请登录店铺进行购买");
             }
@@ -1722,7 +1723,6 @@ class  General extends  Base {
                 ->delete();
             //根据购买版本的不同，新增加数据
             if($enter_data['enter_id']=='5'){    //万用版
-                $time=date("YmdHis",time());
                 $order_number ="TC".$time.$is_business; //订单编号
                 $data =[
                     "order_number"=>$order_number, //订单号
@@ -1745,7 +1745,6 @@ class  General extends  Base {
                 $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
                 $bool =Db::table("tb_set_meal_order")->insert($data);
             }elseif($enter_data['enter_id']=='7'){   //行业版
-                $time=date("YmdHis",time());
                 $order_number ="TC".$time.$is_business; //订单编号
                 $data =[
                     "order_number"=>$order_number, //订单号
@@ -1767,8 +1766,7 @@ class  General extends  Base {
                 $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
                 $bool =Db::table("tb_set_meal_order")->insert($data);
                 //伪造数据
-                $time2=date("YmdHis",time());
-                $order_number2 ="TC".$time2.$is_business; //订单编号
+                $order_number2 ="TC".$time.$is_business; //订单编号
                 $data2 =[
                     "order_number"=>$order_number2, //订单号
                     "create_time"=>time(), //创建订单的时间
@@ -1790,7 +1788,6 @@ class  General extends  Base {
                 $bool2 =Db::table("tb_set_meal_order")->insert($data2);
 
             }elseif($enter_data['enter_id']=='8'){   //进阶版
-                $time=date("YmdHis",time());
                 $order_number ="TC".$time.$is_business; //订单编号
                 $data =[
                     "order_number"=>$order_number, //订单号
@@ -1812,8 +1809,7 @@ class  General extends  Base {
                 $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
                 $bool =Db::table("tb_set_meal_order")->insert($data);
                 //伪造数据
-                $time2=date("YmdHis",time());
-                $order_number2 ="TC".$time2.$is_business; //订单编号
+                $order_number2 ="TC".$time.$is_business; //订单编号
                 $data2 =[
                     "order_number"=>$order_number2, //订单号
                     "create_time"=>time(), //创建订单的时间
@@ -1834,8 +1830,7 @@ class  General extends  Base {
                 $set_meal_id2 = Db::table("tb_meal_orders")->insertGetId($data2);
                 $bool2 =Db::table("tb_set_meal_order")->insert($data2);
                 //伪造数据
-                $time3=date("YmdHis",time());
-                $order_number3 ="TC".$time3.$is_business; //订单编号
+                $order_number3 ="TC".$time.$is_business; //订单编号
                 $data3 =[
                     "order_number"=>$order_number3, //订单号
                     "create_time"=>time(), //创建订单的时间
@@ -1856,29 +1851,7 @@ class  General extends  Base {
                 $set_meal_id3 = Db::table("tb_meal_orders")->insertGetId($data3);
                 $bool3 =Db::table("tb_set_meal_order")->insert($data3);
             }
-            //     $time2=date("Y-m-d",time());
-            //     $v2=explode('-',$time2);
-            //     $time_second2=date("H:i:s",time());
-            //     $vs= explode(':',$time_second2);
-            //     $order_number ="TC".$v[0].$v[1].$v[2].$vs[0].$vs[1].$vs[2].$is_business; //订单编号
-            //     $data =[
-            //     "order_number"=>$order_number, //订单号
-            //     "create_time"=>time(), //创建订单的时间
-            //     "goods_name"=>$meal_name,//套餐名称
-            //     "goods_quantity"=>1, //数量
-            //     "unit"=>"年", //单位
-            //     "images_url"=>$images_url,//图标
-            //     "store_name"=>$store_name, //店铺名字
-            //     "amount_money"=>$enter_data["favourable_cost"],//金额
-            //     "cost" =>$enter_data["cost"],//原价
-            //     "store_id"=>$store_id,//店铺id
-            //     "enter_all_id"=>$enter_all_id,//套餐id
-            //     "status"=>-1,//订单状态（-1为未付款，1为已付款）
-            //     "is_del"=>1,//订单状态（1为正常状态，-1为被删除）
-            // ];
-            // $set_meal_id = Db::table("tb_meal_orders")->insertGetId($data);
-            // $bool =Db::table("tb_set_meal_order")->insert($data);
-            
+
             if($set_meal_id >0){
                 return ajax_success("下单成功",["id"=>intval($set_meal_id)]);
             }else{
@@ -2099,9 +2072,9 @@ class  General extends  Base {
      */
     public function  check_code_one(Request $request){
         $order_number = $request->only(["order_number"])["order_number"];
-        $result =Db::name("set_meal_order")
+        $result =Db::name("meal_orders")
             ->where("order_number",$order_number)
-            ->where("status",2)
+            ->where("status",1)
             ->find();
         if($result){
             return ajax_success("付款成功");
