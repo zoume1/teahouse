@@ -316,6 +316,7 @@
         margin-left: 20px;
 
     }
+
     .sample-btn {
         color: rgb(51, 158, 215);
         display: inline-block;
@@ -542,12 +543,13 @@
                     {if !empty($value.unit)}{foreach name="$value.unit" item ="w" key="x"}
                     {if $x % 2 == 0}
                     <div class="fuhao">=</div>
-                    <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
-                        class="layui-input" value="{$w}">
-                    {else}
-                    <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
-                        class="layui-input units" value="{$w}" maxlength="2" data-id="0" data-value="{$w}">
-
+                    <div class="danwei_a" style=" position: relative; display: flex;align-items: center;">
+                        <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
+                            class="layui-input" value="{$w}">
+                        {else}
+                        <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
+                            class="layui-input units" value="{$w}" maxlength="2" data-id="0" data-value="{$w}">
+                    </div>
                     {/if}
                     {/foreach}
                     {/if}
@@ -576,7 +578,7 @@
                         autocomplete="off" placeholder="请输入" class="layui-input">
                     <span class="change_danwei">修改单位</span>
                     <span class="danwei">/{$w}</span>
-                    <input type="hidden" name="monomer" value="片" class="monomer">
+                    <input type="hidden" name="monomer" value="{$w}" class="monomer">
                 </div>
             </div>
             <div class="form-item">
@@ -690,7 +692,7 @@
                     <div class="form-input line">
                         {if $value.goods_member == 1}
                         <input type="checkbox" name="goods_member" value="{$value.goods_member}" lay-skin="primary"
-                             title="参加会员折扣"> {else}
+                            title="参加会员折扣"> {else}
                         <input type="checkbox" name="goods_member" value="" lay-skin="primary" title="参加会员折扣">{/if}
                         <a href="index/My/show_grade">管理会员卡</a>
                     </div>
@@ -1179,6 +1181,9 @@
             })
             //去掉包装规格的首个多余的等于号
             $('#packing_specification').children('.fuhao:first-child').remove();
+            var unit1 = [];
+            var unit2 = [];
+            var templet = [];
 
             Array.prototype.unique3 = function () {
                 var res = [];
@@ -1191,9 +1196,7 @@
                 }
                 return res;
             }
-            var unit1 = [];
-            var unit2 = [];
-            var templet = [];
+
             for (var qq = 0; qq < $(".units").length; qq++) {
                 console.log($(".units"))
                 // 普通规格
@@ -1416,7 +1419,7 @@
                     }
 
                 }
-
+                console.log('ssdsds' + unit1)
 
 
                 $(this).data("value", $(this).val());
@@ -1585,6 +1588,8 @@
             $(".change_danwei").click(function () {
                 var unit1_a = unit1.unique3();
                 layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
+                    console.log(text)
+                    console.log(unit1_a)
                     layer.close(index);
                     var num = 0;
                     for (var i = 0; i < unit1_a.length; i++) {
@@ -1851,7 +1856,7 @@
                     },
                     dataType: "json",
                     success: function (data) {
-                        if(data.status == "1") remove.remove();
+                        if (data.status == "1") remove.remove();
                         else layer.msg(data.info);
 
                     },
@@ -1872,10 +1877,34 @@
                 if (keyArr.unitKey < 2) {
                     keyArr.unitKey++;
                     var danwei = ''
+                    danwei += '<div class="danwei_a" style=" position: relative; display: flex;align-items: center;">';
                     danwei += '<div class="fuhao">=</div>';
                     danwei += '<input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量" class="layui-input">';
-                    danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="0">';
+                    danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="1" data-value="">';
+                    danwei += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
+                    danwei += '</div>';
                     $(this).before(danwei);
+                    // 限制输入的规格数量
+                    $('input[name="num[]"]').change(function () {
+                        var $value = $(this).val();
+                        var $preVal = $(this).parent().prev().find('input[name="num[]"]').val();
+                        var $index = $(this).parent().index();
+                        // 第二个单位的数量
+                        if ($value != '') {
+                            if ($index == 1) {
+                                if ($value <= $preVal) {
+                                    alert('无效数据，此处数字为前一个单位的大于1的整数倍，请重新输入!');
+                                    $(this).val('');
+                                }
+                            } else if ($index == 2) {
+                                // 第三个单位的数量
+                                if ($value == $preVal || $value % $preVal != 0) {
+                                    alert('无效数据，此处数字为前一个单位的大于1的整数倍，请重新输入!');
+                                    $(this).val('');
+                                }
+                            }
+                        }
+                    })
                 } else {
                     layer.msg('最多添加三个单位！');
                 }
