@@ -29,18 +29,26 @@ class Order extends Model
             }
 
         } 
+        $data = [];
         $goods_bool = Goods::getDistributionStatus($goods_id); // 是否分销商品
-        $count_money = Goods::getDistributionPrice($goods_id,$goods_bool,$all_money);
-        $data = [
-            'member_id'=>$order['member_id'],
-            'id'=>$order['id'],
-            'parts_order_number'=>$order['parts_order_number'],
-            'goods_id'=>$goods_bool,
-            'store_id'=>$order['store_id'],
-            'order_amount'=>$count_money,
-            'goods_money'=>array_sum($count_money),
-            'status'=>$order['status'],            
-        ];
+        if(!empty($goods_bool)){
+            $count_money = Goods::getDistributionPrice($goods_id,$goods_bool,$all_money);
+            if(!empty($count_money)){
+                $goods_money = array_sum($count_money);
+            } else {
+                $goods_money = 0;
+            }
+            $data = [
+                'member_id'=>$order['member_id'],
+                'id'=>$order['id'],
+                'parts_order_number'=>$order['parts_order_number'],
+                'goods_id'=>$goods_bool,
+                'store_id'=>$order['store_id'],
+                'order_amount'=>$count_money,
+                'goods_money'=>$goods_money,
+                'status'=>$order['status'],            
+            ];
+        }
                                     
         return $data;
         

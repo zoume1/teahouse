@@ -2187,7 +2187,6 @@ class  Order extends  Controller
         // $val = json_decode($pp, true);
         $val = json_decode(json_encode($xml_data), true);
         if ($val["result_code"] == "SUCCESS") {
-
             $order_type = Db::name("order")->where("parts_order_number", $val["out_trade_no"])->find();
             if ($order_type['status'] == 1) {
                 $order_pay_time = time();
@@ -2197,7 +2196,6 @@ class  Order extends  Controller
                 } else {
                     $status = 2;
                 }
-                file_put_contents(EXTEND_PATH . "data.txt", $val);
                 $res = Db::name("order")
                     ->where("parts_order_number", $val["out_trade_no"])
                     ->update(["status" => $status, "pay_time" => $order_pay_time, "si_pay_type" => 2]);
@@ -2207,9 +2205,10 @@ class  Order extends  Controller
                     ->update(["status" => 3, "pay_time" => $order_pay_time, "si_pay_type" => 2]);
                 if ($res) {
                     $order = GoodsOrder::getOrderInforMation($order_type);
-                    $model = OrderModel::grantMoney($order);
-                    // // 发送消息通知
-                    // $message = (new MessageService)->payment($order_type, 10);
+                    if(!empty($order)) $model = OrderModel::grantMoney($order);
+                    
+                    // 发送消息通知
+                    $message = (new MessageService)->payment($order_type, 10);
                     $serial_data = array(
                         'serial_number' => $val["out_trade_no"],
                         'money' => $order_type['order_real_pay'],
@@ -2226,7 +2225,6 @@ class  Order extends  Controller
                     $goods_order = Db::name("order")
                         ->where("parts_order_number", $val["out_trade_no"])
                         ->select();
-
                     foreach ($goods_order as $k => $v) {
                         if ($v['is_limit'] == 1) {
                             db('limited')->where('goods_id', $v['goods_id'])->setDec('goods_repertory', $v['order_quantity']);
@@ -2678,7 +2676,7 @@ class  Order extends  Controller
 
                     $number = $order_quantity / $num_one;     //单位换算
                     if ($number > 1) {
-                        $remainder = fmod($ord`````````````````````````````````````er_quantity, $num_one); //余下的值
+                        $remainder = fmod($order_quantity, $num_one); //余下的值
                         $store_number = intval($number) . ',' . $number_zero . ',' . intval($remainder) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];
                     } else if ($number == 1) {
                         $store_number = intval($number) . ',' . $number_zero . ',' . ($key - 1) . ',' . $number_one . ',' . ($key - 1) . ',' . $unit[$key + 1];

@@ -50,6 +50,7 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
+            
         }
 
     }
