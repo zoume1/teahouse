@@ -38,7 +38,7 @@ class Distribution extends Controller
         }
 
         if(empty($distribution)){
-            $rest = db("distribution") ->where("store_id","EQ",$store_id)-> select();
+            $rest = db("distribution") ->where("store_id","EQ",6)-> select();
             foreach($rest as $key => $value){
                 unset($rest[$key]['id']);
                 $rest[$key]['store_id'] = $store_id;

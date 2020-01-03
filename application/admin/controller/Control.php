@@ -212,9 +212,9 @@ class  Control extends  Controller{
             ->join("tb_store","tb_meal_orders.store_id=tb_store.id",'left')
             ->where("is_del",1)
             ->where("false_data",1)
-            ->where("tb_store.status",1)
+            // ->where("tb_store.status",1)
             ->where("tb_meal_orders.pay_type","NEQ","NULL")
-            ->where("tb_meal_orders.start_time","<",time("+10 day", 'tb_meal_orders.create_time'))
+            // ->where("tb_meal_orders.start_time","<",time("+10 day", 'tb_meal_orders.create_time'))
             ->order("tb_meal_orders.create_time","desc")
             ->paginate(20 ,false, [
                 'query' => request()->param(),
