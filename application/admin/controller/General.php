@@ -2072,7 +2072,7 @@ class  General extends  Base {
      */
     public function  check_code_one(Request $request){
         $order_number = $request->only(["order_number"])["order_number"];
-        $result =Db::name("set_meal_order")
+        $result =Db::name("meal_orders")
             ->where("order_number",$order_number)
             ->where("status",1)
             ->find();
