@@ -527,7 +527,7 @@ class  Material extends  Controller{
         $store_id=Session::get('store_id');
         //获取店铺主的phone_number
         $phone=db('store')->where('id',$store_id)->value('phone_number');
-        if($phone){
+        if(!$phone){
             return ajax_error('未获取用户同步信息');
         }
         // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
@@ -537,11 +537,10 @@ class  Material extends  Controller{
             //获取当前店铺的jxc_id
             $jxc_id=db('store')->where('id',$store_id)->value('jxc_id');
             //1.获取商品列表，导入自己的数据库
-            $sql='SELECT v_traceability.* FROM  v_traceability where GROUP by goods_number';
+            $sql='SELECT v_traceability.* FROM  v_traceability  GROUP by id';
             // $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = '.$jxc_id.' GROUP by id  ';
             $res= mysqli_query($con,$sql);
             $rr=$res->fetch_all(MYSQLI_ASSOC);
-            halt($rr);
             foreach($rr as $k =>$v){
                 $ids=db('anti_goods')->where('store_id',$store_id)->column('goods_number');
                 if(in_array($v['goods_number'],$ids)){
@@ -550,38 +549,27 @@ class  Material extends  Controller{
                 $v['create_time']=time();
                 $v['store_id']=$store_id;
                 $v['produceUid']=$jxc_id;
+                $v['origin']='云南';
                 //获取对应的子标
-                $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript where pid = '.$v['id'];
+                $sql2='SELECT parent_code,child_code,goods_name FROM  v_trace_subscript where pid = '.$v['id'];
                 $res2= mysqli_query($con,$sql2);
                 $rr2=$res2->fetch_all(MYSQLI_ASSOC);
+                $v['goods_repertory']=$res2->num_rows;
+                unset($v['id']);
                 $pid=db('anti_goods')->insertGetId($v);
                 foreach($rr2 as $k2 =>$v2){
                     //获取子母标的id序列
-                    $ids2=db('anti_parent_code')->where('store_id',$store_id)->column('child_code');
+                    $ids2=db('anti_parent_code')->where('pid',$pid)->column('child_code');
                     if(in_array($v2['child_code'],$ids2)){
                         continue;
                     }
                     $v2['pid']=$pid;
                     $v2['create_time']=time();
                     $v2['store_id']=$store_id;
-                    $v2['produceUid']='50';
+                    $v2['produceUid']=$jxc_id;
+                    $v2['is_upload']='0';
                     db('anti_parent_code')->insert($v2);
                 }
-            }
-            //2.获取母标，子标记录列表
-            $sql2='SELECT v_trace_subscript.* FROM  v_trace_subscript';
-            $res2= mysqli_query($con,$sql2);
-            $rr2=$res2->fetch_all(MYSQLI_ASSOC);
-            foreach($rr2 as $k2 =>$v2){
-                //获取子母标的id序列
-                $ids2=db('anti_parent_code')->where('store_id',$store_id)->column('child_code');
-                if(in_array($v2['child_code'],$ids2)){
-                    continue;
-                }
-                $v2['create_time']=time();
-                $v2['store_id']=$store_id;
-                $v2['produceUid']='50';
-                db('anti_parent_code')->insert($v2);
             }
             return ajax_success('同步成功');
         }
@@ -834,7 +822,11 @@ class  Material extends  Controller{
         $store_id=Session::get('store_id');
         if(!empty($input)){
             //检索--获取id下的母标的列表
-            $rr=db('anti_parent_code')->where(['store_id'=>$store_id,'parent_code'=>$input['parent_code']])->select();
+            if(array_key_exists('parent_code',$input)){
+                $rr=db('anti_parent_code')->where(['store_id'=>$store_id,'parent_code'=>$input['parent_code']])->select();
+            }else{
+                $rr=db('anti_parent_code')->where(['store_id'=>$store_id,'pid'=>$input['pid']])->select();
+            }
             return view("chip_details",['data'=>$rr]);
         }else{
             $this->error('获取参数失败');
