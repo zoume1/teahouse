@@ -88,7 +88,7 @@
                             <td>{$vo.child_code}</td>
                             <!-- <td>6</td> -->
                             <td>
-                                <a href="{:url('admin/Material/chip_details',['parent_code'=>$vo.parent_code])}" style="color: rgb(10,135,255);">详情</a>
+                                <a href="{:url('admin/Material/chip_details',['parent_code'=>$vo.parent_code,'pid'=>$vo.pid])}" style="color: rgb(10,135,255);">详情</a>
                             </td>
                         </tr>
                         {/foreach}
