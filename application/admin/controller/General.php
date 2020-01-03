@@ -2074,7 +2074,7 @@ class  General extends  Base {
         $order_number = $request->only(["order_number"])["order_number"];
         $result =Db::name("set_meal_order")
             ->where("order_number",$order_number)
-            ->where("status",2)
+            ->where("status",1)
             ->find();
         if($result){
             return ajax_success("付款成功");
