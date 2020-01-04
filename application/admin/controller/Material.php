@@ -874,6 +874,7 @@ class  Material extends  Controller{
         $data['unit']='件';
         $data['num']='1';
         $data['element']='1,件';
+        $data['server']='{"server_0":{"check":"1","text":"7*24\u5ba2\u670d"},"server_1":{"check":"1","text":"\u6b63\u54c1\u4fdd\u969c"},"server_2":{"check":"1","text":"\u6781\u901f\u53d1\u8d27"},"server_3":{"check":"1","text":"7\u5929\u9000\u6362\u8d27"}}';
         //生成商品分享码    goods_id     
         // //判断商品的分类是否存在
         // $data['pid']=$anti_info['category'];

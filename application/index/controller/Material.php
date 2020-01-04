@@ -26,6 +26,7 @@ class Material extends Controller
         $input =input();
         if($input){
             //获取商品的信息
+            // if($input['uniacid']){}
             $goods_info=db('anti_parent_code')->alias('a')->join('tb_anti_goods w','a.pid = w.id')->where('child_code|parent_code',$input['code'])
             ->field('*,a.store_id')->find();
             if(!$goods_info){
