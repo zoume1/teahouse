@@ -14,6 +14,7 @@ use think\Session;
 use think\View;
 use think\Validate;
 use app\api\model\VideoFrequency;
+use app\admin\model\Goods as Goodsmodel;
 use app\admin\controller\Qiniu;
 
 
@@ -870,6 +871,11 @@ class  Material extends  Controller{
         $data['goods_franking']=0;
         $data['label']=0;
         $data['status']=0;
+        $data['unit']='件';
+        $data['num']='1';
+        $data['element']='1,件';
+        $data['server']='{"server_0":{"check":"1","text":"7*24\u5ba2\u670d"},"server_1":{"check":"1","text":"\u6b63\u54c1\u4fdd\u969c"},"server_2":{"check":"1","text":"\u6781\u901f\u53d1\u8d27"},"server_3":{"check":"1","text":"7\u5929\u9000\u6362\u8d27"}}';
+        //生成商品分享码    goods_id     
         // //判断商品的分类是否存在
         // $data['pid']=$anti_info['category'];
         if(!empty($input["scope"])){
@@ -881,7 +887,8 @@ class  Material extends  Controller{
         if($data)
         {
             //生成新的商品
-            $re=db('goods')->insert($data);
+            $re=db('goods')->insertGetId($data);
+            $share_code = (new Goodsmodel())->qrcode($re);
             if($re){
                 //修改防伪溯源商品的生成状态
                 $res=db('anti_goods')->where('id',$input['id'])->update(['is_create_good'=>1]);
