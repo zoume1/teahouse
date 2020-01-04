@@ -29,7 +29,7 @@ class WechatPay extends Controller{
         if(!$order)returnJson(0,'当前订单不存在');
         if($order['status'] != -1)returnJson(0,'当前订单状态异常');
         $user = db('pc_user') ->where('id',$order['user_id'])-> field('openid')->find();
-        // if($order['openid'] === null)returnJson(0,'当前订单openid异常');
+         if($order['openid'] === null)returnJson(0,'当前用户openid异常');
         $wechatpay = new WeiPay();
         $res = $wechatpay->pay($order['goods_name'],$order['store_name'],$order['order_number'],$pay,$url,$user['openid']);
 
