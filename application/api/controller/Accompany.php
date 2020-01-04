@@ -55,12 +55,14 @@ class Accompany extends Controller{
             if(!$is_del) return jsonSuccess('赠茶商品已下架', array(), ERROR_201);
             //商品是否下架(已删除)
             $goods_data = (new Goods())->where('id','=',$is_del['goods_id'])->find();
-            if(!$goods_data) return jsonSuccess('商品已下架', array(), ERROR_200);
+            if(!$goods_data) return jsonSuccess('赠茶商品已下架', array(), ERROR_200);
             //2.判断该用户是否已经领取过 202
+
             $is_scanf = AaccompanyShare::detail(['accompany_code_id' => $data['code_id'] , 'member_id' => $data['member_id']]);
-            if($is_scanf) return jsonSuccess('您已经领取过该商品', array(), ERROR_202);
+            if($is_scanf) return jsonSuccess('您已经领取过该赠茶商品', array(), ERROR_202);
+
             $is_get = AaccompanyShare::detail(['accompany_code_id' => $data['code_id']]);
-            if(!$is_get) return jsonSuccess('赠茶商品已被领取',array(), ERROR_202);
+            if($is_get && $is_del['choose_status'] == 2) return jsonSuccess('赠茶商品已被领取',array(), ERROR_202);
             //3.扫描的是什么码
             //4.是否过期 203
             if($time > $is_del['end_time']) return jsonSuccess('领取活动已过期', array(), ERROR_203);
