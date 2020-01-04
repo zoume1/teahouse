@@ -57,8 +57,8 @@ class  Accompany extends  Controller{
         $store_id =  Session :: get('store_id');
         $scope = Db::name("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_id,member_grade_name")->select();
         $data = Accompanyes::detail($id);
-        $data['start_time'] = date('Y-m-s h:i',$data['start_time']);
-        $data['end_time'] = date('Y-m-s h:i',$data['end_time']);
+        $data['start_time'] = date('Y-m-d',$data['start_time']);
+        $data['end_time'] = date('Y-m-d',$data['end_time']);
         $data['scope'] = json_decode($data['scope']);
         $setting = AccompanySetting::detail(['accompany_id' => $id]);
         if(!empty($setting)){

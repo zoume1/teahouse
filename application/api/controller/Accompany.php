@@ -49,6 +49,7 @@ class Accompany extends Controller{
                 return jsonError($error);
             } 
             
+            
             //1.赠茶商品是否下架(已删除) 201
             $is_del = AccompanyCode::goods_detail($data['code_id']);
             if(!$is_del) return jsonSuccess('赠茶商品已下架', array(), ERROR_201);
@@ -58,6 +59,8 @@ class Accompany extends Controller{
             //2.判断该用户是否已经领取过 202
             $is_scanf = AaccompanyShare::detail(['accompany_code_id' => $data['code_id'] , 'member_id' => $data['member_id']]);
             if($is_scanf) return jsonSuccess('您已经领取过该商品', array(), ERROR_202);
+            $is_get = AaccompanyShare::detail(['accompany_code_id' => $data['code_id']]);
+            if(!$is_get) return jsonSuccess('赠茶商品已被领取',array(), ERROR_202);
             //3.扫描的是什么码
             //4.是否过期 203
             if($time > $is_del['end_time']) return jsonSuccess('领取活动已过期', array(), ERROR_203);
