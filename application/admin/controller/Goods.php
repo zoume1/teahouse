@@ -547,7 +547,6 @@ class Goods extends Controller
             ];
             $update_line = $rest->add($update_data);
         }
-            
             $bool = db("goods")->where("id", $id)->update($goods_data);
             if ($bool) {
                 $this->success("更新成功", url("admin/Goods/index"));

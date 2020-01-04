@@ -577,7 +577,7 @@
                     <input type="text" name="goods_new_money" value="{$value.goods_new_money}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
                     <span class="change_danwei">修改单位</span>
-                    <span class="danwei">/{$w}</span>
+                    <span class="danwei">/{$value.monomer}</span>
                     <input type="hidden" name="monomer" value="{$w}" class="monomer">
                 </div>
             </div>
@@ -586,7 +586,7 @@
                 <div class="form-input line">
                     <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
-                    <span class="danwei">/{$w}</span>
+                    <span class="danwei">/{$value.monomer}</span>
                     <span class="bianji" style="color: #20A0FF;cursor:pointer;"> 历史编辑</span>
                     <div class="history">
                         <div class="f_left">
@@ -613,7 +613,7 @@
                 <div class="form-input line">
                     <input type="text" name="goods_cost" value="{$value.goods_cost}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
-                    <span class="danwei">/{$w}</span>
+                    <span class="danwei">/{$value.monomer}</span>
                     <div class="tips">
                         *成本价不显示到客户端，适用于利润分析等
                     </div>
