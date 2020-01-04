@@ -42,8 +42,9 @@ class  Property extends  Controller{
         Group by FROM_UNIXTIME(tb_serial.create_time,"%Y-%m")';
         $data = Db::query($query);
         foreach($data as $key => $value){
-            $data[$key]['gross_profit'] =  $data[$key]['money'] -  $data[$key]['prime']; //毛利
-            $data[$key]['pure_profit'] =  $data[$key]['gross_profit'] -  $data[$key]['talk_money']; //纯利
+            $data[$key]['money'] =  number_format($data[$key]['money'],2);
+            $data[$key]['gross_profit'] = number_format(($data[$key]['money'] -  $data[$key]['prime']) ,2); //毛利
+            $data[$key]['pure_profit'] =   number_format(($data[$key]['gross_profit'] -  $data[$key]['talk_money']),2); //纯利
         }
         $url = 'admin/Property/property_month';
         $pag_number = 20;

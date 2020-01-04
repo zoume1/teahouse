@@ -2665,7 +2665,7 @@ class  Order extends  Controller
             switch ($key) {
                 case 0:
                     //数量一.第一单位,数量二.第二单位,数量三.第三单位
-                    $store_number = $order_quantity . ',' . $unit[$key] . ',' . [$key] . ',' . $unit[$key + 1] . ',' . [$key] . ',' . $unit[$key + 2];
+                    $store_number = $order_quantity . ',' . $unit[$key] . ',' . $key . ',' . $unit[$key + 1] . ',' . $key . ',' . $unit[$key + 2];
                     break;
                 case 1:
                     $number_one = $unit[$key];              //对应数量单位       
