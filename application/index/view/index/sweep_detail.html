@@ -330,8 +330,9 @@
                 stock_date: "",
                 qr_img: "",
                 applet_name: "",
-                sweepData: ""
-            }
+                sweepData: "",
+            },
+            type: 2
         },
         methods: {
             getData: function () {
@@ -345,6 +346,9 @@
                     if (res.body.status == "1") {
                         res.body.data.qr_img = 'data:' + res.body.data.qr_img;
                         vm.sweepData = res.body.data;
+                        this.$http.post('inc_number', { 'code': vm.code, 'type': vm.type }).then(function (res) {
+                            console.log(res.body.info)
+                        })
                     }
                 }, function (res) {
                     console.log(res);
@@ -366,6 +370,7 @@
             if (nfc_is) {
                 this.code = nfc_is[0];
                 this.nfc_num = Number(nfc_is[1]);
+                this.type = 1;
             }
             this.getData();
         }
