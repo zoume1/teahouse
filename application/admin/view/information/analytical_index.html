@@ -218,7 +218,6 @@
                 </div>
             </div>
 
-
         </div>
 
     </div>
@@ -233,6 +232,15 @@
     <script src="https://code.highcharts.com.cn/highcharts/modules/variable-pie.js"></script>
 
     <script language="JavaScript">
+        $.ajax({
+            url:'admin/analytical_index',
+            data:'',
+            type: 'POST',
+            async: false,
+            success: function (res) {
+                console.log(res)
+            }
+        })
         var chart = {
             plotBackgroundColor: null,
             plotBorderWidth: null,
@@ -285,18 +293,6 @@
                     name: '水柱',
                     y: 0.7
                 }
-            ]
-        }];
-        var series2 = [{
-            type: 'pie',
-            name: '占比',
-            data: [
-                ['香蕉', 45.0],
-                ['苹果', 26.8],
-                ['棒棒糖', 12.8],
-                ['火龙果', 8.5],
-                ['水蜜桃', 6.2],
-                ['橙', 0.7]
             ]
         }];
 
