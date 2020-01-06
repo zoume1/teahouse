@@ -353,10 +353,16 @@
 
         },
         mounted: function () {
-            let searchURL = location.search, nfc_is;
+            let searchURL = location.search, nfc_is, special;
             searchURL = searchURL.substring(1, searchURL.length);
             this.code = searchURL.split("&")[0].split("=")[1];
-            nfc_is = this.code.split("x");
+            special = this.code.split('165801');
+            if (special.length > 1) {
+                nfc_is = special[1].split("x");
+                this.code = special[1];
+            } else {
+                nfc_is = this.code.split("x");
+            }
             if (nfc_is) {
                 this.code = nfc_is[0];
                 this.nfc_num = Number(nfc_is[1]);
