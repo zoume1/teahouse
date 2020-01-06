@@ -8,6 +8,7 @@ namespace  app\admin\controller;
 
 use think\Controller;
 use think\Db;
+use think\Request;
 use think\Session;
 use think\paginator\driver\Bootstrap;
 
@@ -96,12 +97,17 @@ class Information extends Controller{
      * [溯源分析]
      * lilu
      */    
-    public function analytical_index(){   
-        //统计店铺防伪溯源信息
-        $store_id=Session::get('store_id');
-        $sql='select goods_name name,sum_num y from tb_anti_goods  where sum_num > 0 and store_id = '.$store_id.' order by sum_num desc limit 10 ' ;
-        $list=Db::query($sql);
-        return view("analytical_index",['data'=>$list]);
+    public function analytical_index(Request $request){   
+        if($request->ispost()){
+            //统计店铺防伪溯源信息
+            $store_id=Session::get('store_id');
+            $sql='select goods_name name,sum_num y from tb_anti_goods  where sum_num > 0 and store_id = '.$store_id.' order by sum_num desc limit 10 ' ;
+            $list=Db::query($sql);
+            return ajaxSuccess('获取成功',['data'=>$list]);
+        }else{
+
+            return view("analytical_index");
+        }
     }
     /**
      * lilu
