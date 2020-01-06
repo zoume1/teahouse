@@ -99,10 +99,8 @@ class Information extends Controller{
     public function analytical_index(){   
         //统计店铺防伪溯源信息
         $store_id=Session::get('store_id');
-        // $sql='select id,goods_name,nfc_num,qr_num from tb_anti_parent_code where store_id = 286';
-        // $list=Db::query($sql);
-        // $sql="update";
-        // halt($list);
+        $sql='select goods_name name,sum_num y from tb_anti_goods  where sum_num > 0 and store_id = '.$store_id.' order by sum_num desc limit 10 ' ;
+        $list=Db::query($sql);
         return view("analytical_index");
     }
     /**
