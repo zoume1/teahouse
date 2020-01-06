@@ -103,7 +103,7 @@ class Information extends Controller{
             $store_id=Session::get('store_id');
             $sql='select goods_name name,sum_num y from tb_anti_goods  where sum_num > 0 and store_id = '.$store_id.' order by sum_num desc limit 10 ' ;
             $list=Db::query($sql);
-            return ajaxSuccess('获取成功',['data'=>$list]);
+            return ajax_success('获取成功',['data'=>$list]);
         }else{
 
             return view("analytical_index");
