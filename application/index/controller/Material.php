@@ -109,6 +109,16 @@ class Material extends Controller
             return  ajax_error('缺少必要的参数');
         }
     }
+    /**
+     * nfc/扫码增加次数
+     * code    子标
+     */
+    public function inc_number()
+    {
+        $input=input();
+        
+
+    }
     
 
 
