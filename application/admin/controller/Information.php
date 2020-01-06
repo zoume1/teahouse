@@ -26,7 +26,7 @@ class Information extends Controller{
         $where['store_id']=Session::get('store_id');
         $data['order_num']=db('order')->where($where)->count();     //今日总订单
         $where['status']=array('between',array(2,8));
-        $data['order_money']=db('order')->where($where)->sum('order_amount');   //今日总销售额     2-8
+        $data['order_money']=db('order')->where($where)->sum('order_real_pay');   //今日总销售额     2-8
         $data['order_money']=round($data['order_money'],2);
         //昨日订单数
         $start_time2=strtotime(date("Y-m-d"))-24*3600;
@@ -35,7 +35,7 @@ class Information extends Controller{
         $where2['store_id']=Session::get('store_id');
         $data['order_num2']=db('order')->where($where2)->count();     //昨日总订单
         $where2['status']=array('between',array(2,8));
-        $data['order_money2']=db('order')->where($where2)->sum('order_amount');   //昨日总销售额     2-8
+        $data['order_money2']=db('order')->where($where2)->sum('order_real_pay');   //昨日总销售额     2-8
         $data['order_money2']=round($data['order_money2'],2);
         //七日订单数
         $start_time3=strtotime(date("Y-m-d "))-24*3600*7;
@@ -43,7 +43,7 @@ class Information extends Controller{
         $where2['order_create_time']=array('between',array($start_time3,$end_time3));
         $where3['store_id']=Session::get('store_id');
         $where3['status']=array('between',array(2,8));
-        $data['order_money3']=db('order')->where($where3)->sum('order_amount');   //七日总销售额     2-8
+        $data['order_money3']=db('order')->where($where3)->sum('order_real_pay');   //七日总销售额     2-8
         $data['order_money3']=round($data['order_money3'],2);
         //待付款订单
         //1.普通订单
@@ -101,7 +101,7 @@ class Information extends Controller{
         $store_id=Session::get('store_id');
         $sql='select goods_name name,sum_num y from tb_anti_goods  where sum_num > 0 and store_id = '.$store_id.' order by sum_num desc limit 10 ' ;
         $list=Db::query($sql);
-        return view("analytical_index");
+        return view("analytical_index",['data'=>$list]);
     }
     /**
      * lilu
