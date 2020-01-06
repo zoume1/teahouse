@@ -699,7 +699,8 @@ Route::group("admin",[
 
     "exclusive_index"=>"admin/Goods/exclusive_index",   //专属定制商品显示
     "exclusive_add"=>"admin/Goods/exclusive_add",       //专属定制商品添加
-    "exclusive_edit"=>"admin/Goods/exclusive_edit",     //专属定制商品编辑
+    "exclusive_edit"=>"admin/Goods/exclusive_edit",     //专属定制商品编辑 
+    "goodsInMysql"=>"admin/Goods/goodsInMysql",         //商品是否重名
 
 
     
