@@ -261,12 +261,30 @@
             type: 'pie',
             name: '占比',
             data: [
-                ['炎柱', 45.0],
-                ['恋柱', 26.8],
-                ['虫柱', 12.8],
-                ['岩柱', 8.5],
-                ['霞柱', 6.2],
-                ['水柱', 0.7]
+                {
+                    name: '炎柱',
+                    y: 45.0
+                },
+                {
+                    name: '恋柱',
+                    y: 26.8
+                },
+                {
+                    name: '虫柱',
+                    y: 12.0
+                },
+                {
+                    name: '岩柱',
+                    y: 8.0
+                },
+                {
+                    name: '霞柱',
+                    y: 6.0
+                },
+                {
+                    name: '水柱',
+                    y: 0.7
+                }
             ]
         }];
         var series2 = [{
@@ -352,17 +370,17 @@
             chart: {
                 type: 'variablepie'
             },
-            title: {
-                text: '不同国家人口密度及面积对比'
-            },
-            subtitle: {
-                text: '扇区长度（圆周方法）表示面积，宽度（纵向）表示人口密度'
-            },
+            // title: {
+            //     text: '不同国家人口密度及面积对比'
+            // },
+            // subtitle: {
+            //     text: '扇区长度（圆周方法）表示面积，宽度（纵向）表示人口密度'
+            // },
             tooltip: {
                 headerFormat: '',
-                pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' +
-                    '面积 (平方千米): <b>{point.y}</b><br/>' +
-                    '人口密度 (每平方千米人数): <b>{point.z}</b><br/>'
+                // pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' +
+                //     '面积 (平方千米): <b>{point.y}</b><br/>' +
+                //     '人口密度 (每平方千米人数): <b>{point.z}</b><br/>'
             },
             series: [{
                 minPointSize: 10,
@@ -371,32 +389,32 @@
                 name: 'countries',
                 data: [{
                     name: '西班牙',
-                    y: 505370,
-                    z: 92.9
+                    y: 30,
+                    z: 100
                 }, {
                     name: '法国',
-                    y: 551500,
-                    z: 118.7
+                    y: 30,
+                    z: 100
                 }, {
                     name: '波兰',
-                    y: 312685,
-                    z: 124.6
+                    y: 35,
+                    z: 100
                 }, {
                     name: '捷克共和国',
-                    y: 78867,
-                    z: 137.5
+                    y: 7,
+                    z: 100
                 }, {
                     name: '意大利',
-                    y: 301340,
-                    z: 201.8
+                    y: 30,
+                    z: 100
                 }, {
                     name: '瑞士',
-                    y: 41277,
-                    z: 214.5
+                    y: 4,
+                    z: 100
                 }, {
                     name: '德国',
-                    y: 357022,
-                    z: 235.6
+                    y: 32,
+                    z: 100
                 }]
             }]
         });
