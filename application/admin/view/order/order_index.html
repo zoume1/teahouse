@@ -431,16 +431,20 @@
 		width: 80px;
 		display: inline-block;
 	}
+
 	.bottom-det {
 		display: flex;
 		line-height: 28px;
 	}
-	.bottom-det div{
+
+	.bottom-det div {
 		margin-right: 50px;
 	}
+
 	.bom-span {
 		margin-right: 15px;
 	}
+
 	.norm>div:last-child {
 		border-bottom: 0px;
 	}
@@ -1345,7 +1349,7 @@
 					var data = eval('(' + data + ')');
 					let dhtm9 = "";
 					dhtm9 += '<div class="popup_t" >';
-					dhtm9 += '<div class="sProgram-code"><img src="'+data.data.applet_code+'" /></div>';
+					dhtm9 += '<div class="sProgram-code"><img src="' + data.data.applet_code + '" /></div>';
 					dhtm9 += '<div style="font-size: 28px;">' + data.data.store_name + '</div>';
 					dhtm9 += '<div style="font-weight: 700;font-size: 12px;">邀请码：' + 243656 + '</div>';
 					dhtm9 += '</div>';
@@ -1355,7 +1359,7 @@
 					dhtm9 += '<div style="flex:1;"><span class="can-span">订单号：</span>';
 					dhtm9 += '<span>' + data.data.parts_order_number + '</span></div>';
 					dhtm9 += '<div><span class="can-span">下单时间：</span>';
-					dhtm9 += '<span>' + data.data.order_create_time + '</span></div>';
+					dhtm9 += '<span style="width:170px;display:inline-block;">' + data.data.order_create_time + '</span></div>';
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="delti">';
 					dhtm9 += '<div style="margin-right:50px;"><span class="can-span">买家昵称：</span>';
@@ -1370,7 +1374,7 @@
 					}
 					dhtm9 += '</div>';
 					dhtm9 += '<div><span class="can-span">订单号：</span>';
-					dhtm9 += '<span style="width:180px;display:inline-block;">' + data.data.parts_order_number + '</span></div>';
+					dhtm9 += '<span style="width:170px;display:inline-block;">' + data.data.parts_order_number + '</span></div>';
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="delti">';
 					dhtm9 += '<div style="margin-right:50px;"><span class="can-span">联系方式：</span>';
@@ -1390,12 +1394,12 @@
 					dhtm9 += '<table class="layui-table">';
 					dhtm9 += '<tbody class="news_content">';
 					dhtm9 += '<tr><th>商品编号</th><th>商品名称</th><th>数量</th><th>单位</th><th>单价</th><th>金额</th></tr>';
-					dhtm9 += '<tr><td>'+data.data.goods_id+'</td>';
-					dhtm9 += '<td>'+data.data.parts_goods_name+'</td>';
-					dhtm9 += '<td>'+data.data.order_quantity+'</td>';
-					dhtm9 += '<td>'+data.data.goods_standard+'</td>';
-					dhtm9 += '<td>'+data.data.goods_money+'</td>';
-					dhtm9 += '<td>'+data.data.order_amount+'</td></tr>';
+					dhtm9 += '<tr><td>' + data.data.goods_id + '</td>';
+					dhtm9 += '<td>' + data.data.parts_goods_name + '</td>';
+					dhtm9 += '<td>' + data.data.order_quantity + '</td>';
+					dhtm9 += '<td>' + data.data.goods_standard + '</td>';
+					dhtm9 += '<td>' + data.data.goods_money + '</td>';
+					dhtm9 += '<td>' + data.data.order_amount + '</td></tr>';
 					dhtm9 += '</tbody>';
 					dhtm9 += '	</table>';
 					dhtm9 += '<div class="bottom-det">';
@@ -1478,7 +1482,7 @@
 					// dhtm9 += '<td>收货人信息：</td>';
 					// dhtm9 += '<td>收件人：' + data.data.harvester + '联系电话：' + data.data.harvest_phone_num + '</td>';
 					// dhtm9 += '	</tr>';
-					
+
 					dhtm9 += '	</div>';
 					// console.log(dhtm9)
 					$("#dvMain").append(dhtm9);
