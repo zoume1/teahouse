@@ -77,24 +77,7 @@
                                     <th>次数</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>普洱1</td>
-                                    <td>800</td>
-                                </tr>
-                                <tr>
-                                    <td>普洱1</td>
-                                    <td>800</td>
-                                </tr>
-                                <tr>
-                                    <td>普洱1</td>
-                                    <td>800</td>
-                                </tr>
-                                <tr>
-                                    <td>普洱1</td>
-                                    <td>800</td>
-                                </tr>
-
+                            <tbody id='series'>
                             </tbody>
                         </table>
                     </div>
@@ -232,20 +215,12 @@
     <script src="https://code.highcharts.com.cn/highcharts/modules/variable-pie.js"></script>
 
     <script language="JavaScript">
-        $.ajax({
-            url:'analytical_index',
-            data:'',
-            type: 'POST',
-            async: false,
-            success: function (res) {
-                console.log(res)
-            }
-        })
+
         var chart = {
             plotBackgroundColor: null,
             plotBorderWidth: null,
             plotShadow: false
-        };
+        }, series_data = [], dhtml = '';
         var title = {
             text: ''
         };
@@ -265,35 +240,27 @@
                 }
             }
         };
+
+        $.ajax({
+            url: 'analytical_index',
+            data: '',
+            type: 'POST',
+            async: false,
+            success: function (res) {
+                res = JSON.parse(res);
+                if (res.status == "1") {
+                    series_data = res.data.data;
+                    for (let i = 0; i < series_data.length; i++) {
+                        dhtml += `<tr><td>${series_data[i].name}</td><td>${series_data[i].y}</td></tr>`;
+                    }
+                    $('#series').before(dhtml);
+                }
+            }
+        })
         var series = [{
             type: 'pie',
             name: '占比',
-            data: [
-                {
-                    name: '炎柱',
-                    y: 45.0
-                },
-                {
-                    name: '恋柱',
-                    y: 26.8
-                },
-                {
-                    name: '虫柱',
-                    y: 12.0
-                },
-                {
-                    name: '岩柱',
-                    y: 8.0
-                },
-                {
-                    name: '霞柱',
-                    y: 6.0
-                },
-                {
-                    name: '水柱',
-                    y: 0.7
-                }
-            ]
+            data: series_data
         }];
 
         var json = {};
