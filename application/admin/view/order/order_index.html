@@ -1394,12 +1394,14 @@
 					dhtm9 += '<table class="layui-table">';
 					dhtm9 += '<tbody class="news_content">';
 					dhtm9 += '<tr><th>商品编号</th><th>商品名称</th><th>数量</th><th>单位</th><th>单价</th><th>金额</th></tr>';
-					dhtm9 += '<tr><td>' + data.data.goods_id + '</td>';
-					dhtm9 += '<td>' + data.data.parts_goods_name + '</td>';
-					dhtm9 += '<td>' + data.data.order_quantity + '</td>';
-					dhtm9 += '<td>' + data.data.unit + '</td>';
-					dhtm9 += '<td>' + data.data.goods_money + '</td>';
-					dhtm9 += '<td>' + data.data.order_amount + '</td></tr>';
+					for(let i = 0; i < data.data.order_detail.length; i ++) {
+						dhtm9 += '<tr><td>' + data.data.order_detail[i].goods_id + '</td>';
+						dhtm9 += '<td>' + data.data.order_detail[i].parts_goods_name + '</td>';
+						dhtm9 += '<td>' + data.data.order_detail[i].order_quantity + '</td>';
+						dhtm9 += '<td>' + data.data.order_detail[i].unit + '</td>';
+						dhtm9 += '<td>' + data.data.order_detail[i].goods_money + '</td>';
+						dhtm9 += '<td>' + data.data.order_detail[i].order_amount + '</td></tr>';
+					}
 					dhtm9 += '</tbody>';
 					dhtm9 += '	</table>';
 					dhtm9 += '<div class="bottom-det">';
@@ -1409,7 +1411,7 @@
 					dhtm9 += '<div><span class="bom-span">优惠券：</span><span>' + data.data.coupon_deductible + '</span></div>';
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="bottom-det">';
-					dhtm9 += '<div><span class="bom-span">店铺服务热线：</span><span>07558383838</span></div>';
+					dhtm9 += '<div><span class="bom-span">店铺服务热线：</span><span>0755383838383</span></div>';
 					dhtm9 += '<div><span class="bom-span">谢谢您的惠顾，我们会竭诚为您提供更好的商品和服务！</span>';
 					dhtm9 += '</div>';
 					// dhtm9 += '	<tr>';
