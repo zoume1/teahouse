@@ -6,6 +6,7 @@ use app\admin\model\Member;
 use app\admin\model\Goods;
 use app\admin\model\AaccompanyShare;
 use app\admin\model\AccompanyCode;
+use app\admin\model\Accompany;
 use app\index\controller\Order;
 
 
@@ -44,6 +45,7 @@ class HouseOrder extends Model
         //查询商品详情
         $goods_data = (new Goods())->where('id','=',$data['goods_id'])->find();
         $member = Member::detail($member_id);
+        $Accompany = new Accompany();
 
         $key = array_search($goods_data['monomer'], explode(',',$goods_data['unit']));
         //先判断有多少位数量等级
@@ -89,6 +91,11 @@ class HouseOrder extends Model
                         //全向营销则增加扫描次数
                         $AccompanyCode = new AccompanyCode();
                         $res = $AccompanyCode->where('id','=',$code_id)->setInc('scan_number', 1);
+                        $restul = $Accompany->where('id','=',$data['id'])->setInc('draw_number', 1);
+                        break;
+                    case 2:
+                        //定向营销增加扫描次数
+                        $restule = $Accompany->where('id','=',$data['id'])->setInc('draw_number', 1);
                         break;
                     default:
                         break;
