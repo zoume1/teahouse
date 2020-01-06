@@ -482,6 +482,7 @@ class Goods extends Controller
             } else {
                 $goods_data["scope"] = "";
             }
+            halt($goods_data);
             $goods_data["templet_id"] = isset($goods_data["templet_id"])?implode(",",$goods_data["templet_id"]):null;
             $goods_data["templet_name"] = isset($goods_data["templet_name"])?implode(",",$goods_data["templet_name"]):null;
             if($goods_data["goods_standard"] == 1){
