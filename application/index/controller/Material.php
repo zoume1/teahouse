@@ -112,11 +112,25 @@ class Material extends Controller
     /**
      * nfc/扫码增加次数
      * code    子标
+     * type    1  nfc    2  扫码
      */
     public function inc_number()
     {
         $input=input();
-        
+        if(!$input)
+        {
+            return ajax_error('获取参数失败') ;
+        }
+        $pp=$input['code'];
+        if($input['type']==1){
+           db('anti_parent_code')->where('child_code',$input['code'])->setInc('nfc_num',1);
+        }else{
+            db('anti_parent_code')->where('child_code',$input['code'])->setInc('qr_num',1);
+        }
+        $pid=db('anti_parent_code')->where('child_code',$input['code'])->value('pid');
+        db('anti_goods')->where('id',$pid)->setInc('sum_num',1);
+        return ajax_success('更新成功');
+
 
     }
     
