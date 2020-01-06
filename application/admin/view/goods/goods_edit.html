@@ -625,7 +625,7 @@
                 <div class="form-input line">
                     <input type="text" name="goods_repertory" value="{$value.goods_repertory}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
-                    <span class="danwei">/{$w}</span>
+                    <span class="danwei">/{$value.monomer}</span>
                 </div>
             </div>
 
@@ -704,7 +704,7 @@
                         {volist name="scope" id="val" }
                         <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}"
                             value="{$val['member_grade_name']}" {if
-                            condition="in_array($val['member_grade_name'],$value.scope)" } checked='checked'
+                            condition="in_array($val['member_grade_name'],$value.scope)" checked='checked'} 
                             type="checkbox" name="scope[]" lay-skin="primary" {else} type="checkbox" name="scope[]"
                             lay-skin="primary" {/if}> {/volist} </div> </div> {/if} </div> <div
                             class="form-item general">
