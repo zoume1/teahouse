@@ -1225,6 +1225,19 @@
                     var vals = $('input[name="aaa"]:checked').val();
                     var huiyuan = $('input[name="scope[]"]:checked').length;
                     var text = $(".monomer").val();
+                    var goods_name = $("input[name='goods_name']").val();
+                    var goods_number = $("input[name='goods_number']").val();
+                    var isName = inspection(goods_name);
+                    if (isName == 1) {
+                        layer.msg('该商品名称已被使用，请修改！');
+                        return false;
+                    }
+                    var isNum = inspection(goods_number);
+                    if (isNum == 1) {
+                        layer.msg('该商品编码已被使用，请修改！');
+                        return false;
+                    }
+                    var text = $(".monomer").val();
                     var nums = 0;
                     for (var i = 0; i < unit1_a.length; i++) {
                         if (unit1_a[i] == text) {
@@ -1900,6 +1913,25 @@
                 }
             })
         })
+        function inspection(name) {
+            var isFu;
+            $.ajax({
+                type: "POST",
+                url: "goodsInMysql",
+                data: {
+                    "name": name
+                },
+                async: false,
+                success: function (res) {
+                    isFu = res.code;
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            });
+            console.log(isFu)
+            return isFu;
+        }
     </script>
 
     {/block}
