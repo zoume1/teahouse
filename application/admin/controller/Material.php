@@ -531,7 +531,6 @@ class  Material extends  Controller{
         if(!$phone){
             return ajax_error('未获取用户同步信息');
         }
-        // $sql='SELECT v_test.* FROM  v_test where v_test.id = 49';
         $con=mysqli_connect("39.97.124.73:50306","root","Lingtian2118",'lingtian_wms_'.$phone);
         if($con)
         {
@@ -539,7 +538,6 @@ class  Material extends  Controller{
             $jxc_id=db('store')->where('id',$store_id)->value('jxc_id');
             //1.获取商品列表，导入自己的数据库
             $sql='SELECT v_traceability.* FROM  v_traceability  GROUP by id';
-            // $sql='SELECT v_trace_commodity.* FROM  v_trace_commodity where produceUid = '.$jxc_id.' GROUP by id  ';
             $res= mysqli_query($con,$sql);
             $rr=$res->fetch_all(MYSQLI_ASSOC);
             foreach($rr as $k =>$v){
