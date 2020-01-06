@@ -130,8 +130,6 @@ class Material extends Controller
         $pid=db('anti_parent_code')->where('child_code',$input['code'])->value('pid');
         db('anti_goods')->where('id',$pid)->setInc('sum_num',1);
         return ajax_success('更新成功');
-
-
     }
     
 
