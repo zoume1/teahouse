@@ -175,6 +175,8 @@ class  Order extends  Controller
                 if (!empty($data)) {
                     $data['order_detail']=db('order')->where("parts_order_number", $order_id)->field('goods_id,parts_goods_name,order_quantity,goods_money,order_amount,unit')->select();
                     $data['store_name'] = db("store")->where("id", $data['store_id'])->value('store_name');
+                    $data['share_code'] = db("store")->where("id", $data['store_id'])->value('share_code');
+                    $data['phone_number'] = db("store")->where("id", $data['store_id'])->value('phone_number');
                     $data['applet_code']=$re;
                     return ajax_success("数据返回成功", $data);
                 } else {
