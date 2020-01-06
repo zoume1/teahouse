@@ -52,8 +52,9 @@ class Member extends Controller{
         if ($request->isPost()){
             $store_id = Session::get('store_id');
             $data = $request->param();
+            halt($data);
             $rest = db("member") 
-             ->where("member_phone_num",$data["member_name"])
+             ->where('member_phone_num|dimension', 'like', '%' . trim($data["member_name"]) . '%')
              ->where("store_id",$store_id)
              ->field("member_id,inviter_id,member_phone_num,leaguer_id")
              ->find();

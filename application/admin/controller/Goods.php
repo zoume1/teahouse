@@ -1628,6 +1628,22 @@ class Goods extends Controller
 
 
 
+    /**
+     * [检查商品名称和商品编号是否存在]
+     * 郭杨
+     */    
+    public function goodsInMysql(Request $request){     
+        if($request->isPost()){
+            $name = $request->only(["name"])["name"];
+            $bool = Db::name('goods')->where('goods_name|goods_number', 'like', '%' . trim($name) . '%')->find();
+            if($bool){
+                return jsonSuccess('重复');
+            } else {
+                return jsonError('可以继续添加');
+            }
+        }
+    }
+
 
     /**
      * [专属定制商品显示]
