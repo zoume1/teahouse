@@ -436,6 +436,7 @@ Route::group("",[
     "get_anti_fake_info"=>"index/Material/get_anti_fake_info",        //分销明细显示
     "get_humiture"=>"index/Material/get_humiture",                   //插入温湿度历史记录
     "get_humiture_list"=>"index/Material/get_humiture_list",         //获取温湿度历史记录
+    "inc_number"=>"index/Material/inc_number",                       //增加扫码次数
     
     /**测试 */
     "sweep_detail"=>"index/Index/sweep_detail",         //获取温湿度历史记录
