@@ -43,11 +43,13 @@ define("ERROR_107",107);//账号已冻结
 
 
 define("ERROR_201",201);//赠茶商品是否下架(已删除)
+define("ERROR_200",200);//商品是否下架(已删除)
 define("ERROR_202",202);//判断该用户已经领取过
 define("ERROR_203",203);//已过期
 define("ERROR_204",204);//不满足会员范围
 define("ERROR_205",205);//全向码扫描数是否已满
 define("ERROR_206",206);//领取失败
+define("ERROR_207",207);//已领取
 
 
 
