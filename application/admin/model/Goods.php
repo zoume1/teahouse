@@ -162,7 +162,7 @@ class Goods extends Model
         //     'line_color' => json_encode($color),   //auto_color 为 false 时生效，使用 rgb 设置颜色 例如 {"r":"xxx","g":"xxx","b":"xxx"} 十进制表示
         //     'is_hyaline' => true,   //是否需要透明底色，为 true 时，生成透明底色的小程序
         // ];
-        $qrcode_data['scene'] = $order_id;
+        $qrcode_data['scene'] = 'house_order_id='.$order_id;
         // 宽度
         $qrcode_data['width'] = 430;
         // 页面

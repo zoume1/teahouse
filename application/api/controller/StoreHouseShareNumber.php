@@ -9,6 +9,7 @@ use think\Db;
 use think\Request;
 use \think\Exception;
 use app\admin\model\Goods;
+use think\Validate;
 use app\admin\model\ShareOrder;
 
 /**
@@ -33,9 +34,9 @@ class StoreHouseShareNumber extends Controller
             $order_id = $request->only(['id'])['id'];
             $order_data = HouseOrder::getHouseOrder($order_id);
             if (!$order_data)  return jsonError('该订单不存在');
-            //检查分享存茶数量是否超过订单数量
-            $share_number = ShareOrder::countOrderNumber($order_id);
-            if($share_number >= $order_data['order_quantity']) return jsonError('您的赠送数量已达上限');
+            // 检查分享存茶数量是否超过订单数量
+            // $share_number = ShareOrder::countOrderNumber($order_id);
+            // if($share_number >= $order_data['order_quantity']) return jsonError('您的赠送数量已达上限');
             $this->startTrans();
             try {
                 $share_data = array(
@@ -48,20 +49,45 @@ class StoreHouseShareNumber extends Controller
                     'end_time' => strtotime("+3 days"),
                     'store_id' => $order_data['store_id']
                 );
-
+                $share_data['goods_image'] = $order_data['goods_image']; //商品图片
                 $share_id = ShareOrder::share_add($share_data);
-                if (!$share_id){
+                if (!$share_id) {
                     throw new Exception('添加失败');
-                }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+                }
                 $return_url = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
                 $share_data['share_code'] = $return_url;
                 $this->commit();
-                return jsonSuccess('发送成功', $share_data);            
+                return jsonSuccess('发送成功', $share_data);
             } catch (\Exception $e) {
                 $this->error = $e->getMessage();
                 $this->rollback();
                 return jsonError('发送失败');
             }
+        }
+    }
+
+    /**
+     *用户扫描二维码领取存茶
+     * @param \think\Model $houseorder
+     * @string 存茶订单id
+     * @return array
+     * @throws \app\common\exception\BaseException
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
+    public function getShareHouseData(Request $request)
+    {
+        if ($request->isPost()) {
+            $data = input();
+            $validate  = new Validate([
+                ['code_id', 'require', 'code_id不能为空'],
+                ['member_id', 'require', '会员id不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } 
         }
     }
 }
