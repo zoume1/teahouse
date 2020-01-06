@@ -15,6 +15,8 @@ use think\Db;
 use  think\Request;
 use think\paginator\driver\Bootstrap;
 use think\Session;
+use app\admin\Controller\Upload;
+
 
 class  Order extends  Controller
 {
@@ -151,6 +153,22 @@ class  Order extends  Controller
     public function order_information_return(Request $request)
     {
         if ($request->isPost()) {
+            $store_id=session::get('store_id');
+            //获取小程序二维码
+            if (file_exists(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt')) {
+                //检查是否有该文件夹，如果没有就创建，并给予最高权限
+                $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');  //小程序二维码
+            }else{
+                //获取携带参数的小程序的二维码
+                $page='pages/logs/logs';
+                $upload=new Upload();
+                $qrcode=$upload->getwxacode($store_id);
+                //把qrcode文件写进文件中，使用的时候拿出来
+                $new_file = ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt';
+                if (file_put_contents($new_file, $qrcode)) {
+                    $re=file_get_contents(ROOT_PATH . 'public' . DS . 'uploads'.DS.'D'.$store_id.'.txt');
+                } 
+            }
             $order_id = $request->only(["order_id"])["order_id"];
             if (!empty($order_id)) {
                 $data = Db::name("order")->where("parts_order_number", $order_id)->find();
@@ -159,6 +177,7 @@ class  Order extends  Controller
                     $data['parts_goods_name'] = Db::name("order")->where("id", $order_id)->field('parts_goods_name')->select();
                     $data['order_quantity'] = Db::name("order")->where("id", $order_id)->field('order_quantity')->select();
                     $data["goods_franking"] = Db::name("goods")->where("id", $data["goods_id"])->value("goods_franking");
+                    $data['applet_code']=$re;
                     return ajax_success("数据返回成功", $data);
                 } else {
                     return ajax_error("没有数据信息", ["status" => 0]);
