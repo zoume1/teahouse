@@ -330,12 +330,13 @@ class User extends Controller{
      * @return \think\response\View
      */
     public function recharge_application(){
-        $data =Db::table("tb_recharge_reflect")
-            ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_phone_num,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
-            ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
-            ->where("operation_type",-1)
-            ->where("pay_type_content","微信")
-            ->select();
+        // $data =Db::table("tb_recharge_reflect")
+        //     ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_phone_num,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+        //     ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
+        //     ->where("operation_type",-1)
+        //     ->where("pay_type_content","微信")
+        //     ->select();
+        $data = [];
         $all_idents =$data ;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页3行记录
@@ -441,12 +442,13 @@ class User extends Controller{
      * @return \think\response\View
      */
     public function withdrawal_application(){
-        $data =Db::table("tb_recharge_reflect")
-            ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_phone_num,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
-            ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
-            ->where("operation_type",-1)
-            ->where("pay_type_content","银行卡")
-            ->select();
+        // $data =Db::table("tb_recharge_reflect")
+        //     ->field("tb_recharge_reflect.*,tb_member.member_name,tb_member.member_phone_num,tb_member.member_real_name,tb_member.member_wallet,tb_member.member_recharge_money")
+        //     ->join("tb_member","tb_recharge_reflect.user_id=tb_member.member_id",'left')
+        //     ->where("operation_type",-1)
+        //     ->where("pay_type_content","银行卡")
+        //     ->select();
+        $data = [];
         $all_idents =$data ;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页3行记录
