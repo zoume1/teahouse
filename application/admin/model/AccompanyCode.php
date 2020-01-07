@@ -34,7 +34,7 @@ class AccompanyCode extends Model
      */
     public  function code_add($data)
     {
-        
+        ini_set('max_execution_time', '1000');
         $rest = $this->save($data);
         return $rest ? $this->id : false;
     
