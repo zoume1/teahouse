@@ -56,7 +56,6 @@ class Accompany extends Model
      */
     public  function accompany_add($data)
     {
-        ini_set('max_execution_time', '0');
         $store_id =  Session :: get('store_id');
         $this->startTrans();
         try {
@@ -111,6 +110,7 @@ class Accompany extends Model
                 case 2:
                     $method = ROOT_PATH . 'public' . DS . 'directional'. DS . $this->id;
                     $mkdir = mkdir($method, 0777, true);
+                    ini_set('max_execution_time', '0');
                     for($i = 0 ; $i < $data['accompany_number'] ; $i++){
                         $code_id = (new AccompanyCode())->code_add($restul);
                         $res = (new Goods())->directional_qrcode($code_id,$this->id);
