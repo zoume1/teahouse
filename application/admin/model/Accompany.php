@@ -56,6 +56,7 @@ class Accompany extends Model
      */
     public  function accompany_add($data)
     {
+        ini_set('max_execution_time', '0');
         $store_id =  Session :: get('store_id');
         $this->startTrans();
         try {
