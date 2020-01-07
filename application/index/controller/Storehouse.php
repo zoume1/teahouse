@@ -207,12 +207,12 @@ class Storehouse extends Controller
                     return ajax_success("发送成功",$restul);
                 } else {
                     $rest_house['name'] = $house_name;
-                    $rest_house['getArr'] = null;
+                    $rest_house['getArr'] = [];
                     $restul[$rest_number] = $rest_house;
-                    return ajax_error("该店铺没有存茶订单");
+                    return ajax_error("该店铺没有存茶订单",$restul);
                 }
             } else {
-                return ajax_error("请检查参数是否正确",$restul);
+                return ajax_error("请检查参数是否正确");
             }
         }              
     }
