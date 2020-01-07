@@ -209,6 +209,7 @@
             url: "{:url('admin/General/decoration_routine_index')}",
             data: "",
             success: (data) => {
+                alert(123);
                 var new_data = JSON.parse(data);
                 let val = new_data.data;
                 console.log(new_data)

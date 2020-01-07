@@ -418,7 +418,7 @@ class  General extends  Base {
      * @return \think\response\View
      */
     public function decoration_routine_index(Request $request){
-        if($request->isPost()){
+        // if($request->isPost()){
             $list = Db::table("applet")
                 ->where("store_id",$this->store_ids)
                 ->limit(1)
@@ -470,13 +470,14 @@ class  General extends  Base {
                         ->where("audit_status",1)
                         ->select();   //获取当前可用的套餐
                     } 
+                    $this->redirect('/admin/xiaochengxu_edit?appletid='.$list[0]['id'].'&tplid='.$list[0]['tplid'].'&store_id='.$this->store_ids.'&goods_names='.$list[0]['goods_names'].'&goods_names_id='.$list[0]['goods_names_id']);
                 return ajax_success("数据返回成功",["data"=>$list]);
             }else{
                 return ajax_error("请先编辑小程序设置");
 
             }
-        }
-        return view("decoration_routine_index");
+        // }
+        // return view("decoration_routine_index");
     }
 
     /**
@@ -1233,6 +1234,7 @@ class  General extends  Base {
                     $this->assign("page",$page);
                 }
             }
+
             //到这一块进行模板赋值
             $this->assign("data",$data);
             $this->assign("template_id",$tplid);
