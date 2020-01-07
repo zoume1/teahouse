@@ -441,7 +441,7 @@ class TeaCenter extends Controller
             $teahost_id = $request->only(["teahost_id"])["teahost_id"];
             $comment_id = $request->only(["id"])["id"];
             $user_id = db("member")->where("member_openid",$opend_id)->value("member_id");
-            $comment = db("comment")->where("id",$comment_id)->where("user_id",$user_id)->where("teahost_id",$teahost_id)->update(["status"=>1]);
+            $comment = db("comment")->where("id",$comment_id)->where("teahost_id",$teahost_id)->update(["status"=>1]);
             if($comment){
                 return ajax_success("更新成功");
             }else{
