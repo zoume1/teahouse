@@ -175,7 +175,7 @@ class Storehouse extends Controller
                 }
                 $house_order = Db::table("tb_house_order")
                                     ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,store_unit,tb_goods.date,tb_store_house.number,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name")
-                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
+                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'right')  
                                     ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                     ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
                                     ->where(["tb_house_order.store_id"=>$data['uniacid'],"tb_house_order.member_id"=>$data['member_id'],"tb_house_order.store_house_id"=>$data['store_house_id']])
