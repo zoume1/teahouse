@@ -112,8 +112,8 @@ class Accompany extends Model
                     $mkdir = mkdir($method, 0777, true);
                     ini_set('max_execution_time', '0');
                     for($i = 0 ; $i < $data['accompany_number'] ; $i++){
-                        $code_id = (new AccompanyCode())->code_add($restul);
-                        $res = (new Goods())->directional_qrcode($code_id,$this->id);
+                        $code_id[] = (new AccompanyCode())->code_add($restul);
+                        $res = (new Goods())->directional_qrcode($code_id[$i],$this->id);
                     }
                     break;
                 default :
