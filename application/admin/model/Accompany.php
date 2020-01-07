@@ -110,10 +110,9 @@ class Accompany extends Model
                 case 2:
                     $method = ROOT_PATH . 'public' . DS . 'directional'. DS . $this->id;
                     $mkdir = mkdir($method, 0777, true);
-                    ini_set('max_execution_time', '1000');
                     for($i = 0 ; $i < $data['accompany_number'] ; $i++){
-                        $code_id[] = (new AccompanyCode())->code_add($restul);
-                        $res = (new Goods())->directional_qrcode($code_id[$i],$this->id);
+                        $code_id = (new AccompanyCode())->code_add($restul);
+                        $res = (new Goods())->directional_qrcode($code_id,$this->id);
                     }
                     break;
                 default :
