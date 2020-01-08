@@ -14,7 +14,7 @@ use think\Db;
 use think\Request;
 use think\Image;
 use app\api\model\UpdateLine;
-const RESTEL_ZREO = 0;
+const RESTEL_ZERO = 0;
 const RESTEL_ONE = 1;
 const RESTEL_TWO = 2;
 const RESTEL_THREE = 3;
