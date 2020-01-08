@@ -578,7 +578,7 @@
                         autocomplete="off" placeholder="请输入" class="layui-input">
                     <span class="change_danwei">修改单位</span>
                     <span class="danwei">/{$value.monomer}</span>
-                    <input type="hidden" name="monomer" value="{$w}" class="monomer">
+                    <input type="hidden" name="monomer" value="{$value.monomer}" class="monomer">
                 </div>
             </div>
             <div class="form-item">
@@ -1586,12 +1586,10 @@
 
             });
 
-            // 运费模板
+            // 修改单位
             $(".change_danwei").click(function () {
                 var unit1_a = unit1.unique3();
                 layer.prompt({ title: '请输入你要修改的单位', formType: 2 }, function (text, index) {
-                    console.log(text)
-                    console.log(unit1_a)
                     layer.close(index);
                     var num = 0;
                     for (var i = 0; i < unit1_a.length; i++) {
