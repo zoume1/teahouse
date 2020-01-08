@@ -50,7 +50,19 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
-            
+                //$id 为生成的全向码id
+                $id = 6 ;
+                $ACCESS_TOKEN = $this->gettoken();
+                $puthc = 'pages/logs/logs?code_id='.$id;//小程序的路径 可以带参数
+                $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
+                $param = json_encode(array("path"=>$puthc,"width"=> 150));
+                $result = $this->httpRequest($qcode,$param,"POST");
+                // $puth = ROOT_PATH . 'public' . DS . 'uniquecode'.DS.'D'.time().rand(100000,999999).'.png';
+                // file_put_contents($puth,$result);
+                // $file_name = basename($puth,'.png');
+                // $image_url = '/uniquecode/'.$file_name.'.png';
+                // $bool  = Db::name('accompany')->where('id','=',$accompany_id)->update(['image_url'=> $image_url]);
+                // return $bool ? $bool : false; 
         }
 
     }
@@ -218,4 +230,44 @@ class Bill extends Controller
         }
         @closedir($path);
     }
+
+
+    public function gettoken()
+    {
+        $applet = Db::table('applet')
+                ->where('id','=',6)
+                ->find();
+                
+        $APPID = $applet['appID'];
+        $APPSECRET =  $applet['appSecret'];
+        $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
+        $json = $this->httpRequest($access_token);
+        return  json_decode($json,true);
+    }
+
+        //curl
+        public function httpRequest($url, $data='', $method='GET'){
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
+            if($method=='POST')
+            {
+                curl_setopt($curl, CURLOPT_POST, 1);
+                if ($data != '')
+                {
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                }
+            }
+    
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+            curl_setopt($curl, CURLOPT_HEADER, 0);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($curl);
+            curl_close($curl);
+            return $result;
+        }
 }

@@ -14,12 +14,19 @@ use think\Db;
 use think\Request;
 use think\Image;
 use app\api\model\UpdateLine;
+const RESTEL_ZERO = 0;
+const RESTEL_ONE = 1;
+const RESTEL_TWO = 2;
+const RESTEL_THREE = 3;
+const RESTEL_FOUR = 4;
 
 
 class Storehouse extends Controller
 {
 
     public static $restel = 0;
+    public static $restel_one = 1;
+    public static $restel_two = 2;
     /**
      * @param int $uniacid
      * @param int member_id
@@ -316,17 +323,66 @@ class Storehouse extends Controller
                                     ->find();   
          
                 if(!empty($house_order)){
-                    $house_order['unit'] = explode(",", $house_order['unit']);
-                    $house_order['num'] = explode(",",$house_order['num']);
-                    $house_order["store_number"] = explode(',', $house_order["store_number"]);
-                    if($house_order['goods_member'] != 1){
-                        $rank = 1;
-                    }
                     if(!empty($house_order['special_id'])){
                         $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
                         $house_order['goods_bottom_money'] = $goods['line'];
-                    } 
-                     
+                        $house_order['unit'] = explode(",", $goods['unit']);
+                        $house_order['num'] = explode(",",$goods['num']);
+                    } else {
+                        $house_order['unit'] = explode(",", $house_order['unit']);
+                        $house_order['num'] = explode(",",$house_order['num']);
+                    }
+
+                    $house_order["store_number"] = explode(',', $house_order["store_number"]);
+                    //前端要限制最低单位出仓数量
+                    $count = count($house_order['unit']);
+                    //下单单位对应数量
+                    $value_key = array_search($house_order['store_unit'], $house_order['unit']);
+                    switch($count){
+                        case RESTEL_ONE:
+                            $lowest = $house_order['order_quantity'];
+                            break;
+                        case RESTEL_TWO:
+                            switch($value_key)
+                            {
+                                case RESTEL_ZERO:
+                                    $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_THREE]);
+                                    break;
+                                case RESTEL_ONE:
+                                    $lowest =  $house_order['order_quantity'];
+                                    break;
+                                default:
+                                    $lowest = 0;
+                                    break;
+                            }
+                            break;
+                        case RESTEL_THREE:
+                            $Replacement = intval(intval($house_order['num'][RESTEL_TWO]) / intval($house_order['num'][RESTEL_ONE]));
+                            switch($value_key)
+                            {
+                                case RESTEL_ZERO:
+                                    //换算数量
+                                    $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
+                                    break;
+                                case RESTEL_ONE:
+                                    $lowest =  intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
+                                    break;
+                                case RESTEL_TWO:
+                                    $lowest =  $house_order['order_quantity'];
+                                    break;
+                                default:
+                                    $lowest = 0;
+                                    break;
+                            }
+                            break;
+                        default:
+                                $lowest = 0;
+                                break;
+                    }
+                    $house_order['lowest'] = $lowest;
+                    if($house_order['goods_member'] != RESTEL_ONE){
+                        $rank = RESTEL_ONE;
+                    }                    
                     return ajax_success("获取成功",$house_order);
                 } else {
                     return ajax_error("该店铺没有存茶订单");

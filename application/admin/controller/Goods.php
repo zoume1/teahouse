@@ -19,7 +19,6 @@ use app\admin\model\GoodsImages;
 use think\Session;
 use think\Loader;
 use think\paginator\driver\Bootstrap;
-
 use app\common\model\dealer\Apply ;
 use app\common\model\dealer\Referee as RefereeModel;
 use app\common\model\dealer\User;
@@ -27,10 +26,8 @@ use app\common\model\dealer\Order;
 use app\api\model\UpdateLine;
 use app\admin\controller\Qiniu;
 
-
 class Goods extends Controller
 {
-
     /**
      * [商品列表显示]
      * GY
@@ -56,7 +53,6 @@ class Goods extends Controller
                 $goods[$key]["goods_show_images"] = explode(",", $goods[$key]["goods_show_images"])[0];
             }
         }
-
         $all_idents = $goods;//这里是需要分页的数据
         $curPage = input('get.page') ? input('get.page') : 1;//接收前段分页传值
         $listRow = 20;//每页20行记录
@@ -102,8 +98,6 @@ class Goods extends Controller
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         return view("goods_add", ["goods_list" => $goods_list,"scope"=>$scope,"expenses"=>$expenses,'da_change'=>$da_change]);
     }
-
-
 
     /**
      * [商品列表组保存]
@@ -313,7 +307,6 @@ class Goods extends Controller
         }
     }
 
-
     /**
      * [商品列表组修改]
      * GY
@@ -359,7 +352,6 @@ class Goods extends Controller
         }
     }
 
-
     /**
      * [商品列表组图片删除]
      * GY
@@ -398,8 +390,6 @@ class Goods extends Controller
         }
     }
 
-
-
     /**
      * [商品列表组删除]
      * GY
@@ -407,6 +397,11 @@ class Goods extends Controller
     public function del(Request $request)
     {
         $id = $request->only(["id"])["id"];
+        //判断商品是否是范围溯源
+        $is_anti_fake=db('goods')->where('id',$id)->value('is_anti_fake');
+        if($is_anti_fake==1){
+            $this->success("防伪溯源商品，请勿删除", url("admin/Goods/index"));
+        }
         $bool = db("goods")-> where("id", $id)->delete();
         $boole = db("special")->where("goods_id",$id)->delete();
         $res = db("commodity")->where("goods_id",$id)->find();
@@ -421,8 +416,6 @@ class Goods extends Controller
             $this->success("删除失败", url('admin/Goods/add'));
         }
     }
-
-
 
     /**
      * [商品列表组更新]
