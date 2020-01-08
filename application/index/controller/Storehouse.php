@@ -341,10 +341,10 @@ class Storehouse extends Controller
                     switch($count){
                         case RESTEL_ONE:
                             $lowest = $house_order['order_quantity'];
-                            $lowest_unit = $house_order['unit']['RESTEL_ZERO'];
+                            $lowest_unit = $house_order['unit'][RESTEL_ZERO];
                             break;
                         case RESTEL_TWO:
-                            $lowest_unit = $house_order['unit']['RESTEL_ONE'];
+                            $lowest_unit = $house_order['unit'][RESTEL_ONE];
                             switch($value_key)
                             {
                                 case RESTEL_ZERO:
@@ -359,7 +359,7 @@ class Storehouse extends Controller
                             }
                             break;
                         case RESTEL_THREE:
-                            $lowest_unit = $house_order['unit']['RESTEL_TWO'];
+                            $lowest_unit = $house_order['unit'][RESTEL_TWO];
                             $Replacement = intval(intval($house_order['num'][RESTEL_TWO]) / intval($house_order['num'][RESTEL_ONE]));
                             switch($value_key)
                             {
