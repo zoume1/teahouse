@@ -323,8 +323,16 @@ class Storehouse extends Controller
                                     ->find();   
          
                 if(!empty($house_order)){
-                    $house_order['unit'] = explode(",", $house_order['unit']);
-                    $house_order['num'] = explode(",",$house_order['num']);
+                    if(!empty($house_order['special_id'])){
+                        $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
+                        $house_order['goods_bottom_money'] = $goods['line'];
+                        $house_order['unit'] = explode(",", $goods['unit']);
+                        $house_order['num'] = explode(",",$goods['num']);
+                    } else {
+                        $house_order['unit'] = explode(",", $house_order['unit']);
+                        $house_order['num'] = explode(",",$house_order['num']);
+                    }
+
                     $house_order["store_number"] = explode(',', $house_order["store_number"]);
                     //前端要限制最低单位出仓数量
                     $count = count($house_order['unit']);
@@ -374,12 +382,7 @@ class Storehouse extends Controller
                     $house_order['lowest'] = $lowest;
                     if($house_order['goods_member'] != RESTEL_ONE){
                         $rank = RESTEL_ONE;
-                    }
-                    if(!empty($house_order['special_id'])){
-                        $goods = Db::name("special")->where("id",$house_order['special_id'])->find();
-                        $house_order['goods_bottom_money'] = $goods['line'];
-                    } 
-                     
+                    }                    
                     return ajax_success("获取成功",$house_order);
                 } else {
                     return ajax_error("该店铺没有存茶订单");
