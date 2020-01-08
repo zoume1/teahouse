@@ -234,6 +234,7 @@ class Goods extends Model
         //生成送存商品定向码
         public  function directional_qrcode($id,$rest_id)
         {
+            ini_set('max_execution_time', '1000');
             $ACCESS_TOKEN = $this->gettoken();
             $puthc = 'pages/logs/logs?code_id='.$id;//小程序的路径 可以带参数
             $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];

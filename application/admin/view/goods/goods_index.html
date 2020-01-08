@@ -30,6 +30,34 @@
         z-index: 99;
         border: 1px solid rgb(226, 226, 226);
     }
+    .div-d4 {
+        position: absolute;
+        top: -30px;
+        left: -30px;
+    }
+
+    .d4 {
+        float: left;
+        width: 0;
+        height: 0;
+        border-width: 30px;
+        border-style: solid;
+        border-color: transparent transparent red transparent;
+        position: relative;
+        transform: rotate(-45deg);
+    }
+    
+    .dd {
+        position: absolute;
+        color: #fff;
+        width: 50px;
+        left: -25px;
+        bottom: -30px;
+        text-align: center;
+    }
+    .news_content tr td{
+       height: 35px;
+    }
 </style>
 
 {/block}
@@ -102,7 +130,17 @@
                     <tr>
                         <td><input type="checkbox" name="handleoperation" lay-skin="primary" lay-filter="choose"
                                 data-id="{$value.id}"></td>
-                        <td>{$value.goods_number}</td>
+                        <td style="position:relative;">
+                            {if $value.is_anti_fake == 1}
+                            <div class="div-d4">
+                                <div class="d4 "> 
+                                <!--<div class="d4 d4-after"> --> <!--如果是店铺的就用这个 -->
+                                    <div class="dd ">溯源</div>
+                                </div>
+                            </div>
+                            {/if}
+                            {$value.goods_number}
+                        </td>
                         <td class="">
                             <div class="tdimg"><img src="{$value.goods_show_image}" /></div>
                         </td>

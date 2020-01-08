@@ -41,7 +41,7 @@ class Storehouse extends Controller
                     foreach($depot as $key => $value){
                     $house_order[$key] = Db::table("tb_house_order")
                                         ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
-                                        ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
+                                        ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'right')  
                                         ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                         ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')  
                                         ->where("tb_house_order.status",">",2)                                                                                                                                                            
@@ -175,7 +175,7 @@ class Storehouse extends Controller
                 }
                 $house_order = Db::table("tb_house_order")
                                     ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,store_unit,tb_goods.date,tb_store_house.number,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name")
-                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'left')  
+                                    ->join("tb_goods","tb_house_order.goods_id = tb_goods.id",'right')  
                                     ->join("tb_store_house"," tb_store_house.id = tb_house_order.store_house_id",'left')                                      
                                     ->join("tb_wares","tb_wares.id = tb_goods.pid",'left')                                                                                                                                                              
                                     ->where(["tb_house_order.store_id"=>$data['uniacid'],"tb_house_order.member_id"=>$data['member_id'],"tb_house_order.store_house_id"=>$data['store_house_id']])
@@ -206,7 +206,10 @@ class Storehouse extends Controller
                    
                     return ajax_success("发送成功",$restul);
                 } else {
-                    return ajax_error("该店铺没有存茶订单");
+                    $rest_house['name'] = $house_name;
+                    $rest_house['getArr'] = [];
+                    $restul[$rest_number] = $rest_house;
+                    return ajax_error("该店铺没有存茶订单",$restul);
                 }
             } else {
                 return ajax_error("请检查参数是否正确");
