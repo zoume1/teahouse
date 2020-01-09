@@ -50,6 +50,10 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
+            $content = "【智慧茶仓】尊敬的用户您好！您的城市合伙人资料审核通过，请及时登陆网站，购买入驻套餐，完成城市入驻。";
+            $mobile = 18309224319;
+            $output = sendMessage($content,$mobile);
+            halt($output);
             
         }
 
@@ -218,4 +222,44 @@ class Bill extends Controller
         }
         @closedir($path);
     }
+
+
+    public function gettoken()
+    {
+        $applet = Db::table('applet')
+                ->where('id','=',6)
+                ->find();
+                
+        $APPID = $applet['appID'];
+        $APPSECRET =  $applet['appSecret'];
+        $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
+        $json = $this->httpRequest($access_token);
+        return  json_decode($json,true);
+    }
+
+        //curl
+        public function httpRequest($url, $data='', $method='GET'){
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL, $url);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+            curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+            curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
+            if($method=='POST')
+            {
+                curl_setopt($curl, CURLOPT_POST, 1);
+                if ($data != '')
+                {
+                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                }
+            }
+    
+            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+            curl_setopt($curl, CURLOPT_HEADER, 0);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($curl);
+            curl_close($curl);
+            return $result;
+        }
 }
