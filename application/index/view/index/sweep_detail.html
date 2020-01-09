@@ -199,8 +199,8 @@
         </div>
         <div class="sweep-top">
             <div class="tea-img">
-                <img src="https://teahouse.siring.cn/image1345901.png" alt="">
-                <!-- <img src="http://qiniuyun.zhihuichacang.com/b075b201912051824026713.jpg" alt=""> -->
+                <img :src="sweepData.goods_show_image == '' ? 'https://teahouse.siring.cn/image1345901.png' : sweepData.goods_show_image"
+                    alt="">
             </div>
             <div>
                 <div><span class="monicker">品名：</span>{{sweepData.goods_name}}</div>
@@ -331,6 +331,7 @@
                 qr_img: "",
                 applet_name: "",
                 sweepData: "",
+                goods_show_image: ""
             },
             type: 2
         },

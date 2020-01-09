@@ -1797,7 +1797,9 @@
                         $('input[name="unit[]"]').each(function (i, v) {
                             str += '<option>' + v.value + '</option>';
                         })
+                        var htmls = '<span class="tips">必选项，商品报价单位非常重要，请选择！</span>';
                         $('#unitList').html(str);
+                        $('#unitList').after(htmls);
                         form.render();
                     } else {
                         $('.change_danwei').show().siblings('.layui-form-select').hide();
