@@ -28,14 +28,26 @@ class Material extends Controller
             //获取商品的信息
             // if($input['uniacid']){}
             $goods_info=db('anti_parent_code')->alias('a')->join('tb_anti_goods w','a.pid = w.id')->where('child_code|parent_code',$input['code'])
-            ->field('*,a.store_id')->find();
+            ->find();
             if(!$goods_info){
                 return ajax_error('获取失败，未发现商品信息');
             }
             $store_id=db('anti_parent_code')->where('pid',$goods_info['id'])->value('store_id');
             $input['store_id']=$store_id;
-            $my=new My();
-            $re=$my->create_goods_code($input);
+            //判断小程序是否已发布
+            $is_fabu=Db::table('applet')->where('id',$store_id)->value('is_fabu');
+            if($is_fabu==0){
+                $re='';
+            }else{
+                $my=new My();
+                $re=$my->create_goods_code($input);
+            }
+            //获取商品图片
+            if($goods_info['is_create_good']==1){
+                $goods_info['goods_show_image']=db('goods')->where('goods_number',$goods_info['goods_number'])->value('goods_show_image');
+            }else{
+                $goods_info['goods_show_image']='';
+            }
             //获取新用户注册奖励的积分
             $register_integral = db('recommend_integral')->where("store_id",$store_id)->value('register_integral');
             $goods_info['register_integral']=$register_integral;
