@@ -13,6 +13,7 @@ use think\console\Input;
 use think\Controller;
 use think\Db;
 use think\Request;
+use think\Validate;
 use think\Image;
 use app\api\model\UpdateLine;
 
