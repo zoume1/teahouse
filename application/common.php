@@ -1484,9 +1484,9 @@ function show_house_orderer($status){
 
 function sendMessage($content,$mobile)
 {
-    $api_code = "922001";//对接协议中的账号
-    $api_secret = "7EbH6z";//对接协议中的密码
-    $extno = 1069012345;
+    $api_code = "922003";//对接协议中的账号
+    $api_secret = "6MjmY8";//对接协议中的密码
+    $extno = '10690';
     $con = urlencode($content);
     //$sign = md5($api_secret.$extno.$con.$mobile);//md加密后短信内容+API密码
     $url = "http://117.48.217.182:7862/sms?action=send&account=".$api_code."&password=".$api_secret."&mobile=".$mobile."&content=".$con."&extno=".$extno."&rt=json";//请求URL
@@ -1501,8 +1501,8 @@ function sendMessage($content,$mobile)
     $data = curl_exec($curl);
     // 关闭连接
     curl_close($curl);
-    $rest = json_decode($data, true);
-    return $rest;
+    // $rest = json_decode($data, true);
+    return $data;
 }
 
 function show_ds_orderer($status){
