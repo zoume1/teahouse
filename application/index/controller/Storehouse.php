@@ -414,7 +414,7 @@ class Storehouse extends Controller
                 if(empty($goods_data)){
                     return ajax_error("商品参数id不正确");
                 }
-                
+
                 $goods_franking = $goods_data['goods_franking'];
                 if($goods_franking == 0 && !empty($goods_data["templet_name"])  && !empty($goods_data["templet_id"])){
                     $templet_id = explode(",",$goods_data['templet_id']);
@@ -496,7 +496,11 @@ class Storehouse extends Controller
 
 
     /**
+     * @param int $lowest
+     * @param int $member_id
+     * @param int $out_number
      * @param int $goods_id
+     * @param string $are
      * @param array  $unit
      * @param array $num
      * [最小单位换算出仓]
@@ -507,18 +511,117 @@ class Storehouse extends Controller
         if ($request->isPost()){
             $data = input();
             $validate  = new Validate([
-                ['code_id', 'require', 'code_id不能为空'],
-                ['member_id', 'require', '会员id不能为空'],
+                ['out_number', 'require', '出仓数量不能为空'],
+                ['num', 'require', 'num不能为空'],
+                ['unit', 'require', 'unit不能为空'],
+                ['goods_id', 'require', '出仓商品id不能为空'],
+                ['lowest', 'require', '仓储总数量不能为空'],
+                ['member_id', 'require', '账号id不能为空'],
+                ['are', 'require', '邮寄地址不能为空'],
             ]);
             //验证部分数据合法性
             if (!$validate->check($data)) {
                 $error = $validate->getError();
                 return jsonError($error);
-            } 
+            }
+            //出仓换算为单位
+            $string_number = $this->getComputeUnit($data['out_number'],$data['num'],$data['unit']);
+            //剩余数量
+            $surplus = intval($data['lowest'] - $data['out_number']);
+            $surplus_number = $this->getComputeUnit($surplus,$data['num'],$data['unit']);
+            if(!empty($string_number) && !empty($surplus_number) ) {
+                return jsonSuccess('发送成功',$string_number);
+            } else {
+                return jsonError('单位计算失败');
+            }
+            
         }              
     }
 
 
+    /**
+     * @param int $lowest
+     * @param int $member_id
+     * @param int $out_number
+     * @param int $goods_id
+     * @param string $are
+     * @param array  $unit
+     * @param array $num
+     * [最小单位换算出仓]
+     * @return $string_number 成功时返回，其他抛异常
+     */
+    public function getComputeUnit($out_number,$num,$unit)
+    {
+        $count = count($unit);
+        switch($count){
+            case RESTEL_ONE:
+                $string_number = $out_number.','.$unit[RESTEL_ZERO];
+            break;
+            case RESTEL_TWO:
+                $restul =  intval($out_number / $num[RESTEL_ONE]);
+                if($restul > RESTEL_ONE){
+                    $one = intval(fmod($out_number, $num[RESTEL_ONE]));
+                    $string_number = $restul.','.$unit[RESTEL_ZERO].','.$one.','.$unit[RESTEL_ONE];
+                } elseif($restul < RESTEL_ONE){
+                    $string_number = RESTEL_ONE.','.$unit[RESTEL_ZERO].','.$out_number.','.$unit[RESTEL_ONE];
+                } else {
+                    $string_number = RESTEL_ONE.','.$unit[RESTEL_ZERO].','.RESTEL_ZERO.','.$unit[RESTEL_ONE];
+                }
+            break;
+            case RESTEL_THREE:
+                $order_quantity = $out_number;
+                $number_two = $unit[RESTEL_TWO];              //当前单位
+                $num_two = intval($num[RESTEL_TWO]);          //当前数量
+                $number_one = $unit[RESTEL_ONE];              //上一级等级单位
+                $num_one = intval($num[RESTEL_ONE]);          //上一级等级数量
+                $number_zero = $unit[RESTEL_ZERO];            //上上一级等级单位
+                $num_zero = intval($num[RESTEL_ZERO]);        //上上一级等级数量
+                $num_among = intval($num_two / $num_one);     //与上一级装换满足的最低数量
+
+                if($order_quantity > $num_two){
+                    $rest_one = $order_quantity / $num_two; //最高单位除数
+                    $rest_two = fmod($order_quantity, $num_two); //最低单位余数
+                    if($rest_two > $num_among){
+                        $rest_three = $rest_two / $num_among;   //第二单位除数
+                        $rest_four = fmod($rest_two , $num_among);   //第二单位余数
+                        $string_number = intval($rest_one) . ',' . $number_zero . ',' . intval($rest_three) . ',' . $number_one . ',' . $rest_four . ',' . $number_two;
+                    } elseif($rest_two < $num_among){
+                        $rest_three = RESTEL_ZERO;   //第二单位除数
+                        $string_number = intval($rest_one) . ',' . $number_zero . ',' . $rest_three . ',' . $number_one . ',' . $rest_two . ',' . $number_two;
+                    } else {
+                        $rest_three = RESTEL_ONE;
+                        $rest_two = RESTEL_ZERO;
+                        $string_number = intval($rest_one) . ',' . $number_zero . ',' . $rest_three . ',' . $number_one . ',' . $rest_two . ',' . $number_two;
+                    }
+
+                } elseif ($order_quantity < $num_two){
+                    $rest_one = RESTEL_ZERO;
+                    if($order_quantity > $num_among){
+                        $rest_three = $order_quantity / $num_among;   //第二单位除数
+                        $rest_four = fmod($order_quantity , $num_among);   //第二单位余数
+                        $string_number = $rest_one . ',' . $number_zero . ',' . intval($rest_three) . ',' . $number_one . ',' . intval($rest_four) . ',' . $number_two;
+                    } elseif($order_quantity < $num_among){
+                        $rest_three = RESTEL_ZERO;   //第二单位除数
+                        $rest_four = $order_quantity;   //第二单位余数
+                        $string_number = $rest_one . ',' . $number_zero . ',' . intval($rest_three) . ',' . $number_one . ',' . $rest_four . ',' . $number_two;
+                    } else {
+                        $rest_three = RESTEL_ONE;
+                        $rest_four = RESTEL_ZERO;
+                        $string_number = $rest_one . ',' . $number_zero . ',' . $rest_three . ',' . $number_one . ',' . $rest_four . ',' . $number_two;
+                    }                        
+                } else {
+                    $rest_one = RESTEL_ONE;
+                    $rest_three = RESTEL_ZERO;
+                    $rest_four = RESTEL_ZERO;
+                    $string_number = $rest_one . ',' . $number_zero . ',' . $rest_three . ',' . $number_one . ',' . $rest_four . ',' . $number_two;
+                }
+            break;
+            default:
+                $string_number = null;
+                break;
+        }
+        return $string_number;
+    }
 
     
 }
