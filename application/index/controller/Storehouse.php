@@ -517,6 +517,7 @@ class Storehouse extends Controller
                 ['unit', 'require', 'unit不能为空'],
                 ['goods_id', 'require', '出仓商品id不能为空'],
                 ['lowest', 'require', '仓储总数量不能为空'],
+                ['lowest_unit', 'require', '仓储总数量不能为空'],
                 ['member_id', 'require', '账号id不能为空'],
                 ['are', 'require', '邮寄地址不能为空'],
             ]);
