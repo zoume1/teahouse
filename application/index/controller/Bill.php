@@ -50,19 +50,11 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
-                //$id 为生成的全向码id
-                $id = 6 ;
-                $ACCESS_TOKEN = $this->gettoken();
-                $puthc = 'pages/logs/logs?code_id='.$id;//小程序的路径 可以带参数
-                $qcode ="https://api.weixin.qq.com/cgi-bin/wxaapp/createwxaqrcode?access_token=".$ACCESS_TOKEN['access_token'];
-                $param = json_encode(array("path"=>$puthc,"width"=> 150));
-                $result = $this->httpRequest($qcode,$param,"POST");
-                // $puth = ROOT_PATH . 'public' . DS . 'uniquecode'.DS.'D'.time().rand(100000,999999).'.png';
-                // file_put_contents($puth,$result);
-                // $file_name = basename($puth,'.png');
-                // $image_url = '/uniquecode/'.$file_name.'.png';
-                // $bool  = Db::name('accompany')->where('id','=',$accompany_id)->update(['image_url'=> $image_url]);
-                // return $bool ? $bool : false; 
+            $content = "【智慧茶仓】尊敬的用户您好！您的城市合伙人资料审核通过，请及时登陆网站，购买入驻套餐，完成城市入驻。";
+            $mobile = 18309224319;
+            $output = sendMessage($content,$mobile);
+            halt($output);
+            
         }
 
     }

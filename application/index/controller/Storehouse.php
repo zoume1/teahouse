@@ -495,5 +495,30 @@ class Storehouse extends Controller
 
 
 
+    /**
+     * @param int $goods_id
+     * @param array  $unit
+     * @param array $num
+     * [最小单位换算出仓]
+     * @return 成功时返回，其他抛异常
+     */
+    public function geTexchange(Request $request)
+    {
+        if ($request->isPost()){
+            $data = input();
+            $validate  = new Validate([
+                ['code_id', 'require', 'code_id不能为空'],
+                ['member_id', 'require', '会员id不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } 
+        }              
+    }
+
+
+
     
 }
