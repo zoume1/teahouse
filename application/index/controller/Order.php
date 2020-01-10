@@ -1000,6 +1000,7 @@ class  Order extends  Controller
             $data = Db::name('order')
                 ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity,coupon_id,goods_id')
                 ->where('member_id', $member_id)
+                ->where('status', '>=',0)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
