@@ -345,7 +345,7 @@ class Storehouse extends Controller
                     $value_key = array_search($house_order['store_unit'], $house_order['unit']);
                     switch ($count) {
                         case RESTEL_ONE:
-                            $lowest = $house_order['order_quantity'];
+                            $lowest = $house_order["store_number"][RESTEL_ZERO];
                             $lowest_unit = $house_order['unit'][RESTEL_ZERO];
                             break;
                         case RESTEL_TWO:
@@ -355,7 +355,7 @@ class Storehouse extends Controller
                                     $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_THREE]);
                                     break;
                                 case RESTEL_ONE:
-                                    $lowest =  $house_order['order_quantity'];
+                                    $lowest =  $house_order["store_number"][RESTEL_TWO];
                                     break;
                                 default:
                                     $lowest = 0;
@@ -374,7 +374,7 @@ class Storehouse extends Controller
                                     $lowest =  intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
                                     break;
                                 case RESTEL_TWO:
-                                    $lowest =  $house_order['order_quantity'];
+                                    $lowest =  $house_order["store_number"][RESTEL_FOUR];
                                     break;
                                 default:
                                     $lowest = 0;

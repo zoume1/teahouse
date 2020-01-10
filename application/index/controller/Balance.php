@@ -390,7 +390,7 @@ class Balance extends Controller
                 ['order_quantity', 'require', '出仓数量不能为空'],
                 ['surplus', 'require', '剩余数量不能为空'],
                 ['lowest_unit', 'require', '出仓单位不能为空'],
-                ['surplis_number', 'require', '剩余仓储显示不能为空'],
+                ['surplus_number', 'require', '剩余仓储显示不能为空'],
                 ['string_number', 'require', '出仓单位显示能为空'],
                 ['address_id', 'require', '地址id不能为空'],
             ]);
@@ -432,7 +432,7 @@ class Balance extends Controller
                     $key = array_search($house_order['store_unit'], $unit);
                     $store_number = implode(',',$data['string_number']);
                     $new_quantity = $data['surplus']; //剩余数量
-                    $new_store_number = $data['surplis_number'];
+                    $new_store_number = $data['surplus_number'];
                     $out_order = array(
                         'house_order_id' => $data['id'],
                         'out_order_number' => $set_parts_number,
@@ -456,7 +456,8 @@ class Balance extends Controller
                         'num' => $special_num
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
-                    if ($bool) {
+                    $boole =  Db::name('house_order')->where('id',$data['id'])->update(['store_number'=>$new_store_number]);
+                    if ($bool && $boole) {
                         if($data['house_charges'] > 0){
                             $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         }
