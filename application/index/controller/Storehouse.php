@@ -573,7 +573,7 @@ class Storehouse extends Controller
                     $one = intval(fmod($out_number, $num[RESTEL_ONE]));
                     $string_number = $restul . ',' . $unit[RESTEL_ZERO] . ',' . $one . ',' . $unit[RESTEL_ONE];
                 } elseif ($restul < RESTEL_ONE) {
-                    $string_number = RESTEL_ONE . ',' . $unit[RESTEL_ZERO] . ',' . $out_number . ',' . $unit[RESTEL_ONE];
+                    $string_number = RESTEL_ZERO . ',' . $unit[RESTEL_ZERO] . ',' . $out_number . ',' . $unit[RESTEL_ONE];
                 } else {
                     $string_number = RESTEL_ONE . ',' . $unit[RESTEL_ZERO] . ',' . RESTEL_ZERO . ',' . $unit[RESTEL_ONE];
                 }
