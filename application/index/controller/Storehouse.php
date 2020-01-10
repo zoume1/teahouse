@@ -22,6 +22,8 @@ const RESTEL_ONE = 1;
 const RESTEL_TWO = 2;
 const RESTEL_THREE = 3;
 const RESTEL_FOUR = 4;
+const RESTEL_FIVE = 5;
+const RESTEL_SIX = 6;
 
 
 class Storehouse extends Controller
@@ -517,7 +519,7 @@ class Storehouse extends Controller
                 ['unit', 'require', 'unit不能为空'],
                 ['goods_id', 'require', '出仓商品id不能为空'],
                 ['lowest', 'require', '仓储总数量不能为空'],
-                ['lowest_unit', 'require', '仓储总数量不能为空'],
+                ['lowest_unit', 'require', '仓储最小不能为空'],
                 ['member_id', 'require', '账号id不能为空'],
                 ['are', 'require', '邮寄地址不能为空'],
             ]);
@@ -532,16 +534,10 @@ class Storehouse extends Controller
             $surplus = intval($data['lowest'] - $data['out_number']);
             $surplus_number = $this->getComputeUnit($surplus, $data['num'], $data['unit']);
             if (!empty($string_number) && !empty($surplus_number)) {
-                $out_data = $this->getOutMomeny($data);
-                //统一邮费
-                if($out_data["markup"] == RESTEL_ZERO){
-                    $out_price = sprintf("%.2f",($out_data["collect"] * $data['out_number']));
-                } else {
-                    $out_price = sprintf("%.2f",($out_data["collect"] + ($data['out_number'] - RESTEL_ONE) * $out_data["markup"]));
-                }
+                $out_price = $this->getOutMomeny($data, $string_number);
                 $transmit = [
                     'surplus' => $surplus, //剩余数量
-                    'surplus_number' => $surplus_number,//剩余仓储
+                    'surplus_number' => $surplus_number, //剩余仓储
                     'string_number' => $string_number, //出仓显示单位
                     'out_price' => $out_price, //出仓费用
                 ];
@@ -648,40 +644,76 @@ class Storehouse extends Controller
      * [计算出仓费用]
      * @return 成功时返回，其他抛异常
      */
-    public function getOutMomeny($data)
+    public function getOutMomeny($data, $string_number)
     {
         $goods_id = $data["goods_id"]; //商品id
         $are = $data['are']; //地区
         $lowest_unit = $data['lowest_unit']; //商品单位
         $goods = db("goods")->where("id", $goods_id)->find();
         if ($goods['goods_franking'] != RESTEL_ZERO) {
-            $data["collect"] = $goods["goods_franking"]; //统一邮费
-            $data["markup"] = RESTEL_ZERO; //统一邮费
-        } elseif ($goods["goods_franking"] == RESTEL_ZERO && !empty($goods["templet_name"])  && !empty($goods["templet_id"])){
+            $datas["collect"] = $goods["goods_franking"]; //统一邮费
+            $datas["markup"] = RESTEL_ZERO; //统一邮费
+            $out_price = sprintf("%.2f",$data['out_number'] * $datas["collect"]);
+        } elseif ($goods["goods_franking"] == RESTEL_ZERO && !empty($goods["templet_name"])  && !empty($goods["templet_id"])) {
             $templet_name = explode(",", $goods["templet_name"]);
             $templet_id = explode(",", $goods["templet_id"]);
-            $monomer = $lowest_unit;
-            $tempid = array_search($monomer, $templet_name);
-            $express_id = $templet_id[$tempid];
-            $rest = db("express")->where("id", $express_id)->find();
-            if (!empty($rest)) {
-                $are_block = explode(",", $rest["are"]);
-                if (in_array($are, $are_block)) {
-                    $data["collect"] = $rest["price"]; //首费
-                    $data["markup"] = $rest["markup"]; //续费
-                } else {
-                    $data["collect"] = $rest["price_two"]; //首费
-                    $data["markup"] = $rest["markup_two"]; //续费
-                }
-            } else {
-                $data["collect"] = RESTEL_ZERO; //首费
-                $data["markup"] = RESTEL_ZERO;  //续费
+            $string_number = explode(",", $string_number);
+            $size = count($string_number);
+            switch ($size) {
+                case RESTEL_TWO:
+                    $out_price = templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
+                    break;
+                case RESTEL_FOUR:
+                    $one_price = templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
+                    $two_price = templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
+                    $out_price = $one_price + $two_price;
+                    break;
+                case RESTEL_SIX:
+                    $one_price = templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
+                    $two_price = templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
+                    $three_price = templet($templet_name, $templet_id,$are,RESTEL_FIVE,$string_number);
+                    $out_price = $one_price + $two_price + $three_price;
+                    break;
+                default:
+                    $out_price = RESTEL_ZERO;
+
             }
         } else {
-            $data["collect"] = RESTEL_ZERO; //首费
-            $data["markup"] = RESTEL_ZERO; //续费
-        } 
-        
-        return $data;
+            $out_price = RESTEL_ZERO;
+        }
+
+        return $out_price;
+    }
+
+
+    /**
+     * @param string $monomer
+     * @param array $templet_name
+     * @param array $templet_id
+     * [单位模板对应计算费用]
+     * @return 成功时返回，其他抛异常
+     */
+    public function templet($templet_name, $templet_id,$are,$number,$string_number)
+    {
+        $monomer = $string_number[$number];
+        $tempid = array_search($monomer, $templet_name);
+        $express_id = $templet_id[$tempid];
+        $rest_number = $number - RESTEL_ONE;
+        $rest = db("express")->where("id", $express_id)->find();
+        if (!empty($rest)) {
+            $are_block = explode(",", $rest["are"]);
+            if (in_array($are, $are_block)) {
+                $datas["collect"] = $rest["price"]; //首费
+                $datas["markup"] = $rest["markup"]; //续费
+                $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+            } else {
+                $datas["collect"] = $rest["price_two"]; //首费
+                $datas["markup"] = $rest["markup_two"]; //续费
+                $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+            }
+        } else {
+            $out_price = RESTEL_ZERO;
+        }
+        return $out_price;
     }
 }
