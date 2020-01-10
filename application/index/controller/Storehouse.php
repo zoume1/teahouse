@@ -350,36 +350,37 @@ class Storehouse extends Controller
                             break;
                         case RESTEL_TWO:
                             $lowest_unit = $house_order['unit'][RESTEL_ONE];
-                            switch ($value_key) {
-                                case RESTEL_ZERO:
-                                    $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_THREE]);
-                                    break;
-                                case RESTEL_ONE:
-                                    $lowest =  $house_order["store_number"][RESTEL_TWO];
-                                    break;
-                                default:
-                                    $lowest = 0;
-                                    break;
-                            }
+                            // switch ($value_key) {
+                            //     case RESTEL_ZERO:
+                            //         $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_THREE]);
+                            //         break;
+                            //     case RESTEL_ONE:
+                            //         $lowest =  $house_order["store_number"][RESTEL_TWO];
+                            //         break;
+                            //     default:
+                            //         $lowest = 0;
+                            //         break;
+                            // }
+                            $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_TWO]);
                             break;
                         case RESTEL_THREE:
                             $lowest_unit = $house_order['unit'][RESTEL_TWO];
                             $Replacement = intval(intval($house_order['num'][RESTEL_TWO]) / intval($house_order['num'][RESTEL_ONE]));
-                            switch ($value_key) {
-                                case RESTEL_ZERO:
-                                    //换算数量
-                                    $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
-                                    break;
-                                case RESTEL_ONE:
-                                    $lowest =  intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
-                                    break;
-                                case RESTEL_TWO:
-                                    $lowest =  $house_order["store_number"][RESTEL_FOUR];
-                                    break;
-                                default:
-                                    $lowest = 0;
-                                    break;
-                            }
+                            // switch ($value_key) {
+                            //     case RESTEL_ZERO:
+                            //         //换算数量
+                            //         $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
+                            //         break;
+                            //     case RESTEL_ONE:
+                            //         $lowest =  intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
+                            //         break;
+                            //     case RESTEL_TWO:
+                            //         $lowest =  $house_order["store_number"][RESTEL_FOUR];
+                            //         break;
+                            //     default:
+                            $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);;
+                            // break;
+                            // }
                             break;
                         default:
                             $lowest = 0;
