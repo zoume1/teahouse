@@ -2882,13 +2882,19 @@ class  Order extends  Controller
         $val = json_decode(json_encode($xml_data), true);
         if ($val["result_code"] == "SUCCESS") {
             //file_put_contents(EXTEND_PATH."data.txt",$val);
+            $restules = Db::name("number_store")
+            ->where("parts_order_number", $val["out_trade_no"])
+            ->find();
             $res = Db::name("out_house_order")
                 ->where("out_order_number", $val["out_trade_no"])
                 ->update(["status" => 2, "pay_time" => time(), "si_pay_type" => 2]);
             $restul = Db::name("order")
                 ->where("parts_order_number", $val["out_trade_no"])
                 ->update(["status" => 2, "pay_time" => time(), "si_pay_type" => 2]);
-            if ($res && $restul) {
+            $restul_one = Db::name("house_order")
+                ->where("id", $restules["house_order_id"])
+                ->update(["store_number" =>$restules['surplus_number']]);
+            if ($res && $restul &&  $restul_one) {
                 $information = Db::name("out_house_order")->where("out_order_number", $val["out_trade_no"])->find();
                 //更新仓库库存
                 $member_wallet = Db::name("member")
