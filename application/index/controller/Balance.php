@@ -429,7 +429,6 @@ class Balance extends Controller
                         $unit = explode(",", $special_unit);
                         $num = explode(",", $special_num);
                     }
-                    $key = array_search($house_order['store_unit'], $unit);
                     $store_number = implode(',',$data['string_number']);
                     $new_quantity = $data['surplus']; //剩余数量
                     $new_store_number = $data['surplus_number'];
@@ -462,7 +461,6 @@ class Balance extends Controller
                             $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         }
                         $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
-                        $boole = Db::name("house_order")->where("id", $data['id'])->update(['order_quantity' => $new_quantity, 'store_number' => $new_store_number]);
                         $is_address_status =  Db::name("user_address")->where("id", $out_order['address_id'])->find();
                         $harvest_address_city = str_replace(',', '', $is_address_status['address_name']);
                         $harvest_address = $harvest_address_city . $is_address_status['harvester_real_address']; //收货人地址
@@ -493,6 +491,7 @@ class Balance extends Controller
                             'goods_describe' => $house_order['goods_describe'], //商品买点
                             'special_id' => $house_order['special_id'], //特殊规格id
                             'order_type' => 1,
+                            'freight'=> $out_order['house_charges'],   //出仓金额
                             'si_pay_type' => 2, //支付方式（微信）
                             'unit' => $data['lowest_unit'], //出仓单位
                             'store_id' => $out_order['store_id'], //店铺id

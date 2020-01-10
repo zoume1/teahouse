@@ -154,8 +154,8 @@ class  Order extends  Controller
             $receipt_price = $request->only("receipt_price")["receipt_price"]; //发票金额--税费
             $freight = $request->only("freight")["freight"]; //发票金额
             $storage = $request->only("storage")["storage"]; //发票金额
-            
-            if(isset($order_rest['goods_price']) && !empty($order_rest['goods_price'])){
+
+            if (isset($order_rest['goods_price']) && !empty($order_rest['goods_price'])) {
                 $goods_price = $order_rest['goods_price'];
             } else {
                 $goods_price = null;
@@ -224,7 +224,7 @@ class  Order extends  Controller
                 if ($goods_data["goods_standard"] == 0) {
                     //普通商品
                     $datas['goods_image'] = $goods_data['goods_show_image']; //图片
-                    if(!empty($goods_price)){
+                    if (!empty($goods_price)) {
                         $datas["goods_money"] = $goods_price[$keys];
                     } else {
                         $datas["goods_money"] = $goods_data['goods_new_money'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
@@ -244,7 +244,7 @@ class  Order extends  Controller
                         ->where("id", $goods_standard_id[$keys])
                         ->find();
                     $datas['goods_image'] = $special_data['images'];   //图片
-                    if(!empty($goods_price)){
+                    if (!empty($goods_price)) {
                         $datas["goods_money"] = $goods_price[$keys];
                     } else {
                         $datas["goods_money"] = $special_data['price'] * $member_consumption_discount["member_consumption_discount"]; //商品价钱
@@ -420,7 +420,7 @@ class  Order extends  Controller
 
                     $rest_id = Db::name('order')->insertGetId($datase);
                     //下单成功，冻结库存
-                    if($rest_id){
+                    if ($rest_id) {
                         //下单成功，冻结库存
                         if ($goods_standard_id[$keys] == '0') {
                             //单规格商品扣除库存
@@ -1000,7 +1000,7 @@ class  Order extends  Controller
             $data = Db::name('order')
                 ->field('parts_order_number,order_create_time,group_concat(id) order_id,status,special_id,order_quantity,coupon_id,goods_id')
                 ->where('member_id', $member_id)
-                ->where('status', '>=',0)
+                ->where('status', '>=', 0)
                 ->order('order_create_time', 'desc')
                 ->group('parts_order_number')
                 ->select();
@@ -1947,10 +1947,10 @@ class  Order extends  Controller
                 $phone_num = $data[0]["harvest_phone_num"];
                 $address = $data[0]["harvester_address"];
             }
-            if(empty($data[0]['freight'])){
+            if (empty($data[0]['freight'])) {
                 $data[0]['freight'] = 0;
             }
-            if(empty($data[0]['receipt_price'])){
+            if (empty($data[0]['receipt_price'])) {
                 $data[0]['receipt_price'] = 0;
             }
             if (!empty($data)) {
@@ -2085,7 +2085,7 @@ class  Order extends  Controller
                             db('test')->insert($pp);
                         }
                         //返库存
-                        db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
+                        db('goods')->where('id', $v['goods_id'])->setInc('goods_repertory', $v['order_quantity']);
                         $data = [
                             "status" => 9,
                             "coupon_id" => 0,
@@ -2212,8 +2212,8 @@ class  Order extends  Controller
                     ->update(["status" => 3, "pay_time" => $order_pay_time, "si_pay_type" => 2]);
                 if ($res) {
                     $order = GoodsOrder::getOrderInforMation($order_type);
-                    if(!empty($order)) $model = OrderModel::grantMoney($order);
-                    
+                    if (!empty($order)) $model = OrderModel::grantMoney($order);
+
                     // 发送消息通知
                     $message = (new MessageService)->payment($order_type, 10);
                     $serial_data = array(
@@ -2701,14 +2701,14 @@ class  Order extends  Controller
                     $num_zero = intval($num[$key - 2]);         //上上一级等级数量
                     $num_among = intval($num_two / $num_one);   //与上一级装换满足的最低数量
 
-                    if($order_quantity > $num_two){
+                    if ($order_quantity > $num_two) {
                         $rest_one = $order_quantity / $num_two; //最高单位除数
                         $rest_two = fmod($order_quantity, $num_two); //最低单位余数
-                        if($rest_two > $num_among){
+                        if ($rest_two > $num_among) {
                             $rest_three = $rest_two / $num_among;   //第二单位除数
-                            $rest_four = fmod($rest_two , $num_among);   //第二单位余数
+                            $rest_four = fmod($rest_two, $num_among);   //第二单位余数
                             $store_number = intval($rest_one) . ',' . $number_zero . ',' . intval($rest_three) . ',' . $number_one . ',' . $rest_four . ',' . $number_two;
-                        } elseif($rest_two < $num_among){
+                        } elseif ($rest_two < $num_among) {
                             $rest_three = 0;   //第二单位除数
                             $store_number = intval($rest_one) . ',' . $number_zero . ',' . $rest_three . ',' . $number_one . ',' . $rest_two . ',' . $number_two;
                         } else {
@@ -2716,14 +2716,13 @@ class  Order extends  Controller
                             $rest_two = 0;
                             $store_number = intval($rest_one) . ',' . $number_zero . ',' . $rest_three . ',' . $number_one . ',' . $rest_two . ',' . $number_two;
                         }
-
-                    } elseif ($order_quantity < $num_two){
+                    } elseif ($order_quantity < $num_two) {
                         $rest_one = 0;
-                        if($order_quantity > $num_among){
+                        if ($order_quantity > $num_among) {
                             $rest_three = $order_quantity / $num_among;   //第二单位除数
-                            $rest_four = fmod($order_quantity , $num_among);   //第二单位余数
+                            $rest_four = fmod($order_quantity, $num_among);   //第二单位余数
                             $store_number = $rest_one . ',' . $number_zero . ',' . intval($rest_three) . ',' . $number_one . ',' . intval($rest_four) . ',' . $number_two;
-                        } elseif($order_quantity < $num_among){
+                        } elseif ($order_quantity < $num_among) {
                             $rest_three = 0;   //第二单位除数
                             $rest_four = $order_quantity;   //第二单位余数
                             $store_number = $rest_one . ',' . $number_zero . ',' . intval($rest_three) . ',' . $number_one . ',' . $rest_four . ',' . $number_two;
@@ -2731,7 +2730,7 @@ class  Order extends  Controller
                             $rest_three = 1;
                             $rest_four = 0;
                             $store_number = $rest_one . ',' . $number_zero . ',' . $rest_three . ',' . $number_one . ',' . $rest_four . ',' . $number_two;
-                        }                        
+                        }
                     } else {
                         $rest_one = 1;
                         $rest_three = 0;
@@ -2754,7 +2753,7 @@ class  Order extends  Controller
                     //         $one = 0;
                     //         $store_number = intval($rest_one) . ',' . $number_zero . ',' . $one . ',' . $number_one . ',' . intval($rest_two) . ',' . $number_two;
                     //     }      
-                                                
+
                     // } elseif($order_quantity == $max_number){
                     //     $rest_one = 1;
                     //     $one = 0;
@@ -2766,7 +2765,7 @@ class  Order extends  Controller
                     //             $rest_one = 0;
                     //             $two = fmod($order_quantity, $num_two); //余数
                     //             $store_number = $rest_one . ',' . $number_zero . ',' . intval($one) . ',' . $number_one . ',' . $two . ',' . $number_two;
-                                
+
                     //         } elseif ($order_quantity == $num_two){
                     //             $rest_one = 0;
                     //             $one = 1;
@@ -2886,79 +2885,34 @@ class  Order extends  Controller
             $res = Db::name("out_house_order")
                 ->where("out_order_number", $val["out_trade_no"])
                 ->update(["status" => 2, "pay_time" => time(), "si_pay_type" => 2]);
-            if ($res) {
+            $restul = Db::name("order")
+                ->where("parts_order_number", $val["out_trade_no"])
+                ->update(["status" => 2, "pay_time" => time(), "si_pay_type" => 2]);
+            if ($res && $restul) {
                 $information = Db::name("out_house_order")->where("out_order_number", $val["out_trade_no"])->find();
                 //更新仓库库存
-                $house_order = Db::name("house_order")->where("id", $information['house_order_id'])->find();
-                //做消费记录
-                $stock = $house_order['order_quantity'] - $information['order_quantity']; //剩余仓储量
-                $unit = explode(",", $information['unit']);
-                $num = explode(",", $information['num']);
-                $key = array_search($information['store_unit'], $unit);
-                $store_number = $this->unit_calculate($unit, $num, $key, $stock);
-                //更新
-                $boole = Db::name("house_order")->where("id", $information['house_order_id'])->update(['order_quantity' => $stock, 'store_number' => $store_number]);
-                //配送地址
-                $is_address_status =  Db::name("user_address")->where("id", $information['address_id'])->find();
-                $harvest_address_city = str_replace(',', '', $is_address_status['address_name']);
-                $harvest_address = $harvest_address_city . $is_address_status['harvester_real_address']; //收货人地址
-                $harvester = $is_address_status['harvester'];
-                $harvester_phone_num = $is_address_status['harvester_phone_num'];
-                //生成order订单
-                $order_data = [
-                    'goods_id' => $house_order['goods_id'],
-                    'goods_image' => $house_order['goods_image'], //订单号
-                    'parts_goods_name' => $house_order['parts_goods_name'], //商品名称
-                    'goods_money' => $house_order['goods_money'], //商品价格
-                    'order_quantity' => $information['order_quantity'], //出仓数量
-                    'order_amount' => $information['house_charges'],   //出仓金额
-                    'order_real_pay' => $information['house_charges'], //订单实际支付的金额(即优惠券抵扣之后的价钱）
-                    'user_account_name' => $house_order['user_account_name'], //用户名
-                    'user_phone_number' => $house_order['user_phone_number'], //用户账号
-                    'order_create_time' => $information['pay_time'], //下单时间
-                    'harvester_address' => $harvest_address,
-                    'status' => 2,
-                    'parts_order_number' => $information['out_order_number'], //订单编号
-                    'member_id' => $house_order['member_id'], //用户id
-                    'pay_time' => $information['pay_time'], //支付时间
-                    'goods_standard' => $house_order['goods_standard'], //商品规格
-                    'harvester' => $harvester, //收件人
-                    'harvest_phone_num' => $harvester_phone_num, //收件人手机
-                    'refund_amount' => $information['house_charges'], //可退款金额,
-                    'normal_future_time' => $house_order['normal_future_time'], //订单关闭时间
-                    'goods_describe' => $house_order['goods_describe'], //商品买点
-                    'special_id' => $house_order['special_id'], //特殊规格id
-                    'order_type' => 1,
-                    'si_pay_type' => 2, //支付方式（微信）
-                    'unit' => $information['store_unit'], //出仓单位
-                    'store_id' => $information['store_id'], //店铺id
-                    'coupon_type' => 1, //商品类型
+                $member_wallet = Db::name("member")
+                    ->where("member_id", $information["member_id"])
+                    ->value('member_wallet');
+                $datas = [
+                    "user_id" => $information["member_id"], //用户ID
+                    "wallet_operation" => $information["house_charges"], //消费金额
+                    "wallet_type" => -1, //消费操作(1入，-1出)
+                    "operation_time" => date("Y-m-d H:i:s"), //操作时间
+                    "operation_linux_time" => time(), //操作时间
+                    "wallet_remarks" => "订单号：" . $val["out_trade_no"] . "茶仓订单出仓" . $information["house_charges"] . "元", //消费备注
+                    "wallet_img" => " ", //图标
+                    "title" => "茶厂订单续费", //标题（消费内容）
+                    "order_nums" => $val["out_trade_no"], //订单编号
+                    "pay_type" => "小程序", //支付方式/
+                    "wallet_balance" => $member_wallet, //此刻钱包余额
                 ];
-
-                $restel = Db::name("order")->insert($order_data);
-                if ($restel) {
-                    $member_wallet = Db::name("member")
-                        ->where("member_id", $information["member_id"])
-                        ->value('member_wallet');
-                    $datas = [
-                        "user_id" => $information["member_id"], //用户ID
-                        "wallet_operation" => $information["house_charges"], //消费金额
-                        "wallet_type" => -1, //消费操作(1入，-1出)
-                        "operation_time" => date("Y-m-d H:i:s"), //操作时间
-                        "operation_linux_time" => time(), //操作时间
-                        "wallet_remarks" => "订单号：" . $val["out_trade_no"] . "茶仓订单出仓" . $information["house_charges"] . "元", //消费备注
-                        "wallet_img" => " ", //图标
-                        "title" => "茶厂订单续费", //标题（消费内容）
-                        "order_nums" => $val["out_trade_no"], //订单编号
-                        "pay_type" => "小程序", //支付方式/
-                        "wallet_balance" => $member_wallet, //此刻钱包余额
-                    ];
-                    Db::name("wallet")->insert($datas); //存入消费记录表
+                $booles = Db::name("wallet")->insert($datas); //存入消费记录表
+                if($booles){
+                    echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } else {
-                    file_put_contents(EXTEND_PATH . "data.txt", "插入订单表失败");
-                }
-
-                echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
+                    exit();
+                } 
             } else {
                 return ajax_error("失败");
             }
@@ -2975,7 +2929,7 @@ class  Order extends  Controller
         //获取参数
         $input = input();
         //判断是否有记录
-        $re=false;
+        $re = false;
         if ($input['coupon_type'] == 1) {
             $goods_order =  db('order')->where('parts_order_number', $input['parts_order_number'])->select();
             $re =  db('order')->where('parts_order_number', $input['parts_order_number'])->delete();
@@ -2989,19 +2943,19 @@ class  Order extends  Controller
             }
         } elseif ($input['coupon_type'] == 2) {
             $list =  db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->select();
-            foreach($list as $k=>$v){
-                db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
-                db('crowd_order')->where('id',$v['id'])->delete();
+            foreach ($list as $k => $v) {
+                db('goods')->where('id', $v['goods_id'])->setInc('goods_repertory', $v['order_quantity']);
+                db('crowd_order')->where('id', $v['id'])->delete();
             }
-            $re=true;
+            $re = true;
             // $re = db('crowd_order')->where('parts_order_number', $input['parts_order_number'])->delete();
-        } elseif ($input['coupon_type'] == '3'){
+        } elseif ($input['coupon_type'] == '3') {
             $list =  db('reward')->where('parts_order_number', $input['parts_order_number'])->select();
-            foreach($list as $k=>$v){
-                db('goods')->where('id',$v['goods_id'])->setInc('goods_repertory',$v['order_quantity']);
-                db('reward')->where('id',$v['id'])->delete();
+            foreach ($list as $k => $v) {
+                db('goods')->where('id', $v['goods_id'])->setInc('goods_repertory', $v['order_quantity']);
+                db('reward')->where('id', $v['id'])->delete();
             }
-            $re=true;
+            $re = true;
             // $re = db('reward')->where('order_number', $input['parts_order_number'])->delete();
         }
         if ($re) {
@@ -3037,7 +2991,7 @@ class  Order extends  Controller
      * $goods_name 商品名
      * $shop_name 商家名
      */
-    public function send($openid, $member_name, $count_money, $pay_time, $goods_name,$form_id)
+    public function send($openid, $member_name, $count_money, $pay_time, $goods_name, $form_id)
     {
         $data = [
             'openid' => $openid,
@@ -3055,9 +3009,9 @@ class  Order extends  Controller
             return 'faile';
         }
     }
-    
 
-      /**
+
+    /**
      * @param $params [参数]
      * @param $appid [小程序appid]
      * @param $secret [小程序secret]
@@ -3070,11 +3024,11 @@ class  Order extends  Controller
         // 模板关键字
         $data = [];
         foreach ($params['data'] as $k => $v) {
-            $data['keyword'.($k+1)] = ['value'=>$v];
+            $data['keyword' . ($k + 1)] = ['value' => $v];
         }
         $postData = [
             'touser'        =>  $params['openid'],
-            'template_id'   =>  'xzdvaFjhvRGtnUqOkLoPpnEYYDao93m70Q4tB2HE6GU',//这是模板id,需要去申请
+            'template_id'   =>  'xzdvaFjhvRGtnUqOkLoPpnEYYDao93m70Q4tB2HE6GU', //这是模板id,需要去申请
             'form_id'       =>  $params['form_id'],
             'data'          =>  $data
         ];
@@ -3084,11 +3038,8 @@ class  Order extends  Controller
         $result = $this->http_request($url);
 
         $access_token = $result['access_token'];
-        $urls = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token='.$access_token;
-        $ret = $this->postCurl($urls, $postData,'json');
+        $urls = 'https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=' . $access_token;
+        $ret = $this->postCurl($urls, $postData, 'json');
         return $ret;
     }
-
-
-
 }
