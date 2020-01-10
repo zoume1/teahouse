@@ -1947,6 +1947,12 @@ class  Order extends  Controller
                 $phone_num = $data[0]["harvest_phone_num"];
                 $address = $data[0]["harvester_address"];
             }
+            if(empty($data[0]['freight'])){
+                $data[0]['freight'] = 0;
+            }
+            if(empty($data[0]['receipt_price'])){
+                $data[0]['receipt_price'] = 0;
+            }
             if (!empty($data)) {
                 $datas = [
                     "data" => $data,
