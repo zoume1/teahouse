@@ -255,7 +255,7 @@ class StoreHouse extends Controller{
             ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
             ->where("tb_series_house_order.store_id",$store_id)
             ->where("tb_series_house_order.pay_status",">",1)
-            ->oeder("tb_series_house_order.id desc")
+            ->order("tb_series_house_order.id desc")
             ->select();
         foreach($store_order as $key => $value){
         $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
