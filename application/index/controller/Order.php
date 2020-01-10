@@ -2929,7 +2929,6 @@ class  Order extends  Controller
                 ];
 
                 $restel = Db::name("order")->insert($order_data);
-
                 if ($restel) {
                     $member_wallet = Db::name("member")
                         ->where("member_id", $information["member_id"])
