@@ -705,15 +705,24 @@ class Storehouse extends Controller
             if (in_array($are, $are_block)) {
                 $datas["collect"] = $rest["price"]; //首费
                 $datas["markup"] = $rest["markup"]; //续费
-                $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+                if(intval($string_number[$rest_number]) > RESTEL_ZERO){
+                    $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+                } else {
+                    $out_price = RESTEL_ZERO;
+                }
             } else {
                 $datas["collect"] = $rest["price_two"]; //首费
                 $datas["markup"] = $rest["markup_two"]; //续费
-                $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+                if(intval($string_number[$rest_number]) > RESTEL_ZERO){
+                    $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+                } else {
+                    $out_price = RESTEL_ZERO;
+                }
             }
         } else {
             $out_price = RESTEL_ZERO;
         }
         return $out_price;
+
     }
 }
