@@ -463,9 +463,15 @@ class Pay extends  Controller
                         'store_id' => $out_order['store_id'], //店铺id
                         'coupon_type' => 1, //商品类型
                     ];
+                    $rest_data = [
+                        'parts_order_number' => $out_order['out_order_number'],
+                        'house_order_id' => $data['id'],
+                        'surplus_number' => $new_store_number,
+                        'create_time' => time(),
+                    ];
                     $restel = Db::name("order")->insert($order_data);
-
-                    if ($bool && $restel) {
+                    $restules = Db::name("number_store")->insert($rest_data);
+                    if ($bool && $restel && $restules) {
                         //将订单信息返回给微信服务器
                         //         初始化值对象
                         $activity_name = "仓库订单出仓";
