@@ -202,6 +202,7 @@ class StoreHouse extends Controller{
                     ->where("store_id","EQ",$store_id)
                     ->where("status",">",1)
                     ->where("accompany_code_id","=",0)
+                    ->where("order_create_time desc")
                     ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
                     ->select();
 
