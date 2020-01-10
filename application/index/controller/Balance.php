@@ -498,6 +498,9 @@ class Balance extends Controller
                             'coupon_type' => 1, //商品类型
                         ];
                         $restel = Db::name("order")->insert($order_data);
+                        if($data['surplus'] == 0){
+                            Db::name("order")->where('id',$data['id'])->delete();
+                        }
                     }
                     Db::commit();
                     return jsonSuccess('出仓成功');

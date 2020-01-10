@@ -2894,6 +2894,11 @@ class  Order extends  Controller
             $restul_one = Db::name("house_order")
                 ->where("id", $restules["house_order_id"])
                 ->update(["store_number" =>$restules['surplus_number']]);
+            if($restules['surplus'] == 0){
+                $delete_bool = Db::name("house_order")
+                ->where("id", $restules["house_order_id"])
+                ->delete();
+            }
             if ($res && $restul &&  $restul_one) {
                 $information = Db::name("out_house_order")->where("out_order_number", $val["out_trade_no"])->find();
                 //更新仓库库存
