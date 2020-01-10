@@ -499,7 +499,7 @@ class Balance extends Controller
                         ];
                         $restel = Db::name("order")->insert($order_data);
                         if($data['surplus'] == 0){
-                            Db::name("order")->where('id',$data['id'])->delete();
+                            Db::name("house_order")->where('id',$data['id'])->delete();
                         }
                     }
                     Db::commit();
