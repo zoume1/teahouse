@@ -468,6 +468,7 @@ class Pay extends  Controller
                         'house_order_id' => $data['id'],
                         'surplus_number' => $new_store_number,
                         'create_time' => time(),
+                        'surplus' => $new_quantity,
                     ];
                     $restel = Db::name("order")->insert($order_data);
                     $restules = Db::name("number_store")->insert($rest_data);
