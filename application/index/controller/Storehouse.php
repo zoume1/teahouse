@@ -661,17 +661,17 @@ class Storehouse extends Controller
             $size = count($string_number);
             switch ($size) {
                 case RESTEL_TWO:
-                    $out_price = templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
+                    $out_price = $this->templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
                     break;
                 case RESTEL_FOUR:
-                    $one_price = templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
-                    $two_price = templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
+                    $one_price = $this->templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
+                    $two_price = $this->templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
                     $out_price = $one_price + $two_price;
                     break;
                 case RESTEL_SIX:
-                    $one_price = templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
-                    $two_price = templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
-                    $three_price = templet($templet_name, $templet_id,$are,RESTEL_FIVE,$string_number);
+                    $one_price = $this->templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
+                    $two_price = $this->templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
+                    $three_price = $this->templet($templet_name, $templet_id,$are,RESTEL_FIVE,$string_number);
                     $out_price = $one_price + $two_price + $three_price;
                     break;
                 default:
