@@ -484,7 +484,6 @@ class Pay extends  Controller
                         //        $input->SetOut_trade_no(time().'');
                         $input->SetOut_trade_no($set_parts_number);
                         //         费用应该是由小程序端传给服务端的，在用户下单时告知服务端应付金额，demo中取值是1，即1分钱
-                        $data['house_charges'] = 0.01;
                         $input->SetTotal_fee($data['house_charges'] * 100); //测试
                         $return_url = config("domain.url") . "continuAtion_notify";
                         $input->SetNotify_url($return_url); //需要自己写的notify.php
