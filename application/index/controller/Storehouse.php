@@ -569,10 +569,10 @@ class Storehouse extends Controller
                 $string_number = $out_number . ',' . $unit[RESTEL_ZERO];
                 break;
             case RESTEL_TWO:
-                $restul =  intval($out_number / $num[RESTEL_ONE]);
+                $restul =  $out_number / $num[RESTEL_ONE];
                 if ($restul > RESTEL_ONE) {
                     $one = intval(fmod($out_number, $num[RESTEL_ONE]));
-                    $string_number = $restul . ',' . $unit[RESTEL_ZERO] . ',' . $one . ',' . $unit[RESTEL_ONE];
+                    $string_number = intval($restul) . ',' . $unit[RESTEL_ZERO] . ',' . $one . ',' . $unit[RESTEL_ONE];
                 } elseif ($restul < RESTEL_ONE) {
                     $string_number = RESTEL_ZERO . ',' . $unit[RESTEL_ZERO] . ',' . $out_number . ',' . $unit[RESTEL_ONE];
                 } else {
