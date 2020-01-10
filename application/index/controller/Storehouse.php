@@ -538,7 +538,7 @@ class Storehouse extends Controller
                 $transmit = [
                     'surplus' => $surplus, //剩余数量
                     'surplus_number' => $surplus_number, //剩余仓储
-                    'string_number' => $string_number, //出仓显示单位
+                    'string_number' => explode(",", $string_number), //出仓显示单位
                     'out_price' => $out_price, //出仓费用
                 ];
                 return jsonSuccess('发送成功', $transmit);
