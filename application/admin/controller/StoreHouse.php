@@ -227,7 +227,8 @@ class StoreHouse extends Controller{
                     ->field("tb_out_house_order.user_phone_number,user_account_name,out_order_number,house_charges,tb_house_order.parts_goods_name,end_time,tb_out_house_order.pay_time,tb_out_house_order.status,tb_store_house.name,tb_out_house_order.store_number,tb_out_house_order.id")
                     ->join("tb_house_order","tb_house_order.id = tb_out_house_order.house_order_id",'left')
                     ->join("tb_store_house","tb_store_house.id = tb_out_house_order.store_house_id",'left')
-                    ->where("tb_out_house_order.store_id",$store_id)
+                    ->where("tb_out_house_order.pay_time desc")
+                    ->order("tb_out_house_order.store_id",$store_id)
                     ->where("tb_out_house_order.status",">",0)
                     ->select();
 
@@ -254,6 +255,7 @@ class StoreHouse extends Controller{
             ->join("tb_store_house","tb_house_order.store_house_id = tb_store_house.id",'left')
             ->where("tb_series_house_order.store_id",$store_id)
             ->where("tb_series_house_order.pay_status",">",1)
+            ->oeder("tb_series_house_order.id desc")
             ->select();
         foreach($store_order as $key => $value){
         $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
