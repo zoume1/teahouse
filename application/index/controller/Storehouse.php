@@ -67,6 +67,7 @@ class Storehouse extends Controller
                     for ($i = 0; $i < $count_number; $i++) {
                         foreach ($house_order[$i] as $zt => $kl) {
                             $house_order[$i][$zt]["store_number"] = explode(',', $house_order[$i][$zt]["store_number"]);
+                            $house_order[$i][$zt]["unit"] = explode(',', $house_order[$i][$zt]["unit"]);
                             $house_order[$i][$zt]["cost"] = explode(',', $house_order[$i][$zt]["cost"]);
                             $rest_key = array_search($house_order[$i][$zt]["store_unit"], $house_order[$i][$zt]["unit"]);
                             $house_order[$i][$zt]["unit_price"] = $house_order[$i][$zt]["cost"][$rest_key];
