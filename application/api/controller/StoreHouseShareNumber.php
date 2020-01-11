@@ -85,7 +85,7 @@ class StoreHouseShareNumber extends Controller
             } catch (\Exception $e) {
                 $this->error = $e->getMessage();
                 Db::rollback();
-                return jsonError('发送失败');
+                return jsonError($this->error);
             }
         }
     }
