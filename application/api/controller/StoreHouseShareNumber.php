@@ -134,7 +134,7 @@ class StoreHouseShareNumber extends Controller
                 $error = $validate->getError();
                 return jsonError($error);
             }
-            $surplus = intval($data['lowest'] - $data['number']);
+            $surplus = intval($data['lowest'] - $data['out_number']);
             $house_order = HouseOrder::getHouseOrder($data['id']);
             if (!$house_order)  return jsonError('该订单不存在');
             if (!empty($house_order['special_id'])) {
