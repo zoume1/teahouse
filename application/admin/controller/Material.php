@@ -543,6 +543,28 @@ class  Material extends  Controller{
             foreach($rr as $k =>$v){
                 $ids=db('anti_goods')->where('store_id',$store_id)->column('goods_number');
                 if(in_array($v['goods_number'],$ids)){
+                    //同步自标
+                    //获取pid根据goods_number
+                    $pid=db('anti_goods')->where('goods_number',$v['goods_number'])->value('id');
+                    $sql2='SELECT parent_code,child_code,goods_name FROM  v_trace_subscript where pid = '.$pid;
+                    $res2= mysqli_query($con,$sql2);
+                    $rr2=$res2->fetch_all(MYSQLI_ASSOC);
+                    foreach($rr2 as $k2 =>$v2){
+                        //获取子母标的id序列
+                        $ids2=db('anti_parent_code')->where('pid',$pid)->column('child_code');
+                        if(in_array($v2['child_code'],$ids2)){
+                            continue;
+                        }
+                        $v2['pid']=$pid;
+                        $v2['create_time']=time();
+                        $v2['store_id']=$store_id;
+                        $v2['produceUid']=$jxc_id;
+                        $v2['is_upload']='0';
+                        db('anti_parent_code')->insert($v2);
+                    }
+                    //更改母标记录
+                    $number=db('anti_parent_code')->where('pid',$pid)->count();
+                    db('anti_goods')->where('id',$pid)->update(['goods_repertory'=>$number]);
                     continue;
                 }
                 $v['create_time']=time();
