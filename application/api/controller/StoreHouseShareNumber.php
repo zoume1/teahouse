@@ -7,7 +7,7 @@ use app\admin\model\Store;
 use think\Controller;
 use think\Db;
 use think\Request;
-use \think\Exception;
+use app\common\exception\BaseException;
 use app\admin\model\Goods;
 use think\Validate;
 use app\admin\model\ShareOrder;
@@ -53,7 +53,7 @@ class StoreHouseShareNumber extends Controller
             $order_data = HouseOrder::getHouseOrder($data['id']);
             if (!$order_data)  return jsonError('该订单不存在');
 
-            $this->startTrans();
+            Db::startTrans();
             try {
                 $share_data = array(
                     'order_id' => $order_data['id'], //订单id
@@ -80,11 +80,11 @@ class StoreHouseShareNumber extends Controller
                     'user_account_name' => $order_data['user_account_name'],//用户名
                     'share_code' => $return_url
                 ];
-                $this->commit();
+                Db::commit();
                 return jsonSuccess('发送成功', $rest_data);
             } catch (\Exception $e) {
                 $this->error = $e->getMessage();
-                $this->rollback();
+                Db::rollback();
                 return jsonError('发送失败');
             }
         }
