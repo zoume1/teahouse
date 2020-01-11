@@ -13,6 +13,13 @@ use think\Validate;
 use app\admin\model\ShareOrder;
 use app\index\controller\Storehouse;
 
+const RESTEL_ZERO = 0;
+const RESTEL_ONE = 1;
+const RESTEL_TWO = 2;
+const RESTEL_THREE = 3;
+const RESTEL_FOUR = 4;
+const RESTEL_FIVE = 5;
+const RESTEL_SIX = 6;
 /**
  * 茶仓分享存茶
  * Class Message 
@@ -197,8 +204,8 @@ class StoreHouseShareNumber extends Controller
             }
             //剩余单位数量
             $rest_data = [
-                'lowest' => $lowest,
-                'lowest_unit' => $lowest_unit,
+                'lowest' => $lowest, //最大数量
+                'lowest_unit' => $lowest_unit, //赠送单位
             ];
             return jsonSuccess('发送成功', $rest_data);
         }
