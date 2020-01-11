@@ -110,6 +110,7 @@ class Storehouse extends Controller
                                     break;
                             }
                             $house_order[$i][$zt]["lowest"] = $lowest;
+                            $house_order[$i][$zt]["lowest_unit"] = $lowest_unit;
                         }
                     }
 
@@ -749,6 +750,5 @@ class Storehouse extends Controller
             $out_price = RESTEL_ZERO;
         }
         return $out_price;
-
     }
 }
