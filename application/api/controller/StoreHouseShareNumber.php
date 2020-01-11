@@ -63,7 +63,7 @@ class StoreHouseShareNumber extends Controller
                     'store_name' => (new Store())->getStoreName($order_data['store_id']),
                     'end_time' => strtotime("+3 days"),
                     'store_id' => $order_data['store_id']
-                    'give_number' => 
+                    // 'give_number' => 
                 );
                 $share_id = ShareOrder::share_add($share_data);
                 if (!$share_id) {
