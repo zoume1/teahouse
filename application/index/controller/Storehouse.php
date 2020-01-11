@@ -52,7 +52,7 @@ class Storehouse extends Controller
                 if (!empty($depot)) {
                     foreach ($depot as $key => $value) {
                         $house_order[$key] = Db::table("tb_house_order")
-                            ->field("tb_house_order.id,store_unit,num,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name,tb_house_order.unit as unite")
+                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name,tb_goods.unit as unite")
                             ->join("tb_goods", "tb_house_order.goods_id = tb_goods.id", 'right')
                             ->join("tb_store_house", " tb_store_house.id = tb_house_order.store_house_id", 'left')
                             ->join("tb_wares", "tb_wares.id = tb_goods.pid", 'left')
@@ -67,11 +67,28 @@ class Storehouse extends Controller
                     for ($i = 0; $i < $count_number; $i++) {
                         foreach ($house_order[$i] as $zt => $kl) {
                             $house_order[$i][$zt]["store_number"] = explode(',', $house_order[$i][$zt]["store_number"]);
-                            $house_order[$i][$zt]["unite"] = explode(',', $house_order[$i][$zt]["unite"]);
-                            $house_order[$i][$zt]["num"] = explode(',', $house_order[$i][$zt]["num"]);
                             $house_order[$i][$zt]["cost"] = explode(',', $house_order[$i][$zt]["cost"]);
                             $rest_key = array_search($house_order[$i][$zt]["store_unit"], $house_order[$i][$zt]["unit"]);
                             $house_order[$i][$zt]["unit_price"] = $house_order[$i][$zt]["cost"][$rest_key];
+                            if ($time < $house_order[$i][$zt]["end_time"]) {
+                                $house_order[$i][$zt]['limit_time'] = round(($house_order[$i][$zt]["end_time"] - $time) / 86400); //剩余天数
+                                if ($house_order[$i][$zt]['limit_time'] > 30) {
+                                    $house_order[$i][$zt]['limit_time'] = 0; //未到期
+                                } else {
+                                    $house_order[$i][$zt]['limit_time'] = 1; //即将到期
+                                }
+                            } else {
+                                $house_order[$i][$zt]['limit_time'] = 2; //已到期
+                            }
+                            if (!empty($house_order[$i][$zt]['special_id'])) {
+                                $special = Db::name("special")->where("id", $house_order[$i][$zt]['special_id'])->find();
+                                $house_order[$i][$zt]['goods_bottom_money'] = $special['line'];
+                                $house_order[$i][$zt]['unite'] = $special['unit'];
+                                $house_order[$i][$zt]['num'] = $special['num'];
+                            }
+
+                            $house_order[$i][$zt]["unite"] = explode(',', $house_order[$i][$zt]["unite"]);
+                            $house_order[$i][$zt]["num"] = explode(',', $house_order[$i][$zt]["num"]);
                             $count = count($house_order[$i][$zt]["num"]);
                             switch ($count) {
                                 case RESTEL_ONE:
@@ -91,19 +108,7 @@ class Storehouse extends Controller
                                     $lowest = 0;
                                     break;
                             }
-                            if ($time < $house_order[$i][$zt]["end_time"]) {
-                                $house_order[$i][$zt]['limit_time'] = round(($house_order[$i][$zt]["end_time"] - $time) / 86400); //剩余天数
-                                if ($house_order[$i][$zt]['limit_time'] > 30) {
-                                    $house_order[$i][$zt]['limit_time'] = 0; //未到期
-                                } else {
-                                    $house_order[$i][$zt]['limit_time'] = 1; //即将到期
-                                }
-                            } else {
-                                $house_order[$i][$zt]['limit_time'] = 2; //已到期
-                            }
-                            if (!empty($house_order[$i][$zt]['special_id'])) {
-                                $house_order[$i][$zt]['goods_bottom_money'] = Db::name("special")->where("id", $house_order[$i][$zt]['special_id'])->value("line");
-                            }
+                            $house_order[$i][$zt]["lowest"] = $lowest;
                         }
                     }
 
