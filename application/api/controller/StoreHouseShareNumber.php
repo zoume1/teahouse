@@ -112,8 +112,9 @@ class StoreHouseShareNumber extends Controller
                 $error = $validate->getError();
                 return jsonError($error);
             }
-            //1.赠茶
+            
             //1.该赠茶已被领取
+            //2.赠茶
         }
     }
 
