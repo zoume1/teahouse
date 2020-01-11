@@ -388,6 +388,10 @@ class Balance extends Controller
                 ['member_id', 'require', '会员id不能为空'],
                 ['house_charges', 'require', '出仓费用不能为空'],
                 ['order_quantity', 'require', '出仓数量不能为空'],
+                ['surplus', 'require', '剩余数量不能为空'],
+                ['lowest_unit', 'require', '出仓单位不能为空'],
+                ['surplus_number', 'require', '剩余仓储显示不能为空'],
+                ['string_number', 'require', '出仓单位显示能为空'],
                 ['address_id', 'require', '地址id不能为空'],
             ]);
             //验证部分数据合法性
@@ -425,10 +429,9 @@ class Balance extends Controller
                         $unit = explode(",", $special_unit);
                         $num = explode(",", $special_num);
                     }
-                    $key = array_search($house_order['store_unit'], $unit);
-                    $store_number = $new_order->unit_calculate($unit, $num, $key, $data["order_quantity"]);
-                    $new_quantity = $house_order['order_quantity'] - $data["order_quantity"];
-                    $new_store_number = $new_order->unit_calculate($unit, $num, $key, $new_quantity);
+                    $store_number = implode(',',$data['string_number']);
+                    $new_quantity = $data['surplus']; //剩余数量
+                    $new_store_number = $data['surplus_number'];
                     $out_order = array(
                         'house_order_id' => $data['id'],
                         'out_order_number' => $set_parts_number,
@@ -446,18 +449,18 @@ class Balance extends Controller
                         'si_pay_type' => 1,
                         'address_id' => $data['address_id'],
                         'store_number' => $store_number,
-                        'store_unit' => $house_order['store_unit'],
+                        'store_unit' => $data['lowest_unit'],
                         'store_id' => $data['uniacid'],
                         'unit' => $special_unit,
                         'num' => $special_num
                     );
                     $bool = Db::name('out_house_order')->insert($out_order);
-                    if ($bool) {
+                    $boole =  Db::name('house_order')->where('id',$data['id'])->update(['store_number'=>$new_store_number]);
+                    if ($bool && $boole) {
                         if($data['house_charges'] > 0){
                             $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
                         }
                         $is_money = Db::name('member')->where('member_id', '=', $data['member_id'])->setDec('member_wallet', $data['house_charges']);
-                        $boole = Db::name("house_order")->where("id", $data['id'])->update(['order_quantity' => $new_quantity, 'store_number' => $new_store_number]);
                         $is_address_status =  Db::name("user_address")->where("id", $out_order['address_id'])->find();
                         $harvest_address_city = str_replace(',', '', $is_address_status['address_name']);
                         $harvest_address = $harvest_address_city . $is_address_status['harvester_real_address']; //收货人地址
@@ -488,12 +491,16 @@ class Balance extends Controller
                             'goods_describe' => $house_order['goods_describe'], //商品买点
                             'special_id' => $house_order['special_id'], //特殊规格id
                             'order_type' => 1,
+                            'freight'=> $out_order['house_charges'],   //出仓金额
                             'si_pay_type' => 2, //支付方式（微信）
-                            'unit' => $out_order['store_unit'], //出仓单位
+                            'unit' => $data['lowest_unit'], //出仓单位
                             'store_id' => $out_order['store_id'], //店铺id
                             'coupon_type' => 1, //商品类型
                         ];
                         $restel = Db::name("order")->insert($order_data);
+                        if($data['surplus'] == 0){
+                            Db::name("house_order")->where('id',$data['id'])->delete();
+                        }
                     }
                     Db::commit();
                     return jsonSuccess('出仓成功');

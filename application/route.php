@@ -419,6 +419,7 @@ Route::group("",[
     "outPositionOrder"=>"index/Storehouse/outPositionOrder",//店铺小程序前端仓库订单出仓
     "getHousePrice"=>"index/Storehouse/getHousePrice",      //店铺小程序前端仓库订单出仓运费
     "getLinePrice"=>"index/Storehouse/getLinePrice",        //存茶详情年划线价
+    "geTexchange"=>"index/Storehouse/geTexchange",          //[最小单位换算出仓]
     
     /* 微信公众平台路由  */
     "receive_ticket"=>"index/WxTest/receive_ticket",        //微信小程序接受ticket
@@ -1257,7 +1258,11 @@ Route::group("api",[
     "video_comment" =>"api/Live/video_comment",//视频直播评论接口
     "video_reply" => "api/Live/video_reply",//视频直播回复接口
     "video_index" =>"api/Live/video_index",//评论显示接口
+    "cLickGive" => "api/StoreHouseShareNumber/cLickGive",//茶仓赠茶点击赠送
+    "ShowOrderNumber" => "api/StoreHouseShareNumber/ShowOrderNumber",//茶仓赠茶点击赠送计算
     "SharePictureData" => "api/StoreHouseShareNumber/SharePictureData",//茶仓分享存茶页面
+    "getShareHouseData" => "api/StoreHouseShareNumber/getShareHouseData",//用户扫描二维码领取存茶
+
     /**
      * 根据appid获取uniacid
      */
