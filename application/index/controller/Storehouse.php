@@ -52,7 +52,7 @@ class Storehouse extends Controller
                 if (!empty($depot)) {
                     foreach ($depot as $key => $value) {
                         $house_order[$key] = Db::table("tb_house_order")
-                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name,tb_goods.unit as unite")
+                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
                             ->join("tb_goods", "tb_house_order.goods_id = tb_goods.id", 'right')
                             ->join("tb_store_house", " tb_store_house.id = tb_house_order.store_house_id", 'left')
                             ->join("tb_wares", "tb_wares.id = tb_goods.pid", 'left')
@@ -84,33 +84,8 @@ class Storehouse extends Controller
                             if (!empty($house_order[$i][$zt]['special_id'])) {
                                 $special = Db::name("special")->where("id", $house_order[$i][$zt]['special_id'])->find();
                                 $house_order[$i][$zt]['goods_bottom_money'] = $special['line'];
-                                $house_order[$i][$zt]['unite'] = $special['unit'];
                                 $house_order[$i][$zt]['num'] = $special['num'];
                             }
-
-                            $house_order[$i][$zt]["unite"] = explode(',', $house_order[$i][$zt]["unite"]);
-                            $house_order[$i][$zt]["num"] = explode(',', $house_order[$i][$zt]["num"]);
-                            $count = count($house_order[$i][$zt]["num"]);
-                            switch ($count) {
-                                case RESTEL_ONE:
-                                    $lowest = $house_order[$i][$zt]["store_number"][RESTEL_ZERO];
-                                    $lowest_unit = $house_order[$i][$zt]["unite"][RESTEL_ZERO];
-                                    break;
-                                case RESTEL_TWO:
-                                    $lowest_unit = $house_order[$i][$zt]["unite"][RESTEL_ONE];
-                                    $lowest = intval($house_order[$i][$zt]["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order[$i][$zt]["store_number"][RESTEL_TWO]);
-                                    break;
-                                case RESTEL_THREE:
-                                    $lowest_unit = $house_order[$i][$zt]["unite"][RESTEL_TWO];
-                                    $Replacement = intval(intval($house_order[$i][$zt]["num"][RESTEL_TWO]) / intval($house_order[$i][$zt]["num"][RESTEL_ONE]));
-                                    $lowest = intval($house_order[$i][$zt]["store_number"][RESTEL_ZERO]) * intval($house_order[$i][$zt]["num"][RESTEL_TWO]) + intval($house_order[$i][$zt]["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order[$i][$zt]["store_number"][RESTEL_FOUR]);;
-                                    break;
-                                default:
-                                    $lowest = 0;
-                                    break;
-                            }
-                            $house_order[$i][$zt]["lowest"] = $lowest;
-                            $house_order[$i][$zt]["lowest_unit"] = $lowest_unit;
                         }
                     }
 
@@ -680,7 +655,7 @@ class Storehouse extends Controller
         if ($goods['goods_franking'] != RESTEL_ZERO) {
             $datas["collect"] = $goods["goods_franking"]; //统一邮费
             $datas["markup"] = RESTEL_ZERO; //统一邮费
-            $out_price = sprintf("%.2f",$data['out_number'] * $datas["collect"]);
+            $out_price = sprintf("%.2f", $data['out_number'] * $datas["collect"]);
         } elseif ($goods["goods_franking"] == RESTEL_ZERO && !empty($goods["templet_name"])  && !empty($goods["templet_id"])) {
             $templet_name = explode(",", $goods["templet_name"]);
             $templet_id = explode(",", $goods["templet_id"]);
@@ -688,22 +663,21 @@ class Storehouse extends Controller
             $size = count($string_number);
             switch ($size) {
                 case RESTEL_TWO:
-                    $out_price = $this->templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
+                    $out_price = $this->templet($templet_name, $templet_id, $are, RESTEL_ONE, $string_number);
                     break;
                 case RESTEL_FOUR:
-                    $one_price = $this->templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
-                    $two_price = $this->templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
+                    $one_price = $this->templet($templet_name, $templet_id, $are, RESTEL_ONE, $string_number);
+                    $two_price = $this->templet($templet_name, $templet_id, $are, RESTEL_THREE, $string_number);
                     $out_price = $one_price + $two_price;
                     break;
                 case RESTEL_SIX:
-                    $one_price = $this->templet($templet_name, $templet_id,$are,RESTEL_ONE,$string_number);
-                    $two_price = $this->templet($templet_name, $templet_id,$are,RESTEL_THREE,$string_number);
-                    $three_price = $this->templet($templet_name, $templet_id,$are,RESTEL_FIVE,$string_number);
+                    $one_price = $this->templet($templet_name, $templet_id, $are, RESTEL_ONE, $string_number);
+                    $two_price = $this->templet($templet_name, $templet_id, $are, RESTEL_THREE, $string_number);
+                    $three_price = $this->templet($templet_name, $templet_id, $are, RESTEL_FIVE, $string_number);
                     $out_price = $one_price + $two_price + $three_price;
                     break;
                 default:
                     $out_price = RESTEL_ZERO;
-
             }
         } else {
             $out_price = RESTEL_ZERO;
@@ -720,7 +694,7 @@ class Storehouse extends Controller
      * [单位模板对应计算费用]
      * @return 成功时返回，其他抛异常
      */
-    public function templet($templet_name, $templet_id,$are,$number,$string_number)
+    public function templet($templet_name, $templet_id, $are, $number, $string_number)
     {
         $monomer = $string_number[$number];
         $tempid = array_search($monomer, $templet_name);
@@ -732,16 +706,16 @@ class Storehouse extends Controller
             if (in_array($are, $are_block)) {
                 $datas["collect"] = $rest["price"]; //首费
                 $datas["markup"] = $rest["markup"]; //续费
-                if(intval($string_number[$rest_number]) > RESTEL_ZERO){
-                    $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+                if (intval($string_number[$rest_number]) > RESTEL_ZERO) {
+                    $out_price = sprintf("%.2f", $datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
                 } else {
                     $out_price = RESTEL_ZERO;
                 }
             } else {
                 $datas["collect"] = $rest["price_two"]; //首费
                 $datas["markup"] = $rest["markup_two"]; //续费
-                if(intval($string_number[$rest_number]) > RESTEL_ZERO){
-                    $out_price = sprintf("%.2f",$datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
+                if (intval($string_number[$rest_number]) > RESTEL_ZERO) {
+                    $out_price = sprintf("%.2f", $datas["collect"] + (intval($string_number[$rest_number]) - RESTEL_ONE) * $datas["markup"]);
                 } else {
                     $out_price = RESTEL_ZERO;
                 }
