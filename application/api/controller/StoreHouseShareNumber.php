@@ -41,7 +41,7 @@ class StoreHouseShareNumber extends Controller
         if ($request->isPost()) {
             $data = input();
             $validate  = new Validate([
-                ['id', 'require', '仓库id不能为空'],
+                ['id', 'require', '仓库订单id不能为空'],
                 ['give_number', 'require', '赠送数量不能为空'],
                 ['string_number', 'require', '赠送显示单位数量不能为空'],
             ]);
@@ -62,19 +62,26 @@ class StoreHouseShareNumber extends Controller
                     'member_id' => $order_data['member_id'], //会员id
                     'store_name' => (new Store())->getStoreName($order_data['store_id']),
                     'end_time' => strtotime("+3 days"),
-                    'store_id' => $order_data['store_id']
-                    // 'give_number' => 
+                    'store_id' => $order_data['store_id'],
+                    'give_number' => $data['give_number'],
+                    'string_number' => explode(",",$data['string_number']),
                 );
                 $share_id = ShareOrder::share_add($share_data);
                 if (!$share_id) {
                     throw new Exception('添加失败');
                 }
-                $share_data['goods_image'] = $order_data['goods_image']; //商品图片
-                $share_data['user_account_name'] = $order_data['user_account_name']; //用户名
                 $return_url = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
-                $share_data['share_code'] = $return_url;
+                $rest_data = [
+                    'goods_describe' => $order_data['goods_describe'], //商品买点
+                    'parts_goods_name' => $order_data['parts_goods_name'], //商品名称
+                    'store_name' => (new Store())->getStoreName($order_data['store_id']),
+                    'end_time' => strtotime("+3 days"),
+                    'goods_image' => $order_data['goods_image'], //商品图片
+                    'user_account_name' => $order_data['user_account_name'],//用户名
+                    'share_code' => $return_url
+                ];
                 $this->commit();
-                return jsonSuccess('发送成功', $share_data);
+                return jsonSuccess('发送成功', $rest_data);
             } catch (\Exception $e) {
                 $this->error = $e->getMessage();
                 $this->rollback();
