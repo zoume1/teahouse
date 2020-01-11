@@ -39,29 +39,38 @@ class StoreHouseShareNumber extends Controller
     public function SharePictureData(Request $request)
     {
         if ($request->isPost()) {
-            $order_id = $request->only(['id'])['id'];
+            $data = input();
+            $validate  = new Validate([
+                ['id', 'require', '仓库id不能为空'],
+                ['give_number', 'require', '赠送数量不能为空'],
+                ['string_number', 'require', '赠送显示单位数量不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            }
             $order_data = HouseOrder::getHouseOrder($order_id);
             if (!$order_data)  return jsonError('该订单不存在');
-            // 检查分享存茶数量是否超过订单数量
-            // $share_number = ShareOrder::countOrderNumber($order_id);
-            // if($share_number >= $order_data['order_quantity']) return jsonError('您的赠送数量已达上限');
+
             $this->startTrans();
             try {
                 $share_data = array(
                     'order_id' => $order_data['id'], //订单id
                     'goods_describe' => $order_data['goods_describe'], //商品买点
                     'parts_goods_name' => $order_data['parts_goods_name'], //商品名称
-                    'order_quantity' => $order_data['order_quantity'], //订单数量
-                    'member_id' => $order_data['order_quantity'], //会员id
+                    'member_id' => $order_data['member_id'], //会员id
                     'store_name' => (new Store())->getStoreName($order_data['store_id']),
                     'end_time' => strtotime("+3 days"),
                     'store_id' => $order_data['store_id']
+                    'give_number' => 
                 );
-                $share_data['goods_image'] = $order_data['goods_image']; //商品图片
                 $share_id = ShareOrder::share_add($share_data);
                 if (!$share_id) {
                     throw new Exception('添加失败');
                 }
+                $share_data['goods_image'] = $order_data['goods_image']; //商品图片
+                $share_data['user_account_name'] = $order_data['user_account_name']; //用户名
                 $return_url = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
                 $share_data['share_code'] = $return_url;
                 $this->commit();
@@ -96,6 +105,8 @@ class StoreHouseShareNumber extends Controller
                 $error = $validate->getError();
                 return jsonError($error);
             }
+            //1.赠茶
+            //1.该赠茶已被领取
         }
     }
 
@@ -116,7 +127,7 @@ class StoreHouseShareNumber extends Controller
                 ['id', 'require', '订单id不能为空'],
                 ['lowest', 'require', '最大出仓数量不能为空'],
                 ['out_number', 'require', '赠送数量不能为空'],
-                ['lowest_unit', 'lowest_unit', '出仓单位不能为空'],
+                ['lowest_unit', 'require', '出仓单位不能为空'],
             ]);
             //验证部分数据合法性
             if (!$validate->check($data)) {
@@ -140,9 +151,9 @@ class StoreHouseShareNumber extends Controller
             //剩余单位数量
             $surplus_number = (new Storehouse())->getComputeUnit($surplus, $num, $unit);
             $rest_data = [
-                'string_number' => explode(',', $string_number),
-                'surplus_number' => explode(',', $surplus_number),
-                'lowest_unit' => $data['lowest_unit'],
+                'string_number' => explode(',', $string_number), //显示的赠送数量单位
+                'surplus_number' => explode(',', $surplus_number), //剩余数量单位
+                'lowest_unit' => $data['lowest_unit'],//赠送数量
             ];
 
             return jsonSuccess('发送成功', $rest_data);
