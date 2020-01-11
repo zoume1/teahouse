@@ -50,7 +50,7 @@ class StoreHouseShareNumber extends Controller
                 $error = $validate->getError();
                 return jsonError($error);
             }
-            $order_data = HouseOrder::getHouseOrder($order_id);
+            $order_data = HouseOrder::getHouseOrder($data['id']);
             if (!$order_data)  return jsonError('该订单不存在');
 
             $this->startTrans();
@@ -63,7 +63,7 @@ class StoreHouseShareNumber extends Controller
                     'store_name' => (new Store())->getStoreName($order_data['store_id']),
                     'end_time' => strtotime("+3 days"),
                     'store_id' => $order_data['store_id']
-                    'give_number' => 
+                    // 'give_number' => 
                 );
                 $share_id = ShareOrder::share_add($share_data);
                 if (!$share_id) {
