@@ -14,7 +14,7 @@ use app\admin\model\ShareOrder;
 
 /**
  * 茶仓分享存茶
- * Class Message
+ * Class Message 
  * @package app\api\controller
  */
 class StoreHouseShareNumber extends Controller
@@ -90,4 +90,24 @@ class StoreHouseShareNumber extends Controller
             } 
         }
     }
+
+    /**
+     * 茶仓赠茶点击赠送
+     * @param \think\Model $houseorder
+     * @string 存茶订单id
+     * @return array
+     * @throws \app\common\exception\BaseException
+     * @throws \think\Exception
+     * @throws \think\exception\DbException
+     */
+    public function ShowOrderNumber(Request $request)
+    {
+        if ($request->isPost()) {
+            $order_id = $request->only(['id'])['id'];
+            
+           
+        }
+    }
+
+    
 }

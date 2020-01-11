@@ -52,7 +52,7 @@ class Storehouse extends Controller
                 if (!empty($depot)) {
                     foreach ($depot as $key => $value) {
                         $house_order[$key] = Db::table("tb_house_order")
-                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
+                            ->field("tb_house_order.id,store_unit,num,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name,tb_house_order.unit as unite")
                             ->join("tb_goods", "tb_house_order.goods_id = tb_goods.id", 'right')
                             ->join("tb_store_house", " tb_store_house.id = tb_house_order.store_house_id", 'left')
                             ->join("tb_wares", "tb_wares.id = tb_goods.pid", 'left')
@@ -67,11 +67,30 @@ class Storehouse extends Controller
                     for ($i = 0; $i < $count_number; $i++) {
                         foreach ($house_order[$i] as $zt => $kl) {
                             $house_order[$i][$zt]["store_number"] = explode(',', $house_order[$i][$zt]["store_number"]);
-                            $house_order[$i][$zt]["unit"] = explode(',', $house_order[$i][$zt]["unit"]);
+                            $house_order[$i][$zt]["unite"] = explode(',', $house_order[$i][$zt]["unite"]);
+                            $house_order[$i][$zt]["num"] = explode(',', $house_order[$i][$zt]["num"]);
                             $house_order[$i][$zt]["cost"] = explode(',', $house_order[$i][$zt]["cost"]);
                             $rest_key = array_search($house_order[$i][$zt]["store_unit"], $house_order[$i][$zt]["unit"]);
                             $house_order[$i][$zt]["unit_price"] = $house_order[$i][$zt]["cost"][$rest_key];
-
+                            $count = count($house_order[$i][$zt]["num"]);
+                            switch ($count) {
+                                case RESTEL_ONE:
+                                    $lowest = $house_order[$i][$zt]["store_number"][RESTEL_ZERO];
+                                    $lowest_unit = $house_order[$i][$zt]["unite"][RESTEL_ZERO];
+                                    break;
+                                case RESTEL_TWO:
+                                    $lowest_unit = $house_order[$i][$zt]["unite"][RESTEL_ONE];
+                                    $lowest = intval($house_order[$i][$zt]["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order[$i][$zt]["store_number"][RESTEL_TWO]);
+                                    break;
+                                case RESTEL_THREE:
+                                    $lowest_unit = $house_order[$i][$zt]["unite"][RESTEL_TWO];
+                                    $Replacement = intval(intval($house_order[$i][$zt]["num"][RESTEL_TWO]) / intval($house_order[$i][$zt]["num"][RESTEL_ONE]));
+                                    $lowest = intval($house_order[$i][$zt]["store_number"][RESTEL_ZERO]) * intval($house_order[$i][$zt]["num"][RESTEL_TWO]) + intval($house_order[$i][$zt]["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order[$i][$zt]["store_number"][RESTEL_FOUR]);;
+                                    break;
+                                default:
+                                    $lowest = 0;
+                                    break;
+                            }
                             if ($time < $house_order[$i][$zt]["end_time"]) {
                                 $house_order[$i][$zt]['limit_time'] = round(($house_order[$i][$zt]["end_time"] - $time) / 86400); //剩余天数
                                 if ($house_order[$i][$zt]['limit_time'] > 30) {
