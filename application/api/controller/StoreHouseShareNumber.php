@@ -57,16 +57,13 @@ class StoreHouseShareNumber extends Controller
             try {
                 $share_data = array(
                     'order_id' => $order_data['id'], //订单id
-                    'goods_describe' => $order_data['goods_describe'], //商品买点
-                    'parts_goods_name' => $order_data['parts_goods_name'], //商品名称
                     'member_id' => $order_data['member_id'], //会员id
-                    'store_name' => (new Store())->getStoreName($order_data['store_id']),
                     'end_time' => strtotime("+3 days"),
                     'store_id' => $order_data['store_id'],
                     'give_number' => $data['give_number'],
                     'string_number' => implode(",",$data['string_number']),
                 );
-                $share_id = ShareOrder::share_add($share_data);
+                $share_id = (new ShareOrder())->share_add($share_data);
                 if (!$share_id) {
                     throw new Exception('添加失败');
                 }
@@ -85,7 +82,7 @@ class StoreHouseShareNumber extends Controller
             } catch (\Exception $e) {
                 $this->error = $e->getMessage();
                 Db::rollback();
-                return jsonError($this->error);
+                return jsonError('发送失败');
             }
         }
     }
@@ -112,9 +109,14 @@ class StoreHouseShareNumber extends Controller
                 $error = $validate->getError();
                 return jsonError($error);
             }
-            
-            //1.该赠茶已被领取
-            //2.赠茶
+            //1.赠茶活动已取消（订单全部出仓）
+            //2.赠茶商品已下架（商品已删除）
+            //3.您已领取该赠茶（自己已领取）
+            //4.该赠茶已被领取（已被别人领过）
+            //5.赠茶活动已结束（到期）
+            //6.该赠茶礼品已被领取完（赠送数量大于仓库数量）
+
+            //7更新share_order表，生成house_order新定单，更新送存订单数据
         }
     }
 
