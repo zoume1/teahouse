@@ -247,7 +247,7 @@ class Commodity extends Controller
                 $goods[0]["goods_volume"] = $goods_volume;
                 $goods[0]['goods_repertory'] = $goods_repertory;
             } else {
-                $goods[0]["goods_new_money"] = $goods[0]["goods_new_money"] * $discount;
+                $goods[0]["goods_new_money"] = round($goods[0]["goods_new_money"] * $discount,2);
                 $goods[0]["goods_show_images"] = (explode(",", $goods[0]["goods_show_images"]));
                 $goods[0]["min_line"] = $goods[0]["goods_bottom_money"];
                 $goods[0]["unit"] = $goods[0]["monomer"];

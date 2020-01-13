@@ -67,7 +67,7 @@
 		<label class="layui-form-label">会员账号</label>
 		<div class="layui-input-block">
 			<input value="{$member_data.member_phone_num}" type="text" name="member_phone_num" lay-verify="title"
-				autocomplete="off" placeholder="请输入账号" class="layui-input">
+				autocomplete="off" placeholder="会员账号" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
@@ -80,28 +80,28 @@
 		<label class="layui-form-label">绑定手机号</label>
 		<div class="layui-input-block">
 			<input value="{$member_data.member_phone_num}" type="text" name="member_phone_num" lay-verify="title"
-				autocomplete="off" placeholder="请输入部门" class="layui-input">
+				autocomplete="off" placeholder="绑定手机号" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">会员名称</label>
 		<div class="layui-input-block">
 			<input value="{$member_data.member_name}" type="text" name="member_name" lay-verify="title"
-				autocomplete="off" placeholder="请输入部门" class="layui-input">
+				autocomplete="off" placeholder="会员名称" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">上级账号</label>
 		<div class="layui-input-block">
 			<input value="{$member_data.inviter_id}" type="text" name="" lay-verify="title" autocomplete="off"
-				placeholder="请输入部门" class="layui-input">
+				placeholder="上级账号" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
 		<label class="layui-form-label">注册时间</label>
 		<div class="layui-input-block">
 			<input value="{$member_data.member_create_time|date='Y-m-d H:i:s',###}" type="text" name=""
-				lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+				lay-verify="title" autocomplete="off" placeholder="注册时间" class="layui-input">
 		</div>
 	</div>
 	<div class="layui-form-item">
@@ -127,7 +127,11 @@
 		<div class="layui-input-block">
 			{if !empty($member_data.member_grade_end_time)}
 			<input value='{$member_data.member_grade_end_time|date="Y-m-d H:i:s",###}' type="text" name=""
-				lay-verify="title" autocomplete="off" placeholder="请输入部门" class="layui-input">
+				lay-verify="title" autocomplete="off" placeholder="会员到期时间" class="layui-input" realonly>
+				{else}
+				<input value='无' type="text" name=""
+					lay-verify="title" autocomplete="off" placeholder="会员到期时间" class="layui-input" realonly>
+
 			{/if}
 		</div>
 	</div>
