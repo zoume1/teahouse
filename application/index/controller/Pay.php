@@ -411,7 +411,7 @@ class Pay extends  Controller
                         'store_house_id' => $house_order['store_house_id'],
                         'order_quantity' => $data['order_quantity'],
                         'house_charges' => $data['house_charges'],
-                        'status' => 0,
+                        'status' => -1,
                         'member_id' => $house_order['member_id'],
                         'goods_id' => $house_order['goods_id'],
                         'special_id' => $house_order['special_id'],
