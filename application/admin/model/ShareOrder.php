@@ -32,7 +32,7 @@ class ShareOrder extends Model
     public  function share_add($data)
     {
         $rest = $this->save($data);
-        return $rest ? $this : false;
+        return $rest ? $this->id : false;
         
     }
 
