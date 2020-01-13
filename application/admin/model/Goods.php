@@ -148,7 +148,7 @@ class Goods extends Model
         $ACCESS_TOKEN = (new My())->getAccesstoken($store_id);
         $puthc = 'pages/logs/logs';//小程序的路径 可以带参数
         $qcode ="https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$ACCESS_TOKEN;
-        $qrcode_data['scene'] = 'house_order_id='.$order_id;
+        $qrcode_data['scene'] = 'share_order_id='.$order_id;
         $qrcode_data['width'] = 430;
         $qrcode_data['page'] = $puthc;     //扫码后进入的小程序页面
         $qrcode_data['auto_color']= false;
