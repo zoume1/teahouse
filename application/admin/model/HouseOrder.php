@@ -2,12 +2,15 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\Db;
 use app\admin\model\Member;
 use app\admin\model\Goods;
 use app\admin\model\AaccompanyShare;
 use app\admin\model\AccompanyCode;
 use app\admin\model\Accompany;
+use app\admin\model\Storehouse;
 use app\index\controller\Order;
+use app\index\controller\Storehouse as Storehouses;
 
 
 class HouseOrder extends Model
@@ -122,7 +125,7 @@ class HouseOrder extends Model
      * @return bool
      * @throws \think\exception\DbException
      */
-    public  function memberShareAddOrder($house_order,$member_id,$code_data)
+    public  function memberShareAddOrder($house_order,$member_id,$code_data,$num, $unit)
     {
         $time = date("Y-m-d", time());
         $v = explode('-', $time);
@@ -135,8 +138,8 @@ class HouseOrder extends Model
         try {
             $add_ata = [
                 'parts_order_number' => $parts_order_number,
-                'parts_goods_name' => $house_order['goods_name'],    //商品名
-                'goods_image' => $house_order['goods_show_image'],   //商品图片
+                'parts_goods_name' => $house_order['parts_goods_name'],    //商品名
+                'goods_image' => $house_order['goods_image'],   //商品图片
                 'goods_standard' => $house_order['goods_standard'],  //商品规格
                 'goods_describe' => $house_order['goods_describe'],  //分享描述
                 'order_quantity' => $code_data['give_number'],       //送存数量
@@ -160,8 +163,15 @@ class HouseOrder extends Model
                 'member_share_code' => $code_data['id']
             ];
             $rest = $this->save($add_ata);
-            if($rest){
-                $rest_bool = Db::name('share_order')->where('id','=',$code_data['id'])->update(['accept_id'=>$member_id,'status'=>1]);
+            $rest_bool = Db::name('share_order')->where('id','=',$code_data['id'])->update(['accept_id'=>$member_id,'status'=>1]);
+            if($rest && $rest_bool){
+                //更新原仓储订单
+                $out_number = intval($code_data['lowest'] - $code_data['give_number']);
+                if($out_number == 0) {
+                    $restules = Db::name('house_order')->where('id','=',$code_data['order_id'])->delete();
+                }
+                $new_string = (new Storehouses())->getComputeUnit($out_number, $num, $unit);
+                $new_bool = Db::name('house_order')->where('id','=',$code_data['order_id'])->update(['store_number'=>$new_string]);
             } else {
                 throw new Exception('添加失败');
             }
@@ -169,6 +179,7 @@ class HouseOrder extends Model
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
+            halt($this->error);
             $this->rollback();
             return false;
         }
