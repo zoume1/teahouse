@@ -50,10 +50,10 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
-            $content = "【智慧茶仓】尊敬的用户您好！您的城市合伙人资料审核通过，请及时登陆网站，购买入驻套餐，完成城市入驻。";
-            $mobile = 18309224319;
-            $output = sendMessage($content,$mobile);
-            halt($output);
+            $share_id = 4;
+            $order_data['store_id'] = 6;
+            $data = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
+            return jsonSuccess('测试',$data);
             
         }
 
