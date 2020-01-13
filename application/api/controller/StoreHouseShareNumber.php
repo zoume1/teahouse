@@ -109,9 +109,14 @@ class StoreHouseShareNumber extends Controller
                 $error = $validate->getError();
                 return jsonError($error);
             }
-            
-            //1.该赠茶已被领取
-            //2.赠茶
+            //1.赠茶活动已取消（订单全部出仓）
+            //2.赠茶商品已下架（商品已删除）
+            //3.您已领取该赠茶（自己已领取）
+            //4.该赠茶已被领取（已被别人领过）
+            //5.赠茶活动已结束（到期）
+            //6.该赠茶礼品已被领取完（赠送数量大于仓库数量）
+
+            //7更新share_order表，生成house_order新定单，更新送存订单数据
         }
     }
 
