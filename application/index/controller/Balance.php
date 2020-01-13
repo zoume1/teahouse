@@ -472,7 +472,7 @@ class Balance extends Controller
                             'goods_image' => $house_order['goods_image'], //订单号
                             'parts_goods_name' => $house_order['parts_goods_name'], //商品名称
                             'goods_money' => $house_order['goods_money'], //商品价格
-                            'order_quantity' => $out_order['order_quantity'], //出仓数量
+                            'order_quantity' => $data['order_quantity'], //出仓数量
                             'order_amount' => $out_order['house_charges'],   //出仓金额
                             'order_real_pay' => $out_order['house_charges'], //订单实际支付的金额(即优惠券抵扣之后的价钱）
                             'user_account_name' => $house_order['user_account_name'], //用户名
