@@ -156,14 +156,8 @@ class Goods extends Model
         $qrcode_data['is_hyaline']= true;
         $param = json_encode($qrcode_data);
         $result = (new My()) -> api_notice_increment($qcode,$param);
-        $datas='image/png;base64,'.base64_encode($result);
-        $new_file = ROOT_PATH . 'public' . DS . 'shareorder'.DS.$order_id.'.txt';
-        if (file_put_contents($new_file, $datas)) {
-            $re = file_get_contents($new_file);
-            return $re;
-        } else {
-            return false;
-        }
+        $datas = 'image/png;base64,'.base64_encode($result);
+        return $datas;
     }
  
     /**
