@@ -11,6 +11,7 @@ use app\common\exception\BaseException;
 use app\admin\model\Goods;
 use think\Validate;
 use app\admin\model\ShareOrder;
+use app\index\controller\Storehouse;
 
 
 const RESTEL_ZERO = 0;
