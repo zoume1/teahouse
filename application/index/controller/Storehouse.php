@@ -711,7 +711,7 @@ class Storehouse extends Controller
     public function is_locking($member_id, $accompany_code_id)
     {
         if($accompany_code_id == RESTEL_ZERO) return RESTEL_ZERO;
-        $setting = 
+        // $setting = 
 
     }
 }
