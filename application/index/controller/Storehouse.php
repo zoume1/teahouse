@@ -16,6 +16,7 @@ use think\Request;
 use think\Validate;
 use think\Image;
 use app\api\model\UpdateLine;
+use app\admin\model\AccompanySetting;
 
 const RESTEL_ZERO = 0;
 const RESTEL_ONE = 1;
@@ -351,37 +352,12 @@ class Storehouse extends Controller
                             break;
                         case RESTEL_TWO:
                             $lowest_unit = $house_order['unit'][RESTEL_ONE];
-                            // switch ($value_key) {
-                            //     case RESTEL_ZERO:
-                            //         $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_THREE]);
-                            //         break;
-                            //     case RESTEL_ONE:
-                            //         $lowest =  $house_order["store_number"][RESTEL_TWO];
-                            //         break;
-                            //     default:
-                            //         $lowest = 0;
-                            //         break;
-                            // }
                             $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_TWO]);
                             break;
                         case RESTEL_THREE:
                             $lowest_unit = $house_order['unit'][RESTEL_TWO];
                             $Replacement = intval(intval($house_order['num'][RESTEL_TWO]) / intval($house_order['num'][RESTEL_ONE]));
-                            // switch ($value_key) {
-                            //     case RESTEL_ZERO:
-                            //         //换算数量
-                            //         $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
-                            //         break;
-                            //     case RESTEL_ONE:
-                            //         $lowest =  intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
-                            //         break;
-                            //     case RESTEL_TWO:
-                            //         $lowest =  $house_order["store_number"][RESTEL_FOUR];
-                            //         break;
-                            //     default:
-                            $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);;
-                            // break;
-                            // }
+                            $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
                             break;
                         default:
                             $lowest = 0;
@@ -724,5 +700,18 @@ class Storehouse extends Controller
             $out_price = RESTEL_ZERO;
         }
         return $out_price;
+    }
+
+    /**
+     * @param int $member_id
+     * @param int  $accompany_code_id
+     * [出仓是否锁定]
+     * @return 成功时返回，其他抛异常
+     */
+    public function is_locking($member_id, $accompany_code_id)
+    {
+        if($accompany_code_id == RESTEL_ZERO) return RESTEL_ZERO;
+        $setting = 
+
     }
 }
