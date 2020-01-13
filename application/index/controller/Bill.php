@@ -50,10 +50,11 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
-            $share_id = 4;
+            $share_id = 795;
             $order_data['store_id'] = 6;
             $data = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
-            return jsonSuccess('测试',$data);
+            $rest = ['rest'=>$data];
+            return jsonSuccess('测试',$rest);
             
         }
 
