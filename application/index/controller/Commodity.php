@@ -535,7 +535,7 @@ class Commodity extends Controller
         } elseif(empty($goods['templet_name']) && $goods['templet_id'] && $goods['goods_franking'] == 0){
             $franking = 0;
         } else {
-            $franking = $goods['franking'];
+            $franking = $goods['goods_franking'];
         }
        
         return $franking;
