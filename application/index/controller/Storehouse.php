@@ -90,7 +90,7 @@ class Storehouse extends Controller
 
                             $res = $this->is_locking($house_order[$i][$zt]["member_id"], $house_order[$i][$zt]["accompany_code_id"]);
                             $house_order[$i][$zt]['restatus'] = $res['restatus'];
-                            $house_order[$i][$zt]['remind'] = $special['remind'];
+                            $house_order[$i][$zt]['remind'] = $res['remind'];
                         }
                     }
 
