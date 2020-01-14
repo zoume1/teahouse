@@ -530,9 +530,9 @@ class Commodity extends Controller
         //包邮则为0
 
         $goods = Db::name('goods')->where('id',$goods_id)->find();
-        if(!empty($goods['templet_name']) && !$goods['templet_id'] && $goods['goods_franking'] == 0){
+        if(!empty($goods['templet_name']) && !empty($goods['templet_id']) && $goods['goods_franking'] == 0){
             $franking = -1;
-        } elseif(empty($goods['templet_name']) && $goods['templet_id'] && $goods['goods_franking'] == 0){
+        } elseif(empty($goods['templet_name']) && empty($goods['templet_id']) && $goods['goods_franking'] == 0){
             $franking = 0;
         } else {
             $franking = $goods['goods_franking'];
