@@ -134,8 +134,8 @@ class StoreHouseShareNumber extends Controller
                     $house_order['unit'] = explode(",", $goods['unit']);
                     $house_order['num'] = explode(",", $goods['num']);
                 } else {
-                    $house_order['unit'] = explode(",", $house_order['unit']);
-                    $house_order['num'] = explode(",", $house_order['num']);
+                    $house_order['unit'] = explode(",", $goods_data['unit']);
+                    $house_order['num'] = explode(",", $goods_data['num']);
                 }
 
                 $house_order["store_number"] = explode(',', $house_order["store_number"]);
