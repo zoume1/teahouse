@@ -2,12 +2,15 @@
 namespace app\admin\model;
 
 use think\Model;
+use think\Db;
 use app\admin\model\Member;
 use app\admin\model\Goods;
 use app\admin\model\AaccompanyShare;
 use app\admin\model\AccompanyCode;
 use app\admin\model\Accompany;
+use app\admin\model\Storehouse;
 use app\index\controller\Order;
+use app\index\controller\Storehouse as Storehouses;
 
 
 class HouseOrder extends Model
@@ -108,6 +111,75 @@ class HouseOrder extends Model
             return true;
         } catch (\Exception $e) {
             $this->error = $e->getMessage();
+            $this->rollback();
+            return false;
+        }
+
+    }
+
+
+       /**
+     * 添加会员赠茶订单
+     * @param $data 赠茶数据
+     * @member_id   会员id
+     * @return bool
+     * @throws \think\exception\DbException
+     */
+    public  function memberShareAddOrder($house_order,$member_id,$code_data,$num, $unit)
+    {
+        $time = date("Y-m-d", time());
+        $v = explode('-', $time);
+        $time_second = date("H:i:s", time());
+        $vs = explode(':', $time_second);
+        $parts_order_number = "ZS" . $v[0] . $v[1] . $v[2] . $vs[0] . $vs[1] . $vs[2] . ($member_id + 1001); //订单编号
+        //查询商品详情
+        $member = Member::detail($member_id);
+        $this->startTrans();
+        try {
+            $add_ata = [
+                'parts_order_number' => $parts_order_number,
+                'parts_goods_name' => $house_order['parts_goods_name'],    //商品名
+                'goods_image' => $house_order['goods_image'],   //商品图片
+                'goods_standard' => $house_order['goods_standard'],  //商品规格
+                'goods_describe' => $house_order['goods_describe'],  //分享描述
+                'order_quantity' => $code_data['give_number'],       //送存数量
+                'harvest_phone_num' =>$house_order['harvest_phone_num'],
+                'harvester_address' => $house_order['harvester_address'],
+                'member_id' => $member_id,
+                'goods_money' => $house_order['goods_money'],       //商品价格
+                'user_account_name' => $member['member_name'],       
+                'user_phone_number' => $member['member_phone_num'],
+                'order_create_time' => time(),
+                'goods_id' => $house_order['goods_id'],
+                'store_house_id' => $house_order['store_house_id'],
+                'store_name' => $house_order['store_name'],
+                'store_unit' => $code_data['lowest_unit'],
+                'store_number' => $code_data['string_number'],
+                'end_time' => $house_order['end_time'],
+                'status' => 4, //已入仓
+                'coupon_type' => 1, //普通商品
+                'store_id' => $house_order['store_id'],
+                'pay_time' => time(),
+                'member_share_code' => $code_data['id']
+            ];
+            $rest = $this->save($add_ata);
+            $rest_bool = Db::name('share_order')->where('id','=',$code_data['id'])->update(['accept_id'=>$member_id,'status'=>1]);
+            if($rest && $rest_bool){
+                //更新原仓储订单
+                $out_number = intval($code_data['lowest'] - $code_data['give_number']);
+                if($out_number == 0) {
+                    $restules = Db::name('house_order')->where('id','=',$code_data['order_id'])->delete();
+                }
+                $new_string = (new Storehouses())->getComputeUnit($out_number, $num, $unit);
+                $new_bool = Db::name('house_order')->where('id','=',$code_data['order_id'])->update(['store_number'=>$new_string]);
+            } else {
+                throw new Exception('添加失败');
+            }
+            $this->commit();
+            return true;
+        } catch (\Exception $e) {
+            $this->error = $e->getMessage();
+            halt($this->error);
             $this->rollback();
             return false;
         }

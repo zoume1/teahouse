@@ -13,7 +13,7 @@ class ShareOrder extends Model
      * @return \think\Paginator
      * @throws \think\exception\DbException
      */
-    public function getShareOrder($order_id)
+    public static function getShareOrder($order_id)
     {
         $data = self::get($order_id);
         return $data ? $data : false;
@@ -29,11 +29,10 @@ class ShareOrder extends Model
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    public static function share_add($data)
+    public  function share_add($data)
     {
-        $model = new static;
-        $rest = $model->save($data);
-        return $rest ? $rest->id : false;
+        $rest = $this->save($data);
+        return $rest ? $this->id : false;
         
     }
 
