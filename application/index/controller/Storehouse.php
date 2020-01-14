@@ -716,7 +716,7 @@ class Storehouse extends Controller
     {
         $RESTEL_ZERO = RESTEL_ZERO;
         $remind = '';
-        if($accompany_code_id == RESTEL_ZERO) return RESTEL_ZERO;
+        if($accompany_code_id == RESTEL_ZERO) return ['restatus' => $RESTEL_ZERO ,'remind' => $remind ];
         $setting = AccompanySetting::detail($accompany_code_id);
         if(!$setting) return $RESTEL_ZERO;
         //消费总金额
