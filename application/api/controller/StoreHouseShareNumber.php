@@ -164,8 +164,7 @@ class StoreHouseShareNumber extends Controller
                 $code_data['lowest'] = $lowest;
             }
             if ($code_data['give_number'] > $lowest) return jsonError('该赠茶礼品已被领取完');
-
-            $add_bool = (new HouseOrder())->memberShareAddOrder($house_order, $data['member_id'],$code_data,$house_order['unit'],$house_order['num']);
+            $add_bool = (new HouseOrder())->memberShareAddOrder($house_order, $data['member_id'],$code_data,$house_order['num'],$house_order['unit']);
             //7更新share_order表，生成house_order新定单，更新送存订单数据
             if ($add_bool) {
                 return jsonSuccess('领取赠茶成功');
