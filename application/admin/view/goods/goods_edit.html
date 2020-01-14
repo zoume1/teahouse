@@ -587,7 +587,7 @@
                     <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
                     <span class="danwei">/{$value.monomer}</span>
-                    <span class="bianji" style="color: #20A0FF;cursor:pointer;"> 历史编辑</span>
+                    <span class="bianji" style="color: #20A0FF;cursor:pointer;"  data-id="{$value.id}"> 历史编辑</span>
                     <div class="history">
                         <div class="f_left">
                             <div class="m_right hint_text">编辑日期</div>
@@ -1334,8 +1334,9 @@
             // var bianji = () => {}
             $(".bianji").on('click', function (e) {
                 var goods_id = $(this).data("id");
+                console.log(goods_id)
                 $.ajax({
-                    url:"goodsLinePrice",
+                    url: "{:url('admin/Goods/goodsLinePrice')}",
                     data: {
                         goods_id: goods_id
                     },
