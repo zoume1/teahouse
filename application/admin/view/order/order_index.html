@@ -1387,12 +1387,12 @@
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="container-fluid">';
 					dhtm9 += '<div class="row">';
-					dhtm9 += '<div class=" col-xs-2"><span class="can-span">收货人：</span><span >' + data.data.user_account_name + '</span></div>';
+					dhtm9 += '<div class=" col-xs-3"><span class="can-span">收货人：</span><span >' + data.data.user_account_name + '</span></div>';
 					dhtm9 += '<div class=" col-xs-4"><span class="can-span">订单号：</span><span >' + data.data.parts_order_number + '</span></div>';
-					dhtm9 += '<div class=" col-xs-4"><span class="can-span">下单时间：</span><span >' + timestampToTime2(data.data.order_create_time) + '</span></div>';
+					dhtm9 += '<div class=" col-xs-3"><span class="can-span">下单时间：</span><span >' + timestampToTime2(data.data.order_create_time) + '</span></div>';
 					dhtm9 += '</div>'
 					dhtm9 += '<div class="row">';
-					dhtm9 += '<div class=" col-xs-2"><span class="can-span">买家昵称：</span><span >' + data.data.user_account_name + '</span></div>';
+					dhtm9 += '<div class=" col-xs-3"><span class="can-span">买家昵称：</span><span >' + data.data.user_account_name + '</span></div>';
 					dhtm9 += '<div class=" col-xs-4">';
 					if (data.data.order_type == 1) {
 						dhtm9 += '<span class="can-span">快递单号：</span><span>' + (data.data.courier_number == null ? '--' : data.data.courier_number) + '</span>';
@@ -1402,7 +1402,7 @@
 						dhtm9 += '<span class="can-span">仓储：</span><span>' + data.data.harvester_address + '</span>';
 					}
 					dhtm9 += '</div>';
-					dhtm9 += '<div class=" col-xs-4"><span class="can-span">联系方式：</span><span >' + data.data.user_phone_number + '</span></div>';
+					dhtm9 += '<div class=" col-xs-3"><span class="can-span">联系方式：</span><span >' + data.data.user_phone_number + '</span></div>';
 					dhtm9 += '</div>'
 					dhtm9 += '<div class="row">';
 					dhtm9 += '<div class="col-md-12">';
@@ -1414,42 +1414,6 @@
 						dhtm9 += '<span class="can-span">收货地址：</span><span style="display:inline-block;">' + data.data.harvester_address + '</span>';
 					}
 					dhtm9 += '</div>'
-					// dhtm9 += '<div class="delti">';
-					// dhtm9 += '<div style="margin-right:50px;"><span class="can-span">收货人：</span>';
-					// dhtm9 += '<span style="width:90px;display:inline-block;">' + data.data.user_account_name + '</span></div>';
-					// dhtm9 += '<div style="flex:1;"><span class="can-span">订单号：</span>';
-					// dhtm9 += '<span>' + data.data.parts_order_number + '</span></div>';
-					// dhtm9 += '<div><span class="can-span">下单时间：</span>';
-					// dhtm9 += '<span style="width:170px;display:inline-block;">' + data.data.order_create_time + '</span></div>';
-					// dhtm9 += '</div>';
-					// dhtm9 += '<div class="delti">';
-					// dhtm9 += '<div style="margin-right:50px;"><span class="can-span">买家昵称：</span>';
-					// dhtm9 += '<span style="width:90px;display:inline-block;">' + data.data.user_account_name + '</span></div>';
-					// dhtm9 += '<div style="flex:1;">';
-					// if (data.data.order_type == 1) {
-					// 	dhtm9 += '<span class="can-span">快递单号：</span><span style="width:180px;display:inline-block;">' + data.data.courier_number + '</span>';
-					// } else if (data.data.order_type == 2) {
-					// 	dhtm9 += '<span class="can-span">订单类型：</span><span style="width:180px;display:inline-block;">自提</span>';
-					// } else {
-					// 	dhtm9 += '<span class="can-span">仓储：</span><span style="width:180px;display:inline-block;">' + data.data.harvester_address + '</span>';
-					// }
-					// dhtm9 += '</div>';
-					// dhtm9 += '<div><span class="can-span">订单号：</span>';
-					// dhtm9 += '<span style="width:170px;display:inline-block;">' + data.data.parts_order_number + '</span></div>';
-					// dhtm9 += '</div>';
-					// dhtm9 += '<div class="delti">';
-					// dhtm9 += '<div style="margin-right:50px;"><span class="can-span">联系方式：</span>';
-					// dhtm9 += '<span style="width:90px;display:inline-block;">' + data.data.user_phone_number + '</span></div>';
-					// dhtm9 += '<div style="flex:1;">';
-					// if (data.data.order_type == 1) {
-					// 	dhtm9 += '<span class="can-span">收货地址：</span><span style="display:inline-block;">' + data.data.harvester_address + '</span>';
-					// } else if (data.data.order_type == 2) {
-					// 	dhtm9 += '<span class="can-span">自提地址：</span><span style="display:inline-block;">' + data.data.harvester_address + '</span>';
-					// } else {
-					// 	dhtm9 += '<span class="can-span">收货地址：</span><span style="display:inline-block;">' + data.data.harvester_address + '</span>';
-					// }
-					// dhtm9 += '</div>';
-					// dhtm9 += '<div></div>';
 					dhtm9 += '</div>';
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="popup_content1">';
@@ -1469,7 +1433,7 @@
 					dhtm9 += '<div class="bottom-det">';
 					dhtm9 += '<div><span class="bom-span">订单金额：</span><span>' + data.data.order_amount + '</span></div>';
 					dhtm9 += '<div><span class="bom-span">订单配送费：</span><span>' + (data.data.freight == null ? '--' : data.data.freight) + '</span></div>';
-					dhtm9 += '<div><span class="bom-span">税费：</span><span>' + data.data.receipt_price + '</span></div>';
+					dhtm9 += '<div><span class="bom-span">税费：</span><span>' + (data.data.receipt_price == null ? '0' : data.data.receipt_price) + '</span></div>';
 					dhtm9 += '<div><span class="bom-span">优惠券：</span><span>' + data.data.coupon_deductible + '</span></div>';
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="bottom-det">';

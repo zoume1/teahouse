@@ -283,10 +283,10 @@
     .history {
         border: 1px solid rgb(199, 199, 199);
         padding: 10px;
-        margin-bottom: -120px;
-        margin-left: -60px;
+        /* margin-bottom: -140px;
+        margin-left: -60px; */
         background-color: #fff;
-        position: relative;
+        position: absolute;
         display: none;
     }
 
@@ -587,25 +587,12 @@
                     <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}" lay-verify="title"
                         autocomplete="off" placeholder="请输入" class="layui-input">
                     <span class="danwei">/{$value.monomer}</span>
-                    <span class="bianji" style="color: #20A0FF;cursor:pointer;"> 历史编辑</span>
-                    <div class="history">
-                        <div class="f_left">
-                            <div class="m_right hint_text">编辑日期</div>
-                            <div class="hint_text">划线价格</div>
+                    <span class="bianji" data-id="{$value.id}" style="color: #20A0FF;cursor:pointer;position: relative;">
+                        历史编辑
+                        <div class="history" id="f_top">
+
                         </div>
-                        <div class="f_left">
-                            <div class="hint_main m_right">20190427</div>
-                            <div class="hint_main hint_money"><s>￥30</s></div>
-                        </div>
-                        <div class="f_left">
-                            <div class="hint_main m_right">20190427</div>
-                            <div class="hint_main hint_money"><s>￥30</s></div>
-                        </div>
-                        <div class="f_left">
-                            <div class="hint_main m_right">20190427</div>
-                            <div class="hint_main hint_money"><s>￥30</s></div>
-                        </div>
-                    </div>
+                    </span>
                 </div>
             </div>
             <div class="form-item">
@@ -647,25 +634,12 @@
                     <div class="form-input line">
                         <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}"
                             lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-                        <span class="bianji" style="color: #20A0FF;cursor:pointer;"> 历史编辑</span>
-                        <div class="history">
-                            <div class="f_left">
-                                <div class="m_right hint_text">编辑日期</div>
-                                <div class="hint_text">划线价格</div>
+                        <span class="bianji" data-id="{$value.id}" style="color: #20A0FF;cursor:pointer;position: relative;">
+                            历史编辑
+                            <div class="history" id="f_top">
+
                             </div>
-                            <div class="f_left">
-                                <div class="hint_main m_right">20190427</div>
-                                <div class="hint_main hint_money"><s>￥30</s></div>
-                            </div>
-                            <div class="f_left">
-                                <div class="hint_main m_right">20190427</div>
-                                <div class="hint_main hint_money"><s>￥30</s></div>
-                            </div>
-                            <div class="f_left">
-                                <div class="hint_main m_right">20190427</div>
-                                <div class="hint_main hint_money"><s>￥30</s></div>
-                            </div>
-                        </div>
+                        </span>
                     </div>
                 </div>
                 <div class="form-item">
@@ -703,7 +677,7 @@
                         {volist name="scope" id="val" }
                         <input type="checkbox" name="scope[]" lay-skin="primary" title="{$val['member_grade_name']}"
                             value="{$val['member_grade_name']}" {if
-                            condition="in_array($val['member_grade_name'],$value.scope)" checked='checked'} 
+                            condition="in_array($val['member_grade_name'],$value.scope)" checked='checked' }
                             type="checkbox" name="scope[]" lay-skin="primary" {else} type="checkbox" name="scope[]"
                             lay-skin="primary" {/if}> {/volist} </div> </div> {/if} </div> <div
                             class="form-item general">
@@ -1333,7 +1307,35 @@
             });
             // var bianji = () => {}
             $(".bianji").on('click', function (e) {
-                $(".history").slideToggle();
+                var goods_id = $(this).data("id"), dhtml = '<div class="f_left"><div class="m_right hint_text">编辑日期</div><div class="hint_text">划线价格</div></div>';
+                $.ajax({
+                    url: "{:url('admin/Goods/goodsLinePrice')}",
+                    data: {
+                        goods_id: goods_id
+                    },
+                    type: "POST",
+                    async: false,
+                    success: function (res) {
+                        console.log(res)
+                        $('#f_top').empty();
+                        if (res.code == 1) {
+                            for (let i = 0; i < res.data.length; i++) {
+                                const element = res.data[i];
+                                dhtml += `<div class="f_left">
+                                    <div class="hint_main m_right">${formatDate(res.data[i].creat_time)}</div>
+                                    <div class="hint_main hint_money"><s>￥${res.data[i].goods_line}</s></div>
+                                    </div>`;
+                            }
+                        } else {
+                            dhtml += '<div>暂无数据</div>'
+                        }
+                    },
+                    error: function (e) {
+                        console.error(e)
+                    }
+                })
+                $('#f_top').html(dhtml);
+                $(".history").show();
             })
 
             //  click(function(){
@@ -1341,7 +1343,7 @@
             // });
 
             $(".general_content").on("blur", ".units", function () {
-                id = $(this).data("id");
+                var id = $(this).data("id");
                 if ($(this).data("value") != $(this).val()) {
                     $(".muban").remove();
                 }
@@ -2093,8 +2095,26 @@
                 if (target.closest(".sample-btn").length == 0) {
                     $(".sample").hide();
                 }
+                if (target.closest(".bianji").length == 0) {
+                    $(".history").hide();
+                }
             })
         })
+        function formatDate(inputTime) {
+            var date = new Date(inputTime * 1000);
+            var y = date.getFullYear();
+            var m = date.getMonth() + 1;
+            m = m < 10 ? ('0' + m) : m;
+            var d = date.getDate();
+            d = d < 10 ? ('0' + d) : d;
+            var h = date.getHours();
+            h = h < 10 ? ('0' + h) : h;
+            var minute = date.getMinutes();
+            var second = date.getSeconds();
+            minute = minute < 10 ? ('0' + minute) : minute;
+            second = second < 10 ? ('0' + second) : second;
+            return y + m + d;
+        }
     </script>
 
     {/block}
