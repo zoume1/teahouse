@@ -65,21 +65,21 @@ class StoreHouseShareNumber extends Controller
                     'string_number' => implode(",", $data['string_number']),
                 );
                 $share_id = (new ShareOrder())->share_add($share_data);
-                if (!$share_id) {
-                    throw new Exception('添加失败');
-                }
-                $return_url = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
-                $rest_data = [
-                    'goods_describe' => $order_data['goods_describe'], //商品买点
-                    'parts_goods_name' => $order_data['parts_goods_name'], //商品名称
-                    'store_name' => (new Store())->getStoreName($order_data['store_id']),
-                    'end_time' => strtotime("+3 days"),
-                    'goods_image' => $order_data['goods_image'], //商品图片
-                    'user_account_name' => $order_data['user_account_name'], //用户名
-                    'share_code' => $return_url
-                ];
+                // if (!$share_id) {
+                //     throw new Exception('添加失败');
+                // }
+                // $return_url = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
+                // $rest_data = [
+                //     'goods_describe' => $order_data['goods_describe'], //商品买点
+                //     'parts_goods_name' => $order_data['parts_goods_name'], //商品名称
+                //     'store_name' => (new Store())->getStoreName($order_data['store_id']),
+                //     'end_time' => strtotime("+3 days"),
+                //     'goods_image' => $order_data['goods_image'], //商品图片
+                //     'user_account_name' => $order_data['user_account_name'], //用户名
+                //     'share_code' => $return_url
+                // ];
                 Db::commit();
-                return jsonSuccess('发送成功', $rest_data);
+                return jsonSuccess('发送成功', ['share_order_id' => $share_id]);
             } catch (\Exception $e) {
                 $this->error = $e->getMessage();
                 Db::rollback();
