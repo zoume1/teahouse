@@ -5,7 +5,7 @@
 	body {
 		background: #fff;
 	}
-	
+
 	#page {
 		width: 97%;
 		height: 50px;
@@ -14,27 +14,28 @@
 		padding-left: 50px;
 		background: #FDFDFE;
 	}
-	
+
 	.on {
 		color: #21A5FA !important;
 		border-bottom: solid 3px #21A5FA;
 	}
-	
+
 	.distribution_list {
 		margin-bottom: 10px;
 		border-bottom: solid 1px #D7D7D7;
 	}
-	
+
 	.distribution_list ul {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.distribution_list a {
 		font-size: 14px;
 		padding: 9px;
 		color: #5E5E5E;
 	}
+
 	.static_btus {
 		width: 100px;
 		/* height: 30px; */
@@ -44,8 +45,9 @@
 		color: #fff;
 		margin: 0 auto;
 	}
+
 	/* * 弹窗 */
-	
+
 	.popup {
 		width: 100%;
 		height: 100%;
@@ -58,7 +60,7 @@
 		border: solid 1px #D7D7D7;
 		box-sizing: border-box;
 	}
-	
+
 	.submit_btns {
 		width: 100px;
 		height: 38px;
@@ -66,17 +68,17 @@
 		background: #169BD5;
 		border-radius: 10px;
 	}
-	
+
 	.popup_doms {
 		width: 765px;
 		height: 367px;
 		background: #fff;
 	}
-	
+
 	.popup_content {
 		padding: 20px;
 	}
-	
+
 	.popup_title {
 		height: 40px;
 		line-height: 40px;
@@ -84,60 +86,61 @@
 		background: #EEF7EA;
 		padding-left: 20px;
 	}
-	
+
 	.span {
 		display: inline-block;
 		width: 80px;
 		text-align: left;
 	}
-	
+
 	.repany .layui-input {
 		width: 620px;
 	}
-	
+
 	.repany {
 		margin-bottom: 10px;
 	}
-	
+
 	.operation {
 		display: flex;
 		align-items: center;
 	}
-	
+
 	.chat {
 		height: 210px;
 	}
-	
+
 	.danhao {
 		width: 200px;
 		margin-right: 10px;
 	}
-	
+
 	.operation select {
 		width: 130px;
 		height: 40px;
 		border-color: #ABADB3;
 		color: #000;
 	}
-	
+
 	.operation div {
 		margin-right: 10px;
 	}
-	
+
 	.noshow {
 		display: none;
 	}
-	
+
 	.popup_title {
 		position: relative;
 	}
-	
+
 	.popup_x {
 		width: 25px;
 		position: absolute;
 		right: 12px;
 		top: -4px;
 	}
+
 	/* * 弹窗end */
 </style> {/block}
 
@@ -148,50 +151,61 @@
 				<div class="popup_x"> <img src="__STATIC__/admin/index/img/X.png" /> </div>
 			</div>
 			<div class="popup_content">
-				<div class="repany"> <span class="span">官方回复</span> <input type="text" name="" lay-verify="title" autocomplete="off" placeholder="请输入处理备注" class="layui-input"> </div>
+				<div class="repany"> <span class="span">官方回复</span> <input type="text" name="" lay-verify="title"
+						autocomplete="off" placeholder="请输入处理备注" class="layui-input"> </div>
 				<div class="chat">
 					<div class="chat_list"> <span class="span">20180811</span> <span>官方备注已用户要求高可顺非邮寄</span> </div>
 				</div>
-				<div class="operation"> <button type="button" class="submit_btns">审核不通过</button> <button type="button" class="submit_btns">审核通过</button> </div>
+				<div class="operation"> <button type="button" class="submit_btns">审核不通过</button> <button type="button"
+						class="submit_btns">审核通过</button> </div>
 			</div>
 		</div>
 	</div>
 	<div class="childrenBody">
 		{include file="template/_top" /}
 		<!--<div class="distribution_list">-->
-			<!--<ul>-->
-				<!--<li>-->
-					<!--<a href="recharge_application"  style="text-decoration:none;"   >微信提现</a>-->
-				<!--</li>-->
-				<!--<li>-->
-					<!--<a href="withdrawal_application"   style="text-decoration:none;"   class="on">银行卡提现</a>-->
-				<!--</li>-->
-				<!--<li>-->
-					 <!--<a href="withdrawal_setting"   style="text-decoration:none;">提现设置</a>-->
-				 <!--</li>-->
-			<!--</ul>-->
+		<!--<ul>-->
+		<!--<li>-->
+		<!--<a href="recharge_application"  style="text-decoration:none;"   >微信提现</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="withdrawal_application"   style="text-decoration:none;"   class="on">银行卡提现</a>-->
+		<!--</li>-->
+		<!--<li>-->
+		<!--<a href="withdrawal_setting"   style="text-decoration:none;">提现设置</a>-->
+		<!--</li>-->
+		<!--</ul>-->
 		<!--</div>-->
 		<blockquote class="layui-elem-quote news_search">
 			<form class="layui-form" action="{:url('admin/User/withdrawal_application_search')}">
 				<div class="seach">
 					<div class="seach_list">
+						<div class="seach_laber">申请时间</div>
+						<div class="seach_input"> <span class="time"><input name="date_min" type="text"
+									class="text datetimepicker layui-input" placeholder="年/月/日" readonly="readonly" id="beginTime" value="">
+							</span> </div>
+					</div>
+					<div>~</div>
+					<div class="seach_list">
+						<!-- <div class="seach_laber">结束时间</div> -->
+						<div class="seach_input"> <span class="time"><input name="date_max" type="text"
+									class="  text datetimepicker layui-input" placeholder="年/月/日" readonly="readonly" id="endTime"
+									value=""></span> </div>
+					</div>
+					<div class="seach_list">
 						<div class="seach_laber">申请人</div>
-						<div class="seach_input"> <input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="用户名/手机号" class="layui-input"> </div>
+						<div class="seach_input"> <input type="text" name="search_a" lay-verify="title"
+								autocomplete="off" placeholder="用户名/手机号" class="layui-input"> </div>
 					</div>
-					<div class="seach_list">
-						<div class="seach_laber">开始时间</div>
-						<div class="seach_input"> <span class="time"><input name="date_min" type="text"  class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  > </span> </div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">结束时间</div>
-						<div class="seach_input"> <span class="time"><input name="date_max" type="text" class="  text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span> </div>
-					</div> <button class="layui-btn" type="submit" id="seach">立即搜索  </button> </div>
+					<button class="layui-btn" type="submit" id="seach">立即搜索 </button>
+				</div>
 			</form>
 		</blockquote>
 		<div class="layui-form news_list">
 			<table class="layui-table">
 				<colgroup>
-					<col width="3%"> </colgroup>
+					<col width="3%">
+				</colgroup>
 				<thead>
 					<tr>
 						<th><input type="checkbox" sname="" lay-skin="primary" lay-filter="allChoose" id="id"></th>
@@ -209,10 +223,11 @@
 					</tr>
 				</thead>
 				<tbody class="news_content">
-				{if !empty($data)}
-				{volist name="data" id="vo"}
+					{if !empty($data)}
+					{volist name="data" id="vo"}
 					<tr>
-						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}"></td>
+						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
+						</td>
 						<td>{$vo.member_name}</td>
 						<td>{$vo.member_real_name}</td>
 						<td>{$vo.member_wallet}</td>
@@ -231,8 +246,8 @@
 							<div class="static_btus"> {$vo.status|operation_recharge_status}</div>
 						</td>
 					</tr>
-				{/volist}
-				{/if}
+					{/volist}
+					{/if}
 				</tbody>
 			</table>
 			<div id="page">
@@ -242,8 +257,11 @@
 						<option value="1">批量删除</option>
 					</select>
 				</div>
-				<div style="float: left; height: 52px;line-height: 52px; margin-left:  20px;"> <button type="button" id="opration_btu" style="width: 60px;  background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定 </button> </div>
-			{if !empty($data)}
+				<div style="float: left; height: 52px;line-height: 52px; margin-left:  20px;"> <button type="button"
+						id="opration_btu"
+						style="width: 60px;  background: #fff; color: #333333;border:#CCCCCC solid 1px;height: 38px;line-height: 38px;">确定
+					</button> </div>
+				{if !empty($data)}
 				{$listpage}
 				{/if}
 			</div>
@@ -255,7 +273,7 @@
 	<script type="text/javascript">
 		layui.config({
 			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage'], function() {
+		}).use(['form', 'layer', 'jquery', 'laypage'], function () {
 			var form = layui.form(),
 				layer = parent.layer === undefined ? layui.layer : parent.layer,
 				laypage = layui.laypage,
@@ -263,21 +281,21 @@
 			var vals = $("input").data("id");
 			//点击操作确认按钮
 			var data_id = [];
-			$("#opration_btu").click(function() {
+			$("#opration_btu").click(function () {
 				var opration_val = $(".opation select option:selected").val();
-				if(opration_val == 0) {
+				if (opration_val == 0) {
 					layer.alert('请选择操作', {
 						skin: 'layui-layer-molv' //样式类名
-							,
+						,
 						closeBtn: 0
 					});
-				} else if(opration_val == 1) {
+				} else if (opration_val == 1) {
 					layer.confirm('你确认要删除吗？', {
 						btn: ['确认', '取消'] //按钮
-					}, function(index) {
+					}, function (index) {
 						layer.close(index);
 						var child = $("tbody").find('input[type="checkbox"]:not([name="show"]):checked');
-						for(var i = 0; i < child.length; i++) {
+						for (var i = 0; i < child.length; i++) {
 							data_id.push($(child[i])[0].dataset.id);
 						}
 						$.ajax({
@@ -286,23 +304,23 @@
 							data: {
 								"id": data_id,
 							},
-							success: function(data) {
+							success: function (data) {
 								console.log("成功");
 								console.log(data);
 								var data = $.parseJSON(data);
 								layer.alert(data.info, {
 									skin: 'layui-layer-molv' //样式类名
-										,
+									,
 									closeBtn: 0
 								});
 								location.reload();
 								data_id.splice(0, data_id.length);
 							},
-							error: function(data) {
+							error: function (data) {
 								var data = $.parseJSON(data);
 								layer.alert(data.info, {
 									skin: 'layui-layer-molv' //样式类名
-										,
+									,
 									closeBtn: 0
 								});
 								console.log(data);
@@ -317,19 +335,19 @@
 			});
 
 			//全选
-			form.on('checkbox(allChoose)', function(data) {
+			form.on('checkbox(allChoose)', function (data) {
 				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
-				child.each(function(index, item) {
+				child.each(function (index, item) {
 					item.checked = data.elem.checked;
 				});
 				form.render('checkbox');
 			});
 
 			//通过判断文章是否全部选中来确定全选按钮是否选中
-			form.on("checkbox(choose)", function(data) {
+			form.on("checkbox(choose)", function (data) {
 				var child = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"])');
 				var childChecked = $(data.elem).parents('table').find('tbody input[type="checkbox"]:not([name="show"]):checked')
-				if(childChecked.length == child.length) {
+				if (childChecked.length == child.length) {
 					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = true;
 				} else {
 					$(data.elem).parents('table').find('thead input#allChoose').get(0).checked = false;
@@ -337,8 +355,8 @@
 				form.render('checkbox');
 			})
 
-			form.on('switch(isShow)', function(data) {
-				if($(this).val() == 0) {
+			form.on('switch(isShow)', function (data) {
+				if ($(this).val() == 0) {
 					$(this).val(1);
 				} else {
 					$(this).val(0);
@@ -353,23 +371,24 @@
 						"id": id,
 						"status": status
 					},
-					success: function(data) {
+					success: function (data) {
 						console.log("成功")
 					},
-					error: function(data) {
+					error: function (data) {
 						console.log("错误")
 					}
 				});
 
 			})
 		})
-		$(".static_btus").click(function(){
+		$(".static_btus").click(function () {
 			$(".popup_two").removeClass("noshow");
 		});
-			$(".popup_x").click(function(){
+		$(".popup_x").click(function () {
 			$(".popup_two").addClass("noshow");
 		});
 	</script>
-	{/block} </body>
+	{/block}
+</body>
 
 </html>

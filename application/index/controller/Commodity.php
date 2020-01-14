@@ -530,23 +530,14 @@ class Commodity extends Controller
         //包邮则为0
 
         $goods = Db::name('goods')->where('id',$goods_id)->find();
-        if(empty($goods['templet_name']) && $goods['templet_id']){
-            $templet_name = explode(',',$$goods['templet_name']);
-            $templet_id  = explode(',',$goods['templet_id']);
-            //普通
-            if($goods['goods_standard'] == 0){
-                $key = array_search($goods['monomer'],$templet_name);
-                $franking = Db::name('express')->where('id',$templet_id[$key])->value('price');
-                return $franking;
-            } else {
-                //特殊
-                $offer = Db::name('special')->where('goods_id',$goods_id)->value('offer');
-                $key = array_search($offer,$templet_name);
-                $franking = Db::name('express')->where('id',$templet_id[$key])->value('price');
-                return $franking;              
-            }
+        if(!empty($goods['templet_name']) && !$goods['templet_id'] && $goods['goods_franking'] == 0){
+            $franking = -1;
+        } elseif(empty($goods['templet_name']) && $goods['templet_id'] && $goods['goods_franking'] == 0){
+            $franking = 0;
+        } else {
+            $franking = $goods['franking'];
         }
-        $franking = $goods['goods_franking'];
+       
         return $franking;
     }
     
