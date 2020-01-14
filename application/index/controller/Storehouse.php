@@ -53,7 +53,7 @@ class Storehouse extends Controller
                 if (!empty($depot)) {
                     foreach ($depot as $key => $value) {
                         $house_order[$key] = Db::table("tb_house_order")
-                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
+                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,accompany_code_id,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
                             ->join("tb_goods", "tb_house_order.goods_id = tb_goods.id", 'right')
                             ->join("tb_store_house", " tb_store_house.id = tb_house_order.store_house_id", 'left')
                             ->join("tb_wares", "tb_wares.id = tb_goods.pid", 'left')
@@ -87,6 +87,10 @@ class Storehouse extends Controller
                                 $house_order[$i][$zt]['goods_bottom_money'] = $special['line'];
                                 $house_order[$i][$zt]['num'] = $special['num'];
                             }
+
+                            $res = $this->is_locking($house_order[$i][$zt]["member_id"], $house_order[$i][$zt]["accompany_code_id"]);
+                            $house_order[$i][$zt]['restatus'] = $res['restatus'];
+                            $house_order[$i][$zt]['remind'] = $special['remind'];
                         }
                     }
 
@@ -711,6 +715,7 @@ class Storehouse extends Controller
     public function is_locking($member_id, $accompany_code_id)
     {
         $RESTEL_ZERO = RESTEL_ZERO;
+        $remind = '';
         if($accompany_code_id == RESTEL_ZERO) return RESTEL_ZERO;
         $setting = AccompanySetting::detail($accompany_code_id);
         if(!$setting) return $RESTEL_ZERO;
@@ -732,25 +737,34 @@ class Storehouse extends Controller
             case RESTEL_ONE:
                 if($all_money > $setting['min_price']){
                     $RESTEL_ZERO = RESTEL_ONE;
+                } else {
+                    $money =$setting['min_price'] - $all_money;
+                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
                 }
             break;
             case RESTEL_TWO:
                 if($consume > $setting['min_number']){
                     $RESTEL_ZERO = RESTEL_ONE;
+                } else {
+                    $number = $setting['min_number'] - $consume;
+                    $remind = "您的消费次数低于出仓限制购买次数，您还需消费.$number.次";
                 }
             break;
             case RESTEL_THREE:
                 if($consume > $setting['min_number'] && $all_money > $setting['min_price']){
                     $RESTEL_ZERO = RESTEL_ONE;
+                } elseif ($consume > $setting['min_number'] && $all_money < $setting['min_price']){
+                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
+                } elseif($consume < $setting['min_number'] && $all_money > $setting['min_price']){
+                    $remind = "您的消费次数低于出仓限制购买次数，您还需消费.$number.次";
+                } else {
+                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
                 }
             break;
             default:
             break;
-
-
-
         }
-
+        return ['restatus' => $RESTEL_ZERO ,'remind' => $remind ];
 
     }
 }
