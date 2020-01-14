@@ -1670,7 +1670,7 @@ class Goods extends Controller
      */    
     public function goodsLinePrice(Request $request){     
         if($request->isPost()){
-            $id = $request->only(["id"])["id"];
+            $id = $request->only(["goods_id"])["goods_id"];
             $bool = Db::name('update_line')->where('goods_id'.'=',$id)->select();
             if($bool){
                 return jsonSuccess('发送成功',$bool);
