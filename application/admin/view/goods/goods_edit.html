@@ -648,7 +648,7 @@
                     <div class="form-input line">
                         <input type="text" name="goods_bottom_money" value="{$value.goods_bottom_money}"
                             lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input">
-                        <span class="bianji" style="color: #20A0FF;cursor:pointer;"> 历史编辑</span>
+                        <span class="bianji" data-id="{$value.id}" style="color: #20A0FF;cursor:pointer;"> 历史编辑</span>
                         <div class="history">
                             <div class="f_left">
                                 <div class="m_right hint_text">编辑日期</div>
@@ -1334,6 +1334,20 @@
             });
             // var bianji = () => {}
             $(".bianji").on('click', function (e) {
+                var goods_id = $(this).data("id");
+                $.ajax({
+                    url:"Goods/goodsLinePrice",
+                    data: {
+                        goods_id: goods_id
+                    },
+                    type: "POST",
+                    success: function(res) {
+                        console.log(res)
+                    },
+                    error: function(e) {
+                        console.error(e)
+                    }
+                })
                 $(".history").slideToggle();
             })
 
@@ -1342,7 +1356,7 @@
             // });
 
             $(".general_content").on("blur", ".units", function () {
-                id = $(this).data("id");
+                var id = $(this).data("id");
                 if ($(this).data("value") != $(this).val()) {
                     $(".muban").remove();
                 }

@@ -194,26 +194,26 @@
 			<form class="layui-form" action="{:url('admin/User/recharge_application_search')}">
 				<div class="seach">
 					<div class="seach_list">
+						<div class="seach_laber">申请时间</div>
+						<div class="seach_input">
+							<span class="time"><input name="date_min" type="text" class="text datetimepicker layui-input" placeholder="年/月/日" readonly="readonly" id="beginTime" value=""  >
+							</span>
+						</div>
+					</div>
+					<span class="tips">~</span>
+					<div class="seach_list">
+						<div class="seach_input">
+							<span class="time"><input  name="date_max" type="text" class=" text datetimepicker layui-input" placeholder="年/月/日" readonly="readonly" id="endTime" value=""  ></span>
+
+						</div>
+					</div>
+					<div class="seach_list">
 						<div class="seach_laber">申请人</div>
 						<div class="seach_input">
 							<input type="text" name="search_a" lay-verify="title" autocomplete="off" placeholder="用户名/手机号" class="layui-input">
 						</div>
 					</div>
 				
-					<div class="seach_list">
-						<div class="seach_laber">开始时间</div>
-						<div class="seach_input">
-							<span class="time"><input name="date_min" type="text" class="text datetimepicker layui-input" readonly="readonly" id="beginTime" value=""  >
-							</span>
-						</div>
-					</div>
-					<div class="seach_list">
-						<div class="seach_laber">结束时间</div>
-						<div class="seach_input">
-							<span class="time"><input  name="date_max" type="text" class=" text datetimepicker layui-input" readonly="readonly" id="endTime" value=""  ></span>
-
-						</div>
-					</div>
 
 					<button class="layui-btn" type="submit" id="seach">立即搜索</button>
 				</div>
