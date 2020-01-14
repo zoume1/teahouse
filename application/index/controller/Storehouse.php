@@ -710,8 +710,47 @@ class Storehouse extends Controller
      */
     public function is_locking($member_id, $accompany_code_id)
     {
+        $RESTEL_ZERO = RESTEL_ZERO;
         if($accompany_code_id == RESTEL_ZERO) return RESTEL_ZERO;
-        // $setting = 
+        $setting = AccompanySetting::detail($accompany_code_id);
+        if(!$setting) return $RESTEL_ZERO;
+        //消费总金额
+        $all_money = Db::name('order')
+                    ->where('member_id','=',$member_id)
+                    ->where('status','>',1)
+                    ->sum('order_real_pay');
+        //消费次数
+        $consume = Db::name('order')
+                    ->where('member_id','=',$member_id)
+                    ->where('status','>',1)
+                    ->count();
+        switch($setting['status'])
+        {
+            case RESTEL_ZERO:
+                $RESTEL_ZERO = RESTEL_ZERO;
+            break;
+            case RESTEL_ONE:
+                if($all_money > $setting['min_price']){
+                    $RESTEL_ZERO = RESTEL_ONE;
+                }
+            break;
+            case RESTEL_TWO:
+                if($consume > $setting['min_number']){
+                    $RESTEL_ZERO = RESTEL_ONE;
+                }
+            break;
+            case RESTEL_THREE:
+                if($consume > $setting['min_number'] && $all_money > $setting['min_price']){
+                    $RESTEL_ZERO = RESTEL_ONE;
+                }
+            break;
+            default:
+            break;
+
+
+
+        }
+
 
     }
 }
