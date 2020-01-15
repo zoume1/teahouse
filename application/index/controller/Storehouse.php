@@ -53,7 +53,7 @@ class Storehouse extends Controller
                 if (!empty($depot)) {
                     foreach ($depot as $key => $value) {
                         $house_order[$key] = Db::table("tb_house_order")
-                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,accompany_code_id,member_id,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
+                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,accompany_code_id,member_share_code,member_id,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
                             ->join("tb_goods", "tb_house_order.goods_id = tb_goods.id", 'right')
                             ->join("tb_store_house", " tb_store_house.id = tb_house_order.store_house_id", 'left')
                             ->join("tb_wares", "tb_wares.id = tb_goods.pid", 'left')
@@ -89,6 +89,11 @@ class Storehouse extends Controller
                             }
 
                             $res = $this->is_locking($house_order[$i][$zt]["member_id"], $house_order[$i][$zt]["accompany_code_id"]);
+                           if(!empty($house_order[$i][$zt]["accompany_code_id"]) || !empty($house_order[$i][$zt]["member_share_code"])){
+                            $house_order[$i][$zt]['friend_status'] = 1;
+                           } else {
+                            $house_order[$i][$zt]['friend_status'] = 0;
+                           }
                             $house_order[$i][$zt]['restatus'] = $res['restatus'];
                             $house_order[$i][$zt]['remind'] = $res['remind'];
                         }
