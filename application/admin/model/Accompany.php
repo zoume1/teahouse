@@ -37,8 +37,10 @@ class Accompany extends Model
     {
         $model = new static;
         !empty($search) && $model->setWhere($search);
+        $store_id =  Session :: get('store_id');
         $rest = $model->order(['create_time' => 'desc'])
         ->where('is_del','=',0)
+        ->where('store_id','=',$store_id)
         ->paginate(20, false, [
             'query' => \request()->request()
         ]);
