@@ -18,7 +18,7 @@ class checkLogin extends Controller {
             }
             $user_info = Session::get("user_info");
             $store_id = Session::get('store_id');
-            $store = [77,296];
+            $store = [6,77,296];
             if(in_array($store_id,$store)){
                 $menu_list = db("menu")->where('status','<>',0)->select();
             } else {

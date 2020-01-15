@@ -653,15 +653,16 @@ class StoreHouse extends Controller{
                     ->where("store_id","EQ",$store_id)
                     ->where("status",">",1)
                     ->where("accompany_code_id","<>",0)
+                    ->whereOr("member_share_code","<>",0)
                     ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
+                    ->order('id desc')
                     ->select();
-
         foreach($store_order as $key => $value){
             $store_order[$key]["store_number"] = str_replace(',', '', $store_order[$key]["store_number"]);
             $store_order[$key]["store_name"] = db("store_house")->where("id",$store_order[$key]["store_house_id"])->value('name');
         }    
 
-        $url = 'admin/StoreHouse/stores_divergence';
+        $url = 'admin/StoreHouse/store_accompany_index';
         $pag_number = 20;
         $stores_divergence = paging_data($store_order,$url,$pag_number);
         return view("store_accompany_index",["stores_divergence"=>$stores_divergence]);
@@ -684,7 +685,6 @@ class StoreHouse extends Controller{
                 $store_order = db("house_order")
                 ->where("store_id","EQ",$store_id)
                 ->where("status",">",1)
-                ->where("accompany_code_id","<>",0)
                 ->where($condition)
                 ->where($time_condition)
                 ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
@@ -712,7 +712,6 @@ class StoreHouse extends Controller{
             } elseif(empty($timemin) && empty($timemax)){
                 $store_order = db("house_order")
                 ->where("store_id","EQ",$store_id)
-                ->where("accompany_code_id","<>",0)
                 ->where("status",">",1)
                 ->where($condition)
                 ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
@@ -734,7 +733,7 @@ class StoreHouse extends Controller{
                 $time_condition  = "order_create_time < {$timemax}";
                 $store_order = db("house_order")
                 ->where("store_id","EQ",$store_id)
-                ->where("accompany_code_id","<>",0)
+                // ->where("accompany_code_id","<>",0)
                 ->where("status",">",1)
                 ->where($time_condition)
                 ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
@@ -751,7 +750,7 @@ class StoreHouse extends Controller{
             } elseif(empty($timemin) && empty($timemax)){
                 $store_order = db("house_order")
                 ->where("store_id","EQ",$store_id)
-                ->where("accompany_code_id","<>",0)
+                // ->where("accompany_code_id","<>",0)
                 ->where("status",">",1)
                 ->field("id,parts_order_number,user_phone_number,parts_goods_name,user_account_name,store_name,store_number,order_create_time,end_time,store_house_id")
                 ->select();
