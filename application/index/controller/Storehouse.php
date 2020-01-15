@@ -635,7 +635,7 @@ class Storehouse extends Controller
         if ($goods['goods_franking'] != RESTEL_ZERO) {
             $datas["collect"] = $goods["goods_franking"]; //统一邮费
             $datas["markup"] = RESTEL_ZERO; //统一邮费
-            $out_price = sprintf("%.2f", $data['out_number'] * $datas["collect"]);
+            $out_price = $goods["goods_franking"];
         } elseif ($goods["goods_franking"] == RESTEL_ZERO && !empty($goods["templet_name"])  && !empty($goods["templet_id"])) {
             $templet_name = explode(",", $goods["templet_name"]);
             $templet_id = explode(",", $goods["templet_id"]);
