@@ -288,6 +288,9 @@
         background-color: #fff;
         position: absolute;
         display: none;
+        height: 170px;
+        z-index: 999;
+        overflow-y: scroll;
     }
 
     .m_right {
@@ -2113,7 +2116,7 @@
             var second = date.getSeconds();
             minute = minute < 10 ? ('0' + minute) : minute;
             second = second < 10 ? ('0' + second) : second;
-            return y + m + d;
+            return y.toString() + m.toString() + d.toString();
         }
     </script>
 
