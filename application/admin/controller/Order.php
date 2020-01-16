@@ -178,6 +178,10 @@ class  Order extends  Controller
                     $data['share_code'] = db("store")->where("id", $data['store_id'])->value('share_code');
                     $data['phone_number'] = db("store")->where("id", $data['store_id'])->value('phone_number');
                     $data['applet_code']=$re;
+                    //获取店铺默认地址
+                    $info=db('pc_store_address')->where(['store_id'=>$store_id,'default'=>1])->field('street,phone')->find();
+                    $data['street']=$info['street'];
+                    $data['phone_number']=$info['phone'];
                     return ajax_success("数据返回成功", $data);
                 } else {
                     return ajax_error("没有数据信息", ["status" => 0]);

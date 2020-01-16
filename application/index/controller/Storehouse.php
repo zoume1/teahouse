@@ -140,6 +140,8 @@ class Storehouse extends Controller
                 $depot  = Db::name("house_order")
                     ->where(["store_id" => $data['uniacid'], "member_id" => $data['member_id']])
                     ->where("status", '>', 1)
+                    ->where("accompany_code_id", '=', 0)
+                    ->where("member_share_code", '=', 0)
                     ->sum("order_quantity * goods_money");
 
                 $depot_value = round($depot, 2);

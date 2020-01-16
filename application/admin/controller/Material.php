@@ -608,6 +608,10 @@ class  Material extends  Controller{
         //获取商品的list
         $store_id = Session::get('store_id');
         $rr=db('anti_goods')->where('store_id',$store_id)->select();
+        foreach($rr as $k=>$v){
+            //获取商品id
+            $rr[$k]['goods_id']=db('goods')->where('goods_number',$v['goods_number'])->value('id');
+        }
         //获取会员范围
         $scope = db("member_grade")->where("store_id","EQ",$store_id)->field("member_grade_name")->select();
         return view("anti_fake",['data'=>$rr,'scope'=>$scope]);
