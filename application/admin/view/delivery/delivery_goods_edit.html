@@ -51,6 +51,18 @@
 				<div class="form-item " style=" flex-direction:column;">
 					<div class="form-input">
 						<div class="form-item">
+							<label class="form-label"><span class="red">*</span>指定地区</label>
+							<div class="form-input">
+								<select name="are" id="city" xm-select-show-count="1" xm-select="city"
+									multiple="multiple">
+									<option value="">请选择</option>
+								</select>
+								<div class="tips">*制定地区特指一些偏远地域，一般只有西藏、新疆</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-input">
+						<div class="form-item">
 							<label class="form-label"><span class="red">*</span>首费(元/单位)</label>
 							<div class="form-input">
 								<input type="text" name="price" value="{$value.price}" lay-verify="title"
@@ -67,17 +79,8 @@
 							</div>
 						</div>
 					</div>
-					<div class="form-input">
-						<div class="form-item">
-							<label class="form-label"><span class="red">*</span>指定地区</label>
-							<div class="form-input">
-								<select name="are" id="city" xm-select-show-count="1" xm-select="city"
-									multiple="multiple">
-									<option value="">请选择</option>
-								</select>
-							</div>
-						</div>
-					</div>
+
+					<div class="form-title">除以上指定地区外的，统一称为其他地区 </div>
 					<div class="form-input">
 						<div class="form-item">
 							<label class="form-label"><span class="red">*</span> 其他地区：</label>
