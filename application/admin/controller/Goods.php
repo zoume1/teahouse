@@ -1664,4 +1664,19 @@ class Goods extends Controller
     public function exclusive_edit(){     
         return view("exclusive_edit");
     }
+    /**
+     * [商品历史划线价]
+     * 郭杨
+     */    
+    public function goodsLinePrice(Request $request){     
+        if($request->isPost()){
+            $id = $request->only(["goods_id"])["goods_id"];
+            $bool = Db::name('update_line')->where('goods_id','=',$id)->select();
+            if($bool){
+                return jsonSuccess('发送成功',$bool);
+            } else {
+                return jsonError('暂无编辑记录');
+            }
+        }
+    }
 }

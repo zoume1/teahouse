@@ -13,6 +13,7 @@ use think\Validate;
 use app\admin\model\ShareOrder;
 use app\index\controller\Storehouse;
 
+
 const RESTEL_ZERO = 0;
 const RESTEL_ONE = 1;
 const RESTEL_TWO = 2;
@@ -64,21 +65,21 @@ class StoreHouseShareNumber extends Controller
                     'string_number' => implode(",", $data['string_number']),
                 );
                 $share_id = (new ShareOrder())->share_add($share_data);
-                if (!$share_id) {
-                    throw new Exception('添加失败');
-                }
-                $return_url = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
-                $rest_data = [
-                    'goods_describe' => $order_data['goods_describe'], //商品买点
-                    'parts_goods_name' => $order_data['parts_goods_name'], //商品名称
-                    'store_name' => (new Store())->getStoreName($order_data['store_id']),
-                    'end_time' => strtotime("+3 days"),
-                    'goods_image' => $order_data['goods_image'], //商品图片
-                    'user_account_name' => $order_data['user_account_name'], //用户名
-                    'share_code' => $return_url
-                ];
+                // if (!$share_id) {
+                //     throw new Exception('添加失败');
+                // }
+                // $return_url = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
+                // $rest_data = [
+                //     'goods_describe' => $order_data['goods_describe'], //商品买点
+                //     'parts_goods_name' => $order_data['parts_goods_name'], //商品名称
+                //     'store_name' => (new Store())->getStoreName($order_data['store_id']),
+                //     'end_time' => strtotime("+3 days"),
+                //     'goods_image' => $order_data['goods_image'], //商品图片
+                //     'user_account_name' => $order_data['user_account_name'], //用户名
+                //     'share_code' => $return_url
+                // ];
                 Db::commit();
-                return jsonSuccess('发送成功', $rest_data);
+                return jsonSuccess('发送成功', ['share_order_id' => $share_id]);
             } catch (\Exception $e) {
                 $this->error = $e->getMessage();
                 Db::rollback();
@@ -133,8 +134,8 @@ class StoreHouseShareNumber extends Controller
                     $house_order['unit'] = explode(",", $goods['unit']);
                     $house_order['num'] = explode(",", $goods['num']);
                 } else {
-                    $house_order['unit'] = explode(",", $house_order['unit']);
-                    $house_order['num'] = explode(",", $house_order['num']);
+                    $house_order['unit'] = explode(",", $goods_data['unit']);
+                    $house_order['num'] = explode(",", $goods_data['num']);
                 }
 
                 $house_order["store_number"] = explode(',', $house_order["store_number"]);
@@ -160,10 +161,10 @@ class StoreHouseShareNumber extends Controller
                         break;
                 }
                 $code_data['lowest_unit'] = $lowest_unit;
+                $code_data['lowest'] = $lowest;
             }
             if ($code_data['give_number'] > $lowest) return jsonError('该赠茶礼品已被领取完');
-
-            $add_bool = HouseOrder::memberShareAddOrder($house_order, $data['member_id'], $code_data);
+            $add_bool = (new HouseOrder())->memberShareAddOrder($house_order, $data['member_id'],$code_data,$house_order['num'],$house_order['unit']);
             //7更新share_order表，生成house_order新定单，更新送存订单数据
             if ($add_bool) {
                 return jsonSuccess('领取赠茶成功');

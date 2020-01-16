@@ -13,7 +13,7 @@ class ShareOrder extends Model
      * @return \think\Paginator
      * @throws \think\exception\DbException
      */
-    public function getShareOrder($order_id)
+    public static function getShareOrder($order_id)
     {
         $data = self::get($order_id);
         return $data ? $data : false;

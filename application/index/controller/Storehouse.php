@@ -16,6 +16,7 @@ use think\Request;
 use think\Validate;
 use think\Image;
 use app\api\model\UpdateLine;
+use app\admin\model\AccompanySetting;
 
 const RESTEL_ZERO = 0;
 const RESTEL_ONE = 1;
@@ -52,7 +53,7 @@ class Storehouse extends Controller
                 if (!empty($depot)) {
                     foreach ($depot as $key => $value) {
                         $house_order[$key] = Db::table("tb_house_order")
-                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
+                            ->field("tb_house_order.id,store_unit,store_house_id,pay_time,accompany_code_id,member_share_code,member_id,goods_image,special_id,goods_id,end_time,goods_money,store_number,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,num,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
                             ->join("tb_goods", "tb_house_order.goods_id = tb_goods.id", 'right')
                             ->join("tb_store_house", " tb_store_house.id = tb_house_order.store_house_id", 'left')
                             ->join("tb_wares", "tb_wares.id = tb_goods.pid", 'left')
@@ -86,6 +87,17 @@ class Storehouse extends Controller
                                 $house_order[$i][$zt]['goods_bottom_money'] = $special['line'];
                                 $house_order[$i][$zt]['num'] = $special['num'];
                             }
+
+                            $res = $this->is_locking($house_order[$i][$zt]["member_id"], $house_order[$i][$zt]["accompany_code_id"]);
+                           if(!empty($house_order[$i][$zt]["accompany_code_id"]) && empty($house_order[$i][$zt]["member_share_code"])){
+                            $house_order[$i][$zt]['friend_status'] = 1;
+                           } elseif(empty($house_order[$i][$zt]["accompany_code_id"]) && !empty($house_order[$i][$zt]["member_share_code"])) {
+                            $house_order[$i][$zt]['friend_status'] = 2;
+                           } else {
+                            $house_order[$i][$zt]['friend_status'] = 0;
+                           }
+                            $house_order[$i][$zt]['restatus'] = $res['restatus'];
+                            $house_order[$i][$zt]['remind'] = $res['remind'];
                         }
                     }
 
@@ -128,6 +140,8 @@ class Storehouse extends Controller
                 $depot  = Db::name("house_order")
                     ->where(["store_id" => $data['uniacid'], "member_id" => $data['member_id']])
                     ->where("status", '>', 1)
+                    ->where("accompany_code_id", '=', 0)
+                    ->where("member_share_code", '=', 0)
                     ->sum("order_quantity * goods_money");
 
                 $depot_value = round($depot, 2);
@@ -351,37 +365,12 @@ class Storehouse extends Controller
                             break;
                         case RESTEL_TWO:
                             $lowest_unit = $house_order['unit'][RESTEL_ONE];
-                            // switch ($value_key) {
-                            //     case RESTEL_ZERO:
-                            //         $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_THREE]);
-                            //         break;
-                            //     case RESTEL_ONE:
-                            //         $lowest =  $house_order["store_number"][RESTEL_TWO];
-                            //         break;
-                            //     default:
-                            //         $lowest = 0;
-                            //         break;
-                            // }
                             $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_ONE]) + intval($house_order["store_number"][RESTEL_TWO]);
                             break;
                         case RESTEL_THREE:
                             $lowest_unit = $house_order['unit'][RESTEL_TWO];
                             $Replacement = intval(intval($house_order['num'][RESTEL_TWO]) / intval($house_order['num'][RESTEL_ONE]));
-                            // switch ($value_key) {
-                            //     case RESTEL_ZERO:
-                            //         //换算数量
-                            //         $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
-                            //         break;
-                            //     case RESTEL_ONE:
-                            //         $lowest =  intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
-                            //         break;
-                            //     case RESTEL_TWO:
-                            //         $lowest =  $house_order["store_number"][RESTEL_FOUR];
-                            //         break;
-                            //     default:
-                            $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);;
-                            // break;
-                            // }
+                            $lowest = intval($house_order["store_number"][RESTEL_ZERO]) * intval($house_order['num'][RESTEL_TWO]) + intval($house_order["store_number"][RESTEL_TWO]) * $Replacement + intval($house_order["store_number"][RESTEL_FOUR]);
                             break;
                         default:
                             $lowest = 0;
@@ -655,7 +644,7 @@ class Storehouse extends Controller
         if ($goods['goods_franking'] != RESTEL_ZERO) {
             $datas["collect"] = $goods["goods_franking"]; //统一邮费
             $datas["markup"] = RESTEL_ZERO; //统一邮费
-            $out_price = sprintf("%.2f", $data['out_number'] * $datas["collect"]);
+            $out_price = $goods["goods_franking"];
         } elseif ($goods["goods_franking"] == RESTEL_ZERO && !empty($goods["templet_name"])  && !empty($goods["templet_id"])) {
             $templet_name = explode(",", $goods["templet_name"]);
             $templet_id = explode(",", $goods["templet_id"]);
@@ -724,5 +713,67 @@ class Storehouse extends Controller
             $out_price = RESTEL_ZERO;
         }
         return $out_price;
+    }
+
+    /**
+     * @param int $member_id
+     * @param int  $accompany_code_id
+     * [出仓是否锁定]
+     * @return 成功时返回，其他抛异常
+     */
+    public function is_locking($member_id, $accompany_code_id)
+    {
+        $RESTEL_ZERO = RESTEL_ZERO;
+        $remind = '';
+        if($accompany_code_id == RESTEL_ZERO) return ['restatus' => $RESTEL_ZERO ,'remind' => $remind ];
+        $setting = AccompanySetting::detail($accompany_code_id);
+        if(!$setting) return $RESTEL_ZERO;
+        //消费总金额
+        $all_money = Db::name('order')
+                    ->where('member_id','=',$member_id)
+                    ->where('status','>',1)
+                    ->sum('order_real_pay');
+        //消费次数
+        $consume = Db::name('order')
+                    ->where('member_id','=',$member_id)
+                    ->where('status','>',1)
+                    ->count();
+        switch($setting['status'])
+        {
+            case RESTEL_ZERO:
+                $RESTEL_ZERO = RESTEL_ZERO;
+            break;
+            case RESTEL_ONE:
+                if($all_money > $setting['min_price']){
+                    $RESTEL_ZERO = RESTEL_ONE;
+                } else {
+                    $money =$setting['min_price'] - $all_money;
+                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
+                }
+            break;
+            case RESTEL_TWO:
+                if($consume > $setting['min_number']){
+                    $RESTEL_ZERO = RESTEL_ONE;
+                } else {
+                    $number = $setting['min_number'] - $consume;
+                    $remind = "您的消费次数低于出仓限制购买次数，您还需消费.$number.次";
+                }
+            break;
+            case RESTEL_THREE:
+                if($consume > $setting['min_number'] && $all_money > $setting['min_price']){
+                    $RESTEL_ZERO = RESTEL_ONE;
+                } elseif ($consume > $setting['min_number'] && $all_money < $setting['min_price']){
+                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
+                } elseif($consume < $setting['min_number'] && $all_money > $setting['min_price']){
+                    $remind = "您的消费次数低于出仓限制购买次数，您还需消费.$number.次";
+                } else {
+                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
+                }
+            break;
+            default:
+            break;
+        }
+        return ['restatus' => $RESTEL_ZERO ,'remind' => $remind ];
+
     }
 }
