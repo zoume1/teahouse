@@ -17,6 +17,7 @@ use think\Validate;
 use think\Image;
 use app\api\model\UpdateLine;
 use app\admin\model\AccompanySetting;
+use app\admin\model\AccompanyCode;
 
 const RESTEL_ZERO = 0;
 const RESTEL_ONE = 1;
@@ -726,8 +727,9 @@ class Storehouse extends Controller
         $RESTEL_ZERO = RESTEL_ZERO;
         $remind = '';
         if($accompany_code_id == RESTEL_ZERO) return ['restatus' => $RESTEL_ZERO ,'remind' => $remind ];
-        $setting = AccompanySetting::detail($accompany_code_id);
-        if(!$setting) return $RESTEL_ZERO;
+        $accompany_id = AccompanyCode::detail($accompany_code_id);
+        $setting = AccompanySetting::detail(['accompany_id'=>$accompany_id['accompany_id']]);
+        if(!$setting) return ['restatus' => $RESTEL_ZERO ,'remind' => $remind ];
         //消费总金额
         $all_money = Db::name('order')
                     ->where('member_id','=',$member_id)
@@ -747,27 +749,34 @@ class Storehouse extends Controller
                 if($all_money > $setting['min_price']){
                     $RESTEL_ZERO = RESTEL_ONE;
                 } else {
-                    $money =$setting['min_price'] - $all_money;
-                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
+                    $money = intval($setting['min_price'] - $all_money);
+                    $remind = '您的消费金额低于出仓限制金额，您还需消费'.$money.'元';
                 }
             break;
             case RESTEL_TWO:
                 if($consume > $setting['min_number']){
-                    $RESTEL_ZERO = RESTEL_ONE;
+                    $RESTEL_ZERO = RESTEL_ZERO;
                 } else {
-                    $number = $setting['min_number'] - $consume;
-                    $remind = "您的消费次数低于出仓限制购买次数，您还需消费.$number.次";
+                    $RESTEL_ZERO = RESTEL_ONE;
+                    $number = intval($setting['min_number'] - $consume);
+                    $remind = '您的消费次数低于出仓限制购买次数，您还需消费'.$number.'次';
                 }
             break;
-            case RESTEL_THREE:
-                if($consume > $setting['min_number'] && $all_money > $setting['min_price']){
-                    $RESTEL_ZERO = RESTEL_ONE;
+            case RESTEL_THREE: 
+                if($consume >= $setting['min_number'] && $all_money >= $setting['min_price']){
+                    $RESTEL_ZERO = RESTEL_ZERO;
                 } elseif ($consume > $setting['min_number'] && $all_money < $setting['min_price']){
-                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
+                    $RESTEL_ZERO = RESTEL_ONE;
+                    $money = intval($setting['min_price'] - $all_money);
+                    $remind = '您的消费金额低于出仓限制金额，您还需消费'.$money.'元';
                 } elseif($consume < $setting['min_number'] && $all_money > $setting['min_price']){
-                    $remind = "您的消费次数低于出仓限制购买次数，您还需消费.$number.次";
+                    $RESTEL_ZERO = RESTEL_ONE;
+                    $number = intval($setting['min_number'] - $consume);
+                    $remind = '您的消费次数低于出仓限制购买次数，您还需消费'.$number.'次';
                 } else {
-                    $remind = "您的消费金额低于出仓限制金额，您还需消费.$money.元";
+                    $RESTEL_ZERO = RESTEL_ONE;
+                    $money = intval($setting['min_price'] - $all_money);
+                    $remind = '您的消费金额低于出仓限制金额，您还需消费'.$money.'元';
                 }
             break;
             default:
