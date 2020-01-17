@@ -755,22 +755,26 @@ class Storehouse extends Controller
             break;
             case RESTEL_TWO:
                 if($consume > $setting['min_number']){
-                    $RESTEL_ZERO = RESTEL_ONE;
+                    $RESTEL_ZERO = RESTEL_ZERO;
                 } else {
+                    $RESTEL_ZERO = RESTEL_ONE;
                     $number = $setting['min_number'] - $consume;
                     $remind = '您的消费次数低于出仓限制购买次数，您还需消费'.$number.'次';
                 }
             break;
             case RESTEL_THREE: 
                 if($consume >= $setting['min_number'] && $all_money >= $setting['min_price']){
-                    $RESTEL_ZERO = RESTEL_ONE;
+                    $RESTEL_ZERO = RESTEL_ZERO;
                 } elseif ($consume > $setting['min_number'] && $all_money < $setting['min_price']){
+                    $RESTEL_ZERO = RESTEL_ONE;
                     $money = $setting['min_price'] - $all_money;
                     $remind = '您的消费金额低于出仓限制金额，您还需消费'.$money.'元';
                 } elseif($consume < $setting['min_number'] && $all_money > $setting['min_price']){
+                    $RESTEL_ZERO = RESTEL_ONE;
                     $number = $setting['min_number'] - $consume;
                     $remind = '您的消费次数低于出仓限制购买次数，您还需消费'.$number.'次';
                 } else {
+                    $RESTEL_ZERO = RESTEL_ONE;
                     $money = $setting['min_price'] - $all_money;
                     $remind = '您的消费金额低于出仓限制金额，您还需消费'.$money.'元';
                 }
