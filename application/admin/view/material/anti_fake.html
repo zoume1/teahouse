@@ -345,7 +345,7 @@
                                 autocomplete="off" placeholder="请输入" class="layui-input">
                             <!-- <span class="change_danwei">修改单位</span> -->
                             <span class="danwei">/片</span>
-                            <input type="hidden" name="monomer" value="片" class="monomer">
+                            <input type="hidden" name="monomer" value="" class="monomer">
 
                             <!-- <select id="unitList" lay-filter="unitList" style="display: none;">
                                     <option value=""></option>
@@ -562,9 +562,11 @@
                                             style="color: rgb(10,135,255);">芯片详情</a>
                                     </div>
                                     {if $vo.is_create_good=='1'}
-                                    <div class="complete">已生成商品</div>
+                                    <!-- <div class="complete">已生成商品</div> -->
+                                    <a  class="complete" href="{:url('admin/Goods/edit',['id'=>$vo.goods_id])}"
+                                        style="color: rgb(10,135,255);">已生成商品</a>
                                     {else}
-                                    <div class="unfinished" data-id="{$vo.id}">未生成商品</div>
+                                    <div class="unfinished" data-id="{$vo.id}" data-unit="{$vo.unit}">未生成商品</div>
                                     {/if}
                                 </div>
                             </td>
@@ -640,7 +642,14 @@
             })
             $(".unfinished").click(function () {
                 let id = $(this).data("id");
+                let unit = $(this).data("unit");
                 $('input[name="id"]').val(id);
+                $('input[name="monomer"]').val(unit);
+                var list=$('.danwei');
+                $.each(list,function(index,el){
+                   $(el).text('/'+unit);
+                    // el.eq(index).val(unit);
+                })
                 $(".popup").removeClass("noshow");
 
             })

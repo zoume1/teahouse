@@ -872,8 +872,8 @@ class Upload extends Controller
             $this->errorLog("获取小程序的第三方提交代码的页面配置失败",$ret);
             return false;
         }
-
     }
+
     /**
      * lilu
      * 获取小程序码
