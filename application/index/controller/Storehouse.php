@@ -202,7 +202,7 @@ class Storehouse extends Controller
                     return ajax_error("获取仓库失败");
                 }
                 $house_order = Db::table("tb_house_order")
-                    ->field("tb_house_order.id,store_name,pay_time,goods_image,special_id,goods_id,end_time,goods_money,store_number,store_unit,tb_goods.date,tb_store_house.number,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name")
+                    ->field("tb_house_order.id,store_name,pay_time,accompany_code_id,member_share_code,member_id,goods_image,special_id,goods_id,end_time,goods_money,store_number,store_unit,tb_goods.date,tb_store_house.number,cost,store_unit,tb_goods.goods_name,brand,goods_bottom_money,tb_wares.name,tb_store_house.unit,tb_store_house.name store_name")
                     ->join("tb_goods", "tb_house_order.goods_id = tb_goods.id", 'right')
                     ->join("tb_store_house", " tb_store_house.id = tb_house_order.store_house_id", 'left')
                     ->join("tb_wares", "tb_wares.id = tb_goods.pid", 'left')
@@ -214,6 +214,10 @@ class Storehouse extends Controller
                 if (!empty($house_order)) {
                     foreach ($house_order as $k => $l) {
                         $house_order[$k]["store_number"] = explode(',', $house_order[$k]["store_number"]);
+                        $house_order[$k]["unit"] = explode(',', $house_order[$k]["unit"]);
+                            $house_order[$k]["cost"] = explode(',', $house_order[$k]["cost"]);
+                            $rest_key = array_search($house_order[$k]["store_unit"], $house_order[$k]["unit"]);
+                            $house_order[$k]["unit_price"] = $house_order[$k]["cost"][$rest_key];
                         if ($time < $house_order[$k]["end_time"]) {
                             $house_order[$k]['limit_time'] = round(($house_order[$k]["end_time"] - $time) / 86400); //剩余天数
                             if ($house_order[$k]['limit_time'] > 30) {
@@ -225,8 +229,21 @@ class Storehouse extends Controller
                             $house_order[$k]['limit_time'] = 2; //已到期
                         }
                         if (!empty($house_order[$k]['special_id'])) {
-                            $house_order[$k]['goods_bottom_money'] = Db::name("special")->where("id", $house_order[$k]['special_id'])->value("line");
+                            $special = Db::name("special")->where("id", $house_order[$k]['special_id'])->find();
+                            $house_order[$k]['goods_bottom_money'] = $special["line"];
+                            $house_order[$k]['num'] = $special['num'];
                         }
+
+                        $res = $this->is_locking($house_order[$k]["member_id"], $house_order[$k]["accompany_code_id"]);
+                        if(!empty($house_order[$k]["accompany_code_id"]) && empty($house_order[$k]["member_share_code"])){
+                         $house_order[$k]['friend_status'] = 1;
+                        } elseif(empty($house_order[$k]["accompany_code_id"]) && !empty($house_order[$k]["member_share_code"])) {
+                         $house_order[$k]['friend_status'] = 2;
+                        } else {
+                         $house_order[$k]['friend_status'] = 0;
+                        }
+                         $house_order[$k]['restatus'] = $res['restatus'];
+                         $house_order[$k]['remind'] = $res['remind'];
                     }
                     $rest_house['name'] = $house_name;
                     $rest_house['getArr'] = $house_order;
