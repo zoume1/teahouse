@@ -237,7 +237,7 @@ class Storehouse extends Controller
                         $res = $this->is_locking($house_order[$k]["member_id"], $house_order[$k]["accompany_code_id"]);
                         if(!empty($house_order[$k]["accompany_code_id"]) && empty($house_order[$k]["member_share_code"])){
                          $house_order[$k]['friend_status'] = 1;
-                        } elseif(empty($house_order[$k]["accompany_code_id"]) && !empty($house_order[$i][$zt]["member_share_code"])) {
+                        } elseif(empty($house_order[$k]["accompany_code_id"]) && !empty($house_order[$k]["member_share_code"])) {
                          $house_order[$k]['friend_status'] = 2;
                         } else {
                          $house_order[$k]['friend_status'] = 0;
