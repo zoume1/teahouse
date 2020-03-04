@@ -448,7 +448,6 @@ function getSelectList($table , $pid = 0 ,&$result = [] , $spac = -4){
 }
 
 
-
 function postSelectList($table , $pid = 0,&$result = [] , $spac = -4){
     $spac += 4;
     $list = db($table)->where(["pid"=>$pid,"status"=>1])->field("name")->select();     //传递条件数组
