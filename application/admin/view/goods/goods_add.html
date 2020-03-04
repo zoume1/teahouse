@@ -1803,7 +1803,7 @@
                             // str += '<option>' + v.value + '</option>';
                             str1 += `<input type="radio" name="unitlist" value="${i}" title="${v.value}" lay-filter="unit">`
                         })
-                        var htmls = '<div class="tips" style="margin-left: 102px">必选项，商品报价单位非常重要，请选择！</div>';
+                        var htmls = '<div class="tips" style="margin-left: 102px">当设置了包装规格后，此处将选择报价单位</div>';
                         $('#unitList').html(str1);
                         $('#isTips').html(htmls);
                         form.render();
