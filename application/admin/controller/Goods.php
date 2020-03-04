@@ -110,6 +110,8 @@ class Goods extends Controller
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
             $goods_data = $request->param();
+            unset($goods_data['unitlist']);
+
             // $show_images = $request->file("goods_show_images");
            //测试七牛上传图片
            $qiniu=new Qiniu();
