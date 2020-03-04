@@ -711,13 +711,15 @@
             </div>
             <div class="form-item">
                 <label class="form-label"><span class="red">*</span>商品报价单位</label>
-                <div class="form-input line" style="margin-bottom: 5px;">
+                <div class="form-input line" id="unitList" style="margin-bottom: 5px;">
                     <span class="change_danwei">修改报价单位</span>
-                    <select id="unitList" lay-filter="unitList" style="display: none;">
+                    <!-- <select id="unitList" lay-filter="unitList" style="display: none;">
                         <option value=""></option>
-                    </select>
+                    </select> -->
+
                 </div>
             </div>
+            <div id="isTips"></div>
             <div class="form-item">
                 <label class="form-label"><span class="red"></span>商品售价</label>
                 <div class="form-input line">
@@ -741,7 +743,7 @@
                     <span class="danwei">/片</span>
                     <span href="" class="tan" data-id="__STATIC__/admin/common/img/u27291.png" style="color: #0E90D2;">
                         查看示例</span>
-                    
+
 
                 </div>
 
@@ -1679,11 +1681,13 @@
                         $('input[name="unit[]"]').blur(function (e) {
                             if (e.target.value) {
                                 $('#unitList').next().show().add('.change_danwei').hide();
-                                var str = '<option value=""></option>';
+                                var str = '<option value=""></option>',
+                                    str1 = '';
                                 $('input[name="unit[]"]').each(function (i, v) {
-                                    str += '<option>' + v.value + '</option>';
+                                    // str += '<option>' + v.value + '</option>';
+                                    str1 += `<input type="radio" name="unitlist" value="${i}" title="${v.value}" lay-filter="unit">`
                                 })
-                                $('#unitList').html(str);
+                                $('#unitList').html(str1);
                                 form.render();
                             }
                         })
@@ -1794,21 +1798,27 @@
                     if (e.target.value) {
                         $('#unitList').next().show().add('.change_danwei').hide();
                         var str = '<option value=""></option>';
+                        str1 = '';
                         $('input[name="unit[]"]').each(function (i, v) {
-                            str += '<option>' + v.value + '</option>';
+                            // str += '<option>' + v.value + '</option>';
+                            str1 += `<input type="radio" name="unitlist" value="${i}" title="${v.value}" lay-filter="unit">`
                         })
-                        var htmls = '<span class="tips">必选项，商品报价单位非常重要，请选择！</span>';
-                        $('#unitList').html(str);
-                        $('#unitList').after(htmls);
+                        var htmls = '<div class="tips" style="margin-left: 102px">当设置了包装规格后，此处将选择报价单位</div>';
+                        $('#unitList').html(str1);
+                        $('#isTips').html(htmls);
                         form.render();
                     } else {
                         $('.change_danwei').show().siblings('.layui-form-select').hide();
                     }
                 })
                 // 选择单位
-                form.on('select(unitList)', function (data) {
-                    $(".danwei").html("/" + data.value);
-                    $(".monomer").val(data.value);
+                // form.on('select(unitList)', function (data) {
+                form.on('radio(unit)', function (data) {
+                    console.log(data.elem.title)
+                    $(".danwei").html("/" + data.elem.title);
+                    $(".monomer").val(data.elem.title);
+                    // $(".danwei").html("/" + data.value);
+                    // $(".monomer").val(data.value);
                 })
             });
         $(".general-kuang").on('focus', ".coding", function () {
