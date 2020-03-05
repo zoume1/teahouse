@@ -46,18 +46,18 @@ class Admin extends Controller
      */
     public function add(){
         $store_id = Session::get("store_id");
-        if(!empty($store_id)){
-            $roles = db("role")
-                ->where("store_id",$store_id)
-                ->where("status","1")
-                ->field("id,name")
-                ->select();
-            $roleList = db("role")->where("store_id",$store_id)->field("id,name")->select();
-        }else{
-            $roles = db("role")->where("status","1")->field("id,name")->select();
-            $roleList = getSelectList("role");
-        }
-        return view("save",["role"=>$roles,"roleList"=>$roleList]);
+        // if(!empty($store_id)){
+        //     $roles = db("role")
+        //         ->where("store_id",$store_id)
+        //         ->where("status","1")
+        //         ->field("id,name")
+        //         ->select();
+        //     $roleList = db("role")->where("store_id",$store_id)->field("id,name")->select();
+        // }else{
+        //     $roles = db("role")->where("status","1")->field("id,name")->select();
+        //     $roleList = getSelectList("role");
+        // }
+        return view("save");
     }
 
     /**
@@ -76,7 +76,7 @@ class Admin extends Controller
         $data["passwd"] = password_hash($data["passwd"],PASSWORD_DEFAULT);
         $data["stime"] = date("Y-m-d H:i:s");
         $data["admin_status"] = 1;
-        $data['role_id'] = 8;
+        $data['role_id'] = 13;
         $boolData = model("Admin")->sSave($data);
         if($boolData){
             $this->redirect("admin/admin/index");
