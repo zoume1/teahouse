@@ -691,22 +691,26 @@
         <div class="nomal">
             <div class="form-item" style="margin-top:15px">
                 <label class="form-label"><span class="red">*</span>包装规格</label>
-                <div class="form-input" id="packing_specification" style=" align-items: center;">
+                <div class="form-input" id="packing_specification" style=" align-items: center;width: 100%;">
                     <div class="danwei_a">
                         <input type="text" name="num[]" lay-verify="title" autocomplete="off" placeholder="数量"
                             class="layui-input" value="1" readonly required>
                         <input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位"
                             data-id="1" data-value="" class="layui-input units" maxlength="2" required>
                     </div>
-
-                    <div class="add_danwei"> 继续添加单位</div>
+                    <div>
+                        <span class="add_danwei"> 继续添加</span>
+                        <dpsn>&numsp;(必须为最小报价单位，例如：如果没有按<span style="color: red;">克</span>卖的情况，请不要添加<span
+                                style="color: red;">克</span>为单位，防止出入仓时报错)</span>
+                    </div>
                 </div>
             </div>
             <div class="form-item">
                 <div class="tips" style="margin-left:110px;color: black;">
-                    *必选项，<span class="tips" style="color:#F00 ">
+                    <span class="tips" style="color:#F00 ">
                         *包装规格是商品的唯一属性，一旦设置保存后不得更改，
                     </span>请按照真实的商品包装规格填写（如果选择存茶时，会依据此处逻辑计算，例如填写：1件=6提=42片）
+
                 </div>
             </div>
             <div class="form-item">
@@ -1675,7 +1679,7 @@
                         danwei += '<input type="text" name="unit[]" lay-verify="title" autocomplete="off" placeholder="单位" class="layui-input units" maxlength="2" data-id="1" data-value="">';
                         danwei += ' <img src="__STATIC__/admin/index/img/X.png" alt="" class="delect_img">';
                         danwei += '</div>';
-                        $(this).before(danwei);
+                        $(this).parent().before(danwei);
 
                         // 添加单位后 显示单位下拉列表
                         $('input[name="unit[]"]').blur(function (e) {

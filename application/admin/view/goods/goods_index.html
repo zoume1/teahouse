@@ -182,7 +182,8 @@
                         <td>{$value.goods_volume}</td>
                         <td>
                             <input class="sort-number" type="number" name="sortNumber" id=""
-                                value="{$value.sort_number}" lay-filter="isNumber" onchange="upperCase(this.value, {$value.id})">
+                                value="{$value.sort_number}" lay-filter="isNumber"
+                                onchange="upperCase(this.value, {$value.id})">
                         </td>
                         <td>
                             {if $value.status == 0}
@@ -437,17 +438,19 @@
 
 
         })
-
         function upperCase(e, id) {
             $.ajax({
                 type: "POST",
-                url:"{:url('admin/Goods/goodsSortUpdate')}",
-                data:{
+                url: "{:url('admin/Goods/goodsSortUpdate')}",
+                data: {
                     "goods_id": id,
                     "sort_number": e
                 },
                 success: (res) => {
-                    console.log("goods");
+                    layer.msg(res.msg);
+                    if(res.code == 1) {
+                        window.location.reload();
+                    }
                 },
                 error: (e) => {
                     console.error(e);
