@@ -111,10 +111,16 @@ class User extends Controller{
         // 储存
         $user = new UserAll();
         $result = $user->add($param['phone_number'],$password,$param['invitation'],$re_code);
+        if($result){
+            $uid = $result->id;
+            $openid = $user::get($uid);
+            return $openid['openid'] === null ? returnJson(3,'注册成功,请您关注公众号'):returnJson(1,'注册成功');
+        }
 
-        $res = $result ? ['code' => 1,'msg' => '注册成功'] : ['code' => 0,'msg' => '注册失败'];
+        returnJson(0,'注册失败');
+        // $res = $result ? ['code' => 1,'msg' => '注册成功'] : ['code' => 0,'msg' => '注册失败'];
 
-        return json($res);
+        // return json($res);
     }
 
     /**
