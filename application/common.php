@@ -744,24 +744,29 @@ function pay_types($label){
  */
 function show_order_status($status){
     if($status==0){
-        echo '<button type="button" class=" layui-btn layui-btn-mini color9" >已关闭</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini color9" >已关闭</button>';
+        echo '已关闭';
     }else if($status==1){
-        echo '<button type="button" class=" layui-btn layui-btn-mini color1" >待付款</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini color1" >待付款</button>';
+        echo '待付款';
 //    }else if($status==2){
 //        echo '<button type="button" class="state  payment-has-been" >已付款</button>';
     }else  if($status==2 || $status==3){
-        echo '<button type="button" class=" layui-btn layui-btn-mini color2" >待发货</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini color2" >待发货</button>';
+        echo '待发货';
 //    }else  if($status==4){
 //        echo '<button type="button" class="state  shipmented-btu" >已发货</button>';
     }else  if($status==4 ||$status==5 ||$status==6 ||$status==7 ){
-        echo '<button type="button" class=" layui-btn layui-btn-mini color3" >已发货</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini color3" >已发货</button>';
+        echo '已发货';
     // }else  if($status==5){
     //     echo '<button type="button" class="state color3" >待收货</button>';
     // }else  if($status==7){
     //     echo '<button type="button" class="state color3" >待评价</button>';
     // }
     }else  if($status==8){
-        echo '<button type="button" class=" layui-btn layui-btn-mini color4" >已完成</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini color4" >已完成</button>';
+        echo '已完成';
 //    }else  if($status==9){
 //        echo '<button type="button" class="state  cancel-btu" >取消订单</button>';
     }
@@ -1392,14 +1397,18 @@ function check_login(){
 
 function show_house_order($status){
     if($status==0){
-        echo '<button type="button" class=" layui-btn layui-btn-mini close-btu" >已关闭</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini close-btu" >已关闭</button>';
+        echo '已关闭';
     }else if($status==1){
-        echo '<button type="button" class=" layui-btn layui-btn-mini color1" >待付款</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini color1" >待付款</button>';
+        echo '待付款';
         //暂时显示到入仓状态
     }else  if($status==2){
-        echo '<button type="button" class=" layui-btn layui-btn-mini states enter-btu" >已入仓</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini states enter-btu" >已入仓</button>';
+        echo '<div class="states">已入仓</div>';
     }else  if($status==3){
-        echo '<button type="button" class=" layui-btn layui-btn-mini shipmented-btu" >已发货</button>';
+        // echo '<button type="button" class=" layui-btn layui-btn-mini shipmented-btu" >已发货</button>';
+        echo '已发货';
     }
 }
 
