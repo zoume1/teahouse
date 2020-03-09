@@ -318,8 +318,7 @@ class User extends Controller{
         $data['store_num'] = Store::store_num($param['user_id']); //店铺数
         $data['withdrawals'] = WithAll::wals($param['user_id']);//已提现金额
         $data['commission'] = CityDetail::dist_commission($data['phone_number']); //分销佣金
-        $mention = $data['commission'] -  $data['withdrawals']; //未提现金额
-        $data['no_mention'] = $mention < 0 ?  0 :  $mention;
+        $data['no_mention'] = $data['commission'] -  $data['withdrawals']; //未提现金额
 
         $data ? returnJson(1,'获取成功',$data) : returnJson(0,'获取失败');
 

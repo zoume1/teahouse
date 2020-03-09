@@ -22,7 +22,7 @@ class CityDetail extends Model{
      */
     public static function dist_commission($tel)
     {
-        return self::where(['higher_phone'=>$tel])->sum ('commision') ? self::where(['higher_phone'=>$tel])->sum ('commision') : 0;
+        return self::where(['phone_number'=>$tel])->sum ('commision') ? self::where(['phone_number'=>$tel])->sum ('commision') : 0;
     }
 
     
