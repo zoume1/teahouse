@@ -17,7 +17,8 @@ class User extends Model
     //新增
     public function add($phone, $password, $invit ,$re_code)
     {
-        return $this->save([
+        $data = New User();
+         $data->save([
             'phone_number' => $phone,
             'password' => $password,
             'invitation' => $invit,
@@ -25,6 +26,8 @@ class User extends Model
             'create_time' => time(),
             'status' =>1,
         ]);
+
+         return $data;
     }
 
     //修改密码
