@@ -251,7 +251,7 @@ class Goods extends Model
     {
 
         $model = new static;
-        $rest = $model -> allowField(true)->save($data,['id'=>$data['id']]);
+        $rest = $model -> allowField(true)->save($data,['id'=>$data['goods_id']]);
         return $rest ? $rest : false;
         
     }
