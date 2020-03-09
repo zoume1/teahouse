@@ -704,6 +704,7 @@ Route::group("admin",[
     "exclusive_edit"=>"admin/Goods/exclusive_edit",     //专属定制商品编辑 
     "goodsInMysql"=>"admin/Goods/goodsInMysql",         //商品是否重名
     "goodsLinePrice"=>"admin/Goods/goodsLinePrice",     //商品历史划线价
+    "goodsSortUpdate"=>"admin/Goods/goodsSortUpdate",   //商品排序修改
 
 
     
