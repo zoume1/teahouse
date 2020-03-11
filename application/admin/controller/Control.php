@@ -1570,6 +1570,61 @@ class  Control extends  Controller{
 
         return view("control_store_user",['data'=>$data]);
     }
+    /**
+     * [入驻套餐权限]
+     * 郭杨
+     */    
+    public function control_menu_save($id){
+        $store_id = Session::get("store_id");
+        switch($id){
+            case 5:
+                $role_id = 13;
+                break;
+            case 7:
+                $role_id = 14;
+                break;
+            case 8:
+                $role_id = 15; 
+                break;
+            default:
+                $role_id = 13;
+                break;
+        }
+            $roles = db("role")->where("id",$role_id)->select();
+            $role_name = $roles[0]['name'];
+            $menu_list = db("menu")->where("status","<>",0)->select();
+            $menu_lists = _tree_hTree(_tree_sort($menu_list,"sort_number"));
+            $menu_role = explode(",",$roles[0]["menu_role_id"]);
+            $memu_check =db("menu")
+                ->where("status","<>",0)
+                ->where("id","in",$menu_role)
+                ->field("id")
+                ->select();
+                
+            foreach ($memu_check as $keys=>$vals){
+                $menu_array[] =$vals["id"];
+            }
+            unset($menu_lists[172]);
+        return view("control_menu_save",["roles"=>$roles,"menu_lists"=>$menu_lists,"role_name"=>$role_name,"memu_check"=>$menu_array]);
+    }
 
+
+    /**
+     **************gy*******************
+     * @param Request $request
+     * Notes:入驻套餐权限更新入库
+     **************************************
+     * @param Request $request
+     * @param $id
+     */
+    public function control_menu_updata(Request $request,$id){
+        $data = $request->param();
+        $bool = db("Menu")->where('id',$id)->update($data);
+        if ($bool){
+            $this->success("编辑成功",url("admin/admin/index"));
+        }else{
+            $this->error("编辑失败",url("admin/admin/edit"));
+        }
+    }
 
 }
