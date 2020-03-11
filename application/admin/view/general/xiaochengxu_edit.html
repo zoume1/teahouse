@@ -19764,7 +19764,7 @@
             $("#myupload1").ajaxSubmit({
                 dataType:  'json', //数据格式为json
                 success: function(data) {
-                    var url = $.parseJSON(data)['url'];
+                    var url ='https://www.zhihuichacang.com' + $.parseJSON(data)['url'];
                     var imglist = [];
                     imglist.push({
                         'src': url,

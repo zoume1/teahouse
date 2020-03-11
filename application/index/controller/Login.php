@@ -219,11 +219,12 @@ class Login extends Controller{
                 }
             }else{
                 //直接登录后台页面（如某个商家的客服）
-                $res_admin =Db::name('admin')
+                $res_admin = Db::name('admin')
                     ->where("account",$user_mobile)
                     ->where("status","<>",1)
                     ->where("admin_status","=",1)
                     ->select();
+               
                 if(!empty($res_admin)){
                     if(password_verify($password,$res_admin[0]["passwd"])){
                         if(!empty($unionid)){
@@ -237,7 +238,6 @@ class Login extends Controller{
                         Session("user_info", $res_admin);
                         Session("store_id", $res_admin[0]["store_id"]);
                         $bool = db('store')->where('id',$res_admin[0]["store_id"])->update(["login_time"=>time()]);
-                        
                         exit(json_encode(array("status"=>2,"info"=>"登录成功")));
                     }else{
                         return ajax_error('用户或密码错误',['status'=>0]);

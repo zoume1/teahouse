@@ -25,7 +25,7 @@
 
 	.static_btus1,
 	.static_btus_y {
-		width: 100px;
+		/* width: 100px; */
 		text-align: center;
 	}
 
@@ -64,7 +64,7 @@
 		color: #669900;
 	}
 
-	.static_btus2 {
+	.static_btus2, .zan-btn, .static_btus {
 		height: 30px;
 		line-height: 30px;
 		color: #0099FF;
@@ -84,9 +84,14 @@
 
 
 	.line {
+		display: flex;
 		justify-content: center;
 	}
 
+	.pipe {
+		color: #0099FF;
+		margin: 0 5px;
+	}
 
 	.distribution_list a {
 		font-size: 14px;
@@ -158,8 +163,39 @@
 		color: #66662B;
 		background: #EEF7EA;
 		padding-left: 20px;
+		position: relative;
+	}
+	.popup_text {
+		height: 40px;
+		line-height: 40px;
+		color:#000;
+		background: #fff;
+		padding-left: 20px;
+		position: relative;
+		border-bottom: 1px solid rgb(233,234,236);
+		border-radius: 10px;
 	}
 
+	.popup_radius {
+		border-radius: 10px;
+		width: 600px;
+	}
+	.three_box {
+		padding: 15px;
+	}
+	.three_img {
+		width: 300px;
+		height: 200px;
+		margin: auto;
+		margin-top: 50px;
+	}
+	.diswl_text{
+		text-align: center;
+		margin: 20px 0;
+	}
+	.courier{
+		cursor: pointer;
+	}
 	.span {
 		display: inline-block;
 		width: 80px;
@@ -211,15 +247,13 @@
 		display: none;
 	}
 
-	.popup_title {
-		position: relative;
-	}
-
-	.popup_x {
+	
+	.popup_x, .popup_kl {
 		width: 25px;
 		position: absolute;
 		right: 12px;
 		top: -4px;
+		cursor: pointer;
 	}
 
 	.repay_tip {
@@ -367,13 +401,13 @@
 	}
 
 	td.four {
-		width: 350px;
+		width: 300px;
 	}
 
 	td.four>div {
 		line-height: 50px;
 		white-space: nowrap;
-		max-width: 350px;
+		max-width: 300px;
 		text-overflow: ellipsis;
 		overflow: hidden;
 	}
@@ -616,6 +650,32 @@
 			</div>
 		</div>
 	</div>
+	<div class="popup popup_three noshow">
+		<div class="popup_doms popup_radius">
+			<div class="popup_text">
+				查看物流：
+				<div class="popup_kl">
+					<img src="__STATIC__/admin/index/img/X.png" />
+				</div>
+			</div>
+			<div class="three_box">
+				<div>
+					<span>物流公司：</span>
+					<span class="three_wl">顺丰速运</span>；
+					<span>物流单号：</span>
+					<span class="three_dh">201144522511</span>
+				</div>
+				<div class="three_diswl">
+					<div class="three_img">
+						<img src="http://zhihuichacang.com/image1607708.png" alt="">
+					</div>
+					<div class="diswl_text">
+						暂无物流信息
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<div class="childrenBody">
 		{include file="template/_top" /}
 		<blockquote class="layui-elem-quote news_search">
@@ -683,7 +743,7 @@
 						<th>产品名称</th>
 						<th>订单数量</th>
 						<th>用户昵称</th>
-						<th>用户账号</th>
+						<!-- <th>用户账号</th> -->
 						<th>下单时间</th>
 						<th>订单金额</th>
 						<th>订单类型</th>
@@ -693,6 +753,7 @@
 				<tbody class="news_content">
 					{if !empty($data)}
 					{volist name="data" id="vo"}
+					
 					<tr>
 						<td><input type="checkbox" sname="" lay-skin="primary" lay-filter="choose" data-id="{$vo.id}">
 						</td>
@@ -728,8 +789,11 @@
 							<div style="height: 50px; line-height: 50px;">{$vo.order_quantity}</div>
 							{/if}
 						</td>
-						<td>{$vo.user_account_name}</td>
-						<td>{$vo.user_phone_number}</td>
+						<td style="line-height: 25px;">
+							<div>{$vo.user_account_name}</div>
+							<div>（{$vo.user_phone_number}）</div>
+						</td>
+						<!-- <td>{$vo.user_phone_number}</td> -->
 						<td>{$vo.order_create_time|date="Y-m-d H:i:s",###}</td>
 						<td class="am">{$vo.order_real_pay}</td>
 						<td>
@@ -737,13 +801,15 @@
 						</td>
 						<td>
 							<div class="line">
-								<div class="static_btus" data-id="{$vo.parts_order_number}" data-value="{$vo.status}"
+								<div class="static_btus states" data-id="{$vo.parts_order_number}" data-value="{$vo.status}"
 									data-num="{$vo.id}" data-type="{$vo.order_type|order_type_status}">
 									{if $vo.order_type !=3}
 									{if $vo.order_type == 2 && $vo.status == 5}
-									<button type="button" class=" layui-btn layui-btn-mini color3">未自提</button>
+									<!-- <button type="button" class=" layui-btn layui-btn-mini color3">未自提</button> -->
+									未自提
 									{elseif $vo.order_type == 2 && $vo.status == 7}
-									<button type="button" class=" layui-btn layui-btn-mini color3">已自提</button>
+									<!-- <button type="button" class=" layui-btn layui-btn-mini color3">已自提</button> -->
+									已自提
 									{else}
 									{$vo.status|show_order_status}
 
@@ -753,21 +819,26 @@
 									{$vo.status|show_house_order}
 									{/if}
 								</div>
+								<div class="pipe">|</div>
 								{if $vo.is_receipt == 0}
 								<div class="static_btus1" data-id="{$vo.parts_order_number}">
-									<div class=" layui-btn layui-btn-mini not_apply ">未申请开票</div>
+									<!-- <div class=" layui-btn layui-btn-mini not_apply ">未申请开票</div> -->
+									<div class="zan-btn">未申请开票</div>
 								</div>
 								{/if}
 								{if $vo.is_receipt==1}
 								<div class="static_btus_y static_btus_kp" data-id="{$vo.parts_order_number}">
-									<div class=" layui-btn layui-btn-mini not_apply apply ">申请开发票</div>
+									<!-- <div class=" layui-btn layui-btn-mini not_apply apply ">申请开发票</div> -->
+									<div class="zan-btn">申请开发票</div>
 								</div>
 								{/if}
 								{if $vo.is_receipt==2}
 								<div class="static_btus_y" data-id="{$vo.parts_order_number}">
-									<div class=" layui-btn layui-btn-mini not_apply applyed ">已经开发票</div>
+									<!-- <div class=" layui-btn layui-btn-mini not_apply applyed ">已经开发票</div> -->
+									<div class="zan-btn">已经开发票</div>
 								</div>
 								{/if}
+								<div class="pipe">|</div>
 								<div class="static_btus2" data-id="{$vo.parts_order_number}">
 									订单详情
 								</div>
@@ -1393,9 +1464,9 @@
 					dhtm9 += '</div>'
 					dhtm9 += '<div class="row">';
 					dhtm9 += '<div class=" col-xs-3"><span class="can-span">买家昵称：</span><span >' + data.data.user_account_name + '</span></div>';
-					dhtm9 += '<div class=" col-xs-4">';
+					dhtm9 += '<div class=" col-xs-4" >';
 					if (data.data.order_type == 1) {
-						dhtm9 += '<span class="can-span">快递单号：</span><span>' + (data.data.courier_number == null ? '--' : data.data.courier_number) + '</span>';
+						dhtm9 += '<span class="can-span">快递单号：</span><span class="courier">' + (data.data.courier_number == null ? '--' : data.data.courier_number) + '</span>';
 					} else if (data.data.order_type == 2) {
 						dhtm9 += '<span class="can-span">订单类型：</span><span>自提</span>';
 					} else {
@@ -1438,12 +1509,16 @@
 					dhtm9 += '</div>';
 					dhtm9 += '<div class="bottom-det">';
 					dhtm9 += '<div><span class="bom-span">店铺服务热线：</span><span>' + data.data.phone_number + '</span></div>';
-					dhtm9 += '<div><span class="bom-span">谢谢您的惠顾，我们会竭诚为您提供更好的商品和服务！</span>';
+					dhtm9 += '<div><span class="bom-span">店铺地址：</span><span>' + data.data.street + '</span>';
 					dhtm9 += '</div>';
 					dhtm9 += '	</div>';
 					// console.log(dhtm9)
 					$("#dvMain").append(dhtm9);
-
+					$('.three_wl').text(data.data.express_name_ch);
+					$('.three_dh').text(data.data.courier_number);
+					$('.courier').click(function() {
+						$(".popup_three").removeClass("noshow");
+					})
 				},
 				error: function (data) {
 
@@ -1451,7 +1526,11 @@
 			});
 
 
-		})
+		});
+
+		$('.popup_kl').click(function() {
+			$(".popup_three").addClass("noshow");
+		});
 		// 点击申请开票
 		// 点击批注
 

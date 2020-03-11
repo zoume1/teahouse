@@ -25,6 +25,7 @@ use app\common\model\dealer\User;
 use app\common\model\dealer\Order;
 use app\api\model\UpdateLine;
 use app\admin\controller\Qiniu;
+use think\Validate;
 
 class Goods extends Controller
 {
@@ -110,6 +111,8 @@ class Goods extends Controller
         if ($request->isPost()) {
             $store_id = Session::get("store_id");
             $goods_data = $request->param();
+            unset($goods_data['unitlist']);
+
             // $show_images = $request->file("goods_show_images");
            //测试七牛上传图片
            $qiniu=new Qiniu();
@@ -1676,6 +1679,32 @@ class Goods extends Controller
                 return jsonSuccess('发送成功',$bool);
             } else {
                 return jsonError('暂无编辑记录');
+            }
+        }
+    }
+    
+    /**
+     * [商品排序修改]
+     * 郭杨
+     */    
+    public function goodsSortUpdate(Request $request){     
+        if($request->isPost()){
+            $data = input();
+            $validate  = new Validate([
+                ['goods_id', 'require', 'goods_id不能为空'],
+                ['sort_number', 'require', '商品排序不能为空'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            } 
+            
+            $bool =  Goodsmodel::goods_sort($data);
+            if($bool){
+                return jsonSuccess('修改成功',$bool);
+            } else {
+                return jsonError('修改失败');
             }
         }
     }

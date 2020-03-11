@@ -8,19 +8,19 @@
 	body {
 		background: #fff;
 	}
-	
+
 	.form-group .layui-form-select {
 		display: none;
 	}
-	
+
 	.noshow {
 		display: none;
 	}
-	
+
 	.red {
 		color: red;
 	}
-	
+
 	.general label {
 		width: 142px;
 	}
@@ -31,12 +31,14 @@
 <body>
 	{block name="content"}
 
-	<form class="layui-form layui-form-lists" action="{:url('admin/Delivery/delivery_goods_add')}" method="post" enctype="multipart/form-data">
+	<form class="layui-form layui-form-lists" action="{:url('admin/Delivery/delivery_goods_add')}" method="post"
+		enctype="multipart/form-data">
 
 		<div class="form-item">
 			<label class="form-label"> 模板名称</label>
 			<div class="form-input line">
-				<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入" class="layui-input" required>
+				<input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="请输入"
+					class="layui-input" required>
 				<div class="tips">
 					*添加商品的所有包装规格，例如：公斤，箱、件、提等
 				</div>
@@ -44,50 +46,56 @@
 		</div>
 		<div class="form-item">
 			<label class="form-label" style="margin-top:16px"><span class="red">*</span> 费用计算方式</label>
-		<div class="form-item general" >
-			<div class="form-item " style=" flex-direction:column;">
-
-				<div class="form-input">
-					<div class="form-item">
-						<label class="form-label"><span class="red">*</span>首费(元/单位)</label>
-						<div class="form-input">
-							<input type="text" name="price" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" required>
-						</div>
-					</div>
-				</div>
-				<div class="form-input">
-					<div class="form-item">
-						<label class="form-label"><span class="red">*</span>续费(元/单位)</label>
-						<div class="form-input">
-							<input type="text" name="markup" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" required>
-						</div>
-					</div>
-				</div>
-				<div class="form-input">
-					<div class="form-item">
-						<label class="form-label"><span class="red">*</span>指定地区</label>
-						<div class="form-input">
-							<select name="are" class="city" xm-select-show-count="1" xm-select="city" multiple="multiple">
-								<option value="">请选择</option>
-							</select>
-							
-						</div>
-					</div>
-				</div>
-				<div class="form-input">
-					<div class="form-item">
-						<label class="form-label" style="margin-top:5px"><span class="red">*</span> 其他地区：</label>
-						<div class="form-input" style="margin-right:120px">
-							<div class="form-item" >
-								<label class="form-label">首费（元/单位）：</label>
-								<div class="form-input" style="width: 200px;">
-									<input type="text" name="price_two" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" required style="width: 200px;">
-								</div>
+			<div class="form-item general">
+				<div class="form-item " style=" flex-direction:column;">
+					<div class="form-input">
+						<div class="form-item">
+							<label class="form-label"><span class="red">*</span>指定地区</label>
+							<div class="form-input">
+								<select name="are" class="city" xm-select-show-count="1" xm-select="city"
+									multiple="multiple">
+									<option value="">请选择</option>
+								</select>
+							<div class="tips">*指定地区特指一些偏远地域，快递费较高，一般只有西藏、新疆</div>
 							</div>
-							<div class="form-item">
-								<label class="form-label">续费（元/单位）：</label>
-								<div class="form-input" style="width: 200px;">
-									<input type="text" name="markup_two" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" required style="width: 200px;"> 
+						</div>
+					</div>
+					<div class="form-input">
+						<div class="form-item">
+							<label class="form-label"><span class="red">*</span>首费(元/单位)</label>
+							<div class="form-input">
+								<input type="text" name="price" lay-verify="title" autocomplete="off" placeholder=""
+									class="layui-input" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-input">
+						<div class="form-item">
+							<label class="form-label"><span class="red">*</span>续费(元/单位)</label>
+							<div class="form-input">
+								<input type="text" name="markup" lay-verify="title" autocomplete="off" placeholder=""
+									class="layui-input" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-title">除以上指定地区外的，其他的统一称为其他地区</div>
+					<div class="form-input">
+						<div class="form-item">
+							<label class="form-label" style="margin-top:5px"><span class="red">*</span> 其他地区：</label>
+							<div class="form-input" style="margin-right:120px">
+								<div class="form-item">
+									<label class="form-label">首费（元/单位）：</label>
+									<div class="form-input" style="width: 200px;">
+										<input type="text" name="price_two" lay-verify="title" autocomplete="off"
+											placeholder="" class="layui-input" required style="width: 200px;">
+									</div>
+								</div>
+								<div class="form-item">
+									<label class="form-label">续费（元/单位）：</label>
+									<div class="form-input" style="width: 200px;">
+										<input type="text" name="markup_two" lay-verify="title" autocomplete="off"
+											placeholder="" class="layui-input" required style="width: 200px;">
+									</div>
 								</div>
 							</div>
 						</div>
@@ -95,14 +103,14 @@
 				</div>
 			</div>
 		</div>
-	</div>
 		<div class="layui-form-item" style="margin-left:135px">
 			<div class="layui-input-block">
 				<button class="layui-btn layui-btn-normal" type="submit">确认提交</button>
-				<button type="button" class="layui-btn layui-btn-primary" onClick="javascript :history.back(-1);">返回</button>
+				<button type="button" class="layui-btn layui-btn-primary"
+					onClick="javascript :history.back(-1);">返回</button>
 			</div>
 		</div>
-	
+
 	</form>
 
 	{/block}
@@ -156,21 +164,21 @@
 		var formSelects = layui.formSelects;
 		layui.config({
 			base: "js/"
-		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function() {
+		}).use(['form', 'layer', 'jquery', 'laypage', 'upload'], function () {
 			var form = layui.form(),
 				$ = layui.jquery;
 			form.render();
-			for(var key in city) {
+			for (var key in city) {
 				var now_city = city[key];
 				$(".city").append("<option value='" + now_city + "'>" + now_city + "</option>");
 				formSelects.render();
 			}
 
 			// TODO商品规格变化
-			form.on('radio(guige)', function(data) {
+			form.on('radio(guige)', function (data) {
 				var checkval = data.value;
 				console.log(checkval);
-				if(checkval == 1) {
+				if (checkval == 1) {
 					$(".general").removeClass("noshow");
 					$(".special").addClass("noshow");
 				} else {

@@ -10,6 +10,7 @@ use think\Controller;
 use app\city\controller\Picture;
 use app\index\controller\My;
 
+
 class Goods extends Model
 {
     protected $table = "tb_goods";
@@ -236,6 +237,24 @@ class Goods extends Model
                 return false;
             }
         }
+    
+    
+    /**gy
+     *  商品排序更新
+     * @param $data
+     * @return bool
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    public static function goods_sort($data)
+    {
+
+        $model = new static;
+        $rest = $model -> allowField(true)->save($data,['id'=>$data['goods_id']]);
+        return $rest ? $rest : false;
+        
+    }
 
         
 

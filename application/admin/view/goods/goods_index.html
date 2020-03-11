@@ -30,6 +30,7 @@
         z-index: 99;
         border: 1px solid rgb(226, 226, 226);
     }
+
     .div-d4 {
         position: absolute;
         top: -30px;
@@ -46,7 +47,7 @@
         position: relative;
         transform: rotate(-45deg);
     }
-    
+
     .dd {
         position: absolute;
         color: #fff;
@@ -55,8 +56,15 @@
         bottom: -30px;
         text-align: center;
     }
-    .news_content tr td{
-       height: 35px;
+
+    .news_content tr td {
+        height: 35px;
+    }
+
+    .sort-number {
+        width: 50px;
+        border: 0;
+        text-align: center;
     }
 </style>
 
@@ -100,7 +108,7 @@
         </blockquote>
 
         <a class="layui-btn layui-btn-danger batchDel" href="goods_add">添加商品</a>
-        <span>防伪溯源生成商品，请勿删除</span>
+        <span>*有存茶商品请勿删除，可下架；防伪溯源生成商品，请勿删除</span>
         <div class="layui-form news_list">
             <table class="layui-table">
                 <colgroup>
@@ -133,8 +141,9 @@
                         <td style="position:relative;">
                             {if $value.is_anti_fake == 1}
                             <div class="div-d4">
-                                <div class="d4 "> 
-                                <!--<div class="d4 d4-after"> --> <!--如果是店铺的就用这个 -->
+                                <div class="d4 ">
+                                    <!--<div class="d4 d4-after"> -->
+                                    <!--如果是店铺的就用这个 -->
                                     <div class="dd ">溯源</div>
                                 </div>
                             </div>
@@ -171,7 +180,11 @@
 
                         <td>{$value.goods_repertory}</td>
                         <td>{$value.goods_volume}</td>
-                        <td>{$value.sort_number}</td>
+                        <td>
+                            <input class="sort-number" type="number" name="sortNumber" id=""
+                                value="{$value.sort_number}" lay-filter="isNumber"
+                                onchange="upperCase(this.value, {$value.id})">
+                        </td>
                         <td>
                             {if $value.status == 0}
                             <input type="checkbox" class="Status" name="status" value="{$value.status}"
@@ -424,10 +437,27 @@
 
 
 
-
-
-
         })
+        function upperCase(e, id) {
+            $.ajax({
+                type: "POST",
+                url: "{:url('admin/Goods/goodsSortUpdate')}",
+                data: {
+                    "goods_id": id,
+                    "sort_number": e
+                },
+                success: (res) => {
+                    layer.msg(res.msg);
+                    if(res.code == 1) {
+                        window.location.reload();
+                    }
+                },
+                error: (e) => {
+                    console.error(e);
+                }
+            })
+        }
+
     </script>
 
     {/block}
