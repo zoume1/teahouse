@@ -19764,7 +19764,7 @@
             $("#myupload1").ajaxSubmit({
                 dataType:  'json', //数据格式为json
                 success: function(data) {
-                    var url = $.parseJSON(data)['url'];
+                    var url ='https://www.zhihuichacang.com' + $.parseJSON(data)['url'];
                     var imglist = [];
                     imglist.push({
                         'src': url,
@@ -19773,7 +19773,7 @@
                     })
                     // 上传选择图片
                     $(".bfeedbackbgimg"+imgid).val(url).change();
-                    $(".bfeedbackbgimgurl"+imgid).attr("src",'https://www.zhihuichacang.com'+url);
+                    $(".bfeedbackbgimgurl"+imgid).attr("src",url);
 
                     var ue =  UE.getEditor('rich');
                     ue.execCommand('insertimage', imglist);
