@@ -72,12 +72,13 @@
 		<div class="form-item">
 			<label class="form-label"><span class="red">*</span>角色</label>
 			<div class="form-input">
+				{if !empty($roleList)}
 				<select name="role_id" id="admin_role" class="role_list">
-				<option value="1" >admin员工</option>
-				<option value ="2" >客服</option>
-				<option value ="3" >财务</option>
-				<option value ="4" >运营</option>
+				{volist name="roleList" id="vl"}
+				<option value="{$vl.id}">{$vl.name}</option>
+				{/volist}
 			</select>
+			{/if}
 			</div>
 		</div>	
 		<div class="form-item">

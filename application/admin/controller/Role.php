@@ -209,8 +209,15 @@ class Role extends Controller
                 ->where("id","NEQ",185)
                 ->where("id","NEQ",172)
                 ->select();
+            $menu_role = explode(",",$roles[0]["menu_role_id"]);
+            // foreach($menu_list as $b => $g){
+            //     if(in_array($g['id'],$menu_role))
+            //     {
+            //         $menu_listing[] = $g;
+            //     }
+            // }
+
             $menu_lists = _tree_hTree(_tree_sort($menu_list, "sort_number"));
-            $menu_role =explode(",",$roles[0]["menu_role_id"]);
             $memu_check =db("menu")->where("status","<>",0)->where("id","in",$menu_role)->field("id")->select();
             foreach ($memu_check as $keys=>$vals){
                 $menu_array[] =$vals["id"];
