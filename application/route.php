@@ -479,6 +479,7 @@ Route::group("admin",[
     "admin_status"=>"admin/admin/status",
     "admin_passwd"=>"admin/admin/passwd",
     "admin_search"=>"admin/admin/search",
+    "admin_check"=>"admin/admin/admin_check",
 
 
     /*菜单列表*/
@@ -1101,10 +1102,12 @@ Route::group("admin",[
     "control_withdraw_deposit_search"=>"admin/Control/control_withdraw_deposit_search",//提现申请搜索
     "control_store_list"=>"admin/Control/control_store_list",           //总控店铺list
     "control_store_edit"=>"admin/Control/control_store_edit",           //总控店铺list编辑
-    "control_store_edit_do"=>"admin/Control/control_store_edit_do",           //总控店铺list编辑
+    "control_store_edit_do"=>"admin/Control/control_store_edit_do",     //总控店铺list编辑
     "version_control"=>"admin/Control/version_control",                 //总控版本控制
     "version_control_do"=>"admin/Control/version_control_do",           //总控版本控制处理
     "control_store_analyse"=>"admin/Control/control_store_analyse",     //总控--增值订单分析
+    "control_menu_save"=>"admin/Control/control_menu_save",             //总控--套餐权限设置
+    "control_menu_update"=>"admin/Control/control_menu_update",         //总控--套餐权限更新
 
 
 

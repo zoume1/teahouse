@@ -40,7 +40,7 @@ class Accompany extends Controller{
             $data = input();
             $time = time();
             $validate  = new Validate([
-                ['code_id', 'require', 'code_id不能为空'],
+                ['account', 'require', 'code_id不能为空'],
                 ['member_id', 'require', '会员id不能为空'],
             ]);
             //验证部分数据合法性

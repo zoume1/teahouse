@@ -4,6 +4,7 @@ namespace app\admin\controller;
 use think\Controller;
 use think\Request;
 use think\Session;
+use think\Validate;
 use think\paginator\driver\Bootstrap;
 class Admin extends Controller
 {
@@ -46,18 +47,18 @@ class Admin extends Controller
      */
     public function add(){
         $store_id = Session::get("store_id");
-        // if(!empty($store_id)){
-        //     $roles = db("role")
-        //         ->where("store_id",$store_id)
-        //         ->where("status","1")
-        //         ->field("id,name")
-        //         ->select();
-        //     $roleList = db("role")->where("store_id",$store_id)->field("id,name")->select();
-        // }else{
-        //     $roles = db("role")->where("status","1")->field("id,name")->select();
-        //     $roleList = getSelectList("role");
-        // }
-        return view("save");
+        if(!empty($store_id)){
+            $roles = db("role")
+                ->where("store_id",$store_id)
+                ->where("status","1")
+                ->field("id,name")
+                ->select();
+            $roleList = db("role")->where("store_id",$store_id)->field("id,name")->select();
+        }else{
+            $roles = db("role")->where("status","1")->field("id,name")->select();
+            $roleList = getSelectList("role");
+        }
+        return view("save",['roleList'=>$roleList]);
     }
 
     /**
@@ -71,12 +72,11 @@ class Admin extends Controller
         $data = $request->param();
         $store_id =Session::get("store_id");
         if(!empty($store_id)){
-            $data["store_id"] =$store_id;
+            $data["store_id"] = $store_id;
         }
         $data["passwd"] = password_hash($data["passwd"],PASSWORD_DEFAULT);
         $data["stime"] = date("Y-m-d H:i:s");
         $data["admin_status"] = 1;
-        $data['role_id'] = 13;
         $boolData = model("Admin")->sSave($data);
         if($boolData){
             $this->redirect("admin/admin/index");
@@ -190,7 +190,7 @@ class Admin extends Controller
         }
     }
 
-        /**
+    /**
      **************gy*******************
      * @param Request $request
      * Notes: [管理员列表搜索]
@@ -219,6 +219,35 @@ class Admin extends Controller
         $pag_number = 20;
         $account_list = paging_data($account_list,$url,$pag_number);
         return view("index",["account_list"=>$account_list,"roleList"=>$roleList]);
+    }
+
+        /**
+     **************gy*******************
+     * @param Request $request
+     * Notes: 检验输入
+     **************************************
+     * @param Request $request
+     * @return \think\response\View
+     */
+    public function admin_check(Request $request){
+        if($request->isPost()){
+            $data = input();
+            $validate  = new Validate([
+                ['account', 'require', '账号不能为空'],
+                ['role_id', 'require', '请移步角色管理添加角色'],
+            ]);
+            //验证部分数据合法性
+            if (!$validate->check($data)) {
+                $error = $validate->getError();
+                return jsonError($error);
+            }
+            $rest = db('admin')->where('account','=',$data['account'])->find();
+            if($rest){
+                return jsonError('该账号已存在');
+            }
+            return jsonSuccess('成功');  
+            
+        }   
     }
 
 
