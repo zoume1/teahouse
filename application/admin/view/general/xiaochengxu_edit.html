@@ -19695,7 +19695,7 @@
             $("#myupload").ajaxSubmit({
                 dataType:  'json', //数据格式为json
                 success: function(data) {
-                    var url = $.parseJSON(data)['url'];
+                    var url = 'https://www.zhihuichacang.com' +  $.parseJSON(data)['url'];
                     // 如果是上传tabbar图片
                     if(sw){
                         // 上传默认图片
