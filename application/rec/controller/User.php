@@ -349,9 +349,12 @@ class User extends Controller{
         if(!empty($param['start_time']) && !empty($param['end_time'])){
             $where['create_time'] = ['between',[$param['start_time'],$param['end_time']]];
         }
-        $where['phone_number'] = $param['phone'];
+        $data = userAll::where('phone_number',$param['phone'])
+        ->field('id,my_invitation')->find();
 
-        $commission = CityDetail::dist_commission($param['phone']); //分销佣金
+        $where['highe_share_code'] = $data['my_invitation'];
+
+        $commission = round(CityDetail::dist_commission_code($data['my_invitation']),2); //分销佣金
 
         $data = CityDetail::where($where)->field('phone_number,set_meal,commision,create_time')->select();
 
