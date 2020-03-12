@@ -44,26 +44,16 @@
 
     <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="/js/jquery.form.js"></script>
-
     <!--
         <script type="text/javascript" src="/diypage/resource/js/lib/bootstrap.min.js"></script>
-
         <script type="text/javascript" src="/diypage/resource/js/app/util.js"></script>
-
         <script type="text/javascript" src="/diypage/resource/js/app/common.min.js"></script> -->
-
     <script type="text/javascript" src="/diypage/resource/js/require.js"></script>
-
     <link href="/diypage/resource/css/diypage/web.css" rel="stylesheet" type="text/css" />
-
     <link href="/diypage/resource/css/diypage/diy.min.css" rel="stylesheet" type="text/css" />
-
     <link href="/diypage/resource/css/diypage/foxui.diy.css" rel="stylesheet" type="text/css" />
-
     <link rel="stylesheet" href="/diypage/resource/css/diypage/jquery-ui.min.css" />
-
     <link href="/diypage/resource/css/diypage/custom.css" rel="stylesheet" type="text/css" />
-
     <style>
         .input-group-addon {padding:0px 10px !important;}
         .diy_list{margin-bottom:20px;}
@@ -81,9 +71,7 @@
         .tips{margin-left:40px;font-size:14px;color:red;}
     </style>
     <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak=qWmCfqDAdPBzy3YoHxGnimKT&s=1"></script>
-
 </head>
-
 <body style="height:100%;" onload="footmenus()">
 <form id='myupload' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>"  method='post' enctype='multipart/form-data'>
     <input type="file" id="uploadphoto" name="uploadfile[]" value="请点击上传图片" multiple accept="image/png,image/jpeg,image/gif"  style="display:none" />
@@ -91,8 +79,6 @@
 <form id='myupload1' action="/admin/imgupload?uniacid=<?php echo $_GET['appletid'];?>" method='post' enctype='multipart/form-data'>
     <input type="file" id="uploadphoto1" name="uploadfile[]" value="请点击上传图片" multiple accept="image/png,image/jpeg,image/gif"  style="display:none" />
 </form>
-
-
 <div class="dt" style="width: 100%;background-color: rgba(0,0,0,0.3);position: absolute;left: 0;top: 0;height: 100%;z-index: 9000;display: none;overflow: auto;">
     <div class="clearfix" style="padding: 15px 30px; background-color:#f6f6f6;width: 80%;margin: 100px auto 0;">
         <div style="float: left;">请选择地点</div>
@@ -116,39 +102,20 @@
     </div>
 </div>
 <div class="loader" style="display:none">
-
     <div class="la-ball-clip-rotate">
-
         <div>
-
             <text class="iconfont icon-shuaxin"></text>
-
         </div>
-
     </div>
-
 </div>
-
-
-
-
-
 <div class="custom-content ">
-
-    <div class="custom-header-fixed ">
-
+    <div class="custom-header-fixed">
         <div class="custom-navbar clearfix">
-
             <ul class="nav navbar-nav">
-
                 <!--<li class="return_up_level" data-type="return"> <i class="fa fa-chevron-left" style="margin-right: 5px;vertical-align: middle;"></i><span onclick="returnsys()">返回</span> </li>-->
-
             </ul>
-
             <!-- <div class="navbar-main clearfix ">
-
                 <ul class="nav navbar-nav component-ul navs" id="navs"></ul>
-
             </div> -->
             <div class="nav_center">
                 当前页面：模拟页面
@@ -197,47 +164,27 @@
                 <div class="clearfix" style="float: left;height: 100%;overflow: auto;background-color: #fff;">
                     <div class="navs_qh" style="background-color: #fff">
                         <ul class="clearfix">
-
-
-
                             <li class="navs_qh_li1" id="mklb">模块列表</li>
                             <li class="navs_qh_li" id="ymlb">页面列表</li>
-
                         </ul>
                     </div>
-
                     <div class="page-list" style="display: none;">
-
                         <header class="page-list-title ">
-
                             <div class="panel-heading padding-10 clearfix">
-
                                 <h4 class="font-size-15 pull-left margin-0" style="line-height: 28px;">全部页面</h4>
-
                                 <button onclick="themes()" id="themes" type="button" style="border:1px solid rgb(1, 192, 240); border-radius: 8px; background-color:#fff; color:rgb(1, 192, 240); margin-left:140px;">系统推荐模板</button>
                                 <span class="pull-right "> <button type="button" class="btn btn-pure btn-default iconfont icon-x-jia btn-sm padding-0 black font-size-26" data-type="addpage" onclick="addpage()" style="width:20px;height:20px;font-size:20px!important"></button> </span>
-
                             </div>
-
                         </header>
-
                         <section class="scrollable slimScroll-box" data-scroll-borderradius="0px" data-scroll-railborderradius="0px" data-scroll-alwaysvisible="true" data-scroll-railopacity="0" style="padding-bottom: 210px;">
-
                             <table class="table table-responsive">
-
                                 <thead>
-
                                 <tr>
-
                                     <th>名称</th>
                                     <th class="width-50">首页</th>
-
                                     <th class="width-100">操作</th>
-
                                 </tr>
-
                                 </thead>
-
                                 <tbody>
                                 {if $list}
                                 {foreach $list as $v}
