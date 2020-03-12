@@ -20,6 +20,7 @@ use app\admin\model\MemberGrade;
 use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\common\model\dealer\Setting;
+use app\common\model\dealer\Referee;
 use app\city\model\User;
 use app\admin\model\Goods;
 use app\city\controller\Picture;
@@ -50,14 +51,31 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
-            $share_id = 795;
-            $order_data['store_id'] = 6;
-            $data = (new Goods())->share_qrcode($share_id, $order_data['store_id']);
-            $rest = ['rest'=>$data];
-            return jsonSuccess('测试',$rest);
-            
-        }
+            $rett =  Referee::getRefereeUserId(1550, 2);
+            halt($rett);
+            $commodity_id = [439];
+            //判断是否生成分销订单
+            $goods_bool = Goods::getDistributionStatus($commodity_id);
+            $order_num = 'ZY202003121515532551';
+            if ($goods_bool) {
+                $getDistributionStatus = [
+                    'member_id' => 1550,
+                    'id' => 3631,
+                    'parts_order_number' => 'ZY202003121515532551',
+                    'goods_id' => [439],
+                    'store_id' => 6,
+                    'order_amount' => 2300,
+                    'goods_money' => 2300, //总金额
+                    'status' => 0,
 
+                ];
+                $order_info = Db::name("order")
+                ->where("parts_order_number", $order_num)
+                ->find();
+            $order = GoodsOrder::getOrderInforMation($order_info);
+            $model = OrderModel::grantMoney($order);
+            }
+        }
     }
 
 
@@ -200,24 +218,19 @@ class Bill extends Controller
         }
     }
 
-    
-    public static function addFileToZip($path, &$zip,$root='')
+
+    public static function addFileToZip($path, &$zip, $root = '')
     {
         $handler = opendir($path); //打开当前文件夹由$path指定。
         !$root && $root = $path;
 
-        while (($filename = readdir($handler)) !== false)
-        {
-            if ($filename != "." && $filename != "..")
-            {//文件夹文件名字为'.'和‘..’，不要对他们进行操作
-                if (is_dir($path . "/" . $filename))
-                {// 如果读取的某个对象是文件夹，则递归
+        while (($filename = readdir($handler)) !== false) {
+            if ($filename != "." && $filename != "..") { //文件夹文件名字为'.'和‘..’，不要对他们进行操作
+                if (is_dir($path . "/" . $filename)) { // 如果读取的某个对象是文件夹，则递归
                     self::addFileToZip($path . "/" . $filename, $zip, $root);
-                }
-                else
-                { //将文件加入zip对象
-                    $pathFilename=$path . "/" . $filename;
-                    $zip->addFile($pathFilename, str_replace($root.'/','',$pathFilename));
+                } else { //将文件加入zip对象
+                    $pathFilename = $path . "/" . $filename;
+                    $zip->addFile($pathFilename, str_replace($root . '/', '', $pathFilename));
                 }
             }
         }
@@ -228,39 +241,38 @@ class Bill extends Controller
     public function gettoken()
     {
         $applet = Db::table('applet')
-                ->where('id','=',6)
-                ->find();
-                
+            ->where('id', '=', 6)
+            ->find();
+
         $APPID = $applet['appID'];
         $APPSECRET =  $applet['appSecret'];
-        $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$APPID."&secret=".$APPSECRET;
+        $access_token = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=" . $APPID . "&secret=" . $APPSECRET;
         $json = $this->httpRequest($access_token);
-        return  json_decode($json,true);
+        return  json_decode($json, true);
     }
 
-        //curl
-        public function httpRequest($url, $data='', $method='GET'){
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-            curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
-            if($method=='POST')
-            {
-                curl_setopt($curl, CURLOPT_POST, 1);
-                if ($data != '')
-                {
-                    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                }
+    //curl
+    public function httpRequest($url, $data = '', $method = 'GET')
+    {
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($curl, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
+        if ($method == 'POST') {
+            curl_setopt($curl, CURLOPT_POST, 1);
+            if ($data != '') {
+                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
             }
-    
-            curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-            curl_setopt($curl, CURLOPT_HEADER, 0);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($curl);
-            curl_close($curl);
-            return $result;
         }
+
+        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_HEADER, 0);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $result = curl_exec($curl);
+        curl_close($curl);
+        return $result;
+    }
 }
