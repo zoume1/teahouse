@@ -91,17 +91,16 @@
                         </div>
                         {if condition="$da_change['goods_name'] !='万用版'"}
                         <div class="line">
-                            <div class="icon icon-link1"></div>
+                            <div class="icon icon-link1 type_show_t" style="line-height: inherit;font-size: 22px;text-align: center;cursor: pointer;">+</div>
                             <nav data-href="/pages/circle/circle" data-linktype="pages" class="btn btn-default btn-sm" title="选择">选择</nav>
-                            <div class="icon icon-link1 type_show" style="line-height: inherit;font-size: 22px;text-align: center;cursor: pointer;">+</div>
                             <div class="text">茶圈</div>
                         </div>
-                        <div class="second_type" style="display: none;">
+                        <div class="second_type_t " style="display: none;">
                             {foreach name="teaquan" id="vo"}
                             <div class="line">
                                 <div class="icon icon-link1"></div>
                                 <div class="icon icon-link1" ></div>
-                                <nav data-href="/storage/pages/meeting/meeting?title={$vo['id']}&tid={$vo['id']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
+                                <nav data-href="/storage/pages/meeting/meeting?title={$vo['id']}&tid={$vo['tid']}" data-linktype="page" class="btn btn-default btn-sm" title="选择">选择</nav>
                                 <div class="text">{$vo['name']}</div>
                             </div>
                             {/foreach}
@@ -354,6 +353,11 @@
                     $('.type_show').click(function() {
                         $('.second_type').toggle();
                         if($('.second_type').is(':hidden')) $(this).text('+');
+                        else  $(this).text('-');
+                    });
+                    $('.type_show_t').click(function() {
+                        $('.second_type_t').toggle();
+                        if($('.second_type_t').is(':hidden')) $(this).text('+');
                         else  $(this).text('-');
                     });
                     $("select[name='tool_select']").change(function () {
