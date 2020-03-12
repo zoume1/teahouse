@@ -119,22 +119,6 @@ class Test extends  Controller{
            $catess2 =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
            $value['subcate'] =$catess2;
        }
-        // $store_id = $request->only(['uniacid'])['uniacid'];
-        //     $tea = Db::name("goods_type")->field('name,icon_image,color,id')
-        //         ->where('pid', 0)
-        //         ->where("status", 1)
-        //         ->where("store_id", $store_id)
-        //         ->select();
-        //     foreach($tea as $key => $value){
-        //         $res = db("goods_type")
-        //             ->where("pid",$value['id'])
-        //             ->where("store_id", $store_id)
-        //             ->field("name,id")
-        //             ->find();
-        //         $tea[$key]["tid"] = $res["id"];
-        //         $tea[$key]["activity_name"] = $res["name"];
-               
-        //     }
        $this->assign('second_cate',$second_cate);
        $this->assign('da_change',$da_change);
         $this->assign("diypage",$diypage);
