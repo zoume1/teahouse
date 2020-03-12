@@ -116,8 +116,8 @@ class Test extends  Controller{
         //活动栏目
        $teaquan =Db::table("tb_goods_type")->where("pid",0)->where('store_id',$uniacid)->field("id,name")->select();
        foreach ($teaquan as $key=>&$value){
-           $catess2 =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
-           $value['subcate'] =$catess2;
+           $tid =Db::table('tb_goods_type')->where("pid",$value["id"])->limit(1)->value('id');
+           $teaquan[$key]['tid'] =$tid;
        }
        $this->assign('second_cate',$second_cate);
        $this->assign('da_change',$da_change);
