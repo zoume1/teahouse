@@ -2,6 +2,7 @@
 namespace app\admin\controller;
 
 use think\Controller;
+use think\Session;
 use think\Request;
 class Menu extends Controller
 {
@@ -58,6 +59,10 @@ class Menu extends Controller
      * @param $id
      */
     public function del($id){
+        $store_id =Session::get("store_id");
+        if($store_id){
+            $this->error("无权限删除",url("admin/menu/index"));
+        }
         $bool = model("Menu")->where("id",$id)->delete();
         if($bool){
             $this->success("删除成功",url("admin/menu/index"));
@@ -76,6 +81,10 @@ class Menu extends Controller
      * @return \think\response\View
      */
     public function edit($pid=0,$id){
+        $store_id = Session::get("store_id");
+        if($store_id){
+            $this->error("无权限编辑",url("admin/menu/index"));
+        }
         $menu = db("Menu")->where("id","$id")->select();
         $parent_cate = [];
         $menu_list = [];

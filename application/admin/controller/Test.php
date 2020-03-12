@@ -114,12 +114,11 @@ class Test extends  Controller{
         $pp['store_id']=$uniacid;
         $second_cate =Db::table("tb_wares")->where($pp)->field("id,name")->select();
         //活动栏目
-//        $pic =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select();
-//        $cates =Db::table("tb_goods_type")->where("pid",0)->field("id,name")->select(); //一级
-//        foreach ($cates as $key=>&$value){
-//            $catess =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
-//            $value['subcate'] =$catess;
-//        }
+       $teaquan =Db::table("tb_goods_type")->where("pid",0)->where('store_id',$uniacid)->field("id,name")->select();
+       foreach ($teaquan as $key=>&$value){
+           $catess2 =Db::table('tb_goods_type')->where("pid",$value["id"])->field("id,name")->select();
+           $value['subcate'] =$catess2;
+       }
        $this->assign('second_cate',$second_cate);
        $this->assign('da_change',$da_change);
         $this->assign("diypage",$diypage);
@@ -127,6 +126,7 @@ class Test extends  Controller{
         $this->assign("pro",$pro);
         $this->assign("pic",$pic);
         $this->assign("cates",$cates);
+        $this->assign("teaquan",$teaquan);
         $this->assign("uniacid",$uniacid);
         return $this->fetch('selecturl');
     }

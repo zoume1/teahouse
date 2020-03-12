@@ -883,7 +883,8 @@ class  Wxapps extends  Controller{
                             $counts_yhq = $v['style']['counts'];
                             $v['coupon'] = db("coupon")->where('store_id',$uniacid)->field('money,use_price')->limit(0, $counts_yhq)->select();
                         }else if ($v['id'] == "xnlf") {
-                            $avatars = Db::table("ims_sudu8_page_user")->where("avatar", "neq", "")->where("uniacid", $uniacid)->order("id desc")->limit(0, 5)->field("avatar")->select();
+                            // $avatars = Db::table("ims_sudu8_page_user")->where("avatar", "neq", "")->where("uniacid", $uniacid)->order("id desc")->limit(0, 5)->field("avatar")->select();
+                            $avatars = Db::table("tb_member")->where("member_head_img", "neq", "")->where("store_id", $uniacid)->order("member_id desc")->limit(0, 5)->field("member_head_img avatar")->select();
                             $v['avatars'] = $avatars;
                         }else if($v['id'] == "multiple"){
                             if(!isset($v['style']['showtype'])){
