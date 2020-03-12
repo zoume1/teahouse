@@ -151,9 +151,6 @@ class User extends Controller{
         }
         // 查询
         $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
-        if ($user['status'] != 1){
-             return json(['code'=>0,'msg'=>'账号被冻结，请联系管理员']);
-        }
         //pp($user);die;
         if (!$user) {
             // 手机号不存在
@@ -161,6 +158,9 @@ class User extends Controller{
         }else {
             // 判断密码是否正确
             if (password_verify($data['password'] ,$user['password'])) {
+                if ($user['status'] != 1){
+                    return json(['code'=>0,'msg'=>'账号被冻结，请联系管理员']);
+               }
                 //更新openID
                 if(!empty($data['open_id'])){
                     db('pc_user') ->where('id',$user['id']) ->update(['openid'=>$data['open_id']]);
