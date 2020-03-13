@@ -342,7 +342,7 @@ class Login extends Controller{
      */
     public function get_user_phone(){
         $data=input();
-        var_dump($data);
+        var_dump($data['appid']);
         $user_data =Db::table("applet")
             ->where("appID",$data["appid"])
             ->field("appSecret,store_id")
@@ -361,7 +361,7 @@ class Login extends Controller{
         // $params['grant_type'] = 'authorization_code';
         // $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
         // $session_key = json_decode($http_key, true);
-        $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".$data['appid']."&secret=".$user_data['appsecret']."&js_code=".$data['code']."&grant_type=authorization_code";
+        $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".$data['appid']."&secret=".$user_data['appSecret']."&js_code=".$data['code']."&grant_type=authorization_code";
         $res = $this->httpRequest($url,'');
         $result = json_decode($res, true);
         $encryptedData = urldecode($data['encryptedData']);
