@@ -360,6 +360,7 @@ class Login extends Controller{
         $params['grant_type'] = 'authorization_code';
         $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
         $session_key = json_decode($http_key, true);
+        halt($session_key);
         $encryptedData = urldecode($data['encryptedData']);
         $iv = define_str_replace($data['iv']);
         $errCode = decryptData($data,$session_key['session_key'],$encryptedData, $iv);
