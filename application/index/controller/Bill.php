@@ -52,7 +52,6 @@ class Bill extends Controller
     {
         if ($request->isPost()) {
             $rett =  Referee::getRefereeUserId(1550, 2);
-            halt($rett);
             $commodity_id = [439];
             //判断是否生成分销订单
             $goods_bool = Goods::getDistributionStatus($commodity_id);
@@ -274,5 +273,23 @@ class Bill extends Controller
         $result = curl_exec($curl);
         curl_close($curl);
         return $result;
+    }
+
+    public function Distribution($array)
+    {
+        $datas = [
+            "user_id" => $array["member_id"], //用户ID
+            "wallet_operation" => $array['money'], //分销金额
+            "wallet_type" => 1, //消费操作(1入，-1出)
+            "operation_time" => date("Y-m-d H:i:s"), //操作时间
+            "operation_linux_time" => time(), //操作时间
+            "wallet_remarks" => "获得分销佣金". $array['money'] . "元", //消费备注
+            "wallet_img" => " ", //图标
+            "title" => "分销佣金", //标题（消费内容）
+            "order_nums" => $array[''], //订单编号
+            "pay_type" => "小程序", //支付方式/
+            "wallet_balance" => $now_money, //此刻钱包余额
+        ];
+        Db::name("wallet")->insert($datas); //存入消费记录表
     }
 }
