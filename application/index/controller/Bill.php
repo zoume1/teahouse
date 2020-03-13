@@ -291,24 +291,30 @@ class Bill extends Controller
     public function Distribution($array,$number)
     {
         if($number == 1){
-            $sort = 'first_money';
+            $sort = $array["first_money"];
+            $user = $array["user_id"];
+            $money = $array["first_money"];
         } else if($number == 2)
         {
-            $sort = 'second_money';
+            $sort = $array["second_money"];
+            $user = $array["second_user_id"];
+            $money = $array["second_money"];
 
         } else if($number == 3)
         {
-            $sort = 'third_money';
+            $sort =$array["third_money"];
+            $user = $array["second_user_id"];
+            $money = $array["second_money"];
 
         }
-        $now_money = db('member')->where('member_id','=',$array["user_id"])->value('member_wallet');
+        $now_money = db('member')->where('member_id','=',$user)->value('member_wallet');
         $datas = [
-            "user_id" => $array["user_id"], //用户ID
-            "wallet_operation" => $array['first_money'], //分销金额
+            "user_id" => $user, //用户ID
+            "wallet_operation" => $money, //分销金额
             "wallet_type" => 1, //消费操作(1入，-1出)
             "operation_time" => date("Y-m-d H:i:s"), //操作时间
             "operation_linux_time" => time(), //操作时间
-            "wallet_remarks" => "获得分销佣金" . $array[$sort] . "元", //消费备注
+            "wallet_remarks" => "获得分销佣金" . $sort . "元", //消费备注
             "wallet_img" => " ", //图标
             "title" => "分销佣金", //标题（消费内容）
             "order_nums" => $array['order_no'], //订单编号
