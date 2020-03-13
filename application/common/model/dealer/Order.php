@@ -3,6 +3,7 @@
 namespace app\common\model\dealer;
 
 use think\Hook;
+use app\index\controller\Bill;
 use app\common\model\BaseModel;
 use app\common\enum\OrderType as OrderTypeEnum;
 use app\admin\model\Commodity  as Commodity;
@@ -109,7 +110,7 @@ class Order extends BaseModel
         // 重新计算分销佣金
         // $capital = $model->getCapitalByOrder($order,$level=Setting);
         // 发放一级分销商佣金
-        $model['first_user_id'] > 0 && User::grantMoney($model['first_user_id'], $model['first_money'], $order['store_id']);
+        $model['first_user_id'] > 0 && User::grantMoney($model['first_user_id'], $model['first_money'], $order['store_id']) &&;
         // 发放二级分销商佣金
         $model['second_user_id'] > 0 && User::grantMoney($model['second_user_id'], $model['second_money'], $order['store_id']);
         // 发放三级分销商佣金

@@ -132,6 +132,7 @@ class Login extends Controller{
                         $info_data =[
                             "member_grade_info"=>$member_grade_info,
                             "openid"=>$errCode['openId'],
+                            "session_key"=>$session_key['session_key'],
                             "member_id"=>$bool,
                             "uniacid"=>$user_data['store_id']
                         ];
@@ -148,6 +149,7 @@ class Login extends Controller{
                     $data =[
                         "member_grade_info"=>$member_grade_info,
                         "openid"=>$errCode['openId'],
+                        "session_key"=>$session_key['session_key'],
                         "member_id"=>$is_register["member_id"],
                         "uniacid"=>$user_data['store_id']
                     ];
