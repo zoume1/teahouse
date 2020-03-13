@@ -112,11 +112,11 @@ class Order extends BaseModel
         // 重新计算分销佣金
         // $capital = $model->getCapitalByOrder($order,$level=Setting);
         // 发放一级分销商佣金
-        $model['first_user_id'] > 0 && User::grantMoney($model['first_user_id'], $model['first_money'], $order['store_id']) && $bill->Distribution($model,1);
+        $model['first_user_id'] > 0 && User::grantMoney($model['first_user_id'], $model['first_money'], $order['store_id']) && $bill->Distribution($order,1);
         // 发放二级分销商佣金
-        $model['second_user_id'] > 0 && User::grantMoney($model['second_user_id'], $model['second_money'], $order['store_id']) && $bill->Distribution($model,2);
+        $model['second_user_id'] > 0 && User::grantMoney($model['second_user_id'], $model['second_money'], $order['store_id'])&& $bill->Distribution($order,2);
         // 发放三级分销商佣金
-        $model['third_user_id'] > 0 && User::grantMoney($model['third_user_id'], $model['third_money'], $order['store_id']) && $bill->Distribution($model,3);
+        $model['third_user_id'] > 0 && User::grantMoney($model['third_user_id'], $model['third_money'], $order['store_id'])&& $bill->Distribution($order,3);
 
         // 发放一级分销商积分
         $model['first_user_id'] > 0 && User::grantIntegral($model['first_user_id'], $model['first_integral'], $order['store_id']);
