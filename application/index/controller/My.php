@@ -222,6 +222,31 @@ class My extends Controller
         }
      }
 
+
+    /**
+     **************李火生*******************
+     * @param Request $request
+     * Notes:手机账号数据返回，没有则进行绑定添加手机号
+     **************************************
+     * @param Request $request
+     */
+    public function  user_phone_bandage(Request $request){
+        if($request->isPost()){
+            // $data = input();
+            // $phone_number = Db::name("member")
+            //     ->where("member_id", $data['member_id'])
+            //     ->update(["member_phone_num"=>$phone_number]);
+            // $phone_numbers = Db::name("dealer_user")
+            //     ->where("user_id", $member_id)
+            //     ->update(["mobile"=>$phone_number]);
+            // if($phone_number){
+            //     return ajax_success("手机号绑定成功");
+            // }else{
+            //     return ajax_error("手机号绑定失败");
+            // }
+        }
+     }
+
     /**
      **************李火生*******************
      * @param Request $request
