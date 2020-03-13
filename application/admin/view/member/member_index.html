@@ -87,29 +87,31 @@
 						<th>2级数量</th>
 						<th>3级数量</th>
 						<th>时间</th>
-						<th>状态</th>
+						<!-- <th>状态</th> -->
 						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody class="news_content">
 					{volist name="member" id="value"}
 					<tr>
-						<td>{if !empty($value.mobile)}{$value.mobile}{else}无{/if}</td>						
+						<td>{if !empty($value.dimension_code)}<td>{$value.dimension_code}</td>{/if}{if !empty($value.mobile)}({$value.mobile}){/if}</td>							
 						<td>{$value.real_name}</td>
 						<td>￥{$value.money}</td>
 						<td>￥{$value.order_money}</td>
-						<td>{if !empty($value.member_phone_num)}{$value.member_phone_num}{else}无{/if}</td>	
+						<td>{if !empty($value.dimension)}<td>{$value.dimension}</td>{/if}{if !empty($value.member_phone_num)}<td>({$value.member_phone_num})</td>{/if}{if empty($value.dimension) && empty($value.member_phone_num) }无{/if}</td>	
 						<td>{$value.first_num}</td>
 						<td>{$value.second_num}</td>
 						<td>{$value.third_num}</td>
 						<td>{$value.create_time|date="Y-m-d H:i",###}</td>
-						<td>
+						<!-- <td>
 							{if $value.status == 0}
 							<input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" data-id="{$value.user_id}"> {else}
 							<input type="checkbox" class="Status" name="status" value="{$value.status}" lay-skin="switch" lay-text="是|否" lay-filter="isShow" checked data-id="{$value.user_id}"> {/if}
-						</td>
+						</td> -->
 						<td><a class="layui-btn layui-btn-mini edit"  href="{:url('admin/Member/member_edit',['user_id'=>$value.user_id])}"> 编辑
-						</a></td>						
+						</a><a class="layui-btn layui-btn-danger layui-btn-mini news_del"  href="{:url('admin/Member/member_delete',['user_id'=>$value.user_id])}"> 删除
+						</a></td>	
+											
 					</tr>
 					{/volist}
 				</tbody>
