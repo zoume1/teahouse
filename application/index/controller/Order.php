@@ -2004,6 +2004,12 @@ class  Order extends  Controller
                         $bool = Db::name("order")->where("id", $v["id"])->update($data);
                     }
                     if ($bool) {
+                        $order_type = Db::name("order")
+                        ->where("member_id", $member_id)
+                        ->where("parts_order_number", $parts_order_number)
+                        ->find();
+                        $order = GoodsOrder::getOrderInforMation($order_type);
+                        if (!empty($order)) $model = OrderModel::grantMoney($order);
                         return ajax_success("确认收货成功", ["status" => 1]);
                     } else {
                         return ajax_error("确认收货失败", ["status" => 0]);

@@ -150,9 +150,6 @@ class User extends Controller{
         }
         // 查询
         $user = db('pc_user') ->where('phone_number',$data['phone']) ->find();
-        if ($user['status'] != 1){
-             return json(['code'=>0,'msg'=>'账号被冻结，请联系管理员']);
-        }
         //pp($user);die;
         if (!$user) {
             // 手机号不存在
@@ -160,6 +157,9 @@ class User extends Controller{
         }else {
             // 判断密码是否正确
             if (password_verify($data['password'] ,$user['password'])) {
+                if ($user['status'] != 1){
+                    return json(['code'=>0,'msg'=>'账号被冻结，请联系管理员']);
+               }
                 //更新openID
                 if(!empty($data['open_id'])){
                     db('pc_user') ->where('id',$user['id']) ->update(['openid'=>$data['open_id']]);
@@ -348,9 +348,12 @@ class User extends Controller{
         if(!empty($param['start_time']) && !empty($param['end_time'])){
             $where['create_time'] = ['between',[$param['start_time'],$param['end_time']]];
         }
-        $where['phone_number'] = $param['phone'];
+        $data = userAll::where('phone_number',$param['phone'])
+        ->field('id,my_invitation')->find();
 
-        $commission = CityDetail::dist_commission($param['phone']); //分销佣金
+        $where['highe_share_code'] = $data['my_invitation'];
+
+        $commission = round(CityDetail::dist_commission_code($data['my_invitation']),2); //分销佣金
 
         $data = CityDetail::where($where)->field('phone_number,set_meal,commision,create_time')->select();
 
