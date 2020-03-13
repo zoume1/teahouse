@@ -362,7 +362,7 @@ class Login extends Controller{
         $session_key = json_decode($http_key, true);
         $encryptedData = urldecode($data['encryptedData']);
         $iv = define_str_replace($data['iv']);
-        $errCode = decryptData($data,$session_key['session_key'],$encryptedData, $iv);
+        $errCode = decryptData($data['appid'],$session_key['session_key'],$encryptedData, $iv);
         halt($errCode);
     }
 
