@@ -93,6 +93,7 @@ class Apply extends BaseModel
             'mobile' => trim($user['member_phone_num']),
             'referee_id' => $user['inviter_id'],
             'wxapp_id' => $user['store_id'],
+            'dimension_code' => $user['dimension'],
         ];
 
         return $this->add($user, $data);

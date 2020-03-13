@@ -744,6 +744,7 @@ Route::group("admin",[
     "distribution_member_index"=>"admin/Member/member_index",          //分销成员页面
     "distribution_member_add"=>"admin/Member/member_add",              //分销成员添加
     "distribution_member_edit"=>"admin/Member/member_edit",            //分销成员页面编辑
+    "distribution_member_delete"=>"admin/Member/member_delete",        //分销成员页面删除
     "distribution_member_update"=>"admin/Member/member_update",        //分销成员页面更新
     "distribution_member_save"=>"admin/Member/member_save",            //分销成员保存入库
     "distribution_member_status"=>"admin/Member/member_status",        //分销成员状态更改
