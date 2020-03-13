@@ -354,19 +354,12 @@ class Login extends Controller{
         } else {
             $inviter_id = 0;
         }
-        // $params['appid'] = $data["appid"];//客户公司
-        // $params['secret'] = $user_data["appSecret"];//客户公司
-        // $params['js_code'] = define_str_replace($data['code']);
-        // $params['grant_type'] = 'authorization_code';
-        // $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
-        // $session_key = json_decode($http_key, true);
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".$data['appid']."&secret=".$user_data['appSecret']."&js_code=".$data['code']."&grant_type=authorization_code";
         $res = $this->httpRequest($url,'');
         $result = json_decode($res, true);
-        // $encryptedData = urldecode($data['encryptedData']);
         $iv = define_str_replace($data['iv']);
         $errCode = decryptData($data['appid'],$result['session_key'],$data['encryptedData'], $iv);
-        halt($errCode);
+        //$errcode里面包含用户的手机号
     }
      /**
      *CRUL 网络请求
