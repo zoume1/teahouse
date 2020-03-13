@@ -21,7 +21,10 @@ use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\common\model\dealer\Setting;
 use app\common\model\dealer\Referee;
+use app\common\model\dealer\Apply;
 use app\city\model\User;
+use app\common\model\dealer\User as Users;
+
 use app\admin\model\Goods;
 use app\city\controller\Picture;
 use app\admin\model\Store;
@@ -51,28 +54,38 @@ class Bill extends Controller
     public function ceshi12(Request $request)
     {
         if ($request->isPost()) {
-            $rett =  Referee::getRefereeUserId(1550, 2);
-            $commodity_id = [439];
-            //判断是否生成分销订单
-            $goods_bool = Goods::getDistributionStatus($commodity_id);
-            $order_num = 'ZY202003121515532551';
-            if ($goods_bool) {
-                $getDistributionStatus = [
-                    'member_id' => 1550,
-                    'id' => 3631,
-                    'parts_order_number' => 'ZY202003121515532551',
-                    'goods_id' => [439],
-                    'store_id' => 6,
-                    'order_amount' => 2300,
-                    'goods_money' => 2300, //总金额
-                    'status' => 0,
+            // $rett =  Referee::getRefereeUserId(1550, 2);
+            // $commodity_id = [439];
+            // //判断是否生成分销订单
+            // $goods_bool = Goods::getDistributionStatus($commodity_id);
+            // $order_num = 'ZY202003121515532551';
+            // if ($goods_bool) {
+            //     $getDistributionStatus = [
+            //         'member_id' => 1550,
+            //         'id' => 3631,
+            //         'parts_order_number' => 'ZY202003121515532551',
+            //         'goods_id' => [439],
+            //         'store_id' => 6,
+            //         'order_amount' => 2300,
+            //         'goods_money' => 2300, //总金额
+            //         'status' => 0,
 
-                ];
-                $order_info = Db::name("order")
-                ->where("parts_order_number", $order_num)
-                ->find();
-            $order = GoodsOrder::getOrderInforMation($order_info);
-            $model = OrderModel::grantMoney($order);
+            //     ];
+            //     $order_info = Db::name("order")
+            //     ->where("parts_order_number", $order_num)
+            //     ->find();
+            // $order = GoodsOrder::getOrderInforMation($order_info);
+            // $model = OrderModel::grantMoney($order);
+
+            // 判断推荐人是否为分销商
+            $bool = 1613;
+            if (Users::isDealerUser($bool)) {
+                $inviter_id = 1590;
+                //新增分销商
+                $member_data = Db::name("member")->where('member_id', '=', 1613)->find();
+                $apply = new Apply;
+                $rest = $apply->submit($member_data);
+                Referee::createRelation($bool, $inviter_id, $member_data['store_id']);
             }
         }
     }
@@ -275,18 +288,30 @@ class Bill extends Controller
         return $result;
     }
 
-    public function Distribution($array)
+    public function Distribution($array,$number)
     {
+        if($number == 1){
+            $sort = 'first_money';
+        } else if($number == 2)
+        {
+            $sort = 'second_money';
+
+        } else if($number == 3)
+        {
+            $sort = 'third_money';
+
+        }
+        $now_money = db('member')->where('member_id','=',$array["user_id"])->value('member_wallet');
         $datas = [
-            "user_id" => $array["member_id"], //用户ID
-            "wallet_operation" => $array['money'], //分销金额
+            "user_id" => $array["user_id"], //用户ID
+            "wallet_operation" => $array['first_money'], //分销金额
             "wallet_type" => 1, //消费操作(1入，-1出)
             "operation_time" => date("Y-m-d H:i:s"), //操作时间
             "operation_linux_time" => time(), //操作时间
-            "wallet_remarks" => "获得分销佣金". $array['money'] . "元", //消费备注
+            "wallet_remarks" => "获得分销佣金" . $array[$sort] . "元", //消费备注
             "wallet_img" => " ", //图标
             "title" => "分销佣金", //标题（消费内容）
-            "order_nums" => $array[''], //订单编号
+            "order_nums" => $array['order_no'], //订单编号
             "pay_type" => "小程序", //支付方式/
             "wallet_balance" => $now_money, //此刻钱包余额
         ];

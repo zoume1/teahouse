@@ -94,9 +94,9 @@
 				<tbody class="news_content">
 					{volist name="record" id="value"}
 					<tr>
-						<td>{if !empty($value.user_phone_number)}{$value.user_phone_number}{else}无{/if}</td>
+						<td>{if !empty($value.dimension_code)}<div>{$value.dimension_code}</div>{/if}{if !empty($value.user_phone_number)}<div>({$value.user_phone_number})</div>{/if}</td>
 						<td>{if !empty($value.user_account_name)}{$value.user_account_name}{else}无{/if}</td>
-						<td>{if !empty($value.member_phone_num)}{$value.member_phone_num}{else}无{/if}</td>
+						<td>{if !empty($value.dimension)}<div>{$value.dimension}</div>{/if}{if !empty($value.member_phone_num)}<div>({$value.member_phone_num})</div>{/if}</td>
 						<td>{$value.order_no}</td>
 						<td>￥{$value.order_price}</td>
 						<td>￥{$value.first_money}</td>
