@@ -294,17 +294,17 @@ class Bill extends Controller
             $sort = $array["first_money"];
             $user = $array["user_id"];
             $money = $array["first_money"];
-        } else if($number == 2)
+        } elseif($number == 2)
         {
             $sort = $array["second_money"];
             $user = $array["second_user_id"];
             $money = $array["second_money"];
 
-        } else if($number == 3)
+        } elseif($number == 3)
         {
             $sort =$array["third_money"];
-            $user = $array["second_user_id"];
-            $money = $array["second_money"];
+            $user = $array["third_user_id"];
+            $money = $array["third_money"];
 
         }
         $now_money = db('member')->where('member_id','=',$user)->value('member_wallet');
@@ -321,6 +321,7 @@ class Bill extends Controller
             "pay_type" => "小程序", //支付方式/
             "wallet_balance" => $now_money, //此刻钱包余额
         ];
-        Db::name("wallet")->insert($datas); //存入消费记录表
+        $bool = Db::name("wallet")->insert($datas); //存入消费记录表
+        return $bool;
     }
 }
