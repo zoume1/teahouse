@@ -20,6 +20,7 @@ use app\index\controller\Order as Orderset;
 use app\common\model\dealer\Order as OrderModel;
 use app\index\controller\Xgcontent;
 use app\index\model\Serial;
+use app\common\model\dealer\Setting;
 use app\common\exception\BaseException;
 
 
@@ -80,8 +81,11 @@ class Balance extends Controller
                     $order_info = Db::name("order")
                         ->where("parts_order_number", $order_num)
                         ->find();
-                    $order = GoodsOrder::getOrderInforMation($order_info);
-                    $model = OrderModel::grantMoney($order);
+                    $opportunity = Setting::getItem($order_info['store_id']);
+                    if ($opportunity['opportunity'] == 1) {
+                        $order = GoodsOrder::getOrderInforMation($order_info);
+                        $model = OrderModel::grantMoney($order);
+                    }
 
                     $serial_data = array(
                         'serial_number' => $order_num,
