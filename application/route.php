@@ -83,6 +83,7 @@ Route::group("",[
     /*TODO：start*/
     /*登录授权*/
     "wechatlogin"=>"index/Login/wechatlogin",  //登录授权
+    "get_user_phone"=>"index/Login/get_user_phone",  //登录授权
     "my_show_grade"=>"index/My/show_grade",  //会员等级
     "my_qrcode"=>"index/My/qrcode",  //会员二维码
     "my_index"=>"index/My/my_index",  //我的页面

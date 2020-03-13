@@ -336,6 +336,36 @@ class Login extends Controller{
         return $d;
     }
 
+    /**
+     * 获取用户的手机号
+     * param  encryptedData  （包含用户的手机号）
+     */
+    public function get_user_phone(){
+        $data=input();
+        $user_data =Db::table("applet")
+            ->where("appID",$data["appid"])
+            ->field("appSecret,store_id")
+            ->find();
+            if(!empty($user_data)){
+                Session::set("store_id",$user_data['store_id']);
+            }
+        if(isset($data['shareID']) && !empty($data['shareID']) ){
+            $inviter_id = $data['shareID'];
+        } else {
+            $inviter_id = 0;
+        }
+        $params['appid'] = $data["appid"];//客户公司
+        $params['secret'] = $user_data["appSecret"];//客户公司
+        $params['js_code'] = define_str_replace($data['code']);
+        $params['grant_type'] = 'authorization_code';
+        $http_key = httpCurl('https://api.weixin.qq.com/sns/jscode2session', $params, 'GET');
+        $session_key = json_decode($http_key, true);
+        $encryptedData = urldecode($data['encryptedData']);
+        $iv = define_str_replace($data['iv']);
+        $errCode = decryptData($data,$session_key['session_key'],$encryptedData, $iv);
+        halt($errCode);
+    }
+
 
 
 
