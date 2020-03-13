@@ -614,8 +614,9 @@ function decryptData( $appid , $sessionKey, $encryptedData, $iv ){
     $aesIV=base64_decode($iv);
 
     $aesCipher=base64_decode($encryptedData);
-
+    var_dump($aesCipher);
     $result=openssl_decrypt( $aesCipher, "AES-128-CBC", $aesKey, 1, $aesIV);
+    var_dump($result);
     $dataObj=json_decode( $result );
     if( $dataObj  == NULL )
     {
