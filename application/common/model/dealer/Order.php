@@ -8,6 +8,7 @@ use app\common\model\BaseModel;
 use app\common\enum\OrderType as OrderTypeEnum;
 use app\admin\model\Commodity  as Commodity;
 use app\common\model\dealer\Setting as Settings;
+use app\admin\model\Member;
 
 const Setting = 2;
 /**
@@ -103,6 +104,7 @@ class Order extends BaseModel
         //     return false;
         // }
         // 分销订单详情
+        $bill = new Bill();
         $model = self::detail(['order_id' => $order['id']]);
         if (!$model || $model['is_settled'] == 1) {
             return false;
@@ -110,11 +112,11 @@ class Order extends BaseModel
         // 重新计算分销佣金
         // $capital = $model->getCapitalByOrder($order,$level=Setting);
         // 发放一级分销商佣金
-        $model['first_user_id'] > 0 && User::grantMoney($model['first_user_id'], $model['first_money'], $order['store_id']) &&;
+        $model['first_user_id'] > 0 && User::grantMoney($model['first_user_id'], $model['first_money'], $order['store_id']) && $bill->Distribution($model,1);
         // 发放二级分销商佣金
-        $model['second_user_id'] > 0 && User::grantMoney($model['second_user_id'], $model['second_money'], $order['store_id']);
+        $model['second_user_id'] > 0 && User::grantMoney($model['second_user_id'], $model['second_money'], $order['store_id'])&& $bill->Distribution($model,2);
         // 发放三级分销商佣金
-        $model['third_user_id'] > 0 && User::grantMoney($model['third_user_id'], $model['third_money'], $order['store_id']);
+        $model['third_user_id'] > 0 && User::grantMoney($model['third_user_id'], $model['third_money'], $order['store_id'])&& $bill->Distribution($model,3);
 
         // 发放一级分销商积分
         $model['first_user_id'] > 0 && User::grantIntegral($model['first_user_id'], $model['first_integral'], $order['store_id']);
@@ -245,11 +247,12 @@ class Order extends BaseModel
             $levels = $model-> NumberRank($dealerUser);
             $capital = $model->getCapitalByOrder($order,$levels);
             // 保存分销订单记录
-
+            $code = Member::detail(['member_id'=>$order['member_id']]);
             return $model->save([
                 'user_id' => $order['member_id'],
                 'order_id' => $order['id'],
                 'order_type' => $order_type,
+                'dimension_code' => $code['dimension'],
                 'order_no' => $order['parts_order_number'],
                 'order_price' => $capital['orderPrice'],
                 'first_money' => max($capital['first_money'], 0),

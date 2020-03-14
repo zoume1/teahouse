@@ -19,6 +19,7 @@ use app\admin\model\Order as GoodsOrder;
 use app\common\model\dealer\Order as OrderModel;
 use app\index\model\Serial;
 use app\api\controller\Message as MessageService;
+use app\common\model\dealer\Setting;
 
 class  Order extends  Controller
 {
@@ -2005,11 +2006,14 @@ class  Order extends  Controller
                     }
                     if ($bool) {
                         $order_type = Db::name("order")
-                        ->where("member_id", $member_id)
-                        ->where("parts_order_number", $parts_order_number)
-                        ->find();
-                        $order = GoodsOrder::getOrderInforMation($order_type);
-                        if (!empty($order)) $model = OrderModel::grantMoney($order);
+                            ->where("member_id", $member_id)
+                            ->where("parts_order_number", $parts_order_number)
+                            ->find();
+                        $opportunity = Setting::getItem($order_type['store_id']);
+                        if ($opportunity['opportunity'] == 2) {
+                            $order = GoodsOrder::getOrderInforMation($order_type);
+                            if (!empty($order)) $model = OrderModel::grantMoney($order);
+                        }
                         return ajax_success("确认收货成功", ["status" => 1]);
                     } else {
                         return ajax_error("确认收货失败", ["status" => 0]);
@@ -2217,8 +2221,11 @@ class  Order extends  Controller
                     ->where("parts_order_number", $val["out_trade_no"])
                     ->update(["status" => 3, "pay_time" => $order_pay_time, "si_pay_type" => 2]);
                 if ($res) {
-                    $order = GoodsOrder::getOrderInforMation($order_type);
-                    if (!empty($order)) $model = OrderModel::grantMoney($order);
+                    $opportunity = Setting::getItem($order_type['store_id']);
+                    if ($opportunity['opportunity'] == 1) {
+                        $order = GoodsOrder::getOrderInforMation($order_type);
+                        if (!empty($order)) $model = OrderModel::grantMoney($order);
+                    }
 
                     // 发送消息通知
                     $message = (new MessageService)->payment($order_type, 10);
@@ -2889,8 +2896,8 @@ class  Order extends  Controller
         if ($val["result_code"] == "SUCCESS") {
             //file_put_contents(EXTEND_PATH."data.txt",$val);
             $restules = Db::name("number_store")
-            ->where("parts_order_number", $val["out_trade_no"])
-            ->find();
+                ->where("parts_order_number", $val["out_trade_no"])
+                ->find();
             $res = Db::name("out_house_order")
                 ->where("out_order_number", $val["out_trade_no"])
                 ->update(["status" => 2, "pay_time" => time(), "si_pay_type" => 2]);
@@ -2899,11 +2906,11 @@ class  Order extends  Controller
                 ->update(["status" => 2, "pay_time" => time(), "si_pay_type" => 2]);
             $restul_one = Db::name("house_order")
                 ->where("id", $restules["house_order_id"])
-                ->update(["store_number" =>$restules['surplus_number']]);
-            if($restules['surplus'] == 0){
+                ->update(["store_number" => $restules['surplus_number']]);
+            if ($restules['surplus'] == 0) {
                 $delete_bool = Db::name("house_order")
-                ->where("id", $restules["house_order_id"])
-                ->delete();
+                    ->where("id", $restules["house_order_id"])
+                    ->delete();
             }
             if ($res && $restul &&  $restul_one) {
                 $information = Db::name("out_house_order")->where("out_order_number", $val["out_trade_no"])->find();
@@ -2925,11 +2932,11 @@ class  Order extends  Controller
                     "wallet_balance" => $member_wallet, //此刻钱包余额
                 ];
                 $booles = Db::name("wallet")->insert($datas); //存入消费记录表
-                if($booles){
+                if ($booles) {
                     echo '<xml><return_code><![CDATA[SUCCESS]]></return_code><return_msg><![CDATA[OK]]></return_msg></xml>';
                 } else {
                     exit();
-                } 
+                }
             } else {
                 return ajax_error("失败");
             }

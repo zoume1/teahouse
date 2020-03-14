@@ -3,6 +3,7 @@
 namespace app\common\model\dealer;
 
 use app\common\model\BaseModel;
+use app\common\model\dealer\User;
 
 /**
  * 分销商推荐关系模型
@@ -99,6 +100,7 @@ class Referee extends BaseModel
         if (!User::isDealerUser($referee_id)) {
             return false;
         }
+       
         // 新增关系记录
         $model = new self;
         $model->add($referee_id, $user_id,$store_id,1);

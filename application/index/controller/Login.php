@@ -349,16 +349,20 @@ class Login extends Controller{
             if(!empty($user_data)){
                 Session::set("store_id",$user_data['store_id']);
             }
-        if(isset($data['shareID']) && !empty($data['shareID']) ){
-            $inviter_id = $data['shareID'];
-        } else {
-            $inviter_id = 0;
-        }
         $url = "https://api.weixin.qq.com/sns/jscode2session?appid=".$data['appid']."&secret=".$user_data['appSecret']."&js_code=".$data['code']."&grant_type=authorization_code";
         $res = $this->httpRequest($url,'');
         $result = json_decode($res, true);
         $iv = define_str_replace($data['iv']);
         $errCode = decryptData($data['appid'],$result['session_key'],$data['encryptedData'], $iv);
+        $phone_number = $errCode['phoneNumber'];
+
+        $rest = db('member')->where('member_id','=',$data['member_id'])->update(['member_phone_num'=>$phone_number]);
+        $rests = db('dealer_user')->where('user_id','=',$data['member_id'])->update(['mobile'=>$phone_number]);
+        if($rest){
+            return ajax_success('更新成功');
+        }else{
+            return ajax_error('更新失败',['status'=>0]);
+        }
         //$errcode里面包含用户的手机号
     }
      /**

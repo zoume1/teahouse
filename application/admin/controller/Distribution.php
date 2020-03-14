@@ -240,10 +240,10 @@ class Distribution extends Controller
     public function record_index(){
         $store_id = Session::get("store_id");
         $record =Db::table('tb_dealer_order')
-            ->field("tb_dealer_order.*,tb_member.member_phone_num,tb_order.user_phone_number,user_account_name")
+            ->field("tb_dealer_order.*,tb_member.member_phone_num,dimension,tb_order.user_phone_number,user_account_name")
             ->join("tb_dealer_user","tb_dealer_order.user_id= tb_dealer_user.user_id",'left')
             ->join("tb_order","tb_order.id= tb_dealer_order.order_id",'left')
-            ->join("tb_member","tb_dealer_user.referee_id = tb_member.member_id",'left')
+            ->join("tb_member","tb_member.member_id = tb_dealer_user.referee_id ",'left')
             ->where("tb_dealer_order.wxapp_id",$store_id)
             ->where("tb_dealer_order.is_settled",'=',1) //已结算
             ->paginate(20 ,false, [
