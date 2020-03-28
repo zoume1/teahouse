@@ -432,6 +432,77 @@
         background-color: #fff;
         display: none;
     }
+
+    .iconfont {
+        font-family: "iconfont" !important;
+        font-size: 14px;
+        font-style: normal;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: 0.1px;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    @font-face {
+        font-family: 'iconfont';
+        /* project id 987132 */
+        src: url('//at.alicdn.com/t/font_987132_huga9t6yr1s.eot');
+        src: url('//at.alicdn.com/t/font_987132_huga9t6yr1s.eot?#iefix') format('embedded-opentype'),
+            url('//at.alicdn.com/t/font_987132_huga9t6yr1s.woff2') format('woff2'),
+            url('//at.alicdn.com/t/font_987132_huga9t6yr1s.woff') format('woff'),
+            url('//at.alicdn.com/t/font_987132_huga9t6yr1s.ttf') format('truetype'),
+            url('//at.alicdn.com/t/font_987132_huga9t6yr1s.svg#iconfont') format('svg');
+    }
+
+    /* 图片 */
+    .add_div {
+        width: 400px;
+        height: 500px;
+        border: solid #ccc 1px;
+        margin-top: 40px;
+        margin-left: 170px;
+        padding-left: 20px;
+    }
+
+    .file-list {
+        height: 125px;
+        display: none;
+        list-style-type: none;
+    }
+
+    .file-list img {
+        max-width: 100px;
+        height: 100px;
+        vertical-align: middle;
+    }
+
+    .file-item {
+        float: left;
+        border: solid red px;
+        margin: 5px 10px;
+    }
+
+
+
+    .add {
+        border: solid #ccc 1px;
+        border-radius: 5px;
+        width: 100px;
+        height: 100px;
+        /* background-color: #ccc; */
+        display: inline-block;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .file-del {
+        float: right;
+        margin-top: -9px;
+        margin-left: -2px;
+        cursor: pointer;
+        font-size: 12px;
+        z-index: 100;
+        position: absolute;
+    }
 </style>
 
 {/block}
@@ -856,7 +927,7 @@
         <div class="form-item">
             <label class="form-label"><span class="red">*</span>商品图</label>
             <div class="form-input">
-                <div class="img-box full">
+                <!-- <div class="img-box full">
                     <section class=" img-section">
                         <div class="z_photo upimg-div clear">
                             <section class="z_file fl">
@@ -875,8 +946,19 @@
                 </aside>
                 <div class="tips">
                     建议尺寸：800*800像素，其中第一张为主图，你可以拖拽图片调整顺序，最多上传15张(图片格式为.jpg或.png格式)
+                </div> -->
+                <div style="display: flex;">
+                    <input type="file" name="goods_show_images[]" id="choose-file" data-id="15" multiple="multiple"
+                        style="opacity: 0;width: 1px;" />
+                    <div class="add choose"><img src="http://zhihuichacang.com/a11.png"
+                            style="width: 100%;height: 100%;"></div>
+                    <ul class="file-list ">
+
+                    </ul>
                 </div>
             </div>
+
+        </div>
 
         </div>
         <div class="form-item">
@@ -999,6 +1081,56 @@
                 var form = layui.form(),
                     $ = layui.jquery;
                 form.render();
+
+                $('.choose').click(function () {
+                    $('#choose-file').click();
+                })
+                var $button = $('#upload'),
+                    $file = $("#choose-file"),
+                    $list = $('.file-list'),
+                    fileList = [];
+                var curFile;
+                $file.on('change', function (e) {
+                    var maxNum = $(this).data('id');
+                    console.log(e)
+                    var numold = $('li').length;
+                    if (numold >= maxNum) {
+                        layer.alert('最多上传' + maxNum + '张图片');
+                        return;
+                    }
+                    var num = e.target.files.length;
+                    var numall = numold + num;
+                    if (num > maxNum) {
+                        layer.alert('最多上传' + maxNum + '张图片');
+                        return;
+                    } else if (numall > maxNum) {
+                        layer.alert('最多上传' + maxNum + '张图片');
+                        return;
+                    }
+                    curFile = this.files;
+                    fileList = fileList.concat(Array.from(curFile));
+                    for (var i = 0, len = curFile.length; i < len; i++) {
+                        reviewFile(curFile[i])
+                    }
+                    $('.file-list').fadeIn(2500);
+                })
+
+                function reviewFile(file) {
+                    var fd = new FileReader();
+                    var fileType = file.type;
+                    fd.readAsDataURL(file);//base64
+                    var result = window.URL.createObjectURL(file);
+                    fd.onload = function () {
+                        if (/^image\/[jpeg|png|jpg|gif]/.test(fileType)) {
+                            $list.append('<li class="file-item"><img src="' + result + '" alt="" height="70"><span class="file-del"><i class="iconfont ">&#xe636;</i></span></li>').children(':last').hide().fadeIn(2500);
+                        } else {
+                            $list.append('<li class="file-item"><span class="file-name">' + file.name + '</span><span class="file-del"><i class="iconfont ">&#xe636;</i></span></li>')
+                        }
+
+                    }
+                }
+
+
 
                 var templet = [];
                 $.ajax({

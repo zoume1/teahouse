@@ -19,7 +19,7 @@ return [
     // 用户名
     'username'        => 'siring',
     // 密码
-    'password'        => 'ei%&#w9l3z3',
+    'password'        => '&@5757ei%&#w9l3z3',
     // 端口
     'hostport'        => '',
     // 连接dsn
